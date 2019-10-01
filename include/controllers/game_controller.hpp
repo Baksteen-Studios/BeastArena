@@ -20,7 +20,7 @@ private:
     void createFpsCounter(int fps);
 public:
     GameController();
-    void GameLoop();
+    void gameLoop();
 };
 
 #endif

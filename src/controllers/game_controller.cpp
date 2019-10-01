@@ -39,7 +39,7 @@ void GameController::createFpsCounter(int fps) {
     this->fps_counter = this->renderable_factory->createText(std::to_string(fps), 200, { 255, 255, 255 }, this->top_layer, std::move(dst));
 }
 
-void GameController::GameLoop() {
+void GameController::gameLoop() {
     BrickEngine engine = BrickEngine("Beast Arena", 1280, 720, { 1, 2, 3, 4 });
     this->renderable_factory = engine.getRenderableFactory();
     // Always draw the FPS counter on the highest layer
