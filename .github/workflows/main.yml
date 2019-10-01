@@ -20,13 +20,13 @@ jobs:
     - name: Install SDL dependencies
       run: sudo apt-get install libsdl2-dev libsdl2-gfx-dev libsdl2-image-dev libsdl2-mixer-dev libsdl2-net-dev libsdl2-ttf-dev
     - name: Build PR
-      if: github.ref != "master"
+      if: github.ref != 'master'
       run: |
         cd build
         cmake ..
         make
     - name: Build master
-      if: github.ref == "master"
+      if: github.ref == 'master'
       run: |
         cd build
         cmake --config Release ..
