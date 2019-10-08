@@ -3,6 +3,7 @@
 
 #include <memory>
 #include <vector>
+#include <chrono>
 #include "brickengine/systems/system.hpp"
 #include "brickengine/engine.hpp"
 #include "brickengine/rendering/renderables/renderable.hpp"
@@ -14,7 +15,7 @@ public:
     void gameLoop();
     void createSystems();
 private:
-    int calculateFps(int start_time);
+    int calculateFps(std::chrono::time_point<std::chrono::high_resolution_clock> start_time);
     void createFpsCounter(int fps);
 
     std::unique_ptr<BrickEngine> engine;
