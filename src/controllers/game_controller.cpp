@@ -13,6 +13,7 @@ using namespace std::chrono_literals;
 #include "brickengine/rendering/renderable_factory.hpp"
 #include "brickengine/input/input.hpp"
 #include "brickengine/systems/rendering_system.hpp"
+#include "brickengine/systems/physics_system.hpp"
 #include "systems/movement_system.hpp"
 
 GameController::GameController() {
@@ -57,7 +58,7 @@ void GameController::createFpsCounter(int fps) {
 
 void GameController::createSystems() {
     systems = std::vector<std::unique_ptr<System>>();
-    systems.push_back(std::make_unique<MovementSystem>(entityManager, entityFactory));
+    systems.push_back(std::make_unique<PhysicsSystem>(entityManager));
     systems.push_back(std::make_unique<RenderingSystem>(entityManager, *engine->getRenderer()));
     entityFactory->createBeast(250, 250, engine->getRenderableFactory()->createImage("./assets/graphics/verstappen_laughing.bmp", 2, std::unique_ptr<Rect>(new Rect { 100, 100, 50, 50})));
 }
