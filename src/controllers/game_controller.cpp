@@ -41,33 +41,31 @@ void GameController::createFpsCounter(int fps) {
 }
 
 void GameController::gameLoop() {
-    BrickEngine engine = BrickEngine("Beast Arena", 1280, 720, { 1, 2, 3, 4 });
+    BrickEngine engine = BrickEngine("Beast Arena", 1280, 720, { 1, 2, 3 });
     this->renderable_factory = engine.getRenderableFactory();
     // Always draw the FPS counter on the highest layer
-    this->top_layer = 4;
+    this->top_layer = 2;
     this->createFpsCounter(0);
-    
-    auto dst_max = std::unique_ptr<Rect>(new Rect { -1000, 0, 1000, 330});
-    std::unique_ptr<Renderable> makker_max = renderable_factory->createImage("./assets/graphics/verstappentesting.bmp", 1, std::move(dst_max));
 
-    auto dst_vet = std::unique_ptr<Rect>(new Rect { 300, 150, 400, 600});
-    std::unique_ptr<Renderable> makker_vet = renderable_factory->createImage("./assets/graphics/vettel_sochi.bmp", 2, std::move(dst_vet));
+    auto dst_max = std::unique_ptr<Rect>(new Rect { 0, 0, 1000, 330});
+    std::unique_ptr<Renderable> makker_max = renderable_factory->createImage("./assets/graphics/verstappen_laughing.bmp", 1, std::move(dst_max));
 
-    auto dst_text = std::unique_ptr<Rect>(new Rect { 100, 100, 300, 150});
-    auto text = renderable_factory->createText("Luuk is een eskimo", 24, { 255, 255, 255, 0}, 3, std::move(dst_text));
+    auto text = this->renderable_factory->createText("TESTEST", 200, { 255, 255, 255, 0 }, this->top_layer, std::unique_ptr<Rect>(new Rect {0, 0, 400, 400}));
+
+    auto circle = renderable_factory->createCircle(600, 350, 300, true, { 255, 255, 1, 200 }, 2);
+    auto line = renderable_factory->createLine(50, 600, 50, 50, { 255, 20, 255, 200 }, 2);
 
     Renderer* renderer = engine.getRenderer();
 
     while(true) {
         int start_time = engine.getTicks();
-        int sum = this->delta_time * 0.5;
 
-        makker_max->getDstRect()->x += sum;
         renderer->clearScreen();
-        renderer->queueRenderable(*makker_max.get());
-        renderer->queueRenderable(*makker_vet.get());
-        renderer->queueRenderable(*text.get());
-        renderer->queueRenderable(*fps_counter.get());
+        renderer->queueRenderable(line.get());
+        renderer->queueRenderable(circle.get());
+        renderer->queueRenderable(fps_counter.get());
+        renderer->queueRenderable(text.get());
+        renderer->queueRenderable(makker_max.get());
         renderer->drawScreen();
 
         int fps = this->calculateFps(&engine, start_time);
