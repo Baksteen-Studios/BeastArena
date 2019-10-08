@@ -7,6 +7,8 @@
 #include "brickengine/engine.hpp"
 #include "brickengine/rendering/renderables/renderable.hpp"
 #include "brickengine/rendering/renderable_factory.hpp"
+#include "brickengine/entities/entity_manager.hpp"
+#include "entities/entity_factory.hpp"
 
 class GameController {
 public:
@@ -19,6 +21,8 @@ private:
 
     std::unique_ptr<BrickEngine> engine;
     std::vector<std::unique_ptr<System>> systems;
+    std::shared_ptr<EntityManager> entityManager;
+    std::shared_ptr<EntityFactory> entityFactory;
 
     std::unique_ptr<Renderable> fps_counter;
     double delta_time;
@@ -29,4 +33,4 @@ private:
     int top_layer;
 };
 
-#endif
+#endif /* FILE_GAME_CONTROLLER_HPP */

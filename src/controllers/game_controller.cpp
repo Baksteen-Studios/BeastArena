@@ -11,6 +11,9 @@ using namespace std::chrono_literals;
 #include "brickengine/rendering/renderer.hpp"
 #include "brickengine/rendering/renderables/renderable.hpp"
 #include "brickengine/rendering/renderable_factory.hpp"
+#include "brickengine/input/input.hpp"
+#include "brickengine/systems/rendering_system.hpp"
+#include "systems/movement_system.hpp"
 
 GameController::GameController() {
     this->delta_time = 1;
@@ -20,6 +23,8 @@ GameController::GameController() {
     this->layers = { 1, 2, 3 };
 
     engine = std::make_unique<BrickEngine>("Beast Arena", 1280, 720, layers);
+    entityManager = std::make_shared<EntityManager>();
+    entityFactory = std::make_shared<EntityFactory>(entityManager);
 
     createSystems();
     createFpsCounter(0);
@@ -51,12 +56,17 @@ void GameController::createFpsCounter(int fps) {
 }
 
 void GameController::createSystems() {
-    this->systems = std::vector<std::unique_ptr<System>>();
+    systems = std::vector<std::unique_ptr<System>>();
+    systems.push_back(std::make_unique<MovementSystem>(entityManager, entityFactory));
+    systems.push_back(std::make_unique<RenderingSystem>(entityManager, *engine->getRenderer()));
+    entityFactory->createBeast(250, 250, engine->getRenderableFactory()->createImage("./assets/graphics/verstappen_laughing.bmp", 2, std::unique_ptr<Rect>(new Rect { 100, 100, 50, 50})));
 }
 
 void GameController::gameLoop() {
     while(true) {
         int start_time = engine->getTicks();
+
+        Input::getInstance().processInput();
 
         engine->getRenderer()->clearScreen();
 
