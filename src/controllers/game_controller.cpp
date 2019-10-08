@@ -13,9 +13,10 @@ using namespace std::chrono_literals;
 #include "brickengine/rendering/renderable_factory.hpp"
 
 GameController::GameController() {
-    this->delta_time = 1;
-    this->fps_cap = 60;
-    this->fps_frame_time = 1000 / this->fps_cap;
+    this->delta_time = 0;
+    this->fps_cap = 120;
+    //In nanoseconds for precision
+    this->fps_frame_time = 1'000'000'000 / this->fps_cap;
     this->top_layer = 2;
     this->layers = { 1, 2, 3 };
 
@@ -25,23 +26,14 @@ GameController::GameController() {
     createFpsCounter(0);
 }
 
-int GameController::calculateFps(int start_time){
-    int ticks = engine->getTicks();
-    double delta_time_millisecs = ticks - start_time;
-    if (delta_time_millisecs == 0)
-        delta_time_millisecs = 1;
-    if (delta_time_millisecs < fps_frame_time) {
-        double delay = fps_frame_time - delta_time_millisecs;
-        engine->delay(delay);
-        delta_time_millisecs = delta_time_millisecs + delay;
-    }
-
-    delta_time = delta_time_millisecs / 1000;
-
-    // The FPS cannot be calculated correctly because getTicks returns and integer of miliseconds. 
-    // 1000 / 60 = 16.666666, here we lose 0.666 per. But we can only caluclate 1000 / 16 = 62.5. Where 0.5 nd  is lost because of this integer precision issue.
-    double fps = 1000.0 / delta_time_millisecs;
-    return (int)fps;
+int GameController::calculateFps(std::chrono::time_point<std::chrono::high_resolution_clock> start_time){
+    auto end_time = std::chrono::high_resolution_clock::now();
+    auto delta_time_in_nanoseconds = std::chrono::duration_cast<std::chrono::nanoseconds>(end_time - start_time).count();
+    int64_t delay = fps_frame_time - delta_time_in_nanoseconds;
+    //Updating deltatime for ECS
+    delta_time = (delta_time_in_nanoseconds + delay) / 1'000'000'000.0;
+    std::this_thread::sleep_for(std::chrono::nanoseconds(delay));
+    return 1'000'000'000 / (delta_time_in_nanoseconds + delay);
 }
 
 void GameController::createFpsCounter(int fps) {
@@ -56,8 +48,7 @@ void GameController::createSystems() {
 
 void GameController::gameLoop() {
     while(true) {
-        int start_time = engine->getTicks();
-
+        std::chrono::time_point start_time = std::chrono::high_resolution_clock::now();
         engine->getRenderer()->clearScreen();
 
         for (auto& system : systems) {
@@ -66,7 +57,6 @@ void GameController::gameLoop() {
 
         engine->getRenderer()->queueRenderable(fps_counter.get());
         engine->getRenderer()->drawScreen();
-
         int fps = this->calculateFps(start_time);
         this->createFpsCounter(fps);
     }
