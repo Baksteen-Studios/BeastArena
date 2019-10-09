@@ -14,8 +14,10 @@ class GameController {
 public:
     GameController();
     void gameLoop();
-    void createSystems();
 private:
+    void createSystems();
+    void setupInput();
+    void createTestEntities();
     int calculateFps(int start_time);
     void createFpsCounter(int fps);
 
@@ -30,7 +32,9 @@ private:
     double fps_frame_time;
 
     std::vector<int> layers;
-    int top_layer;
+
+    inline static const int SCREEN_HEIGTH = 720;
+    inline static const int SCREEN_WIDTH = 1280;
 };
 
 #endif /* FILE_GAME_CONTROLLER_HPP */

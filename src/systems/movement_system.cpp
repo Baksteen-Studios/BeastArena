@@ -1,16 +1,52 @@
+#include <iostream>
+
 #include "systems/movement_system.hpp"
 #include "brickengine/components/transform_component.hpp"
-#include "components/velocity_component.hpp"
+#include "brickengine/components/physics_component.hpp"
+#include "brickengine/components/player_component.hpp"
+#include "brickengine/input/input.hpp"
 
 MovementSystem::MovementSystem(std::shared_ptr<EntityManager> entityManager, std::shared_ptr<EntityFactory> ef) : BeastSystem(ef, entityManager) {}
 
-void MovementSystem::update(double) {
-    //auto entitiesWithVelocity = entityManager->getEntitiesByComponent<VelocityComponent>();
+void MovementSystem::update(double deltatime) {
+    auto entitiesWithPlayer = entityManager->getEntitiesByComponent<PlayerComponent>();
 
-    //for(auto& [entityId, movement]: *entitiesWithVelocity){
-    //    TransformComponent* transform = entityManager->getComponent<TransformComponent>(entityId);
+    for(auto& [entityId, player]: *entitiesWithPlayer){
+        auto physics = entityManager->getComponent<PhysicsComponent>(entityId);
+        if (!physics) continue;
 
-    //    //position->setX(position->getX() + (entityWithVelocity->component->getXVelocity() * deltatime));
-    //    //position->setY(position->getY() + (entityWithVelocity->component->getYVelocity() * deltatime));
-    //}
+        //Input::getInstance().getPlayerInput(player.playerId).checkInput(BeastArenaInput::Right)
+
+        double vx = physics->getXVelocity();
+        double vy = physics->getYVelocity();
+        double mass = physics->getMass();
+
+        // Moving left or right
+        if (Input::getInstance().checkInput(PlayerInput::PLAYER1_LEFT)) {
+            if (vx > 0) vx = 0;
+            vx += -1 * TERMINAL_VELOCITY * MOVEMENT_FORCE / mass * deltatime;
+            if (vx < (TERMINAL_VELOCITY * -1) / mass) {
+                vx = (TERMINAL_VELOCITY * -1) / mass;
+            }
+        } else {
+            if (Input::getInstance().checkInput(PlayerInput::PLAYER1_RIGHT)) {
+                if (vx < 0) vx = 0;
+                vx += TERMINAL_VELOCITY * MOVEMENT_FORCE / mass * deltatime;
+                if (vx > TERMINAL_VELOCITY / mass) {
+                    vx = TERMINAL_VELOCITY / mass;
+                }
+            } else {
+                vx = 0;
+            }
+        }
+        // Jumping
+        if (Input::getInstance().checkInput(PlayerInput::PLAYER1_UP)) {
+            // also check you are standing on a platform
+            if (vy == 0)
+                vy = -1 * (JUMP_FORCE / mass) * deltatime;
+        }
+
+        physics->setXVelocity(vx);
+        physics->setYVelocity(vy);
+    }
 }
