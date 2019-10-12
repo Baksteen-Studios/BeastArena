@@ -38,9 +38,8 @@ void GameController::gameLoop() {
 
         std::chrono::time_point end_time = std::chrono::high_resolution_clock::now();
         engine->delay(start_time, end_time);
+        engine->drawFpsCounter();
         delta_time = engine->getDeltatime();
-        engine->drawFpsCounter();
         engine->getRenderer()->drawScreen();
-        engine->drawFpsCounter();
     }
 }
