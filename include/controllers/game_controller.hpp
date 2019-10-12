@@ -15,16 +15,11 @@ public:
     void gameLoop();
     void createSystems();
 private:
-    int calculateFps(std::chrono::time_point<std::chrono::high_resolution_clock> start_time);
-    void createFpsCounter(int fps);
-
     std::unique_ptr<BrickEngine> engine;
     std::vector<std::unique_ptr<System>> systems;
 
-    std::unique_ptr<Renderable> fps_counter;
     double delta_time;
     int fps_cap;
-    double fps_frame_time;
 
     std::vector<int> layers;
     int top_layer;
