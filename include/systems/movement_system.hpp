@@ -12,7 +12,7 @@ public:
     void update(double deltatime);
 private:
     static constexpr double TERMINAL_VELOCITY = 500'000;
-    static constexpr double JUMP_FORCE = 100'000;
+    static constexpr double JUMP_FORCE = 100'000'000;
     static constexpr double MOVEMENT_FORCE = 5;
 };
 
