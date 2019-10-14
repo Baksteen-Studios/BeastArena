@@ -1,10 +1,12 @@
 #include <iostream>
 
-#include "systems/movement_system.hpp"
 #include "brickengine/components/transform_component.hpp"
 #include "brickengine/components/physics_component.hpp"
 #include "brickengine/components/player_component.hpp"
-#include "brickengine/input/input.hpp"
+#include "brickengine/input.hpp"
+
+#include "systems/movement_system.hpp"
+#include "player_input.hpp"
 
 MovementSystem::MovementSystem(std::shared_ptr<EntityManager> entityManager, std::shared_ptr<EntityFactory> ef) : BeastSystem(ef, entityManager) {}
 
@@ -22,14 +24,14 @@ void MovementSystem::update(double deltatime) {
         double mass = physics->mass;
 
         // Moving left or right
-        if (Input::getInstance().checkInput(PlayerInput::PLAYER1_LEFT)) {
+        if (BrickInput<PlayerInput>::getInstance().checkInput(PlayerInput::PLAYER1_LEFT)) {
             if (vx > 0) vx = 0;
             vx += -1 * TERMINAL_VELOCITY * MOVEMENT_FORCE / mass * deltatime;
             if (vx < (TERMINAL_VELOCITY * -1) / mass) {
                 vx = (TERMINAL_VELOCITY * -1) / mass;
             }
         } else {
-            if (Input::getInstance().checkInput(PlayerInput::PLAYER1_RIGHT)) {
+            if (BrickInput<PlayerInput>::getInstance().checkInput(PlayerInput::PLAYER1_RIGHT)) {
                 if (vx < 0) vx = 0;
                 vx += TERMINAL_VELOCITY * MOVEMENT_FORCE / mass * deltatime;
                 if (vx > TERMINAL_VELOCITY / mass) {
@@ -40,7 +42,7 @@ void MovementSystem::update(double deltatime) {
             }
         }
         // Jumping
-        if (Input::getInstance().checkInput(PlayerInput::PLAYER1_UP)) {
+        if (BrickInput<PlayerInput>::getInstance().checkInput(PlayerInput::PLAYER1_UP)) {
             // also check you are standing on a platform
             if (vy == 0)
                 vy = -1 * (JUMP_FORCE / mass) * deltatime;

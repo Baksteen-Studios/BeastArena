@@ -11,11 +11,12 @@ using namespace std::chrono_literals;
 #include "brickengine/rendering/renderer.hpp"
 #include "brickengine/rendering/renderables/renderable.hpp"
 #include "brickengine/rendering/renderable_factory.hpp"
-#include "brickengine/input/input.hpp"
+#include "brickengine/input.hpp"
 #include "brickengine/systems/rendering_system.hpp"
 #include "brickengine/systems/physics_system.hpp"
 #include "entities/layers.hpp"
 #include "systems/movement_system.hpp"
+#include "player_input.hpp"
 
 GameController::GameController() {
     this->delta_time = 1;
@@ -46,7 +47,7 @@ void GameController::createTestEntities() {
 }
 
 void GameController::setupInput() {
-    Input& input = Input::getInstance();
+    BrickInput<PlayerInput>& input = BrickInput<PlayerInput>::getInstance();
     std::unordered_map<SDL_Keycode, PlayerInput> inputMapping;
     inputMapping[SDLK_w] = PlayerInput::PLAYER1_UP;
     inputMapping[SDLK_a] = PlayerInput::PLAYER1_LEFT;
@@ -59,7 +60,7 @@ void GameController::gameLoop() {
     while(true) {
         auto start_time = engine->getTicks();
 
-        Input::getInstance().processInput();
+        BrickInput<PlayerInput>::getInstance().processInput();
 
         engine->getRenderer()->clearScreen();
 
