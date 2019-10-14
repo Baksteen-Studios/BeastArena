@@ -13,9 +13,8 @@ using namespace std::chrono_literals;
 #include "brickengine/rendering/renderable_factory.hpp"
 
 GameController::GameController() {
-    this->delta_time = 1;
     this->fps_cap = 144;
-    this->fps_frame_time = 1000 / this->fps_cap;
+    this->delta_time = 0;
     this->top_layer = 2;
     this->layers = { 1, 2, 3 };
 
