@@ -20,4 +20,4 @@ private:
     inline static const std::string graphicsPath = "./assets/graphics/";
 };
 
-#endif /* FILE_ENTITY_FACTORY_HPP */ 
+#endif // FILE_ENTITY_FACTORY_HPP

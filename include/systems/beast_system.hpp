@@ -13,4 +13,4 @@ private:
     std::shared_ptr<EntityFactory> entityFactory;
 };
 
-#endif /* FILE_BEAST_SYSTEM */
+#endif // FILE_BEAST_SYSTEM
