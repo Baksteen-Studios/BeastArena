@@ -16,4 +16,4 @@ private:
     static constexpr double MOVEMENT_FORCE = 5;
 };
 
-#endif /* FILE_MOVEMENT_SYSTEM_HPP */
+#endif // FILE_MOVEMENT_SYSTEM_HPP
