@@ -17,9 +17,9 @@ void MovementSystem::update(double deltatime) {
 
         //Input::getInstance().getPlayerInput(player.playerId).checkInput(BeastArenaInput::Right)
 
-        double vx = physics->getXVelocity();
-        double vy = physics->getYVelocity();
-        double mass = physics->getMass();
+        double vx = physics->vx;
+        double vy = physics->vy;
+        double mass = physics->mass;
 
         // Moving left or right
         if (Input::getInstance().checkInput(PlayerInput::PLAYER1_LEFT)) {
@@ -46,7 +46,7 @@ void MovementSystem::update(double deltatime) {
                 vy = -1 * (JUMP_FORCE / mass) * deltatime;
         }
 
-        physics->setXVelocity(vx);
-        physics->setYVelocity(vy);
+        physics->vx = vx;
+        physics->vy = vy;
     }
 }
