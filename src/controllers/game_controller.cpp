@@ -31,15 +31,16 @@ void GameController::gameLoop() {
     while(true) {
         std::chrono::time_point start_time = std::chrono::high_resolution_clock::now();
         engine->getRenderer()->clearScreen();
+        engine->drawFpsCounter();
 
         for (auto& system : systems) {
             system->update(delta_time);
         }
 
+        engine->getRenderer()->drawScreen();
+
         std::chrono::time_point end_time = std::chrono::high_resolution_clock::now();
         engine->delay(start_time, end_time);
-        engine->drawFpsCounter();
         delta_time = engine->getDeltatime();
-        engine->getRenderer()->drawScreen();
     }
 }
