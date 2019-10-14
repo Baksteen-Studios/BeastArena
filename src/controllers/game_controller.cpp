@@ -14,7 +14,7 @@ using namespace std::chrono_literals;
 
 GameController::GameController() {
     this->delta_time = 1;
-    this->fps_cap = 9000;
+    this->fps_cap = 144;
     this->fps_frame_time = 1000 / this->fps_cap;
     this->top_layer = 2;
     this->layers = { 1, 2, 3 };
