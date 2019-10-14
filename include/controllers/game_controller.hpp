@@ -37,4 +37,4 @@ private:
     inline static const int SCREEN_WIDTH = 1280;
 };
 
-#endif /* FILE_GAME_CONTROLLER_HPP */
+#endif // FILE_GAME_CONTROLLER_HPP
