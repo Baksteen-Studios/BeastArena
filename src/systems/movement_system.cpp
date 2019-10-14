@@ -13,7 +13,7 @@ MovementSystem::MovementSystem(std::shared_ptr<EntityManager> entityManager, std
 void MovementSystem::update(double deltatime) {
     auto entitiesWithPlayer = entityManager->getEntitiesByComponent<PlayerComponent>();
 
-    for(auto& [entityId, _]: *entitiesWithPlayer){
+     for([[maybe_unused]] auto& [entityId, _]: *entitiesWithPlayer){
         auto physics = entityManager->getComponent<PhysicsComponent>(entityId);
         if (!physics) continue;
 
