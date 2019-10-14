@@ -29,7 +29,6 @@ private:
     std::unique_ptr<Renderable> fps_counter;
     double delta_time;
     int fps_cap;
-    double fps_frame_time;
 
     std::vector<int> layers;
 
