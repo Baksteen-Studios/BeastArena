@@ -1,4 +1,5 @@
 #include <iostream>
+#include <tuple>
 
 #include "brickengine/components/transform_component.hpp"
 #include "brickengine/components/physics_component.hpp"
@@ -13,7 +14,8 @@ MovementSystem::MovementSystem(std::shared_ptr<EntityManager> entityManager, std
 void MovementSystem::update(double deltatime) {
     auto entitiesWithPlayer = entityManager->getEntitiesByComponent<PlayerComponent>();
 
-     for([[maybe_unused]] auto& [entityId, _]: *entitiesWithPlayer){
+     for (auto& [entityId, player]: *entitiesWithPlayer) {
+         std::ignore = player;
         auto physics = entityManager->getComponent<PhysicsComponent>(entityId);
         if (!physics) continue;
 
