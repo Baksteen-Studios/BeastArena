@@ -18,8 +18,6 @@ private:
     void createSystems();
     void setupInput();
     void createTestEntities();
-    int calculateFps(int start_time);
-    void createFpsCounter(int fps);
 
     std::unique_ptr<BrickEngine> engine;
     std::vector<std::unique_ptr<System>> systems;
