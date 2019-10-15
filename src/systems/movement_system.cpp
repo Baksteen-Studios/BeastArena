@@ -12,10 +12,11 @@
 MovementSystem::MovementSystem(std::shared_ptr<EntityManager> entityManager, std::shared_ptr<EntityFactory> ef) : BeastSystem(ef, entityManager) {}
 
 void MovementSystem::update(double deltatime) {
+    auto input = BrickInput<PlayerInput>::getInstance();
     auto entitiesWithPlayer = entityManager->getEntitiesByComponent<PlayerComponent>();
 
      for (auto& [entityId, player]: *entitiesWithPlayer) {
-         std::ignore = player;
+        std::ignore = player;
         auto physics = entityManager->getComponent<PhysicsComponent>(entityId);
         if (!physics) continue;
 
@@ -26,14 +27,14 @@ void MovementSystem::update(double deltatime) {
         double mass = physics->mass;
 
         // Moving left or right
-        if (BrickInput<PlayerInput>::getInstance().checkInput(PlayerInput::PLAYER1_LEFT)) {
+        if (input.checkInput(PlayerInput::PLAYER1_LEFT)) {
             if (vx > 0) vx = 0;
             vx += -1 * TERMINAL_VELOCITY * MOVEMENT_FORCE / mass * deltatime;
             if (vx < (TERMINAL_VELOCITY * -1) / mass) {
                 vx = (TERMINAL_VELOCITY * -1) / mass;
             }
         } else {
-            if (BrickInput<PlayerInput>::getInstance().checkInput(PlayerInput::PLAYER1_RIGHT)) {
+            if (input.checkInput(PlayerInput::PLAYER1_RIGHT)) {
                 if (vx < 0) vx = 0;
                 vx += TERMINAL_VELOCITY * MOVEMENT_FORCE / mass * deltatime;
                 if (vx > TERMINAL_VELOCITY / mass) {
@@ -44,7 +45,7 @@ void MovementSystem::update(double deltatime) {
             }
         }
         // Jumping
-        if (BrickInput<PlayerInput>::getInstance().checkInput(PlayerInput::PLAYER1_UP)) {
+        if (input.checkInput(PlayerInput::PLAYER1_UP)) {
             // also check you are standing on a platform
             if (vy == 0)
                 vy = -1 * (JUMP_FORCE / mass) * deltatime;
