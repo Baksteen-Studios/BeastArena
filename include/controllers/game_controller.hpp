@@ -8,6 +8,7 @@
 #include "brickengine/rendering/renderables/renderable.hpp"
 #include "brickengine/rendering/renderable_factory.hpp"
 #include "brickengine/entities/entity_manager.hpp"
+#include "brickengine/collision_detector.hpp"
 #include "entities/entity_factory.hpp"
 
 class GameController {
@@ -23,6 +24,7 @@ private:
     std::vector<std::unique_ptr<System>> systems;
     std::shared_ptr<EntityManager> entityManager;
     std::shared_ptr<EntityFactory> entityFactory;
+    std::shared_ptr<CollisionDetector> collisionDetector;
 
     std::unique_ptr<Renderable> fps_counter;
     double delta_time;
