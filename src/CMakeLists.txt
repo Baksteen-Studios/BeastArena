@@ -1,4 +1,5 @@
-file(GLOB_RECURSE files RELATIVE ${CMAKE_CURRENT_LIST_DIR} *.c[p]*)
+file(GLOB_RECURSE BEASTARENA_SRC_FILES RELATIVE ${CMAKE_CURRENT_LIST_DIR} *.c[p]*)
+list(REMOVE_ITEM BEASTARENA_SRC_FILES "main.cpp")
 
 ## Compiler options
 # Make the compiler complain, a lot
@@ -17,10 +18,11 @@ endif()
 add_compile_options(-Wall -Wextra -pedantic -Werror)
 
 add_executable(BeastArena
-    ${files}
+    main.cpp
+    ${BEASTARENA_SRC_FILES}
 )
 target_link_libraries(BeastArena PRIVATE BrickEngine)
-target_include_directories(BeastArena PUBLIC ../include)
+target_include_directories(BeastArena PUBLIC ${BEASTARENA_INCLUDE_DIRECTORY})
 add_custom_command(TARGET BeastArena PRE_BUILD
                    COMMAND ${CMAKE_COMMAND} -E copy_directory
                        ${CMAKE_SOURCE_DIR}/assets/ $<TARGET_FILE_DIR:BeastArena>/assets)
