@@ -18,7 +18,6 @@ int EntityFactory::createPanda(double x, double y) const {
     comps->push_back(std::make_unique<RectangleColliderComponent>(1, 1, 1));
     comps->push_back(std::make_unique<PhysicsComponent>(100, 0, 0, 0, true, false));
     comps->push_back(std::make_unique<TextureComponent>(std::move(r)));
-    // comps->push_back(std::make_unique<PlayerComponent>());
 
     return entityManager->createEntity(std::move(comps));
 }
