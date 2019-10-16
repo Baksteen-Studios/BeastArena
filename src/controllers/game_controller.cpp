@@ -17,7 +17,7 @@ using namespace std::chrono_literals;
 #include "entities/layers.hpp"
 #include "systems/movement_system.hpp"
 #include "player_input.hpp"
-#include "brickengine/engine_input.hpp"
+#include "brickengine/input_keycodes.hpp"
 
 GameController::GameController() {
     this->delta_time = 1;
