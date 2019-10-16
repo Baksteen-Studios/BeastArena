@@ -36,12 +36,12 @@ int EntityFactory::createGorilla(double x, double y) const {
     return entityManager->createEntity(std::move(comps));
 }
 
-int EntityFactory::createImage(std::string path, int x, int y, int width, int heigth, Layers layer) {
+int EntityFactory::createImage(std::string path, int x, int y, int width, int height, Layers layer) {
     auto dst = std::unique_ptr<Rect>(new Rect{ 0, 0, 0, 0 });
     auto r = renderableFactory.createImage(graphicsPath + path, (int)layer, std::move(dst));
 
     auto comps = std::make_unique<std::vector<std::unique_ptr<Component>>>();
-    comps->push_back(std::make_unique<TransformComponent>(x, y, width, heigth));
+    comps->push_back(std::make_unique<TransformComponent>(x, y, width, height));
     comps->push_back(std::make_unique<TextureComponent>(std::move(r)));
 
     return entityManager->createEntity(std::move(comps));

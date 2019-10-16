@@ -32,7 +32,7 @@ private:
 
     std::vector<int> layers;
 
-    inline static const int SCREEN_HEIGTH = 720;
+    inline static const int SCREEN_height = 720;
     inline static const int SCREEN_WIDTH = 1280;
 };
 

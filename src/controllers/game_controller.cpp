@@ -24,7 +24,7 @@ GameController::GameController() {
     // From layers.hpp
     this->layers = { 0, 1, 2, 3, 4 };
 
-    engine = std::make_unique<BrickEngine>("Beast Arena", SCREEN_WIDTH, SCREEN_HEIGTH, layers, fps_cap);
+    engine = std::make_unique<BrickEngine>("Beast Arena", SCREEN_WIDTH, SCREEN_height, layers, fps_cap);
     entityManager = std::make_shared<EntityManager>();
     entityFactory = std::make_shared<EntityFactory>(entityManager, *engine->getRenderableFactory());
     collisionDetector = std::make_shared<CollisionDetector>(entityManager);
@@ -44,7 +44,7 @@ void GameController::createSystems() {
 void GameController::createTestEntities() {
     entityFactory->createPanda(400, 200);
     entityFactory->createGorilla(1000, 200);
-    entityFactory->createImage("backgrounds/forest_watermarked.jpg", SCREEN_WIDTH / 2, SCREEN_HEIGTH / 2, SCREEN_WIDTH, SCREEN_HEIGTH, Layers::Background);
+    entityFactory->createImage("backgrounds/forest_watermarked.jpg", SCREEN_WIDTH / 2, SCREEN_height / 2, SCREEN_WIDTH, SCREEN_height, Layers::Background);
     entityFactory->createPlatform(640, 500, 720, 20);
 }
 
