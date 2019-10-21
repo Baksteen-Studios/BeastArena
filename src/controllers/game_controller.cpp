@@ -17,7 +17,7 @@ using namespace std::chrono_literals;
 #include "entities/layers.hpp"
 #include "systems/movement_system.hpp"
 #include "player_input.hpp"
-#include "brickengine/input_keycodes.hpp"
+#include "brickengine/input_keycode.hpp"
 
 GameController::GameController() {
     this->delta_time = 1;
@@ -51,17 +51,18 @@ void GameController::createTestEntities() {
 
 void GameController::setupInput() {
     BrickInput<PlayerInput>& input = BrickInput<PlayerInput>::getInstance();
-    std::unordered_map<int, std::unordered_map<SDL_Keycode, PlayerInput>> inputMapping;
+    std::unordered_map<int, std::unordered_map<InputKeyCode, PlayerInput>> inputMapping;
     // Player 1
-    inputMapping[1][EKey_w] = PlayerInput::UP;
-    inputMapping[1][EKey_a] = PlayerInput::LEFT;
-    inputMapping[1][EKey_s] = PlayerInput::DOWN;
-    inputMapping[1][EKey_d] = PlayerInput::RIGHT;
+    inputMapping[1][InputKeyCode::EKey_w] = PlayerInput::UP;
+    inputMapping[1][InputKeyCode::EKey_a] = PlayerInput::LEFT;
+    inputMapping[1][InputKeyCode::EKey_s] = PlayerInput::DOWN;
+    inputMapping[1][InputKeyCode::EKey_d] = PlayerInput::RIGHT;
     // Player 2
-    inputMapping[2][EKey_up] = PlayerInput::UP;
-    inputMapping[2][EKey_left] = PlayerInput::LEFT;
-    inputMapping[2][EKey_down] = PlayerInput::DOWN;
-    inputMapping[2][EKey_right] = PlayerInput::RIGHT;
+    inputMapping[2][InputKeyCode::EKey_up] = PlayerInput::UP;
+    inputMapping[2][InputKeyCode::EKey_left] = PlayerInput::LEFT;
+    inputMapping[2][InputKeyCode::EKey_down] = PlayerInput::DOWN;
+    inputMapping[2][InputKeyCode::EKey_right] = PlayerInput::RIGHT;
+
     input.setInputMapping(inputMapping);
 }
 
