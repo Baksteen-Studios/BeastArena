@@ -12,4 +12,7 @@ add_executable(BeastArena
     main.cpp
 )
 target_link_libraries(BeastArena PRIVATE BeastArenaLib)
+add_custom_command(TARGET BeastArena PRE_BUILD
+                   COMMAND ${CMAKE_COMMAND} -E copy_directory
+                       ${CMAKE_SOURCE_DIR}/assets/ $<TARGET_FILE_DIR:BeastArena>/assets)
 target_compile_features(BeastArena PUBLIC cxx_std_17)

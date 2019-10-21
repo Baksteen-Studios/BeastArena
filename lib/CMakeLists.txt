@@ -21,9 +21,7 @@ add_library(BeastArenaLib STATIC
 )
 target_link_libraries(BeastArenaLib PUBLIC BrickEngine)
 target_include_directories(BeastArenaLib PUBLIC ${BEASTARENALIB_INCLUDE_DIRECTORY})
-add_custom_command(TARGET BeastArenaLib PRE_BUILD
-                   COMMAND ${CMAKE_COMMAND} -E copy_directory
-                       ${CMAKE_SOURCE_DIR}/assets/ $<TARGET_FILE_DIR:BeastArenaLib>/assets)
+
 target_compile_features(BeastArenaLib PUBLIC cxx_std_17)
 
 # Export source file list so that it can be used for test compilation
