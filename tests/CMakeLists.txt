@@ -1,4 +1,6 @@
-add_subdirectory("../extern/googletest" "extern/googletest")
+if (NOT TARGET gtest)
+    add_subdirectory("../extern/googletest" "extern/googletest")
+endif()
 
 file(GLOB_RECURSE TEST_FILES RELATIVE ${CMAKE_CURRENT_LIST_DIR} *.c[p]*)
 
