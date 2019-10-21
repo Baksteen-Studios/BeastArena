@@ -44,6 +44,7 @@ endif()
 
 add_subdirectory(extern/brickengine)
 add_subdirectory(include)
+add_subdirectory(lib)
 add_subdirectory(src)
 
 option(PACKAGE_TESTS "Build the tests" ON)
