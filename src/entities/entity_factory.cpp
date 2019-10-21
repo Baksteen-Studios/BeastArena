@@ -4,7 +4,7 @@
 #include "brickengine/components/transform_component.hpp"
 #include "brickengine/components/colliders/rectangle_collider_component.hpp"
 #include "brickengine/components/physics_component.hpp"
-#include "components/player_component.hpp"
+#include "brickengine/components/player_component.hpp"
 #include "brickengine/components/renderables/texture_component.hpp"
 
 EntityFactory::EntityFactory(std::shared_ptr<EntityManager> em, RenderableFactory& rf) : entityManager(em), renderableFactory(rf) {}

@@ -3,7 +3,7 @@
 
 #include "brickengine/components/transform_component.hpp"
 #include "brickengine/components/physics_component.hpp"
-#include "components/player_component.hpp"
+#include "brickengine/components/player_component.hpp"
 #include "brickengine/input.hpp"
 
 #include "systems/movement_system.hpp"
