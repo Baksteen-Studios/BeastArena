@@ -1,6 +1,6 @@
 # Description
 
-Please include a summary of the change and which pull request is implemented. Please also include relevant motivation and context. List any dependencies that are required for this change.
+Please include a summary of the change and which user story is implemented. Please also include relevant motivation and context. List any dependencies that are required for this change.
 
 # How Has This Been Tested?
 
