@@ -31,7 +31,7 @@ jobs:
         cmake ..
         make
     - name: Build master
-      if: github.event_name != 'pull_request'
+      if: github.ref == 'master'
       run: |
         export CXX=clang++
         cd build
