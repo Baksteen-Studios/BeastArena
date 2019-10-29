@@ -16,7 +16,7 @@ public:
     int createGorilla(double x, double y, int playerId) const;
     int createWeapon(double x, double y) const;
     int createImage(std::string path, int x, int y, int width, int height, Layers layer);
-    int createPlatform(double xScale, double yScale, double x, double y);
+    int createPlatform(double x, double y, double xScale, double yScale);
 private:
     std::shared_ptr<EntityManager> entityManager;
     RenderableFactory& renderableFactory;
