@@ -21,7 +21,7 @@ using namespace std::chrono_literals;
 
 GameController::GameController() {
     this->delta_time = 1;
-    this->fps_cap = 60;
+    this->fps_cap = 30;
     // From layers.hpp
     this->layers = { 0, 1, 2, 3, 4 };
 
@@ -69,7 +69,7 @@ void GameController::setupInput() {
 
 void GameController::gameLoop() {
     double delta_time_count = 0;
-    double timer;
+    double timer = 60;
     while(true) {
         auto start_time = std::chrono::high_resolution_clock::now();
 
