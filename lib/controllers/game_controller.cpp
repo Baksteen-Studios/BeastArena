@@ -12,12 +12,15 @@ using namespace std::chrono_literals;
 #include "brickengine/rendering/renderables/renderable.hpp"
 #include "brickengine/rendering/renderable_factory.hpp"
 #include "brickengine/input.hpp"
-#include "brickengine/systems/rendering_system.hpp"
-#include "brickengine/systems/physics_system.hpp"
 #include "entities/layers.hpp"
-#include "systems/movement_system.hpp"
 #include "player_input.hpp"
 #include "brickengine/input_keycode.hpp"
+
+// Systems
+#include "brickengine/systems/rendering_system.hpp"
+#include "brickengine/systems/physics_system.hpp"
+#include "systems/movement_system.hpp"
+#include "systems/weapon_system.hpp"
 
 GameController::GameController() {
     this->delta_time = 1;
@@ -41,13 +44,15 @@ void GameController::createSystems() {
     systems.push_back(std::make_unique<MovementSystem>(collisionDetector, entityManager, entityFactory));
     systems.push_back(std::make_unique<PhysicsSystem>(collisionDetector, entityManager));
     systems.push_back(std::make_unique<RenderingSystem>(entityManager, *engine->getRenderer()));
+    systems.push_back(std::make_unique<WeaponSystem>(collisionDetector, entityManager, entityFactory));
 }
 
 void GameController::createTestEntities() {
     entityFactory->createPanda(400, 200, 1);
-    entityFactory->createGorilla(1000, 200, 2);
+    entityFactory->createGorilla(700, 200, 2);
+    entityFactory->createWeapon(1000, 800);
     entityFactory->createImage("backgrounds/forest_watermarked.jpg", SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, SCREEN_WIDTH, SCREEN_HEIGHT, Layers::Background);
-    entityFactory->createPlatform(640, 500, 720, 20);
+    entityFactory->createPlatform(800, 850, 1400, 10);
 }
 
 void GameController::setupInput() {

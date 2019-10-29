@@ -46,7 +46,7 @@ void MovementSystem::update(double deltatime) {
         }
         // Jumping
         if (input.checkInput(player->playerId, PlayerInput::UP)) {
-            bool standsOnPlatform = collisionDetector->spaceLeft(entityId, Axis::Y, Direction::POSITIVE) == 0;
+            bool standsOnPlatform = collisionDetector->spaceLeft(entityId, Axis::Y, Direction::POSITIVE).first == 0;
 
             if (standsOnPlatform) {
                 vy = -1 * (JUMP_FORCE / mass) * deltatime;

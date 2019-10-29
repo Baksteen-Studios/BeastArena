@@ -14,6 +14,7 @@ public:
     ~EntityFactory() = default;
     int createPanda(double x, double y, int playerId) const;
     int createGorilla(double x, double y, int playerId) const;
+    int createWeapon(double x, double y) const;
     int createImage(std::string path, int x, int y, int width, int height, Layers layer);
     int createPlatform(double xScale, double yScale, double x, double y);
 private:
