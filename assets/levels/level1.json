@@ -4,9 +4,9 @@
     "description": "The first level of BeastArena",
     "width": 1920,
     "height": 1080,
-    "bg-path": "assets/graphics/backgrounds/rainforest.png",
-    "bg-music": "assets/sound/music/rainforest.mp3",
-    "player-spawns": [
+    "bg_path": "assets/graphics/backgrounds/rainforest.png",
+    "bg_music": "assets/sound/music/rainforest.mp3",
+    "player_spawns": [
         {
             "x": 400,
             "y": 500
@@ -24,18 +24,18 @@
            "y": 500
         }
     ],
-    "gadget-spawns": [
+    "gadget_spawns": [
         {
             "type": "weapon",
-            "available-spawns": ["pistol", "ak", "rpg"],
-            "respawn-timer": 5,
+            "available_spawns": ["pistol", "ak", "rpg"],
+            "respawn_timer": 5,
             "x": 0,
             "y": 0
         }, 
         {
             "type": "item",
-            "available-spawns": ["jetpack"],
-            "respawn-timer": 5,
+            "available_spawns": ["jetpack"],
+            "respawn_timer": 5,
             "x": 0,
             "y": 0
         }

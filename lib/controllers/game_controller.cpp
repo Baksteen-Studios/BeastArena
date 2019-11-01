@@ -4,6 +4,7 @@
 #include <mutex>
 #include <condition_variable>
 #include <memory>
+#include <vector>
 using namespace std::chrono_literals;
 
 #include "controllers/game_controller.hpp"
@@ -18,6 +19,12 @@ using namespace std::chrono_literals;
 #include "systems/movement_system.hpp"
 #include "player_input.hpp"
 #include "brickengine/input_keycode.hpp"
+#include "brickengine/json_parser/json.hpp"
+#include "level/level.hpp"
+#include "exceptions/sizeMismatchException.hpp"
+#include "level/player_spawn.hpp"
+#include "level/gadget_spawn.hpp"
+#include "level/solid.hpp"
 
 GameController::GameController() {
     this->delta_time = 1;
@@ -44,10 +51,75 @@ void GameController::createSystems() {
 }
 
 void GameController::createTestEntities() {
-    entityFactory->createPanda(400, 200, 1);
-    entityFactory->createGorilla(1000, 200, 2);
+    // entityFactory->createPanda(400, 200, 1);
+    // entityFactory->createGorilla(1000, 200, 2);
     entityFactory->createImage("backgrounds/forest_watermarked.jpg", SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, SCREEN_WIDTH, SCREEN_HEIGHT, Layers::Background);
-    entityFactory->createPlatform(800, 850, 1400, 10);
+    // entityFactory->createPlatform(800, 850, 1400, 10);
+
+    Json json = Json("assets/levels/level1.json", true);
+    auto level = loadLevel(json);
+}
+
+const std::unique_ptr<Level> GameController::loadLevel(Json json) const {
+    std::unique_ptr<Level> level = std::unique_ptr<Level>(new Level());
+    level->version = json.getDouble("version");
+    level->name = json.getString("name");
+    level->description = json.getString("description");
+
+    double relative_modifier = json.getInt("width") / (double)SCREEN_WIDTH;
+    if(!json.getInt("height") / SCREEN_HEIGHT == relative_modifier) {
+        throw SizeMismatchException();
+    }
+    level->relative_modifier = relative_modifier;
+
+    level->bg_path = json.getString("bg_path");
+    level->bg_music = json.getString("bg_music");
+
+    // Create player spawns
+    for(Json player_spawn_json : json.getVector("player_spawns")) {
+        PlayerSpawn player_spawn = PlayerSpawn();
+
+        player_spawn.x = player_spawn_json.getInt("x");
+        player_spawn.y = player_spawn_json.getInt("y");
+
+        level->player_spawns.push_back(player_spawn);
+    }
+
+    // Create weapon and item spawns
+    for(Json gadget_spawn_json : json.getVector("gadget_spawns")) {
+        GadgetSpawn gadget_spawn = GadgetSpawn();
+
+        if(gadget_spawn_json.getString("type") == "weapon") {
+            gadget_spawn.gadget_spawn_type = GadgetSpawnType::WEAPON;
+        } else if(gadget_spawn_json.getString("type") == "item") {
+            gadget_spawn.gadget_spawn_type = GadgetSpawnType::ITEM;
+        }
+
+        gadget_spawn.available_spawns = gadget_spawn_json.getStringVector("available_spawns");
+        gadget_spawn.respawn_timer = gadget_spawn_json.getInt("respawn_timer");
+        gadget_spawn.x = gadget_spawn_json.getInt("x");
+        gadget_spawn.y = gadget_spawn_json.getInt("y");
+
+        level->gadget_spawns.push_back(gadget_spawn);
+    }
+
+    // Create platforms
+    for(Json solid_json : json.getVector("solids")) {
+        Solid solid = Solid();
+
+        if(solid_json.getString("type") == "rectangle") {
+            solid.type = SolidType::RECTANGLE;
+        }
+
+        solid.x = solid_json.getInt("x");
+        solid.y = solid_json.getInt("y");
+        solid.xScale = solid_json.getInt("xScale");
+        solid.yScale = solid_json.getInt("yScale");
+
+        level->solids.push_back(solid);
+    }
+
+    return level;
 }
 
 void GameController::setupInput() {

@@ -10,6 +10,8 @@
 #include "brickengine/entities/entity_manager.hpp"
 #include "brickengine/collision_detector.hpp"
 #include "entities/entity_factory.hpp"
+#include "brickengine/json_parser/json.hpp"
+#include "level/level.hpp"
 
 class GameController {
 public:
@@ -19,6 +21,7 @@ private:
     void createSystems();
     void setupInput();
     void createTestEntities();
+    const std::unique_ptr<Level> loadLevel(Json json) const;
 
     std::unique_ptr<BrickEngine> engine;
     std::vector<std::unique_ptr<System>> systems;
