@@ -27,6 +27,7 @@ GameController::GameController() {
     this->layers = { 0, 1, 2, 3, 4 };
 
     engine = std::make_unique<BrickEngine>("Beast Arena", SCREEN_WIDTH, SCREEN_HEIGHT, layers, fps_cap);
+    engine->start();
     entityManager = std::make_shared<EntityManager>();
     entityFactory = std::make_shared<EntityFactory>(entityManager, *engine->getRenderableFactory());
     collisionDetector = std::make_shared<CollisionDetector>(entityManager);
@@ -48,7 +49,7 @@ void GameController::createTestEntities() {
     entityFactory->createPanda(400, 200, 1);
     entityFactory->createGorilla(1000, 200, 2);
     entityFactory->createImage("backgrounds/forest_watermarked.jpg", SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, SCREEN_WIDTH, SCREEN_HEIGHT, Layers::Background);
-    entityFactory->createPlatform(640, 500, 720, 20);
+    entityFactory->createPlatform(800, 850, 1400, 10);
 }
 
 void GameController::setupInput() {
@@ -71,7 +72,6 @@ void GameController::setupInput() {
 }
 
 void GameController::gameLoop() {
-    double delta_time_count = 0;
     while(true) {
         auto start_time = std::chrono::high_resolution_clock::now();
 
@@ -89,6 +89,6 @@ void GameController::gameLoop() {
         auto end_time = std::chrono::high_resolution_clock::now();
         engine->delay(start_time, end_time);
         delta_time = engine->getDeltatime();
-        delta_time_count += delta_time;
     }
+    engine->stop();
 }
