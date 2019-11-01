@@ -9,8 +9,6 @@
 ClickSystem::ClickSystem(std::shared_ptr<EntityManager> em) : System(em) {}
 
 void ClickSystem::update(double) {
-    std::cout << "X position of the mouse is: " << BrickInput<PlayerInput>::getInstance().getMousePosition().first << std::endl;
-
     auto input = BrickInput<PlayerInput>::getInstance();
 
     // Check if the user clicked the left mouse button. If not, return the user out of the method.
