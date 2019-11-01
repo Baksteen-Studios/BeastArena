@@ -12,4 +12,4 @@ private:
 };
 
 
-#endif /* FILE_CLICK_SYSTEM_HPP */
+#endif // FILE_CLICK_SYSTEM_HPP
