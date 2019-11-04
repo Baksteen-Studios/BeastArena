@@ -112,9 +112,16 @@ const std::unique_ptr<Level> GameController::loadLevel(Json json) const {
     for(Json solid_json : json.getVector("solids")) {
         Solid solid = Solid();
 
-        if(solid_json.getString("type") == "rectangle") {
-            solid.type = SolidType::RECTANGLE;
+        if(solid_json.getString("shape") == "rectangle") {
+            solid.shape = SolidShape::RECTANGLE;
         }
+
+        if(solid_json.getString("effect") == "none") {
+            solid.effect = SolidEffect::NONE;
+        }
+
+        solid.texture_path = solid_json.getString("texture_path");
+        solid.alpha = solid_json.getInt("alpha");
 
         solid.x = solid_json.getInt("x");
         solid.y = solid_json.getInt("y");
