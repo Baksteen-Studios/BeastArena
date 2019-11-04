@@ -12,6 +12,7 @@
 #include "entities/entity_factory.hpp"
 #include "brickengine/json_parser/json.hpp"
 #include "level/level.hpp"
+#include "scenes/scene_manager.hpp"
 
 class GameController {
 public:
@@ -28,6 +29,7 @@ private:
     std::shared_ptr<EntityManager> entityManager;
     std::shared_ptr<EntityFactory> entityFactory;
     std::shared_ptr<CollisionDetector> collisionDetector;
+    std::shared_ptr<SceneManager> scene_manager;
 
     std::unique_ptr<Renderable> fps_counter;
     double delta_time;

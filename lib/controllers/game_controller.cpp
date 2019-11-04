@@ -37,6 +37,7 @@ GameController::GameController() {
     entityManager = std::make_shared<EntityManager>();
     entityFactory = std::make_shared<EntityFactory>(entityManager, *engine->getRenderableFactory());
     collisionDetector = std::make_shared<CollisionDetector>(entityManager);
+    scene_manager = std::make_shared<SceneManager>(entityFactory, entityManager, engine.get());
 
     createSystems();
     setupInput();
@@ -53,11 +54,10 @@ void GameController::createSystems() {
 void GameController::createTestEntities() {
     // entityFactory->createPanda(400, 200, 1);
     // entityFactory->createGorilla(1000, 200, 2);
-    entityFactory->createImage("backgrounds/forest_watermarked.jpg", SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, SCREEN_WIDTH, SCREEN_HEIGHT, Layers::Background);
-    // entityFactory->createPlatform(800, 850, 1400, 10);
 
-    Json json = Json("assets/levels/level1.json", true);
-    auto level = loadLevel(json);
+    Json level1_json = Json("assets/levels/level1.json", true);
+    auto level = loadLevel(level1_json);
+    scene_manager->loadLevel(level.get());
 }
 
 const std::unique_ptr<Level> GameController::loadLevel(Json json) const {

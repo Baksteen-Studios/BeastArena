@@ -8,7 +8,7 @@
 #include "level/gadget_spawn.hpp"
 #include "level/solid.hpp"
 
-class Level {
+struct Level {
 public:
     // General information
     double version;

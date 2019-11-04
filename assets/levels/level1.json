@@ -4,8 +4,8 @@
     "description": "The first level of BeastArena",
     "width": 1920,
     "height": 1080,
-    "bg_path": "assets/graphics/backgrounds/rainforest.png",
-    "bg_music": "assets/sound/music/rainforest.mp3",
+    "bg_path": "backgrounds/rainforest.png",
+    "bg_music": "music/rainforest.mp3",
     "player_spawns": [
         {
             "x": 400,
