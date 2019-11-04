@@ -12,8 +12,8 @@
 class SceneManager {
 public:
     SceneManager(std::shared_ptr<EntityFactory> entity_factory, std::shared_ptr<EntityManager> entity_manager, BrickEngine* engine);
-    void loadLevel(Level* level) const;
-    void destroyCurrentScene() const;
+    void loadLevel(Level* level);
+    void destroyCurrentScene();
 private:
     std::shared_ptr<EntityFactory> entity_factory;
     std::shared_ptr<EntityManager> entity_manager;

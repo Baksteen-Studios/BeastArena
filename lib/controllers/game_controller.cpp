@@ -22,6 +22,7 @@ using namespace std::chrono_literals;
 #include "brickengine/json_parser/json.hpp"
 #include "level/level.hpp"
 #include "exceptions/sizeMismatchException.hpp"
+#include "exceptions/notEnoughPlayerSpawnsException.hpp"
 #include "level/player_spawn.hpp"
 #include "level/gadget_spawn.hpp"
 #include "level/solid.hpp"
@@ -52,8 +53,8 @@ void GameController::createSystems() {
 }
 
 void GameController::createTestEntities() {
-    // entityFactory->createPanda(400, 200, 1);
-    // entityFactory->createGorilla(1000, 200, 2);
+    entityFactory->createPanda(0, 0, 1);
+    entityFactory->createGorilla(0, 0, 2);
 
     Json level1_json = Json("assets/levels/level1.json", true);
     auto level = loadLevel(level1_json);
@@ -76,6 +77,10 @@ const std::unique_ptr<Level> GameController::loadLevel(Json json) const {
     level->bg_music = json.getString("bg_music");
 
     // Create player spawns
+    if(json.getVector("player_spawns").size() < 4) {
+        throw NotEnoughPlayerSpawnsException();
+    }
+
     for(Json player_spawn_json : json.getVector("player_spawns")) {
         PlayerSpawn player_spawn = PlayerSpawn();
 

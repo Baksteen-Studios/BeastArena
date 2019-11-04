@@ -1,35 +1,42 @@
 #include "scenes/scene_manager.hpp"
 
-#include <vector>
-
 #include "entities/entity_factory.hpp"
 #include "brickengine/entities/entity_manager.hpp"
 #include "level/level.hpp"
 #include "entities/layers.hpp"
-
 #include "level/solid.hpp"
 #include "level/player_spawn.hpp"
+#include "brickengine/components/player_component.hpp"
+#include "brickengine/components/transform_component.hpp"
 
 SceneManager::SceneManager(std::shared_ptr<EntityFactory> entity_factory, std::shared_ptr<EntityManager> entity_manager, BrickEngine* engine) : entity_factory(entity_factory), entity_manager(entity_manager), engine(engine) {};
 
-void SceneManager::loadLevel(Level* level) const {
+void SceneManager::loadLevel(Level* level) {
     // Create the background
     current_scene_entities.push_back(entity_factory->createImage(level->bg_path, engine->getWindowWidth() / 2, engine->getWindowHeight() / 2, engine->getWindowWidth(), engine->getWindowHeight(), Layers::Background));
 
     // Load the music
     // TODO
 
-    // Load the player spawns
-    // TODO
-    for(PlayerSpawn playerSpawn : level->player_spawns){
-        
+    // Load the players on the spawn locations
+    auto entities_with_player = entity_manager->getEntitiesByComponent<PlayerComponent>();
+
+    int count = 0;
+    for(auto& [entity_id, player]: *entities_with_player) {
+        std::ignore = player;
+        auto transform_component = entity_manager->getComponent<TransformComponent>(entity_id);
+
+        transform_component->xPos = level->player_spawns[count].x;
+        transform_component->yPos = level->player_spawns[count].y;
+
+        count++;
     }
     
     // Load the gadget spawns
     // TODO
-    for(GadgetSpawn gadgetSpawn : level->gadget_spawns){
+    // for(GadgetSpawn gadgetSpawn : level->gadget_spawns){
         
-    }
+    // }
 
     // Create the platforms
     for(Solid platform : level->solids) {
@@ -38,11 +45,14 @@ void SceneManager::loadLevel(Level* level) const {
             int y = platform.y / level->relative_modifier;
             int xScale = platform.xScale / level->relative_modifier;
             int yScale = platform.yScale / level->relative_modifier;
-            entity_factory->createPlatform(x, y, xScale, yScale);
+            current_scene_entities.push_back(entity_factory->createPlatform(x, y, xScale, yScale));
         }
     }
 }
 
-void SceneManager::destroyCurrentScene() const {
-    
+void SceneManager::destroyCurrentScene() {
+    for(int entity_id : current_scene_entities) {
+        entity_manager->removeEntity(entity_id);
+    }
+    current_scene_entities.clear();
 }
