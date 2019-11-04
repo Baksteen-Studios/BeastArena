@@ -12,10 +12,11 @@ class EntityFactory {
 public:
     EntityFactory(std::shared_ptr<EntityManager> em, RenderableFactory& rf);
     ~EntityFactory() = default;
-    int createPanda(double x, double y, int playerId) const;
+    int createPanda(double x, double y, int playerId, int parentId) const;
     int createGorilla(double x, double y, int playerId) const;
     int createImage(std::string path, int x, int y, int width, int height, Layers layer);
     int createPlatform(double x, double y, double xScale, double yScale);
+    int createWeapon(double x, double y, int parentId) const;
 private:
     std::shared_ptr<EntityManager> entityManager;
     RenderableFactory& renderableFactory;

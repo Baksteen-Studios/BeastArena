@@ -46,8 +46,10 @@ void GameController::createSystems() {
 }
 
 void GameController::createTestEntities() {
-    entityFactory->createPanda(400, 200, 1);
-    entityFactory->createGorilla(1000, 200, 2);
+    auto gorilla = entityFactory->createGorilla(1000, 200, 1);
+    auto panda = entityFactory->createPanda(50, 0, 2, gorilla);
+    auto panda2 = entityFactory->createWeapon(50, 0, panda);
+    auto panda3 = entityFactory->createWeapon(50, 0, panda2);
     entityFactory->createImage("backgrounds/forest_watermarked.jpg", SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, SCREEN_WIDTH, SCREEN_HEIGHT, Layers::Background);
     entityFactory->createPlatform(1200, 680, 400, 10);
     entityFactory->createPlatform(400, 680, 400, 10);
