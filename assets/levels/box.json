@@ -44,7 +44,7 @@
         {
             "shape": "rectangle",
             "effect": "none",
-            "texture_path": "black.jpg",
+            "texture_path": "colors/black.jpg",
             "alpha": 255,
             "x": 20,
             "y": 540,
@@ -54,7 +54,7 @@
         {
             "shape": "rectangle",
             "effect": "none",
-            "texture_path": "black.jpg",
+            "texture_path": "colors/black.jpg",
             "alpha": 255,
             "x": 1900,
             "y": 540,
@@ -64,7 +64,7 @@
         {
             "shape": "rectangle",
             "effect": "none",
-            "texture_path": "white.png",
+            "texture_path": "colors/white.png",
             "alpha": 120,
             "x": 960,
             "y": 1060,
@@ -74,7 +74,7 @@
         {
             "shape": "rectangle",
             "effect": "none",
-            "texture_path": "white.png",
+            "texture_path": "colors/white.png",
             "alpha": 120,
             "x": 960,
             "y": 20,

@@ -56,7 +56,7 @@ void GameController::createTestEntities() {
     entityFactory->createPanda(0, 0, 1);
     entityFactory->createGorilla(0, 0, 2);
 
-    Json box_json = Json("assets/levels/box.json", true);
+    Json box_json = Json("assets/levels/level2.json", true);
     auto level = loadLevel(box_json);
     scene_manager->loadLevel(level.get());
 }
