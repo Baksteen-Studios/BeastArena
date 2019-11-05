@@ -74,8 +74,8 @@
         {
             "shape": "rectangle",
             "effect": "none",
-            "texture_path": "black.jpg",
-            "alpha": 255,
+            "texture_path": "white.png",
+            "alpha": 25,
             "x": 960,
             "y": 20,
             "xScale": 1890,
