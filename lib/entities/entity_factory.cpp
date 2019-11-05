@@ -6,9 +6,11 @@
 #include "brickengine/components/colliders/rectangle_collider_component.hpp"
 #include "brickengine/components/physics_component.hpp"
 #include "brickengine/components/player_component.hpp"
+#include "brickengine/components/click_component.hpp"
 #include "brickengine/components/renderables/texture_component.hpp"
 #include "brickengine/rendering/renderables/data/color.hpp"
 #include "brickengine/rendering/renderables/renderable.hpp"
+#include <iostream>
 
 EntityFactory::EntityFactory(std::shared_ptr<EntityManager> em, RenderableFactory& rf) : entityManager(em), renderableFactory(rf) {}
 
@@ -22,6 +24,9 @@ int EntityFactory::createPanda(double x, double y, int playerId) const {
     comps->push_back(std::make_unique<PhysicsComponent>(100, 0, 0, 0, true, false));
     comps->push_back(std::make_unique<TextureComponent>(std::move(r)));
     comps->push_back(std::make_unique<PlayerComponent>(playerId));
+    comps->push_back(std::make_unique<ClickComponent>([]() -> void {
+        std::cout << "clicked" << std::endl;
+    }, 1, 1));
 
     return entityManager->createEntity(std::move(comps));
 }
@@ -33,7 +38,7 @@ int EntityFactory::createGorilla(double x, double y, int playerId) const {
 
     comps->push_back(std::make_unique<TransformComponent>(x, y, 50, 100));
     comps->push_back(std::make_unique<RectangleColliderComponent>(1, 1, 1));
-    comps->push_back(std::make_unique<PhysicsComponent>(100, 0, 0, 0, true, false));
+    comps->push_back(std::make_unique<PhysicsComponent>(105, 0, 0, 0, true, false));
     comps->push_back(std::make_unique<TextureComponent>(std::move(r)));
     comps->push_back(std::make_unique<PlayerComponent>(playerId));
 
