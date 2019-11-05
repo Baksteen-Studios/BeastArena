@@ -19,7 +19,7 @@ using namespace std::chrono_literals;
 #include "systems/movement_system.hpp"
 #include "player_input.hpp"
 #include "brickengine/input_keycode.hpp"
-#include "brickengine/json_parser/json.hpp"
+#include "brickengine/json/json.hpp"
 #include "level/level.hpp"
 #include "exceptions/sizeMismatchException.hpp"
 #include "exceptions/notEnoughPlayerSpawnsException.hpp"
@@ -56,8 +56,8 @@ void GameController::createTestEntities() {
     entityFactory->createPanda(0, 0, 1);
     entityFactory->createGorilla(0, 0, 2);
 
-    Json level1_json = Json("assets/levels/level1.json", true);
-    auto level = loadLevel(level1_json);
+    Json box_json = Json("assets/levels/box.json", true);
+    auto level = loadLevel(box_json);
     scene_manager->loadLevel(level.get());
 }
 

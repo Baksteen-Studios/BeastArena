@@ -15,9 +15,6 @@ void SceneManager::loadLevel(Level* level) {
     // Create the background
     current_scene_entities.push_back(entity_factory->createImage(level->bg_path, engine->getWindowWidth() / 2, engine->getWindowHeight() / 2, engine->getWindowWidth(), engine->getWindowHeight(), Layers::Background, 255));
 
-    // Load the music
-    // TODO this is another user story
-
     // Load the players on the spawn locations
     auto entities_with_player = entity_manager->getEntitiesByComponent<PlayerComponent>();
 
@@ -31,11 +28,6 @@ void SceneManager::loadLevel(Level* level) {
 
         count++;
     }
-    
-    // Load the gadget spawns
-    // for(GadgetSpawn gadgetSpawn : level->gadget_spawns){
-    //  TODO this is another user story
-    // }
 
     // Create the platforms
     for(Solid platform : level->solids) {

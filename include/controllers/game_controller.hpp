@@ -10,7 +10,7 @@
 #include "brickengine/entities/entity_manager.hpp"
 #include "brickengine/collision_detector.hpp"
 #include "entities/entity_factory.hpp"
-#include "brickengine/json_parser/json.hpp"
+#include "brickengine/json/json.hpp"
 #include "level/level.hpp"
 #include "scenes/scene_manager.hpp"
 
