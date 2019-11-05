@@ -42,31 +42,43 @@
     ],
     "solids": [
         {
-            "type": "rectangle",
+            "shape": "rectangle",
+            "effect": "none",
+            "texture_path": "black.jpg",
+            "alpha": 255,
             "x": 20,
             "y": 540,
             "xScale": 10,
-            "yScale": 1060
+            "yScale": 1050
         },
         {
-            "type": "rectangle",
+            "shape": "rectangle",
+            "effect": "none",
+            "texture_path": "black.jpg",
+            "alpha": 255,
             "x": 1900,
             "y": 540,
             "xScale": 10,
-            "yScale": 1060
+            "yScale": 1050
         },
         {
-            "type": "rectangle",
+            "shape": "rectangle",
+            "effect": "none",
+            "texture_path": "black.jpg",
+            "alpha": 255,
             "x": 960,
             "y": 1060,
-            "xScale": 1900,
+            "xScale": 1890,
             "yScale": 10
         },
         {
-            "type": "rectangle",
+            "shape": "rectangle",
+            "effect": "none",
+            "texture_path": "black.jpg",
+            "alpha": 255,
             "x": 960,
             "y": 20,
-            "xScale": 1900,
+            "xScale": 1890,
             "yScale": 10
         }
     ]
