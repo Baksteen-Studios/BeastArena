@@ -4,19 +4,18 @@
 #include <string>
 #include <vector>
 
+#include "scenes/scene.hpp"
+#include "brickengine/json/json.hpp"
 #include "level/player_spawn.hpp"
 #include "level/gadget_spawn.hpp"
 #include "level/solid.hpp"
 
-struct Level {
+class Level : public Scene {
 public:
+    Level(Json json, int screen_width, int screen_height);
+
     // General information
-    double version;
-    std::string name;
     std::string description;
-    double relative_modifier; // Modifier needed to create entities at the right place with the right size
-    std::string bg_path;
-    std::string bg_music;
 
     // Player spawns
     std::vector<PlayerSpawn> player_spawns;

@@ -46,6 +46,26 @@
             "effect": "none",
             "texture_path": "colors/black.jpg",
             "alpha": 255,
+            "x": 0,
+            "y": 540,
+            "xScale": 10,
+            "yScale": 1080
+        },
+        {
+            "shape": "rectangle",
+            "effect": "none",
+            "texture_path": "colors/black.jpg",
+            "alpha": 255,
+            "x": 1920,
+            "y": 540,
+            "xScale": 10,
+            "yScale": 1080
+        },
+        {
+            "shape": "rectangle",
+            "effect": "none",
+            "texture_path": "colors/black.jpg",
+            "alpha": 255,
             "x": 960,
             "y": 930,
             "xScale": 175,
@@ -57,9 +77,9 @@
             "texture_path": "colors/black.jpg",
             "alpha": 255,
             "x": 760,
-            "y": 930,
+            "y": 965,
             "xScale": 50,
-            "yScale": 300
+            "yScale": 265
         },
         {
             "shape": "rectangle",
@@ -67,9 +87,9 @@
             "texture_path": "colors/black.jpg",
             "alpha": 255,
             "x": 1160,
-            "y": 930,
+            "y": 965,
             "xScale": 50,
-            "yScale": 300
+            "yScale": 265
         },
         {
             "shape": "rectangle",
@@ -157,7 +177,7 @@
             "texture_path": "colors/black.jpg",
             "alpha": 255,
             "x": 350,
-            "y": 450,
+            "y": 550,
             "xScale": 150,
             "yScale": 50
         },
@@ -167,7 +187,7 @@
             "texture_path": "colors/black.jpg",
             "alpha": 255,
             "x": 1670,
-            "y": 450,
+            "y": 550,
             "xScale": 150,
             "yScale": 50
         },

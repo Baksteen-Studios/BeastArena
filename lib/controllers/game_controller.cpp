@@ -22,8 +22,6 @@ using namespace std::chrono_literals;
 #include "brickengine/input_keycode.hpp"
 #include "brickengine/json/json.hpp"
 #include "level/level.hpp"
-#include "exceptions/sizeMismatchException.hpp"
-#include "exceptions/notEnoughPlayerSpawnsException.hpp"
 #include "level/player_spawn.hpp"
 #include "level/gadget_spawn.hpp"
 #include "level/solid.hpp"
@@ -58,82 +56,9 @@ void GameController::createTestEntities() {
     entityFactory->createPanda(0, 0, 1);
     entityFactory->createGorilla(0, 0, 2);
 
-    Json box_json = Json("assets/levels/level2.json", true);
-    auto level = loadLevel(box_json);
+    Json level_json = Json("assets/levels/level2.json", true);
+    auto level = std::unique_ptr<Level>(new Level(level_json, SCREEN_WIDTH, SCREEN_HEIGHT));
     scene_manager->loadLevel(level.get());
-}
-
-const std::unique_ptr<Level> GameController::loadLevel(Json json) const {
-    std::unique_ptr<Level> level = std::unique_ptr<Level>(new Level());
-    level->version = json.getDouble("version");
-    level->name = json.getString("name");
-    level->description = json.getString("description");
-
-    double relative_modifier = json.getInt("width") / (double)SCREEN_WIDTH;
-    if(!json.getInt("height") / SCREEN_HEIGHT == relative_modifier) {
-        throw SizeMismatchException();
-    }
-    level->relative_modifier = relative_modifier;
-
-    level->bg_path = json.getString("bg_path");
-    level->bg_music = json.getString("bg_music");
-
-    // Create player spawns
-    if(json.getVector("player_spawns").size() < 4) {
-        throw NotEnoughPlayerSpawnsException();
-    }
-
-    for(Json player_spawn_json : json.getVector("player_spawns")) {
-        PlayerSpawn player_spawn = PlayerSpawn();
-
-        player_spawn.x = player_spawn_json.getInt("x");
-        player_spawn.y = player_spawn_json.getInt("y");
-
-        level->player_spawns.push_back(player_spawn);
-    }
-
-    // Create weapon and item spawns
-    for(Json gadget_spawn_json : json.getVector("gadget_spawns")) {
-        GadgetSpawn gadget_spawn = GadgetSpawn();
-
-        if(gadget_spawn_json.getString("type") == "weapon") {
-            gadget_spawn.gadget_spawn_type = GadgetSpawnType::WEAPON;
-        } else if(gadget_spawn_json.getString("type") == "item") {
-            gadget_spawn.gadget_spawn_type = GadgetSpawnType::ITEM;
-        }
-
-        gadget_spawn.available_spawns = gadget_spawn_json.getStringVector("available_spawns");
-        gadget_spawn.respawn_timer = gadget_spawn_json.getInt("respawn_timer");
-        gadget_spawn.x = gadget_spawn_json.getInt("x");
-        gadget_spawn.y = gadget_spawn_json.getInt("y");
-
-        level->gadget_spawns.push_back(gadget_spawn);
-    }
-
-    // Create platforms
-    for(Json solid_json : json.getVector("solids")) {
-        Solid solid = Solid();
-
-        if(solid_json.getString("shape") == "rectangle") {
-            solid.shape = SolidShape::RECTANGLE;
-        }
-
-        if(solid_json.getString("effect") == "none") {
-            solid.effect = SolidEffect::NONE;
-        }
-
-        solid.texture_path = solid_json.getString("texture_path");
-        solid.alpha = solid_json.getInt("alpha");
-
-        solid.x = solid_json.getInt("x");
-        solid.y = solid_json.getInt("y");
-        solid.xScale = solid_json.getInt("xScale");
-        solid.yScale = solid_json.getInt("yScale");
-
-        level->solids.push_back(solid);
-    }
-
-    return level;
 }
 
 void GameController::setupInput() {
