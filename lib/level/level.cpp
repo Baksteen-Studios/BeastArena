@@ -1,8 +1,8 @@
 #include "level/level.hpp"
 
 #include "brickengine/json/json.hpp"
-#include "exceptions/sizeMismatchException.hpp"
-#include "exceptions/notEnoughPlayerSpawnsException.hpp"
+#include "exceptions/size_mismatch_exception.hpp"
+#include "exceptions/not_enough_player_spawns_exception.hpp"
 
 Level::Level(Json json, int screen_width, int screen_height) {
     this->version = json.getDouble("version");
