@@ -26,7 +26,7 @@ private:
     std::shared_ptr<EntityManager> entityManager;
     std::shared_ptr<EntityFactory> entityFactory;
     std::shared_ptr<CollisionDetector> collisionDetector;
-    std::shared_ptr<SceneManager> scene_manager;
+    std::unique_ptr<SceneManager> scene_manager;
 
     std::unique_ptr<Renderable> fps_counter;
     double delta_time;

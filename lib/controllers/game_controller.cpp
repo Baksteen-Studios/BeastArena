@@ -37,7 +37,7 @@ GameController::GameController() {
     entityManager = std::make_shared<EntityManager>();
     entityFactory = std::make_shared<EntityFactory>(entityManager, *engine->getRenderableFactory());
     collisionDetector = std::make_shared<CollisionDetector>(entityManager);
-    scene_manager = std::make_shared<SceneManager>(entityFactory, entityManager, engine.get());
+    scene_manager = std::make_unique<SceneManager>(entityFactory, entityManager, engine.get());
 
     createSystems();
     setupInput();
@@ -57,8 +57,8 @@ void GameController::createTestEntities() {
     entityFactory->createGorilla(0, 0, 2);
 
     Json level_json = Json("assets/levels/level2.json", true);
-    auto level = std::unique_ptr<Level>(new Level(level_json, SCREEN_WIDTH, SCREEN_HEIGHT));
-    scene_manager->loadLevel(level.get());
+    auto level = Level(level_json, SCREEN_WIDTH, SCREEN_HEIGHT);
+    scene_manager->loadLevel(level);
 }
 
 void GameController::setupInput() {
