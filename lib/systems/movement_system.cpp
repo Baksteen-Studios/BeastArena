@@ -17,9 +17,9 @@ void MovementSystem::update(double deltatime) {
     auto input = BrickInput<PlayerInput>::getInstance();
     auto entitiesWithPlayer = entityManager->getEntitiesByComponent<PlayerComponent>();
 
-     for (auto& [entityId, player]: *entitiesWithPlayer) {
+     for (auto& [entity_id, player]: *entitiesWithPlayer) {
         std::ignore = player;
-        auto physics = entityManager->getComponent<PhysicsComponent>(entityId);
+        auto physics = entityManager->getComponent<PhysicsComponent>(entity_id);
         if (!physics) continue;
 
         double vx = physics->vx;
@@ -46,7 +46,7 @@ void MovementSystem::update(double deltatime) {
         }
         // Jumping
         if (input.checkInput(player->playerId, PlayerInput::UP)) {
-            bool standsOnPlatform = collisionDetector->spaceLeft(entityId, Axis::Y, Direction::POSITIVE) == 0;
+            bool standsOnPlatform = collisionDetector->spaceLeft(entity_id, Axis::Y, Direction::POSITIVE).spaceLeft == 0;
 
             if (standsOnPlatform) {
                 vy = -1 * (JUMP_FORCE / mass);

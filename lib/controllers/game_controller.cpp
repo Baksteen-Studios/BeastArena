@@ -4,6 +4,7 @@
 #include <mutex>
 #include <condition_variable>
 #include <memory>
+#include <utility>
 using namespace std::chrono_literals;
 
 #include "controllers/game_controller.hpp"
@@ -46,12 +47,10 @@ void GameController::createSystems() {
 }
 
 void GameController::createTestEntities() {
-    // Entities transform should always be the absolute transform, so if you want to have a parent-child and
-    // child should be 10x away from the parent put child transform.x + 10x (parent.x = 1000, child.x = 1010)
-    auto gorilla = entityFactory->createGorilla(1000, 200, 1);
-    auto panda = entityFactory->createPanda(1050, 200, 2, gorilla);
-    auto panda2 = entityFactory->createWeapon(1075, 200, gorilla);
-    auto panda3 = entityFactory->createWeapon(1100, 200, gorilla);
+    auto gorilla = entityFactory->createGorilla(1000, 200, 50, 100, 1);
+    //auto panda = entityFactory->createPanda(50, 0, 1, 1, 2, std::make_pair(gorilla, true));
+    //auto panda2 = entityFactory->createPanda(75, 0, 1, 1, 3, std::make_pair(panda, true));
+    auto weapon = entityFactory->createWeapon(1100, 200, 22, 31);
     entityFactory->createImage("backgrounds/forest_watermarked.jpg", SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, SCREEN_WIDTH, SCREEN_HEIGHT, Layers::Background);
     entityFactory->createPlatform(1200, 680, 400, 10);
     entityFactory->createPlatform(400, 680, 400, 10);
@@ -68,6 +67,7 @@ void GameController::setupInput() {
     inputMapping[1][InputKeyCode::EKey_d] = PlayerInput::RIGHT;
     inputMapping[1][InputKeyCode::EKey_mouse_left] = PlayerInput::MOUSE_LEFT;
     inputMapping[1][InputKeyCode::EKey_mouse_right] = PlayerInput::MOUSE_RIGHT;
+    inputMapping[1][InputKeyCode::EKey_e] = PlayerInput::GRAB;
     // Player 2
     inputMapping[2][InputKeyCode::EKey_up] = PlayerInput::UP;
     inputMapping[2][InputKeyCode::EKey_left] = PlayerInput::LEFT;
@@ -98,7 +98,7 @@ void GameController::gameLoop() {
         delta_time = engine->getDeltatime();
         totalTime += delta_time;
 
-        if (totalTime > 10) {
+        if (totalTime > 5) {
             entityManager->moveOutOfParentsHouse(1);
         }
     }
