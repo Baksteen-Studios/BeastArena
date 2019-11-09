@@ -7,6 +7,7 @@
 #include "brickengine/components/player_component.hpp"
 #include "brickengine/components/click_component.hpp"
 #include "brickengine/components/renderables/texture_component.hpp"
+#include "components/pickup_component.hpp"
 #include <iostream>
 
 EntityFactory::EntityFactory(std::shared_ptr<EntityManager> em, RenderableFactory& rf) : entityManager(em), renderableFactory(rf) {}
@@ -25,7 +26,7 @@ int EntityFactory::createGorilla(double xPos, double yPos, double xScale, double
     return entityManager->createEntity(std::move(comps), std::nullopt);
 }
 
-int EntityFactory::createPanda(double xPos, double yPos, double xScale, double yScale, int playerId, std::pair<int, bool> parent) const {
+int EntityFactory::createPanda(double xPos, double yPos, double xScale, double yScale, int playerId) const {
     auto dst = std::unique_ptr<Rect>(new Rect{ 0, 0, 0, 0 });
     auto r = renderableFactory.createImage(graphicsPath + "beasts/panda/idle-1.png", (int)Layers::Foreground, std::move(dst));
     auto comps = std::make_unique<std::vector<std::unique_ptr<Component>>>();
@@ -39,7 +40,7 @@ int EntityFactory::createPanda(double xPos, double yPos, double xScale, double y
         std::cout << "clicked" << std::endl;
     }, 1, 1));
 
-    return entityManager->createEntity(std::move(comps), parent);
+    return entityManager->createEntity(std::move(comps), std::nullopt);
 }
 
 int EntityFactory::createWeapon(double xPos, double yPos, double xScale, double yScale) const{
@@ -51,6 +52,7 @@ int EntityFactory::createWeapon(double xPos, double yPos, double xScale, double 
     comps->push_back(std::make_unique<RectangleColliderComponent>(1, 1, 1, true));
     comps->push_back(std::make_unique<PhysicsComponent>(50, 0, 0, 0, true, Kinematic::IS_NOT_KINEMATIC, true, true));
     comps->push_back(std::make_unique<TextureComponent>(std::move(r)));
+    comps->push_back(std::make_unique<PickupComponent>());
     //comps->push_back(std::make_unique<WeaponComponent>(1, 1, 10, 5));
 
     return entityManager->createEntity(std::move(comps), std::nullopt);

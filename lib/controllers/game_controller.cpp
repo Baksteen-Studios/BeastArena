@@ -15,6 +15,7 @@ using namespace std::chrono_literals;
 #include "brickengine/input.hpp"
 #include "brickengine/systems/rendering_system.hpp"
 #include "brickengine/systems/physics_system.hpp"
+#include "systems/pickup_system.hpp"
 #include "systems/click_system.hpp"
 #include "entities/layers.hpp"
 #include "systems/movement_system.hpp"
@@ -43,12 +44,13 @@ void GameController::createSystems() {
     systems.push_back(std::make_unique<ClickSystem>(entityManager));
     systems.push_back(std::make_unique<MovementSystem>(collisionDetector, entityManager, entityFactory));
     systems.push_back(std::make_unique<PhysicsSystem>(collisionDetector, entityManager));
+    systems.push_back(std::make_unique<PickupSystem>(collisionDetector, entityManager, entityFactory));
     systems.push_back(std::make_unique<RenderingSystem>(entityManager, *engine->getRenderer()));
 }
 
 void GameController::createTestEntities() {
     auto gorilla = entityFactory->createGorilla(1000, 200, 50, 100, 1);
-    //auto panda = entityFactory->createPanda(50, 0, 1, 1, 2, std::make_pair(gorilla, true));
+    auto panda = entityFactory->createPanda(1000, 200, 50, 100, 2);
     //auto panda2 = entityFactory->createPanda(75, 0, 1, 1, 3, std::make_pair(panda, true));
     auto weapon = entityFactory->createWeapon(1100, 200, 22, 31);
     entityFactory->createImage("backgrounds/forest_watermarked.jpg", SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, SCREEN_WIDTH, SCREEN_HEIGHT, Layers::Background);
@@ -65,16 +67,20 @@ void GameController::setupInput() {
     inputMapping[1][InputKeyCode::EKey_a] = PlayerInput::LEFT;
     inputMapping[1][InputKeyCode::EKey_s] = PlayerInput::DOWN;
     inputMapping[1][InputKeyCode::EKey_d] = PlayerInput::RIGHT;
+    inputMapping[1][InputKeyCode::EKey_e] = PlayerInput::GRAB;
     inputMapping[1][InputKeyCode::EKey_mouse_left] = PlayerInput::MOUSE_LEFT;
     inputMapping[1][InputKeyCode::EKey_mouse_right] = PlayerInput::MOUSE_RIGHT;
-    inputMapping[1][InputKeyCode::EKey_e] = PlayerInput::GRAB;
     // Player 2
     inputMapping[2][InputKeyCode::EKey_up] = PlayerInput::UP;
     inputMapping[2][InputKeyCode::EKey_left] = PlayerInput::LEFT;
     inputMapping[2][InputKeyCode::EKey_down] = PlayerInput::DOWN;
     inputMapping[2][InputKeyCode::EKey_right] = PlayerInput::RIGHT;
 
-    input.setInputMapping(inputMapping);
+    std::unordered_map<PlayerInput, double> time_to_wait_mapping;
+    time_to_wait_mapping[PlayerInput::GRAB] = 0.1;
+    time_to_wait_mapping[PlayerInput::MOUSE_LEFT] = 0.1;
+
+    input.setInputMapping(inputMapping, time_to_wait_mapping);
 }
 
 void GameController::gameLoop() {
@@ -82,7 +88,7 @@ void GameController::gameLoop() {
     while(true) {
         auto start_time = std::chrono::high_resolution_clock::now();
 
-        BrickInput<PlayerInput>::getInstance().processInput();
+        BrickInput<PlayerInput>::getInstance().processInput(delta_time);
 
         engine->getRenderer()->clearScreen();
 
@@ -97,10 +103,6 @@ void GameController::gameLoop() {
         engine->delay(start_time, end_time);
         delta_time = engine->getDeltatime();
         totalTime += delta_time;
-
-        if (totalTime > 5) {
-            entityManager->moveOutOfParentsHouse(1);
-        }
     }
     engine->stop();
 }
