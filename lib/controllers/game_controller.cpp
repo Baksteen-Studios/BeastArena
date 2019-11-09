@@ -46,10 +46,12 @@ void GameController::createSystems() {
 }
 
 void GameController::createTestEntities() {
+    // Entities transform should always be the absolute transform, so if you want to have a parent-child and
+    // child should be 10x away from the parent put child transform.x + 10x (parent.x = 1000, child.x = 1010)
     auto gorilla = entityFactory->createGorilla(1000, 200, 1);
-    auto panda = entityFactory->createPanda(50, 0, 2, gorilla);
-    auto panda2 = entityFactory->createWeapon(50, 0, panda);
-    auto panda3 = entityFactory->createWeapon(50, 0, panda2);
+    auto panda = entityFactory->createPanda(1050, 200, 2, gorilla);
+    auto panda2 = entityFactory->createWeapon(1075, 200, gorilla);
+    auto panda3 = entityFactory->createWeapon(1100, 200, gorilla);
     entityFactory->createImage("backgrounds/forest_watermarked.jpg", SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, SCREEN_WIDTH, SCREEN_HEIGHT, Layers::Background);
     entityFactory->createPlatform(1200, 680, 400, 10);
     entityFactory->createPlatform(400, 680, 400, 10);
@@ -76,6 +78,7 @@ void GameController::setupInput() {
 }
 
 void GameController::gameLoop() {
+    double totalTime = 0.0;
     while(true) {
         auto start_time = std::chrono::high_resolution_clock::now();
 
@@ -93,6 +96,11 @@ void GameController::gameLoop() {
         auto end_time = std::chrono::high_resolution_clock::now();
         engine->delay(start_time, end_time);
         delta_time = engine->getDeltatime();
+        totalTime += delta_time;
+
+        if (totalTime > 10) {
+            entityManager->moveOutOfParentsHouse(1);
+        }
     }
     engine->stop();
 }
