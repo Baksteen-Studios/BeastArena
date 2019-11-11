@@ -14,7 +14,7 @@ EntityFactory::EntityFactory(std::shared_ptr<EntityManager> em, RenderableFactor
 
 int EntityFactory::createGorilla(double xPos, double yPos, double xScale, double yScale, int playerId) const {
     auto dst = std::unique_ptr<Rect>(new Rect{ 0, 0, 0, 0 });
-    auto r = renderableFactory.createImage(graphicsPath + "beasts/gorilla/idle-1.png", (int)Layers::Foreground, std::move(dst));
+    auto r = renderableFactory.createImage(graphicsPath + "beasts/gorilla/idle-1.png", (int)Layers::Foreground, std::move(dst), 255);
     auto comps = std::make_unique<std::vector<std::unique_ptr<Component>>>();
 
     comps->push_back(std::make_unique<TransformComponent>(xPos, yPos, xScale, yScale, Direction::POSITIVE, Direction::POSITIVE));
@@ -28,7 +28,7 @@ int EntityFactory::createGorilla(double xPos, double yPos, double xScale, double
 
 int EntityFactory::createPanda(double xPos, double yPos, double xScale, double yScale, int playerId) const {
     auto dst = std::unique_ptr<Rect>(new Rect{ 0, 0, 0, 0 });
-    auto r = renderableFactory.createImage(graphicsPath + "beasts/panda/idle-1.png", (int)Layers::Foreground, std::move(dst));
+    auto r = renderableFactory.createImage(graphicsPath + "beasts/panda/idle-1.png", (int)Layers::Foreground, std::move(dst), 255);
     auto comps = std::make_unique<std::vector<std::unique_ptr<Component>>>();
 
     comps->push_back(std::make_unique<TransformComponent>(xPos, yPos, xScale, yScale, Direction::POSITIVE, Direction::POSITIVE));
@@ -45,7 +45,7 @@ int EntityFactory::createPanda(double xPos, double yPos, double xScale, double y
 
 int EntityFactory::createWeapon(double xPos, double yPos, double xScale, double yScale) const{
     auto dst = std::unique_ptr<Rect>(new Rect{ 0, 0, 0, 0 });
-    auto r = renderableFactory.createImage(graphicsPath + "weapons/pistol-1.png", (int)Layers::Foreground, std::move(dst));
+    auto r = renderableFactory.createImage(graphicsPath + "weapons/pistol-1.png", (int)Layers::Foreground, std::move(dst), 255);
     auto comps = std::make_unique<std::vector<std::unique_ptr<Component>>>();
 
     comps->push_back(std::make_unique<TransformComponent>(xPos, yPos, xScale, yScale, Direction::POSITIVE, Direction::POSITIVE));
@@ -60,7 +60,7 @@ int EntityFactory::createWeapon(double xPos, double yPos, double xScale, double 
 
 int EntityFactory::createImage(std::string path, int xPos, int yPos, int width, int height, Layers layer) {
     auto dst = std::unique_ptr<Rect>(new Rect{ 0, 0, 0, 0 });
-    auto r = renderableFactory.createImage(graphicsPath + path, (int)layer, std::move(dst));
+    auto r = renderableFactory.createImage(graphicsPath + path, (int)layer, std::move(dst), 255);
 
     auto comps = std::make_unique<std::vector<std::unique_ptr<Component>>>();
     comps->push_back(std::make_unique<TransformComponent>(xPos, yPos, width, height, Direction::POSITIVE, Direction::POSITIVE));
@@ -71,7 +71,7 @@ int EntityFactory::createImage(std::string path, int xPos, int yPos, int width, 
 
 int EntityFactory::createPlatform(double xPos, double yPos, double xScale, double yScale) {
     auto dst = std::unique_ptr<Rect>(new Rect{ 0, 0, 0, 0 });
-    auto r = renderableFactory.createImage(graphicsPath + "black.jpg", (int)Layers::Foreground, std::move(dst));
+    auto r = renderableFactory.createImage(graphicsPath + "black.jpg", (int)Layers::Foreground, std::move(dst), 255);
 
     auto comps = std::make_unique<std::vector<std::unique_ptr<Component>>>();
     comps->push_back(std::make_unique<TransformComponent>(xPos, yPos, xScale, yScale, Direction::POSITIVE, Direction::POSITIVE));
