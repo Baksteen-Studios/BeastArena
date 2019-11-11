@@ -5,6 +5,7 @@
 #include <condition_variable>
 #include <memory>
 #include <utility>
+#include <vector>
 using namespace std::chrono_literals;
 
 #include "controllers/game_controller.hpp"
@@ -21,6 +22,11 @@ using namespace std::chrono_literals;
 #include "systems/movement_system.hpp"
 #include "player_input.hpp"
 #include "brickengine/input_keycode.hpp"
+#include "brickengine/json/json.hpp"
+#include "level/level.hpp"
+#include "level/player_spawn.hpp"
+#include "level/gadget_spawn.hpp"
+#include "level/solid.hpp"
 
 GameController::GameController() {
     this->delta_time = 1;
@@ -33,6 +39,7 @@ GameController::GameController() {
     entityManager = std::make_shared<EntityManager>();
     entityFactory = std::make_shared<EntityFactory>(entityManager, *engine->getRenderableFactory());
     collisionDetector = std::make_shared<CollisionDetector>(entityManager);
+    scene_manager = std::make_unique<SceneManager>(entityFactory, entityManager, engine.get());
 
     createSystems();
     setupInput();
@@ -49,14 +56,14 @@ void GameController::createSystems() {
 }
 
 void GameController::createTestEntities() {
-    auto gorilla = entityFactory->createGorilla(1000, 200, 50, 100, 1);
-    auto panda = entityFactory->createPanda(1000, 200, 50, 100, 2);
-    //auto panda2 = entityFactory->createPanda(75, 0, 1, 1, 3, std::make_pair(panda, true));
+    // The player characters start off-screen
+    auto gorilla = entityFactory->createGorilla(-300, -300, 50, 100, 1);
+    auto panda = entityFactory->createPanda(-300, -300, 50, 100, 2);
     auto weapon = entityFactory->createWeapon(1100, 200, 22, 31);
-    entityFactory->createImage("backgrounds/forest_watermarked.jpg", SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, SCREEN_WIDTH, SCREEN_HEIGHT, Layers::Background);
-    entityFactory->createPlatform(1200, 680, 400, 10);
-    entityFactory->createPlatform(400, 680, 400, 10);
-    entityFactory->createPlatform(800, 510, 800, 10);
+
+    Json level_json = Json("assets/levels/level2.json", true);
+    auto level = Level(level_json, SCREEN_WIDTH, SCREEN_HEIGHT);
+    scene_manager->loadLevel(level);
 }
 
 void GameController::setupInput() {
