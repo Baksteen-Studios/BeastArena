@@ -3,14 +3,19 @@
 #include <string>
 #include <functional>
 
+#include "entities/entity_factory.hpp"
+#include "scenes/scene_manager.hpp"
 #include "scenes/scene.hpp"
 #include "brickengine/json/json.hpp"
 #include "exceptions/size_mismatch_exception.hpp"
 #include "menu/button.hpp"
 #include "menu/image.hpp"
 #include "brickengine/rendering/renderables/data/color.hpp"
+#include "level/level.hpp"
+#include "brickengine/json/json.hpp"
+#include "controllers/game_controller.hpp"
 
-MainMenu::MainMenu(int screen_width, int screen_height) : Menu(screen_width, screen_height) {
+MainMenu::MainMenu(int screen_width, int screen_height, GameController& game_controller) : Menu(screen_width, screen_height) {
     // General information
     this->version = 1.0;
     this->name = "Main Menu";
@@ -32,8 +37,15 @@ MainMenu::MainMenu(int screen_width, int screen_height) : Menu(screen_width, scr
     start_game_button.text.y = 335;
     start_game_button.text.xScale = 400;
     start_game_button.text.yScale = 100;
-    start_game_button.on_click = []() -> void {
-        std::cout << "Je klikt nu op de play knop" << std::endl;
+    start_game_button.on_click = [](GameController& game_controller) -> void {
+        game_controller.getEntityFactory().createPanda(0, 0, 1);
+        game_controller.getEntityFactory().createGorilla(0, 0, 2);
+
+        Json level_json = Json("assets/levels/level2.json", true);
+        auto level = Level(level_json, game_controller.getScreenWidth(), game_controller.getScreenHeight());
+
+        game_controller.getSceneManager().destroyCurrentScene();
+        game_controller.getSceneManager().loadLevel(level);
     };
     this->buttons.push_back(start_game_button);
 
@@ -51,7 +63,8 @@ MainMenu::MainMenu(int screen_width, int screen_height) : Menu(screen_width, scr
     highscore_button.text.y = 455;
     highscore_button.text.xScale = 400;
     highscore_button.text.yScale = 100;
-    highscore_button.on_click = []() -> void {
+    highscore_button.on_click = [](GameController& game_controller) -> void {
+        game_controller.getScreenHeight();
         std::cout << "Je klikt nu op de highscore knop" << std::endl;
     };
     this->buttons.push_back(highscore_button);
@@ -70,7 +83,8 @@ MainMenu::MainMenu(int screen_width, int screen_height) : Menu(screen_width, scr
     help_button.text.y = 575;
     help_button.text.xScale = 200;
     help_button.text.yScale = 100;
-    help_button.on_click = []() -> void {
+    help_button.on_click = [](GameController& game_controller) -> void {
+        game_controller.getScreenHeight();
         std::cout << "Je klikt nu op de help knop" << std::endl;
     };
     this->buttons.push_back(help_button);
@@ -89,7 +103,8 @@ MainMenu::MainMenu(int screen_width, int screen_height) : Menu(screen_width, scr
     credits_button.text.y = 695;
     credits_button.text.xScale = 300;
     credits_button.text.yScale = 100;
-    credits_button.on_click = []() -> void {
+    credits_button.on_click = [](GameController& game_controller) -> void {
+        game_controller.getScreenHeight();
         std::cout << "Je klikt nu op de credits knop" << std::endl;
     };
     this->buttons.push_back(credits_button);
@@ -108,7 +123,8 @@ MainMenu::MainMenu(int screen_width, int screen_height) : Menu(screen_width, scr
     exit_button.text.y = 815;
     exit_button.text.xScale = 400;
     exit_button.text.yScale = 100;
-    exit_button.on_click = []() -> void {
+    exit_button.on_click = [](GameController& game_controller) -> void {
+        game_controller.getScreenHeight();
         std::cout << "Je klikt nu op de exit knop" << std::endl;
     };
     this->buttons.push_back(exit_button);

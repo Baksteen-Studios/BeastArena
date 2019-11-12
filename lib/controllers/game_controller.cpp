@@ -25,7 +25,6 @@ using namespace std::chrono_literals;
 #include "level/player_spawn.hpp"
 #include "level/gadget_spawn.hpp"
 #include "level/solid.hpp"
-#include "menu/main_menu.hpp"
 
 GameController::GameController() {
     this->delta_time = 1;
@@ -42,7 +41,6 @@ GameController::GameController() {
 
     createSystems();
     setupInput();
-    createTestEntities();
 }
 
 void GameController::createSystems() {
@@ -60,9 +58,6 @@ void GameController::createTestEntities() {
     // Json level_json = Json("assets/levels/level2.json", true);
     // auto level = Level(level_json, SCREEN_WIDTH, SCREEN_HEIGHT);
     // scene_manager->loadLevel(level);
-
-    MainMenu main_menu = MainMenu(SCREEN_WIDTH, SCREEN_HEIGHT);
-    scene_manager->loadMenu(main_menu);
 }
 
 void GameController::setupInput() {
@@ -104,4 +99,20 @@ void GameController::gameLoop() {
         delta_time = engine->getDeltatime();
     }
     engine->stop();
+}
+
+EntityFactory& GameController::getEntityFactory() const {
+    return *entityFactory.get();
+}
+
+SceneManager& GameController::getSceneManager() const {
+    return *scene_manager.get();
+}
+
+const int GameController::getScreenWidth() const {
+    return SCREEN_WIDTH;
+}
+
+const int GameController::getScreenHeight() const {
+    return SCREEN_HEIGHT;
 }

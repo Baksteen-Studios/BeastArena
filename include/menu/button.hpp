@@ -5,6 +5,7 @@
 #include <functional>
 
 #include "menu/text.hpp"
+#include "controllers/game_controller.hpp"
 
 struct Button {
 public:
@@ -18,7 +19,7 @@ public:
 
     Text text;
 
-    std::function<void ()> on_click;
+    std::function<void (GameController& game_controller)> on_click;
 };
 
 #endif // FILE_BUTTON_HPP
