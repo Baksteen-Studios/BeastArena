@@ -78,7 +78,7 @@ int EntityFactory::createButton(const Button button, const double relative_modif
     auto comps = std::make_unique<std::vector<std::unique_ptr<Component>>>();
     comps->push_back(std::make_unique<TransformComponent>(button.x / relative_modifier, button.y / relative_modifier, button.xScale / relative_modifier, button.yScale / relative_modifier));
     comps->push_back(std::make_unique<TextureComponent>(std::move(r)));
-    comps->push_back(std::make_unique<ClickComponent>(button.on_click, button.xScale, button.yScale));
+    comps->push_back(std::make_unique<ClickComponent>(button.on_click, 1, 1));
 
     int id = entityManager->createEntity(std::move(comps));
 
@@ -92,7 +92,6 @@ int EntityFactory::createButton(const Button button, const double relative_modif
     int yScale = (button.text.yScale / relative_modifier) / 1.5;
     compsText->push_back(std::make_unique<TransformComponent>(x, y, xScale, yScale));
     compsText->push_back(std::make_unique<TextureComponent>(std::move(rText)));
-    compsText->push_back(std::make_unique<ClickComponent>(button.on_click, xScale, yScale));
 
     entityManager->createEntity(std::move(compsText));
 

@@ -33,7 +33,7 @@ MainMenu::MainMenu(int screen_width, int screen_height) : Menu(screen_width, scr
     start_game_button.text.xScale = 400;
     start_game_button.text.yScale = 100;
     start_game_button.on_click = []() -> void {
-        std::cout << "Auw!" << std::endl;
+        std::cout << "Je klikt nu op de play knop" << std::endl;
     };
     this->buttons.push_back(start_game_button);
 
@@ -52,7 +52,7 @@ MainMenu::MainMenu(int screen_width, int screen_height) : Menu(screen_width, scr
     highscore_button.text.xScale = 400;
     highscore_button.text.yScale = 100;
     highscore_button.on_click = []() -> void {
-        std::cout << "Auw!" << std::endl;
+        std::cout << "Je klikt nu op de highscore knop" << std::endl;
     };
     this->buttons.push_back(highscore_button);
 
@@ -71,7 +71,7 @@ MainMenu::MainMenu(int screen_width, int screen_height) : Menu(screen_width, scr
     help_button.text.xScale = 200;
     help_button.text.yScale = 100;
     help_button.on_click = []() -> void {
-        std::cout << "Auw!" << std::endl;
+        std::cout << "Je klikt nu op de help knop" << std::endl;
     };
     this->buttons.push_back(help_button);
 
@@ -90,7 +90,7 @@ MainMenu::MainMenu(int screen_width, int screen_height) : Menu(screen_width, scr
     credits_button.text.xScale = 300;
     credits_button.text.yScale = 100;
     credits_button.on_click = []() -> void {
-        std::cout << "Auw!" << std::endl;
+        std::cout << "Je klikt nu op de credits knop" << std::endl;
     };
     this->buttons.push_back(credits_button);
 
@@ -109,7 +109,7 @@ MainMenu::MainMenu(int screen_width, int screen_height) : Menu(screen_width, scr
     exit_button.text.xScale = 400;
     exit_button.text.yScale = 100;
     exit_button.on_click = []() -> void {
-        std::cout << "Auw!" << std::endl;
+        std::cout << "Je klikt nu op de exit knop" << std::endl;
     };
     this->buttons.push_back(exit_button);
 
