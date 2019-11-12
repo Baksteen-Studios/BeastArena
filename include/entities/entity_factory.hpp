@@ -4,6 +4,7 @@
 #include <vector>
 #include <string>
 
+#include "menu/button.hpp"
 #include "brickengine/entities/entity_manager.hpp"
 #include "brickengine/rendering/renderables/texture.hpp"
 #include "brickengine/rendering/renderable_factory.hpp"
@@ -16,8 +17,9 @@ public:
     ~EntityFactory() = default;
     int createPanda(double x, double y, int playerId) const;
     int createGorilla(double x, double y, int playerId) const;
-    int createImage(std::string path, int x, int y, int width, int height, Layers layer, int alpha);
+    int createImage(std::string path, int x, int y, int xScale, int yScale, Layers layer, int alpha);
     int createPlatform(double x, double y, double xScale, double yScale, std::string path, int alpha);
+    int createButton(const Button button, const double relative_modifier);
 private:
     std::shared_ptr<EntityManager> entityManager;
     RenderableFactory& renderableFactory;
