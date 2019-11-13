@@ -4,7 +4,7 @@
 int main() {
     auto gc = GameController();
 
-    MainMenu main_menu = MainMenu(gc.getScreenWidth, gc.getScreenWidth, gc);
+    MainMenu main_menu = MainMenu(gc.getScreenWidth(), gc.getScreenWidth());
     gc.getSceneManager().loadMenu(main_menu);
 
     gc.gameLoop();

@@ -109,10 +109,10 @@ SceneManager& GameController::getSceneManager() const {
     return *scene_manager.get();
 }
 
-const int GameController::getScreenWidth() const {
+int GameController::getScreenWidth() const {
     return SCREEN_WIDTH;
 }
 
-const int GameController::getScreenHeight() const {
+int GameController::getScreenHeight() const {
     return SCREEN_HEIGHT;
 }

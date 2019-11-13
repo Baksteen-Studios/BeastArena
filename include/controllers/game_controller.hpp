@@ -19,8 +19,8 @@ public:
 
     EntityFactory& getEntityFactory() const;
     SceneManager& getSceneManager() const;
-    const int getScreenWidth() const;
-    const int getScreenHeight() const;
+    int getScreenWidth() const;
+    int getScreenHeight() const;
 private:
     void createSystems();
     void setupInput();
