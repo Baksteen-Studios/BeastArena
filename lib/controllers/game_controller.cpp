@@ -57,9 +57,9 @@ void GameController::createSystems() {
 
 void GameController::createTestEntities() {
     // The player characters start off-screen
-    auto gorilla = entityFactory->createGorilla(-300, -300, 50, 100, 1);
-    auto panda = entityFactory->createPanda(-300, -300, 50, 100, 2);
-    auto weapon = entityFactory->createWeapon(1100, 200, 22, 31);
+    auto gorilla = entityFactory->createGorilla(-300, -300, 1);
+    auto panda = entityFactory->createPanda(-300, -300, 2);
+    auto weapon = entityFactory->createWeapon(1100, 200);
 
     Json level_json = Json("assets/levels/level2.json", true);
     auto level = Level(level_json, SCREEN_WIDTH, SCREEN_HEIGHT);

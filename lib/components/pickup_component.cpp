@@ -3,5 +3,5 @@
 PickupComponent::PickupComponent(){}
 
 std::string PickupComponent::getNameStatic(){
-    return "pickupcomponent";
+    return "PickupComponent";
 }
