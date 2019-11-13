@@ -13,8 +13,9 @@
 #include "brickengine/rendering/renderables/data/color.hpp"
 #include "level/level.hpp"
 #include "brickengine/json/json.hpp"
+#include "controllers/game_controller.hpp"
 
-MainMenu::MainMenu(int screen_width, int screen_height) : Menu(screen_width, screen_height) {
+MainMenu::MainMenu(int screen_width, int screen_height, GameController* game_controller) : Menu(screen_width, screen_height) {
     // General information
     this->version = 1.0;
     this->name = "Main Menu";
@@ -36,16 +37,16 @@ MainMenu::MainMenu(int screen_width, int screen_height) : Menu(screen_width, scr
     start_game_button.text.y = 335;
     start_game_button.text.xScale = 400;
     start_game_button.text.yScale = 100;
-    start_game_button.on_click = []() -> void {
-        // game_controller.getEntityFactory().createPanda(0, 0, 1);
-        // game_controller.getEntityFactory().createGorilla(0, 0, 2);
+    const auto game_controller_pass = game_controller ;
+    start_game_button.on_click = [game_controller_pass]() -> void {
+        game_controller_pass->getEntityFactory().createPanda(0, 0, 1);
+        game_controller_pass->getEntityFactory().createGorilla(0, 0, 2);
 
-        // Json level_json = Json("assets/levels/level2.json", true);
-        // auto level = Level(level_json, game_controller.getScreenWidth(), game_controller.getScreenHeight());
+        Json level_json = Json("assets/levels/level2.json", true);
+        auto level = Level(level_json, game_controller_pass->getScreenWidth(), game_controller_pass->getScreenHeight());
 
-        // game_controller.getSceneManager().destroyCurrentScene();
-        // game_controller.getSceneManager().loadLevel(level);
-        std::cout << "Je klikt nu op de start game knop" << std::endl;
+        game_controller_pass->getSceneManager().destroyCurrentScene();
+        game_controller_pass->getSceneManager().loadLevel(level);
     };
     this->buttons.push_back(start_game_button);
 
