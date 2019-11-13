@@ -26,8 +26,8 @@ void PickupSystem::update(double deltatime){
             }
             else {
                 auto trigger = collisionDetector->isInTrigger(entity_id);
-                if(trigger.objectId.has_value() && trigger.isInTrigger){
-                    auto collider_id = trigger.objectId.value();
+                if(trigger.object_id.has_value() && trigger.is_in_trigger){
+                    auto collider_id = trigger.object_id.value();
                     auto collider_transform = entityManager->getComponent<TransformComponent>(collider_id);
                     auto entity_transform = entityManager->getComponent<TransformComponent>(entity_id);
                     auto [ entity_position, entity_scale ] = entityManager->getAbsoluteTransform(entity_id);
