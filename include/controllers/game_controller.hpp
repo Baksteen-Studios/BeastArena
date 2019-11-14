@@ -24,7 +24,6 @@ public:
 private:
     void createSystems();
     void setupInput();
-    void createTestEntities();
 
     std::unique_ptr<BrickEngine> engine;
     std::vector<std::unique_ptr<System>> systems;
