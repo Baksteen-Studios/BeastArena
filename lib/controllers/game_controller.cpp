@@ -101,10 +101,6 @@ void GameController::gameLoop() {
     engine->stop();
 }
 
-EntityFactory& GameController::getEntityFactory() const {
-    return *entityFactory.get();
-}
-
 SceneManager& GameController::getSceneManager() const {
     return *scene_manager.get();
 }
@@ -115,4 +111,15 @@ int GameController::getScreenWidth() const {
 
 int GameController::getScreenHeight() const {
     return SCREEN_HEIGHT;
+}
+
+void GameController::startGame() {
+    entityFactory->createPanda(0, 0, 1);
+    entityFactory->createGorilla(0, 0, 2);
+
+    Json level_json = Json("assets/levels/level2.json", true);
+    auto level = Level(level_json, SCREEN_WIDTH, SCREEN_HEIGHT);
+
+    scene_manager->destroyCurrentScene();
+    scene_manager->loadLevel(level);
 }

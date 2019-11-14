@@ -1,6 +1,7 @@
 #include "entities/entity_factory.hpp"
 
 #include <string>
+#include <utility>
 
 #include "brickengine/components/transform_component.hpp"
 #include "brickengine/components/colliders/rectangle_collider_component.hpp"
@@ -10,7 +11,6 @@
 #include "brickengine/components/renderables/texture_component.hpp"
 #include "brickengine/rendering/renderables/data/color.hpp"
 #include "brickengine/rendering/renderables/renderable.hpp"
-#include <iostream>
 
 EntityFactory::EntityFactory(std::shared_ptr<EntityManager> em, RenderableFactory& rf) : entityManager(em), renderableFactory(rf) {}
 
@@ -24,9 +24,6 @@ int EntityFactory::createPanda(double x, double y, int playerId) const {
     comps->push_back(std::make_unique<PhysicsComponent>(100, 0, 0, 0, true, false));
     comps->push_back(std::make_unique<TextureComponent>(std::move(r)));
     comps->push_back(std::make_unique<PlayerComponent>(playerId));
-    comps->push_back(std::make_unique<ClickComponent>([]() -> void {
-        std::cout << "clicked" << std::endl;
-    }, 1, 1));
 
     return entityManager->createEntity(std::move(comps));
 }
@@ -70,7 +67,7 @@ int EntityFactory::createPlatform(double x, double y, double xScale, double ySca
     return entityManager->createEntity(std::move(comps));
 }
 
-int EntityFactory::createButton(const Button button, const double relative_modifier) {
+std::pair<int, int> EntityFactory::createButton(const Button button, const double relative_modifier) {
     // Make background
     auto dst = std::unique_ptr<Rect>(new Rect{ 0, 0 , 0, 0});
     auto r = renderableFactory.createImage(graphicsPath + button.texture_path, (int)Layers::Middleground, std::move(dst), button.alpha);
@@ -81,7 +78,7 @@ int EntityFactory::createButton(const Button button, const double relative_modif
     // comps->push_back(std::make_unique<ClickComponent>(button.on_click, 1, 1));
     comps->push_back(std::make_unique<ClickComponent>(button.on_click, 1, 1));
 
-    int id = entityManager->createEntity(std::move(comps));
+    int button_id = entityManager->createEntity(std::move(comps));
 
     auto dstText = std::unique_ptr<Rect>(new Rect{ 0, 0 , 0, 0});
     auto rText = renderableFactory.createText(button.text.text, button.text.font_size, button.text.color, (int)Layers::Foreground, std::move(dstText));
@@ -94,7 +91,7 @@ int EntityFactory::createButton(const Button button, const double relative_modif
     compsText->push_back(std::make_unique<TransformComponent>(x, y, xScale, yScale));
     compsText->push_back(std::make_unique<TextureComponent>(std::move(rText)));
 
-    entityManager->createEntity(std::move(compsText));
+    int text_id = entityManager->createEntity(std::move(compsText));
 
-    return id;
+    return std::make_pair(button_id, text_id);
 }

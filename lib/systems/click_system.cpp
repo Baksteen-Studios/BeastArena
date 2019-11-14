@@ -30,7 +30,10 @@ void ClickSystem::update(double) {
         if (x > left && x < right &&
             y < bottom && y > top) {
             // The button was clicked
-            click->fn();
+            if(!click->clicked) {
+                click->clicked = true;
+                click->fn();
+            }
         }
     }
 }

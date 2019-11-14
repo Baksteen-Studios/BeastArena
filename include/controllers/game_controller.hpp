@@ -17,10 +17,10 @@ public:
     GameController();
     void gameLoop();
 
-    EntityFactory& getEntityFactory() const;
     SceneManager& getSceneManager() const;
     int getScreenWidth() const;
     int getScreenHeight() const;
+    void startGame();
 private:
     void createSystems();
     void setupInput();

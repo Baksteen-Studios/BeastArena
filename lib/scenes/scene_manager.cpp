@@ -1,5 +1,7 @@
 #include "scenes/scene_manager.hpp"
 
+#include <utility>
+
 #include "entities/entity_factory.hpp"
 #include "brickengine/entities/entity_manager.hpp"
 #include "level/level.hpp"
@@ -48,7 +50,9 @@ void SceneManager::loadMenu(Menu& menu) {
 
     // Load the buttons
     for(Button button : menu.buttons) {
-        current_scene_entities.push_back(entity_factory->createButton(button, menu.relative_modifier));
+        auto ids = entity_factory->createButton(button, menu.relative_modifier);
+        current_scene_entities.push_back(ids.first);
+        current_scene_entities.push_back(ids.second);
     }
 
     // Load the images
