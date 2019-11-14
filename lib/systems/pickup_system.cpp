@@ -32,9 +32,9 @@ void PickupSystem::update(double deltatime){
                     auto entity_transform = entityManager->getComponent<TransformComponent>(entity_id);
                     auto [ entity_position, entity_scale ] = entityManager->getAbsoluteTransform(entity_id);
                     if (entity_transform->xDirection == Direction::NEGATIVE) {
-                        collider_transform->xPos = -25;
+                        collider_transform->xPos = entity_transform->xScale / 2 * -1;
                     } else {
-                        collider_transform->xPos = 25;
+                        collider_transform->xPos = entity_transform->xScale / 2;
                     }
                     collider_transform->xDirection = entity_transform->xDirection;
                     collider_transform->yDirection = entity_transform->yDirection;

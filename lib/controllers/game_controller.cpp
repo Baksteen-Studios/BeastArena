@@ -82,6 +82,7 @@ void GameController::setupInput() {
     inputMapping[2][InputKeyCode::EKey_left] = PlayerInput::LEFT;
     inputMapping[2][InputKeyCode::EKey_down] = PlayerInput::DOWN;
     inputMapping[2][InputKeyCode::EKey_right] = PlayerInput::RIGHT;
+    inputMapping[2][InputKeyCode::EKey_m] = PlayerInput::GRAB;
 
     std::unordered_map<PlayerInput, double> time_to_wait_mapping;
     time_to_wait_mapping[PlayerInput::GRAB] = 0.1;
