@@ -11,7 +11,7 @@
 
 MovementSystem::MovementSystem(std::shared_ptr<CollisionDetector> cd,
     std::shared_ptr<EntityManager> entityManager, std::shared_ptr<EntityFactory> ef)
-    : BeastSystem(ef, entityManager), collisionDetector(cd) {}
+    : BeastSystem(ef, entityManager), collision_detector(cd) {}
 
 void MovementSystem::update(double deltatime) {
     auto input = BrickInput<PlayerInput>::getInstance();
@@ -46,7 +46,7 @@ void MovementSystem::update(double deltatime) {
         }
         // Jumping
         if (input.checkInput(player->playerId, PlayerInput::UP)) {
-            bool standsOnPlatform = collisionDetector->spaceLeft(entity_id, Axis::Y, Direction::POSITIVE).space_left == 0;
+            bool standsOnPlatform = collision_detector->spaceLeft(entity_id, Axis::Y, Direction::POSITIVE).space_left == 0;
 
             if (standsOnPlatform) {
                 vy = -1 * (JUMP_FORCE / mass);

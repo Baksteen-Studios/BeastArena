@@ -6,14 +6,14 @@
 #include "player_input.hpp"
 
 PickupSystem::PickupSystem(std::shared_ptr<CollisionDetector> cd,
-    std::shared_ptr<EntityManager> entityManager, std::shared_ptr<EntityFactory> ef)
-    : BeastSystem(ef, entityManager), collisionDetector(cd) {}
+    std::shared_ptr<EntityManager> em, std::shared_ptr<EntityFactory> ef)
+    : BeastSystem(ef, em), collision_detector(cd) {}
 
 void PickupSystem::update(double deltatime){    
     auto input = BrickInput<PlayerInput>::getInstance();
-    auto entitiesWithPlayer = entityManager->getEntitiesByComponent<PlayerComponent>();
+    auto entities_with_player = entityManager->getEntitiesByComponent<PlayerComponent>();
 
-    for (auto& [entity_id, player]: *entitiesWithPlayer) {         
+    for (auto& [entity_id, player]: *entities_with_player) {         
         if (input.checkInput(player->playerId, PlayerInput::GRAB)) {
             auto children = entityManager->getChildren(entity_id);
             if (!children.empty()) {
@@ -25,7 +25,7 @@ void PickupSystem::update(double deltatime){
                 }
             }
             else {
-                auto trigger = collisionDetector->isInTrigger(entity_id);
+                auto trigger = collision_detector->isInTrigger(entity_id);
                 if(trigger.object_id.has_value() && trigger.is_in_trigger){
                     auto collider_id = trigger.object_id.value();
                     auto collider_transform = entityManager->getComponent<TransformComponent>(collider_id);

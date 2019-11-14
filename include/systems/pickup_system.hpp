@@ -10,7 +10,7 @@ public:
     void update(double delta_time);
     ~PickupSystem() = default;
 private:
-    std::shared_ptr<CollisionDetector> collisionDetector;
+    std::shared_ptr<CollisionDetector> collision_detector;
 };
 
 #endif // FILE_PICKUP_SYSTEM_HPP
