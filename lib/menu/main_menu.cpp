@@ -28,15 +28,15 @@ MainMenu::MainMenu(int screen_width, int screen_height, GameController* game_con
     start_game_button.alpha = 255;
     start_game_button.x = 960;
     start_game_button.y = 340;
-    start_game_button.xScale = 400;
-    start_game_button.yScale = 100;
+    start_game_button.x_scale = 400;
+    start_game_button.y_scale = 100;
     start_game_button.text.text = "Play Game!";
     start_game_button.text.font_size = 72;
     start_game_button.text.color = { 255, 255, 255, 255 };
     start_game_button.text.x = 960;
     start_game_button.text.y = 335;
-    start_game_button.text.xScale = 400;
-    start_game_button.text.yScale = 100;
+    start_game_button.text.x_scale = 400;
+    start_game_button.text.y_scale = 100;
     const auto game_controller_pass = game_controller;
     start_game_button.on_click = [game_controller_pass]() -> void {
         game_controller_pass->startGame();
@@ -55,8 +55,8 @@ MainMenu::MainMenu(int screen_width, int screen_height, GameController* game_con
     // highscore_button.text.color = { 255, 255, 255, 255 };
     // highscore_button.text.x = 960;
     // highscore_button.text.y = 455;
-    // highscore_button.text.xScale = 400;
-    // highscore_button.text.yScale = 100;
+    // highscore_button.text.x_scale = 400;
+    // highscore_button.text.y_scale = 100;
     // highscore_button.on_click = []() -> void {
     //     std::cout << "Je klikt nu op de highscore knop" << std::endl;
     // };
@@ -74,8 +74,8 @@ MainMenu::MainMenu(int screen_width, int screen_height, GameController* game_con
     // help_button.text.color = { 255, 255, 255, 255 };
     // help_button.text.x = 960;
     // help_button.text.y = 575;
-    // help_button.text.xScale = 200;
-    // help_button.text.yScale = 100;
+    // help_button.text.x_scale = 200;
+    // help_button.text.y_scale = 100;
     // help_button.on_click = []() -> void {
     //     std::cout << "Je klikt nu op de help knop" << std::endl;
     // };
@@ -86,15 +86,15 @@ MainMenu::MainMenu(int screen_width, int screen_height, GameController* game_con
     // credits_button.alpha = 255;
     // credits_button.x = 960;
     // credits_button.y = 700;
-    // credits_button.xScale = 400;
-    // credits_button.yScale = 100;
+    // credits_button.x_scale = 400;
+    // credits_button.y_scale = 100;
     // credits_button.text.text = "Credits";
     // credits_button.text.font_size = 72;
     // credits_button.text.color = { 255, 255, 255, 255 };
     // credits_button.text.x = 960;
     // credits_button.text.y = 695;
-    // credits_button.text.xScale = 300;
-    // credits_button.text.yScale = 100;
+    // credits_button.text.x_scale = 300;
+    // credits_button.text.y_scale = 100;
     // credits_button.on_click = []() -> void {
     //     std::cout << "Je klikt nu op de credits knop" << std::endl;
     // };
@@ -105,15 +105,15 @@ MainMenu::MainMenu(int screen_width, int screen_height, GameController* game_con
     // exit_button.alpha = 255;
     // exit_button.x = 960;
     // exit_button.y = 820;
-    // exit_button.xScale = 400;
-    // exit_button.yScale = 100;
+    // exit_button.x_scale = 400;
+    // exit_button.y_scale = 100;
     // exit_button.text.text = "Exit game";
     // exit_button.text.font_size = 72;
     // exit_button.text.color = { 255, 255, 255, 255 };
     // exit_button.text.x = 960;
     // exit_button.text.y = 815;
-    // exit_button.text.xScale = 400;
-    // exit_button.text.yScale = 100;
+    // exit_button.text.x_scale = 400;
+    // exit_button.text.y_scale = 100;
     // exit_button.on_click = []() -> void {
     //     std::cout << "Je klikt nu op de exit knop" << std::endl;
     // };
@@ -125,7 +125,7 @@ MainMenu::MainMenu(int screen_width, int screen_height, GameController* game_con
     logo.alpha = 255;
     logo.x = 960;
     logo.y = 210;
-    logo.xScale = 680;
-    logo.yScale = 106;
+    logo.x_scale = 680;
+    logo.y_scale = 106;
     this->images.push_back(logo);
 }

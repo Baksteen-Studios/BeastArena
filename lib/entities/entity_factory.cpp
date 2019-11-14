@@ -53,7 +53,7 @@ int EntityFactory::createWeapon(double xPos, double yPos) const{
     comps->push_back(std::make_unique<PhysicsComponent>(50, 0, 0, 0, true, Kinematic::IS_NOT_KINEMATIC, true, true));
     comps->push_back(std::make_unique<TextureComponent>(std::move(r)));
     comps->push_back(std::make_unique<PickupComponent>());
-    // comps->push_back(std::make_unique<WeaponComponent>(1, 1, 10, 5));
+    //comps->push_back(std::make_unique<WeaponComponent>(1, 1, 10, 5));
 
     return entityManager->createEntity(std::move(comps), std::nullopt);
 }
@@ -88,7 +88,7 @@ std::pair<int, int> EntityFactory::createButton(const Button button, const doubl
     auto r = renderableFactory.createImage(graphicsPath + button.texture_path, (int)Layers::Middleground, std::move(dst), button.alpha);
 
     auto comps = std::make_unique<std::vector<std::unique_ptr<Component>>>();
-    comps->push_back(std::make_unique<TransformComponent>(button.x / relative_modifier, button.y / relative_modifier, button.xScale / relative_modifier, button.yScale / relative_modifier, Direction::POSITIVE, Direction::POSITIVE));
+    comps->push_back(std::make_unique<TransformComponent>(button.x / relative_modifier, button.y / relative_modifier, button.x_scale / relative_modifier, button.y_scale / relative_modifier, Direction::POSITIVE, Direction::POSITIVE));
     comps->push_back(std::make_unique<TextureComponent>(std::move(r)));
     comps->push_back(std::make_unique<ClickComponent>(button.on_click, 1, 1));
 
@@ -100,8 +100,8 @@ std::pair<int, int> EntityFactory::createButton(const Button button, const doubl
     auto compsText = std::make_unique<std::vector<std::unique_ptr<Component>>>();
     int x = button.text.x / relative_modifier;
     int y = button.text.y / relative_modifier;
-    int xScale = (button.text.xScale / relative_modifier) / 1.5;
-    int yScale = (button.text.yScale / relative_modifier) / 1.5;
+    int xScale = (button.text.x_scale / relative_modifier) / 1.5;
+    int yScale = (button.text.y_scale / relative_modifier) / 1.5;
     compsText->push_back(std::make_unique<TransformComponent>(x, y, xScale, yScale, Direction::POSITIVE, Direction::POSITIVE));
     compsText->push_back(std::make_unique<TextureComponent>(std::move(rText)));
 

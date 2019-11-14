@@ -57,7 +57,7 @@ void SceneManager::loadMenu(Menu& menu) {
 
     // Load the images
     for(Image image : menu.images) {
-        current_scene_entities.push_back(entity_factory->createImage(image.texture_path, image.x / menu.relative_modifier, image.y / menu.relative_modifier, image.xScale / menu.relative_modifier, image.yScale / menu.relative_modifier, Layers::Middleground, image.alpha));
+        current_scene_entities.push_back(entity_factory->createImage(image.texture_path, image.x / menu.relative_modifier, image.y / menu.relative_modifier, image.x_scale / menu.relative_modifier, image.y_scale / menu.relative_modifier, Layers::Middleground, image.alpha));
     }
 }
 

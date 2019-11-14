@@ -19,7 +19,7 @@ Scene::Scene(int screen_width, int screen_height, int width, int height) {
 
 void Scene::calculateRelativeModifier(int screen_width, int screen_height, int width, int height) {
     double relative_modifier = width / (double)screen_width;
-    if(!height / screen_height == relative_modifier) {
+    if(!height / (double)screen_height == relative_modifier) {
         throw SizeMismatchException();
     }
     this->relative_modifier = relative_modifier;

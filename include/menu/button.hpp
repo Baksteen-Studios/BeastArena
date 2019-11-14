@@ -13,8 +13,8 @@ public:
 
     int x; // Before relative modifier
     int y; // Before relative modifier
-    int xScale; // Before relative modifier
-    int yScale; // Before relative modifier
+    int x_scale; // Before relative modifier
+    int y_scale; // Before relative modifier
 
     Text text;
 
