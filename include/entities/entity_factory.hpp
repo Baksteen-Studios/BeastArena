@@ -14,8 +14,8 @@ class EntityFactory {
 public:
     EntityFactory(std::shared_ptr<EntityManager> em, RenderableFactory& rf);
     ~EntityFactory() = default;
-    int createPanda(double xPos, double yPos, int playerId) const;
-    int createGorilla(double xPos, double yPos, int playerId) const;
+    int createPanda(double xPos, double yPos, int player_id) const;
+    int createGorilla(double xPos, double yPos, int player_id) const;
     int createWeapon(double xPos, double yPos) const;
     int createImage(std::string path, int xPos, int yPos, int xScale, int yScale, Layers layer, int alpha);
     int createPlatform(double xPos, double yPos, double xScale, double yScale, std::string path, int alpha);
@@ -23,6 +23,9 @@ private:
     std::shared_ptr<EntityManager> entityManager;
     RenderableFactory& renderableFactory;
     inline static const std::string graphicsPath = "./assets/graphics/";
+
+    // on_death functions
+    //static void player_on_death(int entity_id);
 };
 
 #endif // FILE_ENTITY_FACTORY_HPP

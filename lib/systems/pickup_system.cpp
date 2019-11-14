@@ -14,7 +14,9 @@ void PickupSystem::update(double deltatime){
     auto entities_with_player = entityManager->getEntitiesByComponent<PlayerComponent>();
 
     for (auto& [entity_id, player]: *entities_with_player) {         
-        if (input.checkInput(player->playerId, PlayerInput::GRAB)) {
+        if (player->disabled) continue;
+
+        if (input.checkInput(player->player_id, PlayerInput::GRAB)) {
             auto children = entityManager->getChildren(entity_id);
             if (!children.empty()) {
                 for (const int& child : children) {

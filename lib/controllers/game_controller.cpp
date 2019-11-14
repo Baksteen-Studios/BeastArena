@@ -18,8 +18,11 @@ using namespace std::chrono_literals;
 #include "brickengine/systems/physics_system.hpp"
 #include "systems/pickup_system.hpp"
 #include "systems/click_system.hpp"
-#include "entities/layers.hpp"
+#include "systems/weapon_system.hpp"
+#include "systems/damage_system.hpp"
+#include "systems/despawn_system.hpp"
 #include "systems/movement_system.hpp"
+#include "entities/layers.hpp"
 #include "player_input.hpp"
 #include "brickengine/input_keycode.hpp"
 #include "brickengine/json/json.hpp"
@@ -52,6 +55,9 @@ void GameController::createSystems() {
     systems.push_back(std::make_unique<MovementSystem>(collisionDetector, entityManager, entityFactory));
     systems.push_back(std::make_unique<PhysicsSystem>(collisionDetector, entityManager));
     systems.push_back(std::make_unique<PickupSystem>(collisionDetector, entityManager, entityFactory));
+    systems.push_back(std::make_unique<WeaponSystem>(collisionDetector, entityManager, entityFactory));
+    systems.push_back(std::make_unique<DamageSystem>(collisionDetector, entityManager, entityFactory));
+    systems.push_back(std::make_unique<DespawnSystem>(collisionDetector, entityManager, SCREEN_WIDTH, SCREEN_HEIGHT));
     systems.push_back(std::make_unique<RenderingSystem>(entityManager, *engine->getRenderer()));
 }
 
@@ -75,6 +81,7 @@ void GameController::setupInput() {
     inputMapping[1][InputKeyCode::EKey_s] = PlayerInput::DOWN;
     inputMapping[1][InputKeyCode::EKey_d] = PlayerInput::RIGHT;
     inputMapping[1][InputKeyCode::EKey_e] = PlayerInput::GRAB;
+    inputMapping[1][InputKeyCode::EKey_space] = PlayerInput::SHOOT;
     inputMapping[1][InputKeyCode::EKey_mouse_left] = PlayerInput::MOUSE_LEFT;
     inputMapping[1][InputKeyCode::EKey_mouse_right] = PlayerInput::MOUSE_RIGHT;
     // Player 2
