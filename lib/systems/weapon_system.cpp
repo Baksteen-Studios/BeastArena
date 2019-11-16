@@ -31,6 +31,7 @@ void WeaponSystem::update(double deltatime){
                 if (weapon->shoot_cooldown < weapon->fire_rate)
                     continue;
                 weapon->shoot_cooldown = 0;
+
                 auto child_transform = entityManager->getComponent<TransformComponent>(child_id);
                 auto [child_absolute_position, child_absolute_scale] = entityManager->getAbsoluteTransform(child_id);
                 std::ignore = child_absolute_scale;
@@ -56,6 +57,14 @@ void WeaponSystem::update(double deltatime){
 
                 entityManager->createEntity(std::move(bullet_comps));
 
+                if (weapon->ammo) {
+                    --*weapon->ammo;
+                    if (*weapon->ammo <= 0) {
+                        entityManager->removeEntity(child_id);
+                        // For safety, you should try to use this child after it has been deleted!
+                        continue;
+                    }
+                }
             }
         }
     }

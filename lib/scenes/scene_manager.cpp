@@ -26,7 +26,7 @@ void SceneManager::loadLevel(Level& level) {
         transform_component->xPos = level.player_spawns[count].x / level.relative_modifier;
         transform_component->yPos = level.player_spawns[count].y / level.relative_modifier;
 
-        count++;
+        ++count;
     }
 
     // Create the platforms

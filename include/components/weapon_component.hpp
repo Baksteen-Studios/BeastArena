@@ -2,6 +2,7 @@
 #define FILE_WEAPON_COMPONENT_HPP
 
 #include <memory>
+#include <optional>
 
 #include "brickengine/components/component_impl.hpp"
 #include "brickengine/components/physics_component.hpp"
@@ -14,7 +15,7 @@
 class WeaponComponent : public ComponentImpl<WeaponComponent> {
 public:
     WeaponComponent(DamageComponent bullet_damage, TextureComponent bullet_texture, PhysicsComponent bullet_physics, 
-                    DespawnComponent bullet_despawn, Scale bullet_scale, double fire_rate, double ammo, double clip_size);
+                    DespawnComponent bullet_despawn, Scale bullet_scale, double fire_rate, std::optional<double> ammo);
     static std::string getNameStatic();
 
     // Data
@@ -29,8 +30,7 @@ public:
     
     double fire_rate;
     double shoot_cooldown;
-    double ammo;
-    double clip_size;
+    std::optional<double> ammo;
 };
 
 #endif // FILE_WEAPON_COMPONENT_HPP
