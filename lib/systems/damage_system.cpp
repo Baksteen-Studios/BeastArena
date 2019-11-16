@@ -4,7 +4,7 @@
 DamageSystem::DamageSystem(std::shared_ptr<CollisionDetector> cd, std::shared_ptr<EntityManager> em, std::shared_ptr<EntityFactory> ef)
     : BeastSystem(ef, em), collision_detector(cd) {}
 
-void DamageSystem::update(double deltatime) {
+void DamageSystem::update(double) {
     auto entities_with_damage_component = entityManager->getEntitiesByComponent<DamageComponent>();
     
     for (auto& [entity_id, damage_comp]: *entities_with_damage_component) {

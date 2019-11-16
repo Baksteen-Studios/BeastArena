@@ -13,7 +13,7 @@ MovementSystem::MovementSystem(std::shared_ptr<CollisionDetector> cd,
     std::shared_ptr<EntityManager> entityManager, std::shared_ptr<EntityFactory> ef)
     : BeastSystem(ef, entityManager), collision_detector(cd) {}
 
-void MovementSystem::update(double deltatime) {
+void MovementSystem::update(double) {
     auto input = BrickInput<PlayerInput>::getInstance();
     auto entitiesWithPlayer = entityManager->getEntitiesByComponent<PlayerComponent>();
 

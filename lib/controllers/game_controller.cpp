@@ -34,7 +34,7 @@ using namespace std::chrono_literals;
 
 GameController::GameController() {
     this->delta_time = 1;
-    this->fps_cap = 144;
+    this->fps_cap = 4000;
     // From layers.hpp
     this->layers = { 0, 1, 2, 3, 4 };
 
@@ -146,6 +146,8 @@ void GameController::gameLoop() {
         collisionDetector->space_left_calculated_counter = 0;
         collisionDetector->trigger_cache_hits = 0;
         collisionDetector->trigger_calculated_counter = 0;
+
+        //std::cout << totalTime << std::endl;
 
         auto end_time = std::chrono::high_resolution_clock::now();
         engine->delay(start_time, end_time);

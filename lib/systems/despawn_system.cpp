@@ -4,7 +4,7 @@ DespawnSystem::DespawnSystem(std::shared_ptr<CollisionDetector> cd, std::shared_
                              int screen_width, int screen_height)
     : System(em), collision_detector(cd), screen_width(screen_width), screen_height(screen_height) {}
 
-void DespawnSystem::update(double deltatime) {
+void DespawnSystem::update(double) {
     auto entities_with_despawn = entityManager->getEntitiesByComponent<DespawnComponent>();
     
     for (auto& [entity_id, despawn_comp]: *entities_with_despawn) {
