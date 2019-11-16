@@ -47,7 +47,6 @@ GameController::GameController() {
 
     createSystems();
     setupInput();
-    createTestEntities();
 }
 
 void GameController::createSystems() {
@@ -60,22 +59,6 @@ void GameController::createSystems() {
     systems.push_back(std::make_unique<DamageSystem>(collisionDetector, entityManager, entityFactory));
     systems.push_back(std::make_unique<DespawnSystem>(collisionDetector, entityManager, SCREEN_WIDTH, SCREEN_HEIGHT));
     systems.push_back(std::make_unique<RenderingSystem>(entityManager, *engine->getRenderer()));
-}
-
-void GameController::createTestEntities() {
-    // The player characters start off-screen
-    auto gorilla = entityFactory->createGorilla(-300, -300, 1);
-    auto panda1 = entityFactory->createPanda1(-300, -300, 2);
-    auto panda2 = entityFactory->createPanda2(-300, -300, 3);
-    auto panda3 = entityFactory->createPanda3(-300, -300, 4);
-    auto weapon1 = entityFactory->createWeapon(1000, 200, true);
-    auto weapon2 = entityFactory->createWeapon(1100, 200, false);
-    auto weapon3 = entityFactory->createWeapon(600, 200, true);
-    auto weapon4 = entityFactory->createWeapon(500, 200, false);
-
-    Json level_json = Json("assets/levels/level2.json", true);
-    auto level = Level(level_json, SCREEN_WIDTH, SCREEN_HEIGHT);
-    scene_manager->loadLevel(level);
 }
 
 void GameController::setupInput() {
@@ -157,4 +140,34 @@ void GameController::gameLoop() {
         totalTime += delta_time;
     }
     engine->stop();
+}
+
+SceneManager& GameController::getSceneManager() const {
+    return *scene_manager.get();
+}
+
+int GameController::getScreenWidth() const {
+    return SCREEN_WIDTH;
+}
+
+int GameController::getScreenHeight() const {
+    return SCREEN_HEIGHT;
+}
+
+void GameController::startGame() {
+    scene_manager->destroyCurrentScene();
+
+    // The player characters start off-screen
+    auto gorilla = entityFactory->createGorilla(-300, -300, 1);
+    auto panda1 = entityFactory->createPanda1(-300, -300, 2);
+    auto panda2 = entityFactory->createPanda2(-300, -300, 3);
+    auto panda3 = entityFactory->createPanda3(-300, -300, 4);
+    auto weapon1 = entityFactory->createWeapon(1000, 200, true);
+    auto weapon2 = entityFactory->createWeapon(1100, 200, false);
+    auto weapon3 = entityFactory->createWeapon(600, 200, true);
+    auto weapon4 = entityFactory->createWeapon(500, 200, false);
+
+    Json level_json { "assets/levels/level2.json", true };
+    Level level { level_json, SCREEN_WIDTH, SCREEN_HEIGHT };
+    scene_manager->loadLevel(level);
 }
