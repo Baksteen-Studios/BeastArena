@@ -41,7 +41,7 @@ int EntityFactory::createPanda(double xPos, double yPos, int player_id) const {
     auto r = renderableFactory.createImage(graphicsPath + "beasts/panda/idle-1.png", (int)Layers::Foreground, std::move(dst), 255);
     auto comps = std::make_unique<std::vector<std::unique_ptr<Component>>>();
 
-    comps->push_back(std::make_unique<TransformComponent>(xPos, yPos, 50, 100, Direction::POSITIVE, Direction::POSITIVE));
+    comps->push_back(std::make_unique<TransformComponent>(xPos, yPos, 63, 100, Direction::POSITIVE, Direction::POSITIVE));
     comps->push_back(std::make_unique<RectangleColliderComponent>(1, 1, 1, false));
     comps->push_back(std::make_unique<PhysicsComponent>(100, 0, 0, 0, true, Kinematic::IS_NOT_KINEMATIC, true, false));
     comps->push_back(std::make_unique<TextureComponent>(std::move(r)));
@@ -59,7 +59,7 @@ int EntityFactory::createPanda(double xPos, double yPos, int player_id) const {
     return entityManager->createEntity(std::move(comps), std::nullopt);
 }
 
-int EntityFactory::createWeapon(double xPos, double yPos) const{
+int EntityFactory::createWeapon(double xPos, double yPos) const {
     auto weapon_dst = std::unique_ptr<Rect>(new Rect{ 0, 0, 0, 0 });
     auto bullet_dst = std::unique_ptr<Rect>(new Rect{ 0, 0, 0, 0 });
     auto weapon_r = renderableFactory.createImage(graphicsPath + "weapons/pistol-1.png", (int)Layers::Foreground, std::move(weapon_dst), 255);
@@ -74,9 +74,9 @@ int EntityFactory::createWeapon(double xPos, double yPos) const{
     comps->push_back(std::make_unique<WeaponComponent>(
         DamageComponent(10),
         TextureComponent(std::move(bullet_r)),
-        PhysicsComponent(1, 0, 1500, 0, false, Kinematic::IS_NOT_KINEMATIC, false, false),
+        PhysicsComponent(1, 0, 4500, 0, false, Kinematic::IS_NOT_KINEMATIC, false, false),
         DespawnComponent(true, true),
-        Scale(9, 2),
+        Scale(9, 3),
         0.2, 50, 50));
 
     return entityManager->createEntity(std::move(comps), std::nullopt);

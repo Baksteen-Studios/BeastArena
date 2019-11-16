@@ -86,8 +86,8 @@ void GameController::setupInput() {
     inputMapping[1][InputKeyCode::EKey_a] = PlayerInput::LEFT;
     inputMapping[1][InputKeyCode::EKey_s] = PlayerInput::DOWN;
     inputMapping[1][InputKeyCode::EKey_d] = PlayerInput::RIGHT;
-    inputMapping[1][InputKeyCode::EKey_e] = PlayerInput::GRAB;
-    inputMapping[1][InputKeyCode::EKey_space] = PlayerInput::SHOOT;
+    inputMapping[1][InputKeyCode::EKey_q] = PlayerInput::GRAB;
+    inputMapping[1][InputKeyCode::EKey_e] = PlayerInput::SHOOT;
     inputMapping[1][InputKeyCode::EKey_mouse_left] = PlayerInput::MOUSE_LEFT;
     inputMapping[1][InputKeyCode::EKey_mouse_right] = PlayerInput::MOUSE_RIGHT;
     // Player 2
@@ -95,8 +95,8 @@ void GameController::setupInput() {
     inputMapping[2][InputKeyCode::EKey_left] = PlayerInput::LEFT;
     inputMapping[2][InputKeyCode::EKey_down] = PlayerInput::DOWN;
     inputMapping[2][InputKeyCode::EKey_right] = PlayerInput::RIGHT;
-    inputMapping[2][InputKeyCode::EKey_lctrl] = PlayerInput::GRAB;
-    inputMapping[2][InputKeyCode::EKey_lshift] = PlayerInput::SHOOT;
+    inputMapping[2][InputKeyCode::EKey_rctrl] = PlayerInput::GRAB;
+    inputMapping[2][InputKeyCode::EKey_rshift] = PlayerInput::SHOOT;
     // Player 3
     inputMapping[3][InputKeyCode::EKey_t] = PlayerInput::UP;
     inputMapping[3][InputKeyCode::EKey_f] = PlayerInput::LEFT;
@@ -135,19 +135,21 @@ void GameController::gameLoop() {
         engine->drawFpsCounter();
         engine->getRenderer()->drawScreen();
 
-        collisionDetector->clearCache();
+#ifdef PERFORMANCE_DEBUGGING
         std::cout << "space left calculations: " << collisionDetector->space_left_calculated_counter << std::endl;
         std::cout << "space left cache hits: " << collisionDetector->space_left_cache_hits << std::endl;
         std::cout << "trigger calculations: " << collisionDetector->trigger_calculated_counter << std::endl;
         std::cout << "trigger cache hits: " << collisionDetector->trigger_cache_hits << std::endl;
         std::cout << "fps: " << engine->getFps() << std::endl;
         std::cout << "colliders: " << entityManager->getEntitiesByComponent<RectangleColliderComponent>()->size() << std::endl;
+        std::cout << totalTime << std::endl;
+#endif // PERFORMANCE_DEBUGGING
+
+        collisionDetector->clearCache();
         collisionDetector->space_left_cache_hits = 0;
         collisionDetector->space_left_calculated_counter = 0;
         collisionDetector->trigger_cache_hits = 0;
         collisionDetector->trigger_calculated_counter = 0;
-
-        //std::cout << totalTime << std::endl;
 
         auto end_time = std::chrono::high_resolution_clock::now();
         engine->delay(start_time, end_time);

@@ -18,6 +18,7 @@ public:
     static std::string getNameStatic();
 
     // Data
+    // These are the clonable Components/data that a spawned bullet will get.
     DamageComponent bullet_damage;
     TextureComponent bullet_texture;
     // The velocity should ALWAYS be towards the positive directions,

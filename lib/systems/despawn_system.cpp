@@ -6,7 +6,7 @@ DespawnSystem::DespawnSystem(std::shared_ptr<CollisionDetector> cd, std::shared_
 
 void DespawnSystem::update(double) {
     auto entities_with_despawn = entityManager->getEntitiesByComponent<DespawnComponent>();
-    
+
     for (auto& [entity_id, despawn_comp]: *entities_with_despawn) {
         if (despawn_comp->despawn_on_out_of_screen) {
             auto [position, scale] = entityManager->getAbsoluteTransform(entity_id);
