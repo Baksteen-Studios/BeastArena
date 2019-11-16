@@ -19,10 +19,6 @@
 
 EntityFactory::EntityFactory(std::shared_ptr<EntityManager> em, RenderableFactory& rf) : entityManager(em), renderableFactory(rf) {}
 
-// void EntityFactory::player_on_death(int entity_id) {
-
-// }
-
 int EntityFactory::createGorilla(double xPos, double yPos, int player_id) const {
     auto dst = std::unique_ptr<Rect>(new Rect{ 0, 0, 0, 0 });
     auto r = renderableFactory.createImage(graphicsPath + "beasts/gorilla/idle-1.png", (int)Layers::Foreground, std::move(dst), 255);
@@ -78,10 +74,10 @@ int EntityFactory::createWeapon(double xPos, double yPos) const{
     comps->push_back(std::make_unique<WeaponComponent>(
         DamageComponent(10),
         TextureComponent(std::move(bullet_r)),
-        PhysicsComponent(1, 0, 200, 0, false, Kinematic::IS_NOT_KINEMATIC, false, false),
+        PhysicsComponent(1, 0, 1500, 0, false, Kinematic::IS_NOT_KINEMATIC, false, false),
         DespawnComponent(true, true),
         Scale(9, 2),
-        1, 50, 50));
+        0.2, 50, 50));
 
     return entityManager->createEntity(std::move(comps), std::nullopt);
 }

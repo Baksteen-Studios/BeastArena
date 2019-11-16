@@ -16,13 +16,19 @@ void WeaponSystem::update(double deltatime){
     auto entities_with_player = entityManager->getEntitiesByComponent<PlayerComponent>();
     auto entities_with_weapon = entityManager->getEntitiesByComponent<WeaponComponent>();
 
-    for (auto& [entity_id, player]: *entities_with_player) {
+    for (auto& [weapon_id, weapon] : *entities_with_weapon) {
+        weapon->shoot_cooldown += deltatime;
+    }
 
+    for (auto& [entity_id, player]: *entities_with_player) {
         if (input.checkInput(player->player_id, PlayerInput::SHOOT)) {
             // THIS IS AMERICA
             auto children_with_weapon = entityManager->getChildrenWithComponent<WeaponComponent>(entity_id);
 
             for (auto& [child_id, weapon] : children_with_weapon) {
+                if (weapon->shoot_cooldown < weapon->fire_rate)
+                    continue;
+                weapon->shoot_cooldown = 0;
                 auto child_transform = entityManager->getComponent<TransformComponent>(child_id);
                 auto [child_absolute_position, child_absolute_scale] = entityManager->getAbsoluteTransform(child_id);
                 std::ignore = child_absolute_scale;
@@ -47,6 +53,7 @@ void WeaponSystem::update(double deltatime){
                 bullet_comps->push_back(std::make_unique<DespawnComponent>(weapon->bullet_despawn));
 
                 entityManager->createEntity(std::move(bullet_comps));
+
             }
         }
     }

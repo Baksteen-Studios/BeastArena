@@ -30,6 +30,7 @@ using namespace std::chrono_literals;
 #include "level/player_spawn.hpp"
 #include "level/gadget_spawn.hpp"
 #include "level/solid.hpp"
+#include "brickengine/components/colliders/rectangle_collider_component.hpp"
 
 GameController::GameController() {
     this->delta_time = 1;
@@ -65,7 +66,12 @@ void GameController::createTestEntities() {
     // The player characters start off-screen
     auto gorilla = entityFactory->createGorilla(-300, -300, 1);
     auto panda = entityFactory->createPanda(-300, -300, 2);
-    auto weapon = entityFactory->createWeapon(1100, 200);
+    auto panda2 = entityFactory->createPanda(-300, -300, 3);
+    auto panda3 = entityFactory->createPanda(-300, -300, 4);
+    auto weapon = entityFactory->createWeapon(1000, 200);
+    auto weapon2 = entityFactory->createWeapon(1100, 200);
+    auto weapon3 = entityFactory->createWeapon(600, 200);
+    auto weapon4 = entityFactory->createWeapon(500, 200);
 
     Json level_json = Json("assets/levels/level2.json", true);
     auto level = Level(level_json, SCREEN_WIDTH, SCREEN_HEIGHT);
@@ -89,6 +95,22 @@ void GameController::setupInput() {
     inputMapping[2][InputKeyCode::EKey_left] = PlayerInput::LEFT;
     inputMapping[2][InputKeyCode::EKey_down] = PlayerInput::DOWN;
     inputMapping[2][InputKeyCode::EKey_right] = PlayerInput::RIGHT;
+    inputMapping[2][InputKeyCode::EKey_lctrl] = PlayerInput::GRAB;
+    inputMapping[2][InputKeyCode::EKey_lshift] = PlayerInput::SHOOT;
+    // Player 3
+    inputMapping[3][InputKeyCode::EKey_t] = PlayerInput::UP;
+    inputMapping[3][InputKeyCode::EKey_f] = PlayerInput::LEFT;
+    inputMapping[3][InputKeyCode::EKey_g] = PlayerInput::DOWN;
+    inputMapping[3][InputKeyCode::EKey_h] = PlayerInput::RIGHT;
+    inputMapping[3][InputKeyCode::EKey_r] = PlayerInput::GRAB;
+    inputMapping[3][InputKeyCode::EKey_y] = PlayerInput::SHOOT;
+    // Player 4
+    inputMapping[4][InputKeyCode::EKey_i] = PlayerInput::UP;
+    inputMapping[4][InputKeyCode::EKey_j] = PlayerInput::LEFT;
+    inputMapping[4][InputKeyCode::EKey_k] = PlayerInput::DOWN;
+    inputMapping[4][InputKeyCode::EKey_l] = PlayerInput::RIGHT;
+    inputMapping[4][InputKeyCode::EKey_u] = PlayerInput::GRAB;
+    inputMapping[4][InputKeyCode::EKey_o] = PlayerInput::SHOOT;
 
     std::unordered_map<PlayerInput, double> time_to_wait_mapping;
     time_to_wait_mapping[PlayerInput::GRAB] = 0.1;
@@ -112,6 +134,18 @@ void GameController::gameLoop() {
 
         engine->drawFpsCounter();
         engine->getRenderer()->drawScreen();
+
+        collisionDetector->clearCache();
+        std::cout << "space left calculations: " << collisionDetector->space_left_calculated_counter << std::endl;
+        std::cout << "space left cache hits: " << collisionDetector->space_left_cache_hits << std::endl;
+        std::cout << "trigger calculations: " << collisionDetector->trigger_calculated_counter << std::endl;
+        std::cout << "trigger cache hits: " << collisionDetector->trigger_cache_hits << std::endl;
+        std::cout << "fps: " << engine->getFps() << std::endl;
+        std::cout << "colliders: " << entityManager->getEntitiesByComponent<RectangleColliderComponent>()->size() << std::endl;
+        collisionDetector->space_left_cache_hits = 0;
+        collisionDetector->space_left_calculated_counter = 0;
+        collisionDetector->trigger_cache_hits = 0;
+        collisionDetector->trigger_calculated_counter = 0;
 
         auto end_time = std::chrono::high_resolution_clock::now();
         engine->delay(start_time, end_time);

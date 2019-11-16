@@ -27,6 +27,7 @@ public:
     Scale bullet_scale;
     
     double fire_rate;
+    double shoot_cooldown;
     double ammo;
     double clip_size;
 };
