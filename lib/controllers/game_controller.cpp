@@ -6,6 +6,7 @@
 #include <memory>
 #include <utility>
 #include <vector>
+#include <deque>
 using namespace std::chrono_literals;
 
 #include "controllers/game_controller.hpp"
@@ -103,7 +104,12 @@ void GameController::setupInput() {
 }
 
 void GameController::gameLoop() {
+#ifdef PERFORMANCE_DEBUGGING
     double totalTime = 0.0;
+    const int FPS_HISTORY_MAX = 500;
+    std::deque<int> fps_history { FPS_HISTORY_MAX };
+#endif // PERFORMANCE_DEBUGGING
+
     while(true) {
         auto start_time = std::chrono::high_resolution_clock::now();
 
@@ -126,6 +132,11 @@ void GameController::gameLoop() {
         std::cout << "fps: " << engine->getFps() << std::endl;
         std::cout << "colliders: " << entityManager->getEntitiesByComponent<RectangleColliderComponent>().size() << std::endl;
         std::cout << totalTime << std::endl;
+        int total = 0;
+        for (int& fps : fps_history) {
+            total += fps;
+        }
+        std::cout << "average fps: " << total / fps_history.size() << std::endl;
 #endif // PERFORMANCE_DEBUGGING
 
         collisionDetector->clearCache();
@@ -137,7 +148,13 @@ void GameController::gameLoop() {
         auto end_time = std::chrono::high_resolution_clock::now();
         engine->delay(start_time, end_time);
         delta_time = engine->getDeltatime();
+
+#ifdef PERFORMANCE_DEBUGGING
         totalTime += delta_time;
+        if (fps_history.size() >= FPS_HISTORY_MAX)
+            fps_history.pop_front();
+        fps_history.push_back(engine->getFps());
+#endif // PERFORMANCE_DEBUGGING
     }
     engine->stop();
 }
