@@ -7,7 +7,7 @@ DamageSystem::DamageSystem(std::shared_ptr<CollisionDetector> cd, std::shared_pt
 void DamageSystem::update(double) {
     auto entities_with_damage_component = entityManager->getEntitiesByComponent<DamageComponent>();
     
-    for (auto& [entity_id, damage_comp]: *entities_with_damage_component) {
+    for (auto& [entity_id, damage_comp]: entities_with_damage_component) {
         {
             auto collision = collision_detector->spaceLeft(entity_id, Axis::X, Direction::NEGATIVE);
             if (collision.space_left >= 0 && collision.object_id && !collision.is_trigger)

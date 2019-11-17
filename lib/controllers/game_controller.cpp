@@ -124,7 +124,7 @@ void GameController::gameLoop() {
         std::cout << "trigger calculations: " << collisionDetector->trigger_calculated_counter << std::endl;
         std::cout << "trigger cache hits: " << collisionDetector->trigger_cache_hits << std::endl;
         std::cout << "fps: " << engine->getFps() << std::endl;
-        std::cout << "colliders: " << entityManager->getEntitiesByComponent<RectangleColliderComponent>()->size() << std::endl;
+        std::cout << "colliders: " << entityManager->getEntitiesByComponent<RectangleColliderComponent>().size() << std::endl;
         std::cout << totalTime << std::endl;
 #endif // PERFORMANCE_DEBUGGING
 

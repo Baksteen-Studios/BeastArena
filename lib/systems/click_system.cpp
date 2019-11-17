@@ -18,7 +18,7 @@ void ClickSystem::update(double) {
     // Get all click comps
     auto clickComps = entityManager->getEntitiesByComponent<ClickComponent>();
 
-    for (auto& [id, click] : *clickComps) {
+    for (auto& [id, click] : clickComps) {
         auto [ position, scale ] = entityManager->getAbsoluteTransform(id);
         auto [ x, y ] = input.getMousePosition();
         auto xScale = scale.x * click->xScale;

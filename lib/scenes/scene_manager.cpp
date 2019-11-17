@@ -22,7 +22,7 @@ void SceneManager::loadLevel(Level& level) {
     auto entities_with_player = entity_manager->getEntitiesByComponent<PlayerComponent>();
 
     int count = 0;
-    for(auto& [entity_id, player]: *entities_with_player) {
+    for(auto& [entity_id, player]: entities_with_player) {
         std::ignore = player;
         auto transform_component = entity_manager->getComponent<TransformComponent>(entity_id);
 

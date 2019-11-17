@@ -13,7 +13,7 @@ void PickupSystem::update(double){
     auto input = BrickInput<PlayerInput>::getInstance();
     auto entities_with_player = entityManager->getEntitiesByComponent<PlayerComponent>();
 
-    for (auto& [entity_id, player]: *entities_with_player) {         
+    for (auto& [entity_id, player]: entities_with_player) {
         if (player->disabled) continue;
 
         if (input.checkInput(player->player_id, PlayerInput::GRAB)) {

@@ -17,7 +17,7 @@ void MovementSystem::update(double) {
     auto input = BrickInput<PlayerInput>::getInstance();
     auto entitiesWithPlayer = entityManager->getEntitiesByComponent<PlayerComponent>();
 
-     for (auto& [entity_id, player]: *entitiesWithPlayer) {
+     for (auto& [entity_id, player]: entitiesWithPlayer) {
         if (player->disabled) continue;
 
         auto physics = entityManager->getComponent<PhysicsComponent>(entity_id);

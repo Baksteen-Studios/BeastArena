@@ -16,11 +16,11 @@ void WeaponSystem::update(double deltatime){
     auto entities_with_player = entityManager->getEntitiesByComponent<PlayerComponent>();
     auto entities_with_weapon = entityManager->getEntitiesByComponent<WeaponComponent>();
 
-    for (auto& [weapon_id, weapon] : *entities_with_weapon) {
+    for (auto& [weapon_id, weapon] : entities_with_weapon) {
         weapon->shoot_cooldown += deltatime;
     }
 
-    for (auto& [entity_id, player]: *entities_with_player) {
+    for (auto& [entity_id, player]: entities_with_player) {
         if (player->disabled) continue;
 
         if (input.checkInput(player->player_id, PlayerInput::SHOOT)) {
