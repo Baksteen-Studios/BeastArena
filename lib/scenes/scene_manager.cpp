@@ -26,8 +26,8 @@ void SceneManager::loadLevel(Level& level) {
         std::ignore = player;
         auto transform_component = entity_manager->getComponent<TransformComponent>(entity_id);
 
-        transform_component->xPos = level.player_spawns[count].x / level.relative_modifier;
-        transform_component->yPos = level.player_spawns[count].y / level.relative_modifier;
+        transform_component->x_pos = level.player_spawns[count].x / level.relative_modifier;
+        transform_component->y_pos = level.player_spawns[count].y / level.relative_modifier;
 
         ++count;
     }

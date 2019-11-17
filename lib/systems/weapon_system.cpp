@@ -37,17 +37,17 @@ void WeaponSystem::update(double deltatime){
                 auto bullet_comps = std::make_unique<std::vector<std::unique_ptr<Component>>>();
 
                 auto bullet_physics = std::make_unique<PhysicsComponent>(weapon->bullet_physics);
-                if (child_transform->xDirection == Direction::NEGATIVE) {
+                if (child_transform->x_direction == Direction::NEGATIVE) {
                     bullet_physics->vx *= -1;
                     bullet_physics->vy *= -1;
                 }
-                if (child_transform->yDirection == Direction::NEGATIVE) {
+                if (child_transform->y_direction == Direction::NEGATIVE) {
                     bullet_physics->vx *= -1;
                     bullet_physics->vy *= -1;
                 }
                 bullet_comps->push_back(std::make_unique<TransformComponent>(
                     child_absolute_position.x, child_absolute_position.y, weapon->bullet_scale.x,
-                    weapon->bullet_scale.y, child_transform->xDirection, child_transform->yDirection));
+                    weapon->bullet_scale.y, child_transform->x_direction, child_transform->y_direction));
                 bullet_comps->push_back(std::make_unique<RectangleColliderComponent>(1, 1, 1, false));
                 bullet_comps->push_back(std::make_unique<TextureComponent>(weapon->bullet_texture));
                 bullet_comps->push_back(std::move(bullet_physics));

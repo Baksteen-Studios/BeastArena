@@ -33,16 +33,16 @@ void PickupSystem::update(double){
                     auto collider_transform = entityManager->getComponent<TransformComponent>(collider_id);
                     auto entity_transform = entityManager->getComponent<TransformComponent>(entity_id);
                     auto [ entity_position, entity_scale ] = entityManager->getAbsoluteTransform(entity_id);
-                    if (entity_transform->xDirection == Direction::NEGATIVE) {
-                        collider_transform->xPos = entity_transform->xScale / 2 * -1;
+                    if (entity_transform->x_direction == Direction::NEGATIVE) {
+                        collider_transform->x_pos = entity_transform->x_scale / 2 * -1;
                     } else {
-                        collider_transform->xPos = entity_transform->xScale / 2;
+                        collider_transform->x_pos = entity_transform->x_scale / 2;
                     }
-                    collider_transform->xDirection = entity_transform->xDirection;
-                    collider_transform->yDirection = entity_transform->yDirection;
-                    collider_transform->yPos = 0;
-                    collider_transform->xScale /= entity_scale.x;
-                    collider_transform->yScale /= entity_scale.y;
+                    collider_transform->x_direction = entity_transform->x_direction;
+                    collider_transform->y_direction = entity_transform->y_direction;
+                    collider_transform->y_pos = 0;
+                    collider_transform->x_scale /= entity_scale.x;
+                    collider_transform->y_scale /= entity_scale.y;
                     entityManager->setParent(collider_id, entity_id, true);
                 }
             }
