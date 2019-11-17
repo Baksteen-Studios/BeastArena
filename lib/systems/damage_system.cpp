@@ -11,27 +11,27 @@ void DamageSystem::update(double) {
         {
             auto collision = collision_detector->spaceLeft(entity_id, Axis::X, Direction::NEGATIVE);
             if (collision.space_left >= 0 && collision.object_id && !collision.is_trigger)
-                this->collide(entity_id, damage_comp, collision);
+                this->collide(damage_comp, collision);
         }
         {
             auto collision = collision_detector->spaceLeft(entity_id, Axis::X, Direction::POSITIVE);
             if (collision.space_left <= 0 && collision.object_id && !collision.is_trigger)
-                this->collide(entity_id, damage_comp, collision);
+                this->collide(damage_comp, collision);
         }
         {
             auto collision = collision_detector->spaceLeft(entity_id, Axis::Y, Direction::NEGATIVE);
             if (collision.space_left >= 0 && collision.object_id && !collision.is_trigger)
-                this->collide(entity_id, damage_comp, collision);
+                this->collide(damage_comp, collision);
         }
         {
             auto collision = collision_detector->spaceLeft(entity_id, Axis::Y, Direction::POSITIVE);
             if (collision.space_left <= 0 && collision.object_id && !collision.is_trigger)
-                this->collide(entity_id, damage_comp, collision);
+                this->collide(damage_comp, collision);
         }
     }
 }
 
-void DamageSystem::collide(int entity_id, DamageComponent* damage_comp, CollisionReturnValues collision) {
+void DamageSystem::collide(DamageComponent* damage_comp, CollisionReturnValues collision) {
     auto health_hit_entity = entityManager->getComponent<HealthComponent>(*collision.object_id);
     if (health_hit_entity) {
         health_hit_entity->health -= damage_comp->damage;

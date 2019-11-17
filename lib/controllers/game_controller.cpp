@@ -35,7 +35,11 @@ using namespace std::chrono_literals;
 
 GameController::GameController() {
     this->delta_time = 1;
-    this->fps_cap = 4000;
+#ifdef PERFORMANCE_DEBUGGING
+    this->fps_cap = 9999;
+#else
+    this->fps_cap = 144;
+#endif // PERFORMANCE_DEBUGGING
     // From layers.hpp
     this->layers = { 0, 1, 2, 3, 4 };
 

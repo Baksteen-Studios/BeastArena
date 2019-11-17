@@ -4,7 +4,6 @@
 #include "brickengine/systems/system.hpp"
 #include "brickengine/collision_detector.hpp"
 #include "components/despawn_component.hpp"
-#include "scenes/scene_manager.hpp"
 
 class DespawnSystem : public System {
 public:

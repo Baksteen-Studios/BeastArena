@@ -14,7 +14,7 @@ target_include_directories(BeastArenaLib PUBLIC ${BEASTARENALIB_INCLUDE_DIRECTOR
 
 target_compile_features(BeastArenaLib PUBLIC cxx_std_17)
 
-option(BEASTARENALIB_PERFORMANCE_DEBUGGING "Turn on extra out for performance debugging" OFF)
+option(BEASTARENALIB_PERFORMANCE_DEBUGGING "Turn on extra output for performance debugging" OFF)
 if (BEASTARENALIB_PERFORMANCE_DEBUGGING)
     target_compile_definitions(BeastArenaLib
         PRIVATE -DPERFORMANCE_DEBUGGING)

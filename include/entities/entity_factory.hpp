@@ -28,9 +28,6 @@ private:
     std::shared_ptr<EntityManager> entityManager;
     RenderableFactory& renderableFactory;
     inline static const std::string graphicsPath = "./assets/graphics/";
-
-    // on_death functions
-    //static void player_on_death(int entity_id);
 };
 
 #endif // FILE_ENTITY_FACTORY_HPP

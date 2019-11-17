@@ -27,7 +27,7 @@ public:
     PhysicsComponent bullet_physics;
     DespawnComponent bullet_despawn;
     Scale bullet_scale;
-    
+
     double fire_rate;
     double shoot_cooldown;
     std::optional<double> ammo;

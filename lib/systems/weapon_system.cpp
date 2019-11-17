@@ -24,7 +24,6 @@ void WeaponSystem::update(double deltatime){
         if (player->disabled) continue;
 
         if (input.checkInput(player->player_id, PlayerInput::SHOOT)) {
-            // THIS IS AMERICA
             auto children_with_weapon = entityManager->getChildrenWithComponent<WeaponComponent>(entity_id);
 
             for (auto& [child_id, weapon] : children_with_weapon) {
