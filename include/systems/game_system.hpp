@@ -14,12 +14,12 @@ public:
     GameSystem(std::shared_ptr<EntityManager> em, GameController& gc);
     void update(double deltatime);
 private:
-    static constexpr int MAX_LEVELS = 1;
+    static constexpr int MAX_LEVELS = 4;
 
     std::shared_ptr<EntityManager> entity_manager;
     GameController& game_controller;
 
-    int completed_level_amount;
+    int completed_level_amount = 1;
 };
 
 #endif // FILE_GAME_SYSTEM

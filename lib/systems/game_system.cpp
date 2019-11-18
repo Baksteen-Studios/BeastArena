@@ -19,7 +19,7 @@ void GameSystem::update(double) {
     int count =  players.size() - dead_players.size();
     if(count == 1) {
         // load next scene.
-        if (completed_level_amount >= MAX_LEVELS) {
+        if (completed_level_amount <= MAX_LEVELS) {
             game_controller.loadNextLevel();
             ++completed_level_amount;
         } else {
