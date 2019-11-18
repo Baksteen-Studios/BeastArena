@@ -7,6 +7,7 @@
 #include <utility>
 #include <vector>
 #include <deque>
+#include <filesystem>
 using namespace std::chrono_literals;
 
 #include "controllers/game_controller.hpp"
@@ -23,6 +24,7 @@ using namespace std::chrono_literals;
 #include "systems/damage_system.hpp"
 #include "systems/despawn_system.hpp"
 #include "systems/movement_system.hpp"
+#include "systems/game_system.hpp"
 #include "entities/layers.hpp"
 #include "player_input.hpp"
 #include "brickengine/input_keycode.hpp"
@@ -32,6 +34,8 @@ using namespace std::chrono_literals;
 #include "level/gadget_spawn.hpp"
 #include "level/solid.hpp"
 #include "brickengine/components/colliders/rectangle_collider_component.hpp"
+#include "brickengine/std/random.hpp"
+#include "menu/main_menu.hpp"
 
 GameController::GameController() {
     this->delta_time = 1;
@@ -56,6 +60,7 @@ GameController::GameController() {
 
 void GameController::createSystems() {
     systems = std::vector<std::unique_ptr<System>>();
+    systems.push_back(std::make_unique<GameSystem>(entityManager, *this));
     systems.push_back(std::make_unique<ClickSystem>(entityManager));
     systems.push_back(std::make_unique<MovementSystem>(collisionDetector, entityManager, entityFactory));
     systems.push_back(std::make_unique<PhysicsSystem>(collisionDetector, entityManager));
@@ -175,20 +180,42 @@ int GameController::getScreenHeight() const {
     return SCREEN_HEIGHT;
 }
 
-void GameController::startGame() {
+void GameController::startGame(int level_amount) {
+    // Create list of levels
+    std::string levels_path = "assets/levels";
+
+    for (const auto & entry : std::filesystem::directory_iterator(levels_path))
+        levels.push_back(entry.path());
+    not_completed_levels = levels;
+
+    loadNextLevel();
+}
+
+void GameController::loadNextLevel() {
+    // Remove the current scene
     scene_manager->destroyCurrentScene();
 
-    // The player characters start off-screen
-    auto gorilla = entityFactory->createGorilla(-300, -300, 1);
-    auto panda1 = entityFactory->createPanda1(-300, -300, 2);
-    auto panda2 = entityFactory->createPanda2(-300, -300, 3);
-    auto panda3 = entityFactory->createPanda3(-300, -300, 4);
-    auto weapon1 = entityFactory->createWeapon(1000, 200, true);
-    auto weapon2 = entityFactory->createWeapon(1100, 200, false);
-    auto weapon3 = entityFactory->createWeapon(600, 200, true);
-    auto weapon4 = entityFactory->createWeapon(500, 200, false);
+    // If map pool is empty fill it again.
+    if(not_completed_levels.size() <= 0) {
+        not_completed_levels = levels;
+    }
 
-    Json level_json { "assets/levels/level2.json", true };
+    // Choose level at random
+    auto& r = Random::getInstance();
+    int result = r.getRandomInt(0, not_completed_levels.size() - 1);
+    auto path = not_completed_levels.at(result);
+    
+    // Remove it from the pool
+    not_completed_levels.erase(not_completed_levels.begin() + result);
+
+    // Create the level
+    Json level_json { path, true };
     Level level { level_json, SCREEN_WIDTH, SCREEN_HEIGHT };
     scene_manager->loadLevel(level);
+}
+
+void GameController::loadMainMenu() {
+    scene_manager->destroyCurrentScene();
+    MainMenu main_menu { getScreenWidth(), getScreenHeight(), this };
+    scene_manager->loadMenu(main_menu);
 }
