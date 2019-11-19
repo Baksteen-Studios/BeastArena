@@ -180,7 +180,7 @@ int GameController::getScreenHeight() const {
     return SCREEN_HEIGHT;
 }
 
-void GameController::startGame(int level_amount) {
+void GameController::startGame() {
     // Create list of levels
     std::string levels_path = "assets/levels";
 

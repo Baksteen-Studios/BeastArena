@@ -39,7 +39,7 @@ MainMenu::MainMenu(int screen_width, int screen_height, GameController* game_con
     start_game_button.text.y_scale = 100;
     const auto game_controller_pass = game_controller;
     start_game_button.on_click = [game_controller_pass]() -> void {
-        game_controller_pass->startGame(10);
+        game_controller_pass->startGame();
     };
     this->buttons.push_back(start_game_button);
 

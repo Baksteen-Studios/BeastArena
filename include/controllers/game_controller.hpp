@@ -20,7 +20,7 @@ public:
     SceneManager& getSceneManager() const;
     int getScreenWidth() const;
     int getScreenHeight() const;
-    void startGame(int level_amount);
+    void startGame();
     void loadNextLevel();
     void loadMainMenu();
 private:
