@@ -24,6 +24,11 @@ void SceneManager::loadLevel(Level& level) {
     current_scene_entities.insert(entity_factory->createWeapon(1100, 200, false));
     current_scene_entities.insert(entity_factory->createWeapon(600, 200, true));
     current_scene_entities.insert(entity_factory->createWeapon(500, 200, false));
+    current_scene_entities.insert(entity_factory->createCritter(400, 300));
+    //current_scene_entities.insert(entity_factory->createCritter(400, 400));
+    //current_scene_entities.insert(entity_factory->createCritter(400, 500));
+    //current_scene_entities.insert(entity_factory->createCritter(400, 600));
+    //current_scene_entities.insert(entity_factory->createCritter(400, 700));
 
     // Create the background
     loadBackground(level.bg_path);
