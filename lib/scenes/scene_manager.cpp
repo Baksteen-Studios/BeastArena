@@ -52,6 +52,8 @@ void SceneManager::loadLevel(Level& level) {
             current_scene_entities.insert(entity_factory->createPlatform(x, y, xScale, yScale, platform.texture_path, platform.alpha));
         }
     }
+
+    engine->toggleCursor(false);
 }
 
 void SceneManager::loadMenu(Menu& menu) {
@@ -82,6 +84,8 @@ void SceneManager::intermission(int timer) {
     auto entity = entity_factory->createText(std::to_string(timer), 800, 450, 300, 300);
     current_scene_entities.insert(entity);
     entity_manager->setTag(entity, "intermission");
+
+    engine->toggleCursor(true);
 }
 
 void SceneManager::destroyCurrentScene() {
