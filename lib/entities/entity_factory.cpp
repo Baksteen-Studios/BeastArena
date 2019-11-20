@@ -30,8 +30,14 @@ int EntityFactory::createGorilla(double x_pos, double y_pos, int player_id) cons
     comps->push_back(std::make_unique<PhysicsComponent>(105, 0, 0, 0, true, Kinematic::IS_NOT_KINEMATIC, true, false));
     comps->push_back(std::make_unique<TextureComponent>(std::move(r)));
     comps->push_back(std::make_unique<PlayerComponent>(player_id));
-    comps->push_back(std::make_unique<HealthComponent>(100, [](int entity_id) {
-
+    comps->push_back(std::make_unique<HealthComponent>(100, [em = entityManager](int entity_id) {
+        auto transform = em->getComponent<TransformComponent>(entity_id);
+        transform->y_direction = Direction::NEGATIVE;
+        auto player = em->getComponent<PlayerComponent>(entity_id);
+        player->disabled = true;
+        auto collider = em->getComponent<RectangleColliderComponent>(entity_id);
+        collider->is_trigger = true;
+        em->addComponentToEntity(entity_id, std::make_unique<PickupComponent>(true, false));
     }));
     comps->push_back(std::make_unique<DespawnComponent>(false, true));
 
@@ -48,9 +54,6 @@ int EntityFactory::createPanda1(double x_pos, double y_pos, int player_id) const
     comps->push_back(std::make_unique<PhysicsComponent>(100, 0, 0, 0, true, Kinematic::IS_NOT_KINEMATIC, true, false));
     comps->push_back(std::make_unique<TextureComponent>(std::move(r)));
     comps->push_back(std::make_unique<PlayerComponent>(player_id));
-    comps->push_back(std::make_unique<ClickComponent>([]() -> void {
-        std::cout << "clicked" << std::endl;
-    }, 1, 1));
     comps->push_back(std::make_unique<HealthComponent>(100, [em = entityManager](int entity_id) {
         auto transform = em->getComponent<TransformComponent>(entity_id);
         transform->y_direction = Direction::NEGATIVE;
@@ -75,9 +78,6 @@ int EntityFactory::createPanda2(double x_pos, double y_pos, int player_id) const
     comps->push_back(std::make_unique<PhysicsComponent>(100, 0, 0, 0, true, Kinematic::IS_NOT_KINEMATIC, true, false));
     comps->push_back(std::make_unique<TextureComponent>(std::move(r)));
     comps->push_back(std::make_unique<PlayerComponent>(player_id));
-    comps->push_back(std::make_unique<ClickComponent>([]() -> void {
-        std::cout << "clicked" << std::endl;
-    }, 1, 1));
     comps->push_back(std::make_unique<HealthComponent>(100, [em = entityManager](int entity_id) {
         auto transform = em->getComponent<TransformComponent>(entity_id);
         transform->y_direction = Direction::NEGATIVE;
@@ -102,9 +102,6 @@ int EntityFactory::createPanda3(double x_pos, double y_pos, int player_id) const
     comps->push_back(std::make_unique<PhysicsComponent>(100, 0, 0, 0, true, Kinematic::IS_NOT_KINEMATIC, true, false));
     comps->push_back(std::make_unique<TextureComponent>(std::move(r)));
     comps->push_back(std::make_unique<PlayerComponent>(player_id));
-    comps->push_back(std::make_unique<ClickComponent>([]() -> void {
-        std::cout << "clicked" << std::endl;
-    }, 1, 1));
     comps->push_back(std::make_unique<HealthComponent>(100, [em = entityManager](int entity_id) {
         auto transform = em->getComponent<TransformComponent>(entity_id);
         transform->y_direction = Direction::NEGATIVE;
