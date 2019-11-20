@@ -5,7 +5,7 @@
 
 GameSystem::GameSystem(std::shared_ptr<EntityManager> em, GameController& gc) : entity_manager(em), game_controller(gc), System(em) {}
 
-void GameSystem::update(double) {
+void GameSystem::update(double deltatime) {
     // Checking how many players are alive.
     auto players = entity_manager->getEntitiesByComponent<PlayerComponent>();
     for (auto player : players) {
@@ -19,8 +19,21 @@ void GameSystem::update(double) {
         int count = players.size() - dead_players.size();
         if(count <= 1) {
             // load next scene.
-            dead_players.clear();
-            game_controller.loadNextLevel();
+            timer += deltatime;
+            if(seconds == 3)
+                game_controller.intermission(seconds);
+            if (timer > 1) {
+                timer = 0;
+                seconds--;
+                game_controller.intermission(seconds);
+            }
+            if(seconds <= 0) {
+                timer = 0;
+                seconds = 3;
+                dead_players.clear();
+                game_controller.loadNextLevel();
+            }
+
         }
     }
 }

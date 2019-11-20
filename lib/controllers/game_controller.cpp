@@ -212,7 +212,7 @@ void GameController::loadNextLevel() {
     // Remove the current scene
     scene_manager->destroyCurrentScene();
 
-    if(level_queue.empty()) {
+    if(!level_queue.empty()) {
         // load from queue
         std::string path = level_queue.front();
         level_queue.pop();
@@ -225,6 +225,10 @@ void GameController::loadNextLevel() {
         // There are no levels left in the queue.
         loadMainMenu();
     }
+}
+
+void GameController::intermission(int timer) {
+    scene_manager->intermission(timer);
 }
 
 void GameController::loadMainMenu() {

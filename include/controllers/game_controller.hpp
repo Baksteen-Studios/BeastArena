@@ -24,6 +24,7 @@ public:
     void loadLevels();
     void loadNextLevel();
     void loadMainMenu();
+    void intermission(int timer);
 
     static constexpr int MAX_LEVELS = 2;
 private:

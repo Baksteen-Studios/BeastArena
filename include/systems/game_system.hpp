@@ -17,6 +17,8 @@ private:
     std::shared_ptr<EntityManager> entity_manager;
     GameController& game_controller;
     std::set<int> dead_players;
+    double timer = 0;
+    int seconds = 3;
 };
 
 #endif // FILE_GAME_SYSTEM
