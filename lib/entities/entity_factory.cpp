@@ -104,6 +104,9 @@ int EntityFactory::createPanda3(double x_pos, double y_pos, int player_id) const
         transform->y_direction = Direction::NEGATIVE;
         auto player = em->getComponent<PlayerComponent>(entity_id);
         player->disabled = true;
+        auto collider = em->getComponent<RectangleColliderComponent>(entity_id);
+        collider->is_trigger = true;
+        em->addComponentToEntity(entity_id, std::make_unique<PickupComponent>(false, false));
     }));
     comps->push_back(std::make_unique<DespawnComponent>(false, true));
 
