@@ -121,11 +121,11 @@ int EntityFactory::createWeapon(double x_pos, double y_pos, bool ammo) const {
     comps->push_back(std::make_unique<TextureComponent>(std::move(weapon_r)));
     comps->push_back(std::make_unique<PickupComponent>());
     comps->push_back(std::make_unique<WeaponComponent>(
-        DamageComponent(10),
+        DamageComponent(25),
         TextureComponent(std::move(bullet_r)),
-        PhysicsComponent(1, 0, 4500, 0, false, Kinematic::IS_NOT_KINEMATIC, false, false),
+        PhysicsComponent(1, 0, 2250, 0, false, Kinematic::IS_NOT_KINEMATIC, false, false),
         DespawnComponent(true, true),
-        Scale(9, 3),
+        Scale(18, 6),
         0.2, ammoOpt));
 
     return entityManager->createEntity(std::move(comps), std::nullopt);
