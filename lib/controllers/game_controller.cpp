@@ -7,6 +7,7 @@
 #include <utility>
 #include <vector>
 #include <deque>
+#include <filesystem>
 using namespace std::chrono_literals;
 
 #include "controllers/game_controller.hpp"
@@ -24,6 +25,7 @@ using namespace std::chrono_literals;
 #include "systems/despawn_system.hpp"
 #include "systems/movement_system.hpp"
 #include "systems/wandering_system.hpp"
+#include "systems/game_system.hpp"
 #include "entities/layers.hpp"
 #include "player_input.hpp"
 #include "brickengine/input_keycode.hpp"
@@ -33,6 +35,8 @@ using namespace std::chrono_literals;
 #include "level/gadget_spawn.hpp"
 #include "level/solid.hpp"
 #include "brickengine/components/colliders/rectangle_collider_component.hpp"
+#include "brickengine/std/random.hpp"
+#include "menu/main_menu.hpp"
 
 GameController::GameController() {
     this->delta_time = 1;
@@ -57,6 +61,7 @@ GameController::GameController() {
 
 void GameController::createSystems() {
     systems = std::vector<std::unique_ptr<System>>();
+    systems.push_back(std::make_unique<GameSystem>(entityManager, *this));
     systems.push_back(std::make_unique<ClickSystem>(entityManager));
     systems.push_back(std::make_unique<MovementSystem>(collisionDetector, entityManager, entityFactory));
     systems.push_back(std::make_unique<WanderingSystem>(collisionDetector, entityManager, entityFactory));
@@ -178,6 +183,35 @@ int GameController::getScreenHeight() const {
 }
 
 void GameController::startGame() {
+    loadLevels();
+    loadNextLevel();
+}
+
+void GameController::loadLevels() {
+    // Create list of levels
+    std::string levels_path = "assets/levels";
+    std::vector<std::string> levels;
+    std::vector<std::string> temp_levels;
+    for (const auto & entry : std::filesystem::directory_iterator(levels_path))
+        levels.push_back(entry.path());
+
+    // Fill queue randomly with levels
+    temp_levels = levels;
+    auto& r = Random::getInstance();
+    while(level_queue.size() != MAX_LEVELS) {
+        int random = r.getRandomInt(0, temp_levels.size() - 1);
+        level_queue.push(temp_levels.at(random));
+        temp_levels.erase(temp_levels.begin() + random);
+
+        // If there are not enough levels
+        if(level_queue.size() < MAX_LEVELS && temp_levels.empty()) {
+            temp_levels = levels;
+        }
+    }
+}
+
+void GameController::loadNextLevel() {
+    // Remove the current scene
     scene_manager->destroyCurrentScene();
 
     // The player characters start off-screen
@@ -194,4 +228,27 @@ void GameController::startGame() {
     Json level_json { "assets/levels/level2.json", true };
     Level level { level_json, SCREEN_WIDTH, SCREEN_HEIGHT };
     scene_manager->loadLevel(level);
+    if(!level_queue.empty()) {
+        // load from queue
+        std::string path = level_queue.front();
+        level_queue.pop();
+
+        // Create the level
+        Json level_json { path, true };
+        Level level { level_json, SCREEN_WIDTH, SCREEN_HEIGHT };
+        scene_manager->loadLevel(level);
+    } else {
+        // There are no levels left in the queue.
+        loadMainMenu();
+    }
+}
+
+void GameController::intermission(int timer) {
+    scene_manager->intermission(timer);
+}
+
+void GameController::loadMainMenu() {
+    scene_manager->destroyCurrentScene();
+    MainMenu main_menu { getScreenWidth(), getScreenHeight(), this };
+    scene_manager->loadMenu(main_menu);
 }
