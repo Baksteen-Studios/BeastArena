@@ -151,9 +151,11 @@ int EntityFactory::createCritter(double x_pos, double y_pos) const {
     comps->push_back(std::make_unique<RectangleColliderComponent>(1, 1, 1, true));
     comps->push_back(std::make_unique<PhysicsComponent>(50, false, 0, 0, true, Kinematic::IS_NOT_KINEMATIC, true, false));
     comps->push_back(std::make_unique<TextureComponent>(std::move(r)));
-    comps->push_back(std::make_unique<WanderingComponent>(3, [em = entityManager](int entity_id) {
+    comps->push_back(std::make_unique<WanderingComponent>([em = entityManager](int entity_id) {
         em->removeEntity(entity_id);
     }));
+    comps->push_back(std::make_unique<DespawnComponent>(false, true));
+    comps->push_back(std::make_unique<PickupComponent>());
 
     return entityManager->createEntity(std::move(comps), std::nullopt);
 }

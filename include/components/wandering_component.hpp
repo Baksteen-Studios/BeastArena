@@ -7,11 +7,15 @@
 class WanderingComponent : public ComponentImpl<WanderingComponent> {
 public:
     using DeathFunction = std::function<void (int entity_id)>;
-    WanderingComponent(double duration, DeathFunction on_death);
+    WanderingComponent(DeathFunction on_death);
     static std::string getNameStatic();
 
     // Data
-    double duration;
+    double duration = 1;
+    double elapsed_time = 0;
+    double waited_for = 0;
+    int random = 0;
+    bool can_move = true;
     DeathFunction on_death;
 };
 

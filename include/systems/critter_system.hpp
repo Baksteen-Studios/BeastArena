@@ -14,10 +14,6 @@ private:
     static constexpr double TERMINAL_VELOCITY = 7'000;
     static constexpr double JUMP_FORCE = 15'000;
     static constexpr double MOVEMENT_FORCE = 0.5;
-    double elapsed_time = 0;
-    double waited_for = 0;
-    int random = 0;
-    bool can_move = true;
     std::shared_ptr<CollisionDetector> collision_detector;
 };
 

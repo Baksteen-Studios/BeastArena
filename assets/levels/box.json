@@ -1,27 +1,27 @@
 {
     "version": 1.0,
-    "name": "Level 2",
-    "description": "The second level of BeastArena",
+    "name": "Box level",
+    "description": "Square > circle",
     "width": 1920,
     "height": 1080,
-    "bg_path": "colors/paper.jpg",
+    "bg_path": "backgrounds/rainforest.png",
     "bg_music": "music/rainforest.mp3",
     "player_spawns": [
         {
-            "x": 100,
+            "x": 400,
             "y": 500
         },
         {
-            "x": 1820,
+            "x": 700,
             "y": 500
         },
         {
-            "x": 100,
-            "y": 700
+            "x": 1000,
+            "y": 500
         },
         {
-           "x": 1820,
-           "y": 700
+           "x": 1300,
+           "y": 500
         }
     ],
     "gadget_spawns": [
@@ -45,171 +45,41 @@
             "shape": "rectangle",
             "effect": "none",
             "texture_path": "colors/black.jpg",
-            "alpha": 255,
-            "x": 0,
+            "alpha": 30,
+            "x": 20,
             "y": 540,
             "xScale": 10,
-            "yScale": 1080
+            "yScale": 1050
         },
         {
             "shape": "rectangle",
             "effect": "none",
             "texture_path": "colors/black.jpg",
             "alpha": 255,
-            "x": 1920,
+            "x": 1900,
             "y": 540,
             "xScale": 10,
-            "yScale": 1080
+            "yScale": 1050
         },
         {
             "shape": "rectangle",
             "effect": "none",
-            "texture_path": "colors/black.jpg",
+            "texture_path": "colors/white.png",
+            "alpha": 120,
+            "x": 960,
+            "y": 1060,
+            "xScale": 1890,
+            "yScale": 10
+        },
+        {
+            "shape": "rectangle",
+            "effect": "none",
+            "texture_path": "colors/white.png",
             "alpha": 255,
             "x": 960,
-            "y": 930,
-            "xScale": 175,
-            "yScale": 50
-        },
-        {
-            "shape": "rectangle",
-            "effect": "none",
-            "texture_path": "colors/black.jpg",
-            "alpha": 255,
-            "x": 760,
-            "y": 965,
-            "xScale": 50,
-            "yScale": 265
-        },
-        {
-            "shape": "rectangle",
-            "effect": "none",
-            "texture_path": "colors/black.jpg",
-            "alpha": 255,
-            "x": 1160,
-            "y": 965,
-            "xScale": 50,
-            "yScale": 265
-        },
-        {
-            "shape": "rectangle",
-            "effect": "none",
-            "texture_path": "colors/black.jpg",
-            "alpha": 255,
-            "x": 368,
-            "y": 1056,
-            "xScale": 735,
-            "yScale": 50
-        },
-        {
-            "shape": "rectangle",
-            "effect": "none",
-            "texture_path": "colors/black.jpg",
-            "alpha": 255,
-            "x": 1551,
-            "y": 1056,
-            "xScale": 740,
-            "yScale": 50
-        },
-        {
-            "shape": "rectangle",
-            "effect": "none",
-            "texture_path": "colors/black.jpg",
-            "alpha": 255,
-            "x": 1651,
-            "y": 1007,
-            "xScale": 640,
-            "yScale": 50
-        },
-        {
-            "shape": "rectangle",
-            "effect": "none",
-            "texture_path": "colors/black.jpg",
-            "alpha": 255,
-            "x": 268,
-            "y": 1007,
-            "xScale": 640,
-            "yScale": 50
-        },
-        {
-            "shape": "rectangle",
-            "effect": "none",
-            "texture_path": "colors/black.jpg",
-            "alpha": 255,
-            "x": 168,
-            "y": 958,
-            "xScale": 540,
-            "yScale": 50
-        },
-        {
-            "shape": "rectangle",
-            "effect": "none",
-            "texture_path": "colors/black.jpg",
-            "alpha": 255,
-            "x": 1752,
-            "y": 958,
-            "xScale": 540,
-            "yScale": 50
-        },
-        {
-            "shape": "rectangle",
-            "effect": "none",
-            "texture_path": "colors/black.jpg",
-            "alpha": 255,
-            "x": 1846,
-            "y": 750,
-            "xScale": 150,
-            "yScale": 50
-        },
-        {
-            "shape": "rectangle",
-            "effect": "none",
-            "texture_path": "colors/black.jpg",
-            "alpha": 255,
-            "x": 74,
-            "y": 750,
-            "xScale": 150,
-            "yScale": 50
-        },
-        {
-            "shape": "rectangle",
-            "effect": "none",
-            "texture_path": "colors/black.jpg",
-            "alpha": 255,
-            "x": 350,
-            "y": 550,
-            "xScale": 150,
-            "yScale": 50
-        },
-        {
-            "shape": "rectangle",
-            "effect": "none",
-            "texture_path": "colors/black.jpg",
-            "alpha": 255,
-            "x": 1670,
-            "y": 550,
-            "xScale": 150,
-            "yScale": 50
-        },
-        {
-            "shape": "rectangle",
-            "effect": "none",
-            "texture_path": "colors/black.jpg",
-            "alpha": 255,
-            "x": 1270,
-            "y": 640,
-            "xScale": 150,
-            "yScale": 50
-        },
-        {
-            "shape": "rectangle",
-            "effect": "none",
-            "texture_path": "colors/black.jpg",
-            "alpha": 255,
-            "x": 650,
-            "y": 640,
-            "xScale": 150,
-            "yScale": 50
+            "y": 20,
+            "xScale": 1890,
+            "yScale": 10
         }
     ]
 }
