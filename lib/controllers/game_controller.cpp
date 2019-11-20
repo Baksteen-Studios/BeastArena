@@ -181,32 +181,40 @@ int GameController::getScreenHeight() const {
 }
 
 void GameController::startGame() {
+    loadLevels();
+    loadNextLevel();
+}
+
+void GameController::loadLevels() {
     // Create list of levels
     std::string levels_path = "assets/levels";
-
+    std::vector<std::string> levels;
+    std::vector<std::string> temp_levels;
     for (const auto & entry : std::filesystem::directory_iterator(levels_path))
         levels.push_back(entry.path());
-    not_completed_levels = levels;
 
-    loadNextLevel();
+    // Fill queue randomly with levels
+    temp_levels = levels;
+    auto& r = Random::getInstance();
+    while(level_queue.size() != MAX_LEVELS) {
+        int random = r.getRandomInt(0, temp_levels.size() - 1);
+        level_queue.push(temp_levels.at(random));
+        temp_levels.erase(temp_levels.begin() + random);
+
+        // If there are not enough levels
+        if(level_queue.size() < MAX_LEVELS && temp_levels.empty()) {
+            temp_levels = levels;
+        }
+    }
 }
 
 void GameController::loadNextLevel() {
     // Remove the current scene
     scene_manager->destroyCurrentScene();
 
-    // If map pool is empty fill it again.
-    if(not_completed_levels.size() <= 0) {
-        not_completed_levels = levels;
-    }
-
-    // Choose level at random
-    auto& r = Random::getInstance();
-    int result = r.getRandomInt(0, not_completed_levels.size() - 1);
-    auto path = not_completed_levels.at(result);
-    
-    // Remove it from the pool
-    not_completed_levels.erase(not_completed_levels.begin() + result);
+    // load from queue
+    std::string path = level_queue.front();
+    level_queue.pop();
 
     // Create the level
     Json level_json { path, true };

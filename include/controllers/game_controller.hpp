@@ -21,8 +21,11 @@ public:
     int getScreenWidth() const;
     int getScreenHeight() const;
     void startGame();
+    void loadLevels();
     void loadNextLevel();
     void loadMainMenu();
+
+    static constexpr int MAX_LEVELS = 2;
 private:
     void createSystems();
     void setupInput();
@@ -38,9 +41,7 @@ private:
     double delta_time;
     int fps_cap;
 
-    std::vector<std::string> levels;
-    std::vector<std::string> not_completed_levels;
-    std::string current_level;
+    std::queue<std::string> level_queue;
 
     std::vector<int> layers;
 
