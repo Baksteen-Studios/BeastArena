@@ -33,6 +33,7 @@ int EntityFactory::createGorilla(double x_pos, double y_pos, int player_id) cons
     comps->push_back(std::make_unique<HealthComponent>(100, [](int entity_id) {
 
     }));
+    comps->push_back(std::make_unique<DespawnComponent>(false, true));
 
     return entityManager->createEntity(std::move(comps), std::nullopt);
 }
@@ -56,6 +57,7 @@ int EntityFactory::createPanda1(double x_pos, double y_pos, int player_id) const
         auto player = em->getComponent<PlayerComponent>(entity_id);
         player->disabled = true;
     }));
+    comps->push_back(std::make_unique<DespawnComponent>(false, true));
 
     return entityManager->createEntity(std::move(comps), std::nullopt);
 }
@@ -79,6 +81,7 @@ int EntityFactory::createPanda2(double x_pos, double y_pos, int player_id) const
         auto player = em->getComponent<PlayerComponent>(entity_id);
         player->disabled = true;
     }));
+    comps->push_back(std::make_unique<DespawnComponent>(false, true));
 
     return entityManager->createEntity(std::move(comps), std::nullopt);
 }
@@ -102,6 +105,7 @@ int EntityFactory::createPanda3(double x_pos, double y_pos, int player_id) const
         auto player = em->getComponent<PlayerComponent>(entity_id);
         player->disabled = true;
     }));
+    comps->push_back(std::make_unique<DespawnComponent>(false, true));
 
     return entityManager->createEntity(std::move(comps), std::nullopt);
 }
