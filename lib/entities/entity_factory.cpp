@@ -131,6 +131,19 @@ int EntityFactory::createWeapon(double x_pos, double y_pos, bool ammo) const {
     return entityManager->createEntity(std::move(comps), std::nullopt);
 }
 
+int EntityFactory::createCritter(double x_pos, double y_pos) const {
+    auto dst = std::unique_ptr<Rect>(new Rect{ 0, 0, 0, 0 });
+    auto r = renderableFactory.createImage(graphicsPath + "beasts/panda/idle-1.png", (int)Layers::Foreground, std::move(dst), 255);
+    auto comps = std::make_unique<std::vector<std::unique_ptr<Component>>>();
+
+    comps->push_back(std::make_unique<TransformComponent>(x_pos, y_pos, 20, 20, Direction::POSITIVE, Direction::POSITIVE));
+    comps->push_back(std::make_unique<RectangleColliderComponent>(1, 1, 1, true));
+    comps->push_back(std::make_unique<PhysicsComponent>(50, false, 0, 0, true, Kinematic::IS_NOT_KINEMATIC, true, true));
+    comps->push_back(std::make_unique<TextureComponent>(std::move(r)));    
+
+    return entityManager->createEntity(std::move(comps), std::nullopt);
+}
+
 int EntityFactory::createImage(std::string path, int x_pos, int y_pos, int x_scale, int y_scale, Layers layer, int alpha) {
     auto dst = std::unique_ptr<Rect>(new Rect{ 0, 0, 0, 0 });
     auto r = renderableFactory.createImage(graphicsPath + path, (int)layer, std::move(dst), alpha);
