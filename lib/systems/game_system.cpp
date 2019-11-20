@@ -20,13 +20,7 @@ void GameSystem::update(double) {
         if(count <= 1) {
             // load next scene.
             dead_players.clear();
-            ++completed_level_amount;
-            if (completed_level_amount < GameController::MAX_LEVELS) {
-                game_controller.loadNextLevel();
-            } else {
-                game_controller.loadMainMenu();
-                completed_level_amount = 0;
-            }
+            game_controller.loadNextLevel();
         }
     }
 }

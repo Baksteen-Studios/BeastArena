@@ -212,14 +212,19 @@ void GameController::loadNextLevel() {
     // Remove the current scene
     scene_manager->destroyCurrentScene();
 
-    // load from queue
-    std::string path = level_queue.front();
-    level_queue.pop();
+    if(level_queue.empty()) {
+        // load from queue
+        std::string path = level_queue.front();
+        level_queue.pop();
 
-    // Create the level
-    Json level_json { path, true };
-    Level level { level_json, SCREEN_WIDTH, SCREEN_HEIGHT };
-    scene_manager->loadLevel(level);
+        // Create the level
+        Json level_json { path, true };
+        Level level { level_json, SCREEN_WIDTH, SCREEN_HEIGHT };
+        scene_manager->loadLevel(level);
+    } else {
+        // There are no levels left in the queue.
+        loadMainMenu();
+    }
 }
 
 void GameController::loadMainMenu() {

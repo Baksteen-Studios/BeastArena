@@ -17,8 +17,6 @@ private:
     std::shared_ptr<EntityManager> entity_manager;
     GameController& game_controller;
     std::set<int> dead_players;
-
-    int completed_level_amount = 0;
 };
 
 #endif // FILE_GAME_SYSTEM
