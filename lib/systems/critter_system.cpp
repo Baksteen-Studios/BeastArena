@@ -45,10 +45,11 @@ void CritterSystem::update(double deltatime){
             wander->duration = r.getRandomInt(0, 20);
         }
 
+        // Keep moving while below duration time
         if(wander->elapsed_time < wander->duration / 10 && wander->can_move){
             wander->elapsed_time += deltatime;
             switch (wander->random) {
-                // Right
+                // Moving right
                 case 0:{
                     if (vx > 0) vx = 0;
                     vx += -1 * TERMINAL_VELOCITY * MOVEMENT_FORCE / mass;
@@ -65,7 +66,7 @@ void CritterSystem::update(double deltatime){
                         }                    
                     }}
                 break;
-                // Left
+                // Moving left
                 case 1:
                     if (vx < 0) vx = 0;
                     vx += TERMINAL_VELOCITY * MOVEMENT_FORCE / mass;
@@ -85,7 +86,9 @@ void CritterSystem::update(double deltatime){
             }                    
             physics->vx = vx + r.getRandomInt(1, 5);
             physics->vy = vy;
-        } else if (wander->can_move) {
+        } 
+        // If time runs out reset and give a random wait duration
+        else if (wander->can_move) {
             wander->can_move = false;
             wander->wait_duration = r.getRandomInt(10, 20);
             wander->waited_for = 0;
