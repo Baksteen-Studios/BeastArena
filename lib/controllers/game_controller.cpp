@@ -56,6 +56,11 @@ GameController::GameController() {
 
     createSystems();
     setupInput();
+    // Create test players
+    entityFactory->createGorilla(1);
+    entityFactory->createPanda1(2);
+    entityFactory->createPanda2(3);
+    entityFactory->createPanda3(4);
 }
 
 void GameController::createSystems() {

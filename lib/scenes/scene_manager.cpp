@@ -8,18 +8,18 @@
 #include "entities/layers.hpp"
 #include "level/solid.hpp"
 #include "level/player_spawn.hpp"
+#include "menu/menu.hpp"
+
+
 #include "brickengine/components/player_component.hpp"
 #include "brickengine/components/transform_component.hpp"
-#include "menu/menu.hpp"
+#include "components/health_component.hpp"
+#include "components/despawn_component.hpp"
 
 SceneManager::SceneManager(std::shared_ptr<EntityFactory> entity_factory, std::shared_ptr<EntityManager> entity_manager, BrickEngine* engine) : entity_factory(entity_factory), entity_manager(entity_manager), engine(engine) {};
 
 void SceneManager::loadLevel(Level& level) {
     // Create the players
-    current_scene_entities.insert(entity_factory->createGorilla(-300, -300, 1));
-    current_scene_entities.insert(entity_factory->createPanda1(-300, -300, 2));
-    current_scene_entities.insert(entity_factory->createPanda2(-300, -300, 3));
-    current_scene_entities.insert(entity_factory->createPanda3(-300, -300, 4));
     current_scene_entities.insert(entity_factory->createWeapon(1000, 200, true));
     current_scene_entities.insert(entity_factory->createWeapon(1100, 200, false));
     current_scene_entities.insert(entity_factory->createWeapon(600, 200, true));
@@ -33,11 +33,19 @@ void SceneManager::loadLevel(Level& level) {
 
     int count = 0;
     for(auto& [entity_id, player]: entities_with_player) {
-        std::ignore = player;
+        player->disabled = false;
+
         auto transform_component = entity_manager->getComponent<TransformComponent>(entity_id);
 
         transform_component->x_pos = level.player_spawns[count].x / level.relative_modifier;
         transform_component->y_pos = level.player_spawns[count].y / level.relative_modifier;
+
+
+        auto despawn_component = entity_manager->getComponent<DespawnComponent>(entity_id);
+        despawn_component->despawn_on_out_of_screen = true;
+        
+        auto health_component = entity_manager->getComponent<HealthComponent>(entity_id);
+        (*health_component->revive)(entity_id);
 
         ++count;
     }
@@ -89,6 +97,22 @@ void SceneManager::intermission(int timer) {
 }
 
 void SceneManager::destroyCurrentScene() {
+    // Load the players on the spawn locations
+    auto entities_with_player = entity_manager->getEntitiesByComponent<PlayerComponent>();
+
+    for(auto& [entity_id, player]: entities_with_player) {
+        auto transform_component = entity_manager->getComponent<TransformComponent>(entity_id);
+        transform_component->x_pos = -2000;
+        transform_component->y_pos = -2000;
+
+        player->disabled = true;
+
+        auto health_component = entity_manager->getComponent<HealthComponent>(entity_id);
+        health_component->health = health_component->max_health;
+        auto despawn_component = entity_manager->getComponent<DespawnComponent>(entity_id);
+        despawn_component->despawn_on_out_of_screen = false;
+    }
+
     for(int entity_id : current_scene_entities) {
         entity_manager->removeEntity(entity_id);
     }
