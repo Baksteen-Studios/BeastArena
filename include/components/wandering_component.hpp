@@ -14,7 +14,7 @@ public:
     double duration = 1;
     double elapsed_time = 0;
     double waited_for = 0;
-    double wait_duration = 1;
+    double wait_duration = 10;
     int random = 0;
     bool can_move = false;
     DeathFunction on_death;
