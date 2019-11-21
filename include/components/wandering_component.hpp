@@ -6,8 +6,7 @@
 
 class WanderingComponent : public ComponentImpl<WanderingComponent> {
 public:
-    using DeathFunction = std::function<void (int entity_id)>;
-    WanderingComponent(DeathFunction on_death);
+    WanderingComponent();
     static std::string getNameStatic();
 
     // Data
@@ -17,7 +16,6 @@ public:
     double wait_duration = 10;
     int random = 0;
     bool can_move = false;
-    DeathFunction on_death;
 };
 
 #endif // FILE_WANDERING_COMPONENT_HPP
