@@ -74,42 +74,49 @@ void GameController::createSystems() {
 void GameController::setupInput() {
     BrickInput<PlayerInput>& input = BrickInput<PlayerInput>::getInstance();
     std::unordered_map<int, std::unordered_map<InputKeyCode, PlayerInput>> inputMapping;
+    std::unordered_map<InputKeyCode, signed int> value_mapping;
     // Player 1
-    inputMapping[1][InputKeyCode::EKey_w] = PlayerInput::UP;
-    inputMapping[1][InputKeyCode::EKey_a] = PlayerInput::LEFT;
-    inputMapping[1][InputKeyCode::EKey_s] = PlayerInput::DOWN;
-    inputMapping[1][InputKeyCode::EKey_d] = PlayerInput::RIGHT;
+    inputMapping[1][InputKeyCode::EKey_w] = PlayerInput::Y_AXIS;
+    inputMapping[1][InputKeyCode::EKey_a] = PlayerInput::X_AXIS;
+    inputMapping[1][InputKeyCode::EKey_s] = PlayerInput::Y_AXIS;
+    inputMapping[1][InputKeyCode::EKey_d] = PlayerInput::X_AXIS;
     inputMapping[1][InputKeyCode::EKey_q] = PlayerInput::GRAB;
     inputMapping[1][InputKeyCode::EKey_e] = PlayerInput::SHOOT;
     inputMapping[1][InputKeyCode::EKey_mouse_left] = PlayerInput::MOUSE_LEFT;
     inputMapping[1][InputKeyCode::EKey_mouse_right] = PlayerInput::MOUSE_RIGHT;
-    // Player 2
-    inputMapping[2][InputKeyCode::EKey_up] = PlayerInput::UP;
-    inputMapping[2][InputKeyCode::EKey_left] = PlayerInput::LEFT;
-    inputMapping[2][InputKeyCode::EKey_down] = PlayerInput::DOWN;
-    inputMapping[2][InputKeyCode::EKey_right] = PlayerInput::RIGHT;
-    inputMapping[2][InputKeyCode::EKey_rctrl] = PlayerInput::GRAB;
-    inputMapping[2][InputKeyCode::EKey_rshift] = PlayerInput::SHOOT;
-    // Player 3
-    inputMapping[3][InputKeyCode::EKey_t] = PlayerInput::UP;
-    inputMapping[3][InputKeyCode::EKey_f] = PlayerInput::LEFT;
-    inputMapping[3][InputKeyCode::EKey_g] = PlayerInput::DOWN;
-    inputMapping[3][InputKeyCode::EKey_h] = PlayerInput::RIGHT;
-    inputMapping[3][InputKeyCode::EKey_r] = PlayerInput::GRAB;
-    inputMapping[3][InputKeyCode::EKey_y] = PlayerInput::SHOOT;
-    // Player 4
-    inputMapping[4][InputKeyCode::EKey_i] = PlayerInput::UP;
-    inputMapping[4][InputKeyCode::EKey_j] = PlayerInput::LEFT;
-    inputMapping[4][InputKeyCode::EKey_k] = PlayerInput::DOWN;
-    inputMapping[4][InputKeyCode::EKey_l] = PlayerInput::RIGHT;
-    inputMapping[4][InputKeyCode::EKey_u] = PlayerInput::GRAB;
-    inputMapping[4][InputKeyCode::EKey_o] = PlayerInput::SHOOT;
+
+    value_mapping[InputKeyCode::EKey_w] = 1;
+    value_mapping[InputKeyCode::EKey_a] = -1;
+    value_mapping[InputKeyCode::EKey_s] = -1;
+    value_mapping[InputKeyCode::EKey_d] = 1;
+
+    //// Player 2
+    //inputMapping[2][InputKeyCode::EKey_up] = PlayerInput::UP;
+    //inputMapping[2][InputKeyCode::EKey_left] = PlayerInput::LEFT;
+    //inputMapping[2][InputKeyCode::EKey_down] = PlayerInput::DOWN;
+    //inputMapping[2][InputKeyCode::EKey_right] = PlayerInput::RIGHT;
+    //inputMapping[2][InputKeyCode::EKey_rctrl] = PlayerInput::GRAB;
+    //inputMapping[2][InputKeyCode::EKey_rshift] = PlayerInput::SHOOT;
+    //// Player 3
+    //inputMapping[3][InputKeyCode::EKey_t] = PlayerInput::UP;
+    //inputMapping[3][InputKeyCode::EKey_f] = PlayerInput::LEFT;
+    //inputMapping[3][InputKeyCode::EKey_g] = PlayerInput::DOWN;
+    //inputMapping[3][InputKeyCode::EKey_h] = PlayerInput::RIGHT;
+    //inputMapping[3][InputKeyCode::EKey_r] = PlayerInput::GRAB;
+    //inputMapping[3][InputKeyCode::EKey_y] = PlayerInput::SHOOT;
+    //// Player 4
+    //inputMapping[4][InputKeyCode::EKey_i] = PlayerInput::UP;
+    //inputMapping[4][InputKeyCode::EKey_j] = PlayerInput::LEFT;
+    //inputMapping[4][InputKeyCode::EKey_k] = PlayerInput::DOWN;
+    //inputMapping[4][InputKeyCode::EKey_l] = PlayerInput::RIGHT;
+    //inputMapping[4][InputKeyCode::EKey_u] = PlayerInput::GRAB;
+    //inputMapping[4][InputKeyCode::EKey_o] = PlayerInput::SHOOT;
 
     std::unordered_map<PlayerInput, double> time_to_wait_mapping;
     time_to_wait_mapping[PlayerInput::GRAB] = 0.1;
     time_to_wait_mapping[PlayerInput::MOUSE_LEFT] = 0.1;
 
-    input.setInputMapping(inputMapping, time_to_wait_mapping);
+    input.setInputMapping(inputMapping, time_to_wait_mapping, value_mapping);
 }
 
 void GameController::gameLoop() {

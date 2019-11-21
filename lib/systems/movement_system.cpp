@@ -28,25 +28,29 @@ void MovementSystem::update(double) {
         double mass = physics->mass;
 
         // Moving left or right
-        if (input.checkInput(player->player_id, PlayerInput::LEFT)) {
+        // TODO add the modifier to the calculation
+        auto x_movement = input.checkInput(player->player_id, PlayerInput::X_AXIS);
+        std::cout << x_movement << std::endl;
+        if (x_movement < 0) {
             if (vx > 0) vx = 0;
             vx += -1 * TERMINAL_VELOCITY * MOVEMENT_FORCE / mass;
             if (vx < (TERMINAL_VELOCITY * -1) / mass) {
                 vx = (TERMINAL_VELOCITY * -1) / mass;
             }
-        } else {
-        if (input.checkInput(player->player_id, PlayerInput::RIGHT)) {
-            if (vx < 0) vx = 0;
-                vx += TERMINAL_VELOCITY * MOVEMENT_FORCE / mass;
-                if (vx > TERMINAL_VELOCITY / mass) {
-                    vx = TERMINAL_VELOCITY / mass;
-                }
-            } else {
+        }
+        else if (x_movement > 0) {
+            if (vx < 0) 
                 vx = 0;
+            vx += TERMINAL_VELOCITY * MOVEMENT_FORCE / mass;
+            if (vx > TERMINAL_VELOCITY / mass) {
+                vx = TERMINAL_VELOCITY / mass;
             }
+        } else {
+            vx = 0;
         }
         // Jumping
-        if (input.checkInput(player->player_id, PlayerInput::UP)) {
+        // TODO check if it is positive
+        if (input.checkInput(player->player_id, PlayerInput::Y_AXIS)) {
             bool standsOnPlatform = collision_detector->spaceLeft(entity_id, Axis::Y, Direction::POSITIVE).space_left == 0;
 
             if (standsOnPlatform) {
