@@ -20,7 +20,8 @@ void CritterSystem::update(double deltatime){
         double vy = physics->vy;
         double mass = physics->mass;
 
-        if (wander->waited_for < 1 && !wander->can_move) {
+        // Delay before moving again
+        if (wander->waited_for < wander->wait_duration / 10 && !wander->can_move) {
             wander->waited_for += deltatime;
         }
         // Reset variables
@@ -86,7 +87,7 @@ void CritterSystem::update(double deltatime){
             physics->vy = vy;
         } else if (wander->can_move) {
             wander->can_move = false;
-            int wait = r.getRandomInt(5, 10);
+            wander->wait_duration = r.getRandomInt(10, 20);
             wander->waited_for = 0;
         }
     }
