@@ -11,6 +11,7 @@
 #include "brickengine/components/player_component.hpp"
 #include "brickengine/components/transform_component.hpp"
 #include "menu/menu.hpp"
+#include "components/wandering_component.hpp"
 
 SceneManager::SceneManager(std::shared_ptr<EntityFactory> entity_factory, std::shared_ptr<EntityManager> entity_manager, BrickEngine* engine) : entity_factory(entity_factory), entity_manager(entity_manager), engine(engine) {};
 
@@ -24,12 +25,6 @@ void SceneManager::loadLevel(Level& level) {
     current_scene_entities.insert(entity_factory->createWeapon(1100, 200, false));
     current_scene_entities.insert(entity_factory->createWeapon(600, 200, true));
     current_scene_entities.insert(entity_factory->createWeapon(500, 200, false));
-
-    int critter_amount = 10;
-    for (int i = 0; i < critter_amount; i++) {
-        // Maybe implement critter spawners?
-        current_scene_entities.insert(entity_factory->createCritter(500, 300));
-    }
 
     // Create the background
     loadBackground(level.bg_path);
@@ -46,6 +41,12 @@ void SceneManager::loadLevel(Level& level) {
         transform_component->y_pos = level.player_spawns[count].y / level.relative_modifier;
 
         ++count;
+    }
+
+    //Load the critters on the spawn locations
+    for(int i = 0; i < level.critter_spawns.size(); i++) {
+        current_scene_entities.insert(entity_factory->createCritter(level.critter_spawns[i].x / level.relative_modifier,
+        level.critter_spawns[i].y / level.relative_modifier));
     }
 
     // Create the platforms

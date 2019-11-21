@@ -42,7 +42,9 @@ int EntityFactory::createGorilla(double x_pos, double y_pos, int player_id) cons
     }));
     comps->push_back(std::make_unique<DespawnComponent>(false, true));
 
-    return entityManager->createEntity(std::move(comps), std::nullopt);
+    int entity = entityManager->createEntity(std::move(comps), std::nullopt);
+    entityManager->setTag(entity, "Player");
+    return entity;
 }
 
 int EntityFactory::createPanda1(double x_pos, double y_pos, int player_id) const {
@@ -66,7 +68,9 @@ int EntityFactory::createPanda1(double x_pos, double y_pos, int player_id) const
     }));
     comps->push_back(std::make_unique<DespawnComponent>(false, true));
 
-    return entityManager->createEntity(std::move(comps), std::nullopt);
+    int entity = entityManager->createEntity(std::move(comps), std::nullopt);
+    entityManager->setTag(entity, "Player");
+    return entity;
 }
 
 int EntityFactory::createPanda2(double x_pos, double y_pos, int player_id) const {
@@ -90,7 +94,9 @@ int EntityFactory::createPanda2(double x_pos, double y_pos, int player_id) const
     }));
     comps->push_back(std::make_unique<DespawnComponent>(false, true));
 
-    return entityManager->createEntity(std::move(comps), std::nullopt);
+    int entity = entityManager->createEntity(std::move(comps), std::nullopt);
+    entityManager->setTag(entity, "Player");
+    return entity;
 }
 
 int EntityFactory::createPanda3(double x_pos, double y_pos, int player_id) const {
@@ -114,7 +120,9 @@ int EntityFactory::createPanda3(double x_pos, double y_pos, int player_id) const
     }));
     comps->push_back(std::make_unique<DespawnComponent>(false, true));
 
-    return entityManager->createEntity(std::move(comps), std::nullopt);
+    int entity = entityManager->createEntity(std::move(comps), std::nullopt);
+    entityManager->setTag(entity, "Player");
+    return entity;
 }
 
 int EntityFactory::createWeapon(double x_pos, double y_pos, bool ammo) const {
@@ -139,7 +147,9 @@ int EntityFactory::createWeapon(double x_pos, double y_pos, bool ammo) const {
         Scale(12, 4),
         0.2, ammoOpt));
 
-    return entityManager->createEntity(std::move(comps), std::nullopt);
+    int entity = entityManager->createEntity(std::move(comps), std::nullopt);
+    entityManager->setTag(entity, "Weapon");
+    return entity;
 }
 
 int EntityFactory::createCritter(double x_pos, double y_pos) const {
@@ -157,7 +167,9 @@ int EntityFactory::createCritter(double x_pos, double y_pos) const {
     comps->push_back(std::make_unique<DespawnComponent>(false, true));
     comps->push_back(std::make_unique<PickupComponent>());
 
-    return entityManager->createEntity(std::move(comps), std::nullopt);
+    int entity = entityManager->createEntity(std::move(comps), std::nullopt);
+    entityManager->setTag(entity, "Critter");
+    return entity;
 }
 
 int EntityFactory::createImage(std::string path, int x_pos, int y_pos, int x_scale, int y_scale, Layers layer, int alpha) {

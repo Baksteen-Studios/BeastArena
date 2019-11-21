@@ -15,7 +15,7 @@ public:
     double elapsed_time = 0;
     double waited_for = 0;
     int random = 0;
-    bool can_move = true;
+    bool can_move = false;
     DeathFunction on_death;
 };
 

@@ -38,6 +38,8 @@ using namespace std::chrono_literals;
 #include "brickengine/std/random.hpp"
 #include "menu/main_menu.hpp"
 
+#include "components/wandering_component.hpp"
+
 GameController::GameController() {
     this->delta_time = 1;
 #ifdef PERFORMANCE_DEBUGGING

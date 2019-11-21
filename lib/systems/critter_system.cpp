@@ -20,6 +20,30 @@ void CritterSystem::update(double deltatime){
         double vy = physics->vy;
         double mass = physics->mass;
 
+        if (wander->waited_for < 1 && !wander->can_move) {
+            wander->waited_for += deltatime;
+        }
+        // Reset variables
+        else if (!wander->can_move){
+            wander->can_move = true;
+            wander->elapsed_time = 0;
+            wander->waited_for = 0;
+            wander->random = r.getRandomInt(0, 1);
+            // If critter is in front of a wall and is trying to go that direction use opposite direction
+            if (wander->random == 0) {
+                auto right = collision_detector->spaceLeft(entity_id, Axis::X, Direction::NEGATIVE);
+                if (right.space_left * -1 <= 0) {
+                    wander->random = 1;
+                }
+            } else {
+                auto left = collision_detector->spaceLeft(entity_id, Axis::X, Direction::POSITIVE);
+                if(left.space_left <= 0){
+                    wander->random = 0;
+                }
+            }
+            wander->duration = r.getRandomInt(0, 20);
+        }
+
         if(wander->elapsed_time < wander->duration / 10 && wander->can_move){
             wander->elapsed_time += deltatime;
             switch (wander->random) {
@@ -64,30 +88,6 @@ void CritterSystem::update(double deltatime){
             wander->can_move = false;
             int wait = r.getRandomInt(5, 10);
             wander->waited_for = 0;
-        }
-
-        if (wander->waited_for < 1 && !wander->can_move) {
-            wander->waited_for += deltatime;
-        }
-        // Reset variables
-        else if (!wander->can_move){
-            wander->can_move = true;
-            wander->elapsed_time = 0;
-            wander->waited_for = 0;
-            wander->random = r.getRandomInt(0, 1);
-            // If critter is in front of a wall and is trying to go that direction use opposite direction
-            if (wander->random == 0) {
-                auto right = collision_detector->spaceLeft(entity_id, Axis::X, Direction::NEGATIVE);
-                if (right.space_left * -1 <= 0) {
-                    wander->random = 1;
-                }
-            } else {
-                auto left = collision_detector->spaceLeft(entity_id, Axis::X, Direction::POSITIVE);
-                if(left.space_left <= 0){
-                    wander->random = 0;
-                }
-            }
-            wander->duration = r.getRandomInt(0, 20);
         }
     }
 }

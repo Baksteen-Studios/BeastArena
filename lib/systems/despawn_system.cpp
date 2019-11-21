@@ -1,6 +1,8 @@
 #include "systems/despawn_system.hpp"
 #include "components/health_component.hpp"
 
+#include <string>
+
 DespawnSystem::DespawnSystem(std::shared_ptr<CollisionDetector> cd, std::shared_ptr<EntityManager> em,
                              int screen_width, int screen_height)
     : System(em), collision_detector(cd), screen_width(screen_width), screen_height(screen_height) {}
