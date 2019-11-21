@@ -29,7 +29,7 @@ void CritterSystem::update(double deltatime){
             wander->can_move = true;
             wander->elapsed_time = 0;
             wander->waited_for = 0;
-            wamder->random = r.getRandomInt(0, 1);
+            wander->random = r.getRandomInt(0, 1);
             // If critter is in front of a wall and is trying to go that direction use opposite direction
             if (wander->random == 0) {
                 auto right = collision_detector->spaceLeft(entity_id, Axis::X, Direction::NEGATIVE);
