@@ -30,7 +30,6 @@ void MovementSystem::update(double) {
         // Moving left or right
         // TODO add the modifier to the calculation
         auto x_movement = input.checkInput(player->player_id, PlayerInput::X_AXIS);
-        std::cout << x_movement << std::endl;
         if (x_movement < 0) {
             if (vx > 0) vx = 0;
             vx += -1 * TERMINAL_VELOCITY * MOVEMENT_FORCE / mass;
