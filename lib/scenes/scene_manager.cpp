@@ -122,3 +122,9 @@ void SceneManager::destroyCurrentScene() {
 void SceneManager::loadBackground(std::string path) {
     current_scene_entities.insert(entity_factory->createImage(path, engine->getWindowWidth() / 2, engine->getWindowHeight() / 2, engine->getWindowWidth(), engine->getWindowHeight(), Layers::Background, 255));
 }
+
+void SceneManager::endGame(std::vector<std::pair<int, int>> results){
+    for (auto& [ entity_id, stats ] : results) {
+        
+    }
+}

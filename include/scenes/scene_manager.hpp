@@ -17,6 +17,7 @@ public:
     void loadMenu(Menu& menu);
     void destroyCurrentScene();
     void intermission(int timer);
+    void endGame(std::vector<std::pair<int, int>> results);
 private:
     void loadBackground(std::string path);
 

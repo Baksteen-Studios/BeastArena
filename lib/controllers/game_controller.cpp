@@ -36,6 +36,8 @@ using namespace std::chrono_literals;
 #include "brickengine/components/colliders/rectangle_collider_component.hpp"
 #include "brickengine/std/random.hpp"
 #include "menu/main_menu.hpp"
+#include "components/stats_component.hpp"
+#include <algorithm>
 
 GameController::GameController() {
     this->delta_time = 1;
@@ -228,7 +230,7 @@ void GameController::loadNextLevel() {
         scene_manager->loadLevel(level);
     } else {
         // There are no levels left in the queue.
-        loadMainMenu();
+        loadEndGameLevel();
     }
 }
 
@@ -240,4 +242,25 @@ void GameController::loadMainMenu() {
     scene_manager->destroyCurrentScene();
     MainMenu main_menu { getScreenWidth(), getScreenHeight(), this };
     scene_manager->loadMenu(main_menu);
+}
+void GameController::loadEndGameLevel() {
+    // entity_id and points
+    std::vector<std::pair<int, int>> results;
+    auto entities_with_player = entityManager->getEntitiesByComponent<PlayerComponent>();
+    for (auto& [ entity_id, player ] : entities_with_player) {
+        auto stats = entityManager->getComponent<StatsComponent>(entity_id);
+
+        results.push_back(std::make_pair(entity_id, stats->points));
+    }
+
+   std::sort(results.begin(), results.end(), [](auto lhs, auto rhs) {
+       return lhs.second > rhs.second;
+   });
+
+   for (auto& [entity_id, points] : results) {
+       auto player = entityManager->getComponent<PlayerComponent>(entity_id);
+       std::cout << entity_id << " - " << player->name << " - " << points << std::endl;
+   }
+
+   scene_manager->endGame(results);
 }
