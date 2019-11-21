@@ -31,8 +31,8 @@ void MovementSystem::update(double) {
         if (input.checkInput(player->player_id, PlayerInput::LEFT)) {
             if (vx > 0) vx = 0;
             vx += -1 * TERMINAL_VELOCITY * MOVEMENT_FORCE / mass;
-            if (vx < TERMINAL_VELOCITY * -1 / mass) {
-                vx = TERMINAL_VELOCITY * -1 / mass;
+            if (vx < (TERMINAL_VELOCITY * -1) / mass) {
+                vx = (TERMINAL_VELOCITY * -1) / mass;
             }
         } else {
         if (input.checkInput(player->player_id, PlayerInput::RIGHT)) {

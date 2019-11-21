@@ -29,45 +29,33 @@ void CritterSystem::update(double deltatime){
             wander->can_move = true;
             wander->elapsed_time = 0;
             wander->waited_for = 0;
-            wander->random = r.getRandomInt(0, 1);
+            wander->duration = r.getRandomInt(0, 20);
+            auto random = r.getRandomInt(0, 1);
+            if (random == 1) {
+                wander->direction = Direction::POSITIVE;
+            } else {
+                wander->direction = Direction::NEGATIVE;
+            }
             // If critter is in front of a wall and is trying to go that direction use opposite direction
-            if (wander->random == 0) {
+            if (wander->direction == Direction::NEGATIVE) {
                 auto right = collision_detector->spaceLeft(entity_id, Axis::X, Direction::NEGATIVE);
                 if (right.space_left * -1 <= 0) {
-                    wander->random = 1;
+                    wander->direction = Direction::POSITIVE;
                 }
             } else {
                 auto left = collision_detector->spaceLeft(entity_id, Axis::X, Direction::POSITIVE);
                 if(left.space_left <= 0){
-                    wander->random = 0;
+                    wander->direction = Direction::NEGATIVE;
                 }
             }
-            wander->duration = r.getRandomInt(0, 20);
         }
 
         // Keep moving while below duration time
-        if(wander->elapsed_time < wander->duration / 10 && wander->can_move){
+        if(wander->elapsed_time < wander->duration / 10 && wander->can_move) {
             wander->elapsed_time += deltatime;
-            switch (wander->random) {
-                // Moving right
-                case 0:{
-                    if (vx > 0) vx = 0;
-                    vx += -1 * TERMINAL_VELOCITY * MOVEMENT_FORCE / mass;
-                    if (vx < (TERMINAL_VELOCITY * -1) / mass) {
-                        vx = TERMINAL_VELOCITY * -1 / mass;
-                    }
-                    // If there is a entity in front of the critter start jumping
-                    auto right = collision_detector->spaceLeft(entity_id, Axis::X, Direction::NEGATIVE);
-                    if (right.space_left <= 0) {
-                        bool on_platform = collision_detector->spaceLeft(entity_id, Axis::Y, Direction::POSITIVE).space_left == 0;
 
-                        if (on_platform) {
-                            vy = -1 * (JUMP_FORCE / mass);
-                        }                    
-                    }}
-                break;
-                // Moving left
-                case 1:
+            // Moving right
+            if (wander->direction == Direction::POSITIVE) {
                     if (vx < 0) vx = 0;
                     vx += TERMINAL_VELOCITY * MOVEMENT_FORCE / mass;
                     if (vx > TERMINAL_VELOCITY / mass) {
@@ -82,8 +70,24 @@ void CritterSystem::update(double deltatime){
                             vy = -1 * (JUMP_FORCE / mass);
                         }                    
                     }
-                break;
-            }                    
+            // Moving left
+            } else {
+                    if (vx > 0) vx = 0;
+                    vx += -1 * TERMINAL_VELOCITY * MOVEMENT_FORCE / mass;
+                    if (vx < (TERMINAL_VELOCITY * -1) / mass) {
+                        vx = TERMINAL_VELOCITY * -1 / mass;
+                    }
+                    // If there is a entity in front of the critter start jumping
+                    auto right = collision_detector->spaceLeft(entity_id, Axis::X, Direction::NEGATIVE);
+                    if (right.space_left <= 0) {
+                        bool on_platform = collision_detector->spaceLeft(entity_id, Axis::Y, Direction::POSITIVE).space_left == 0;
+
+                        if (on_platform) {
+                            vy = -1 * (JUMP_FORCE / mass);
+                        }                    
+                    }
+
+            }
             physics->vx = vx + r.getRandomInt(1, 5);
             physics->vy = vy;
         } 

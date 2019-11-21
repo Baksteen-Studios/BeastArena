@@ -3,6 +3,7 @@
 
 #include "brickengine/components/component_impl.hpp"
 #include <functional>
+#include "brickengine/enum/direction.hpp"
 
 class WanderingComponent : public ComponentImpl<WanderingComponent> {
 public:
@@ -14,7 +15,7 @@ public:
     double elapsed_time = 0;
     double waited_for = 0;
     double wait_duration = 10;
-    int random = 0;
+    Direction direction;
     bool can_move = false;
 };
 
