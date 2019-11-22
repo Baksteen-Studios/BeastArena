@@ -165,6 +165,7 @@ void GameController::gameLoop() {
         fps_history.push_back(engine->getFps());
 #endif // PERFORMANCE_DEBUGGING
     }
+    engine->getSoundManager().stopMusic();
     engine->stop();
 }
 
