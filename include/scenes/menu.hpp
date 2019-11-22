@@ -4,14 +4,14 @@
 #include <string>
 #include <vector>
 
-#include "scenes/scene.hpp"
-#include "brickengine/json/json.hpp"
+#include "scenes/beast_scene.hpp"
 #include "menu/button.hpp"
 #include "menu/image.hpp"
 
-class Menu : public Scene {
+template<typename MenuType>
+class Menu : public BeastScene<MenuType> {
 public:
-    Menu(int screen_width, int screen_height) : Scene(screen_width, screen_height, 1920, 1080) {};
+    Menu(int width, int height) : BeastScene(width, height);
 
     // Buttons
     std::vector<Button> buttons;

@@ -1,24 +1,20 @@
-#include "menu/main_menu.hpp"
+#include "scenes/main_menu.hpp"
 
 #include <string>
 #include <functional>
 
 #include "entities/entity_factory.hpp"
-#include "scenes/scene_manager.hpp"
-#include "scenes/scene.hpp"
+#include "brickengine/scenes/scene_manager.hpp"
 #include "brickengine/json/json.hpp"
 #include "exceptions/size_mismatch_exception.hpp"
 #include "menu/button.hpp"
 #include "menu/image.hpp"
 #include "brickengine/rendering/renderables/data/color.hpp"
-#include "level/level.hpp"
 #include "brickengine/json/json.hpp"
 #include "controllers/game_controller.hpp"
 
 MainMenu::MainMenu(int screen_width, int screen_height, GameController* game_controller) : Menu(screen_width, screen_height) {
     // General information
-    this->version = 1.0;
-    this->name = "Main Menu";
     this->bg_path = "colors/white.png";
     this->bg_music = "music/rainforest.mp3";
 

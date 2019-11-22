@@ -29,13 +29,13 @@ using namespace std::chrono_literals;
 #include "player_input.hpp"
 #include "brickengine/input_keycode.hpp"
 #include "brickengine/json/json.hpp"
-#include "level/level.hpp"
+#include "scenes/level_scene.hpp"
 #include "level/player_spawn.hpp"
 #include "level/gadget_spawn.hpp"
 #include "level/solid.hpp"
 #include "brickengine/components/colliders/rectangle_collider_component.hpp"
 #include "brickengine/std/random.hpp"
-#include "menu/main_menu.hpp"
+#include "scenes/main_menu.hpp"
 #include "components/stats_component.hpp"
 #include <algorithm>
 
@@ -54,7 +54,9 @@ GameController::GameController() {
     entityManager = std::make_shared<EntityManager>();
     entityFactory = std::make_shared<EntityFactory>(entityManager, *engine->getRenderableFactory());
     collisionDetector = std::make_shared<CollisionDetector>(entityManager);
-    scene_manager = std::make_unique<SceneManager>(entityFactory, entityManager, engine.get());
+    scene_manager = std::make_unique<SceneManager<GameState, EntityFactory>>(*entityManager);
+    game_state_manager = std::make_unique<GameStateManager<GameState>>();
+
 
     createSystems();
     setupInput();
@@ -133,8 +135,8 @@ void GameController::gameLoop() {
 
         engine->getRenderer()->clearScreen();
 
-        for (auto& system : systems) {
-            system->update(delta_time);
+        for (auto& system : game_state_manager->getSystems()) {
+            system.update(delta_time);
         }
 
         engine->drawFpsCounter();
@@ -175,7 +177,7 @@ void GameController::gameLoop() {
     engine->stop();
 }
 
-SceneManager& GameController::getSceneManager() const {
+SceneManager<GameState, EntityFactory>& GameController::getSceneManager() const {
     return *scene_manager.get();
 }
 
