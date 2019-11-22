@@ -21,6 +21,7 @@ public:
     int createCheetah(double x_pos, double y_pos, int player_id) const;
     int createElephant(double x_pos, double y_pos, int player_id) const;
     int createWeapon(double x_pos, double y_pos, bool ammo) const;
+    int createCritter(double x_pos, double y_pos) const;
     int createImage(std::string path, int x_pos, int y_pos, int x_scale, int y_scale, Layers layer, int alpha);
     int createPlatform(double x_pos, double y_pos, double x_scale, double y_scale, std::string path, int alpha);
     std::pair<int, int> createButton(const Button button, const double relative_modifier);
