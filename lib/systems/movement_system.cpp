@@ -28,27 +28,19 @@ void MovementSystem::update(double) {
         double mass = physics->mass;
 
         // Moving left or right
-        // TODO add the modifier to the calculation
         auto x_movement = input.checkInput(player->player_id, PlayerInput::X_AXIS);
         if (x_movement < 0) {
             if (vx > 0) vx = 0;
-            vx += -1 * TERMINAL_VELOCITY * MOVEMENT_FORCE / mass;
-            if (vx < (TERMINAL_VELOCITY * -1) / mass) {
-                vx = (TERMINAL_VELOCITY * -1) / mass;
-            }
+            vx = x_movement * MOVEMENT_FORCE / mass;
         }
         else if (x_movement > 0) {
             if (vx < 0) 
                 vx = 0;
-            vx += TERMINAL_VELOCITY * MOVEMENT_FORCE / mass;
-            if (vx > TERMINAL_VELOCITY / mass) {
-                vx = TERMINAL_VELOCITY / mass;
-            }
+            vx = x_movement * MOVEMENT_FORCE / mass;
         } else {
             vx = 0;
         }
         // Jumping
-        // TODO check if it is positive
         if (input.checkInput(player->player_id, PlayerInput::Y_AXIS)) {
             bool standsOnPlatform = collision_detector->spaceLeft(entity_id, Axis::Y, Direction::POSITIVE).space_left == 0;
 

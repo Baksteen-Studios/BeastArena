@@ -8,6 +8,7 @@
 #include <vector>
 #include <deque>
 #include <filesystem>
+#include <map>
 using namespace std::chrono_literals;
 
 #include "controllers/game_controller.hpp"
@@ -73,14 +74,16 @@ void GameController::createSystems() {
 
 void GameController::setupInput() {
     BrickInput<PlayerInput>& input = BrickInput<PlayerInput>::getInstance();
-    std::unordered_map<int, std::unordered_map<InputKeyCode, PlayerInput>> inputMapping;
+    std::map<int, std::unordered_map<InputKeyCode, PlayerInput>> inputMapping;
+
+    // This map is used to determine what the value of the input should be when pressed.
     std::unordered_map<InputKeyCode, signed int> axis_mapping;
+    // Keyboard
     // Player 1
     inputMapping[1][InputKeyCode::EKey_w] = PlayerInput::Y_AXIS;
     inputMapping[1][InputKeyCode::EKey_a] = PlayerInput::X_AXIS;
     inputMapping[1][InputKeyCode::EKey_s] = PlayerInput::Y_AXIS;
     inputMapping[1][InputKeyCode::EKey_d] = PlayerInput::X_AXIS;
-    inputMapping[1][InputKeyCode::EController_x_axis] = PlayerInput::X_AXIS;
     inputMapping[1][InputKeyCode::EKey_q] = PlayerInput::GRAB;
     inputMapping[1][InputKeyCode::EKey_e] = PlayerInput::SHOOT;
     inputMapping[1][InputKeyCode::EKey_mouse_left] = PlayerInput::MOUSE_LEFT;
@@ -90,27 +93,64 @@ void GameController::setupInput() {
     axis_mapping[InputKeyCode::EKey_a] = -1;
     axis_mapping[InputKeyCode::EKey_s] = -1;
     axis_mapping[InputKeyCode::EKey_d] = 1;
-    //// Player 2
-    //inputMapping[2][InputKeyCode::EKey_up] = PlayerInput::UP;
-    //inputMapping[2][InputKeyCode::EKey_left] = PlayerInput::LEFT;
-    //inputMapping[2][InputKeyCode::EKey_down] = PlayerInput::DOWN;
-    //inputMapping[2][InputKeyCode::EKey_right] = PlayerInput::RIGHT;
-    //inputMapping[2][InputKeyCode::EKey_rctrl] = PlayerInput::GRAB;
-    //inputMapping[2][InputKeyCode::EKey_rshift] = PlayerInput::SHOOT;
-    //// Player 3
-    //inputMapping[3][InputKeyCode::EKey_t] = PlayerInput::UP;
-    //inputMapping[3][InputKeyCode::EKey_f] = PlayerInput::LEFT;
-    //inputMapping[3][InputKeyCode::EKey_g] = PlayerInput::DOWN;
-    //inputMapping[3][InputKeyCode::EKey_h] = PlayerInput::RIGHT;
-    //inputMapping[3][InputKeyCode::EKey_r] = PlayerInput::GRAB;
-    //inputMapping[3][InputKeyCode::EKey_y] = PlayerInput::SHOOT;
-    //// Player 4
-    //inputMapping[4][InputKeyCode::EKey_i] = PlayerInput::UP;
-    //inputMapping[4][InputKeyCode::EKey_j] = PlayerInput::LEFT;
-    //inputMapping[4][InputKeyCode::EKey_k] = PlayerInput::DOWN;
-    //inputMapping[4][InputKeyCode::EKey_l] = PlayerInput::RIGHT;
-    //inputMapping[4][InputKeyCode::EKey_u] = PlayerInput::GRAB;
-    //inputMapping[4][InputKeyCode::EKey_o] = PlayerInput::SHOOT;
+    // Player 2
+    inputMapping[2][InputKeyCode::EKey_up] = PlayerInput::Y_AXIS;
+    inputMapping[2][InputKeyCode::EKey_left] = PlayerInput::X_AXIS;
+    inputMapping[2][InputKeyCode::EKey_down] = PlayerInput::Y_AXIS;
+    inputMapping[2][InputKeyCode::EKey_right] = PlayerInput::X_AXIS;
+    inputMapping[2][InputKeyCode::EKey_rctrl] = PlayerInput::GRAB;
+    inputMapping[2][InputKeyCode::EKey_rshift] = PlayerInput::SHOOT;
+
+    axis_mapping[InputKeyCode::EKey_up] = 1;
+    axis_mapping[InputKeyCode::EKey_left] = -1;
+    axis_mapping[InputKeyCode::EKey_down] = -1;
+    axis_mapping[InputKeyCode::EKey_right] = 1;
+
+    // Player 3
+    inputMapping[3][InputKeyCode::EKey_t] = PlayerInput::Y_AXIS;
+    inputMapping[3][InputKeyCode::EKey_f] = PlayerInput::X_AXIS;
+    inputMapping[3][InputKeyCode::EKey_g] = PlayerInput::Y_AXIS;
+    inputMapping[3][InputKeyCode::EKey_h] = PlayerInput::X_AXIS;
+    inputMapping[3][InputKeyCode::EKey_r] = PlayerInput::GRAB;
+    inputMapping[3][InputKeyCode::EKey_y] = PlayerInput::SHOOT;
+    
+    axis_mapping[InputKeyCode::EKey_t] = 1;
+    axis_mapping[InputKeyCode::EKey_f] = -1;
+    axis_mapping[InputKeyCode::EKey_g] = -1;
+    axis_mapping[InputKeyCode::EKey_h] = 1;
+    // Player 4
+    inputMapping[4][InputKeyCode::EKey_i] = PlayerInput::Y_AXIS;
+    inputMapping[4][InputKeyCode::EKey_j] = PlayerInput::X_AXIS;
+    inputMapping[4][InputKeyCode::EKey_k] = PlayerInput::Y_AXIS;
+    inputMapping[4][InputKeyCode::EKey_l] = PlayerInput::X_AXIS;
+    inputMapping[4][InputKeyCode::EKey_u] = PlayerInput::GRAB;
+    inputMapping[4][InputKeyCode::EKey_o] = PlayerInput::SHOOT;
+
+    axis_mapping[InputKeyCode::EKey_i] = 1;
+    axis_mapping[InputKeyCode::EKey_j] = -1;
+    axis_mapping[InputKeyCode::EKey_k] = -1;
+    axis_mapping[InputKeyCode::EKey_l] = 1;
+
+    // Controller
+    inputMapping[1][InputKeyCode::EController_x_axis] = PlayerInput::X_AXIS;
+    inputMapping[1][InputKeyCode::EController_a] = PlayerInput::Y_AXIS;
+    inputMapping[1][InputKeyCode::EController_x] = PlayerInput::SHOOT;
+    inputMapping[1][InputKeyCode::EController_y] = PlayerInput::GRAB;
+
+    inputMapping[2][InputKeyCode::EController_x_axis] = PlayerInput::X_AXIS;
+    inputMapping[2][InputKeyCode::EController_a] = PlayerInput::Y_AXIS;
+    inputMapping[2][InputKeyCode::EController_x] = PlayerInput::SHOOT;
+    inputMapping[2][InputKeyCode::EController_y] = PlayerInput::GRAB;
+
+    inputMapping[3][InputKeyCode::EController_x_axis] = PlayerInput::X_AXIS;
+    inputMapping[3][InputKeyCode::EController_a] = PlayerInput::Y_AXIS;
+    inputMapping[3][InputKeyCode::EController_x] = PlayerInput::SHOOT;
+    inputMapping[3][InputKeyCode::EController_y] = PlayerInput::GRAB;
+
+    inputMapping[4][InputKeyCode::EController_x_axis] = PlayerInput::X_AXIS;
+    inputMapping[4][InputKeyCode::EController_a] = PlayerInput::Y_AXIS;
+    inputMapping[4][InputKeyCode::EController_x] = PlayerInput::SHOOT;
+    inputMapping[4][InputKeyCode::EController_y] = PlayerInput::GRAB;
 
     std::unordered_map<PlayerInput, double> time_to_wait_mapping;
     time_to_wait_mapping[PlayerInput::GRAB] = 0.1;
