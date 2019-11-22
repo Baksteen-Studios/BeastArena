@@ -54,7 +54,7 @@ GameController::GameController() {
     entityManager = std::make_shared<EntityManager>();
     entityFactory = std::make_shared<EntityFactory>(entityManager, *engine->getRenderableFactory());
     collisionDetector = std::make_shared<CollisionDetector>(entityManager);
-    scene_manager = std::make_unique<SceneManager<GameState, EntityFactory>>(*entityManager);
+    scene_manager = std::make_unique<SceneManager<GameState>>(*entityManager);
     game_state_manager = std::make_unique<GameStateManager<GameState>>();
 
 
@@ -177,7 +177,7 @@ void GameController::gameLoop() {
     engine->stop();
 }
 
-SceneManager<GameState, EntityFactory>& GameController::getSceneManager() const {
+SceneManager<GameState>& GameController::getSceneManager() const {
     return *scene_manager.get();
 }
 

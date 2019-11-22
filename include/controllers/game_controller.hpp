@@ -19,7 +19,7 @@ public:
     GameController();
     void gameLoop();
 
-    SceneManager<GameState, EntityFactory>& getSceneManager() const;
+    SceneManager<GameState>& getSceneManager() const;
     int getScreenWidth() const;
     int getScreenHeight() const;
     void startGame();
@@ -41,7 +41,7 @@ private:
     std::shared_ptr<EntityManager> entityManager;
     std::shared_ptr<EntityFactory> entityFactory;
     std::shared_ptr<CollisionDetector> collisionDetector;
-    std::unique_ptr<SceneManager<GameState, EntityFactory>> scene_manager;
+    std::unique_ptr<SceneManager<GameState>> scene_manager;
     std::unique_ptr<GameStateManager<GameState>> game_state_manager;
 
     std::unique_ptr<Renderable> fps_counter;

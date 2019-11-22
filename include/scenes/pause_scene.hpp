@@ -8,7 +8,7 @@
 
 class PauseScene : public Menu<PauseScene> {
 public:
-    PauseScene() = default;
+    PauseScene() : Menu<PauseScene>(WIDTH, HEIGHT) {};
     static std::string getTagStatic() {
         return "PauseScene";
     };
@@ -18,5 +18,8 @@ public:
     void prepare();
     void start();
     void leave();
+private:
+    static const int WIDTH;
+    static const int HEIGHT;
 };
 #endif // FILE_PAUSE_SCENE_HPP

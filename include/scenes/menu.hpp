@@ -11,7 +11,7 @@
 template<typename MenuType>
 class Menu : public BeastScene<MenuType> {
 public:
-    Menu(int width, int height) : BeastScene(width, height);
+    Menu(int width, int height) : BeastScene<MenuType>(width, height) {}
 
     // Buttons
     std::vector<Button> buttons;

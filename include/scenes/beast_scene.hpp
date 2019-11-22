@@ -9,7 +9,7 @@
 #include "controllers/game_controller.hpp"
 
 template<typename SceneType>
-class BeastScene : SceneImpl<SceneType, GameState, EntityFactory> {
+class BeastScene : SceneImpl<SceneType, GameState> {
 public:
     BeastScene(int width, int height) : width(width), height(height) {}
 

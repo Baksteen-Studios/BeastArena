@@ -9,7 +9,7 @@
 
 class LevelScene : BeastScene<LevelScene> {
 public:
-    LevelScene(Json json, int screen_width, int screen_height);
+    LevelScene(Json json);
 
     static std::string getTagStatic() {
         return "LevelScene";

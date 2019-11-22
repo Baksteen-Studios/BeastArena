@@ -3,8 +3,8 @@
 #include "brickengine/json/json.hpp"
 #include "exceptions/not_enough_player_spawns_exception.hpp"
 
-LevelScene::LevelScene(Json json, int screen_width, int screen_height)
-    : json(json), BeastScene(screen_height, screen_width, json.getInt("width"), json.getInt("height")) {
+LevelScene::LevelScene(Json json)
+    : json(json), BeastScene<LevelScene>(json.getInt("width"), json.getInt("height")) {
     this->description = json.getString("description");
 
     // Create player spawns
