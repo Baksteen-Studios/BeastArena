@@ -44,9 +44,9 @@ int EntityFactory::createGorilla(double x_pos, double y_pos, int player_id) cons
     return entityManager->createEntity(std::move(comps), std::nullopt);
 }
 
-int EntityFactory::createPanda1(double x_pos, double y_pos, int player_id) const {
+int EntityFactory::createPanda(double x_pos, double y_pos, int player_id) const {
     auto dst = std::unique_ptr<Rect>(new Rect{ 0, 0, 0, 0 });
-    auto r = renderableFactory.createImage(graphicsPath + "beasts/panda/1.png", (int)Layers::Foreground, std::move(dst), 255);
+    auto r = renderableFactory.createImage(graphicsPath + "beasts/panda/idle-1.png", (int)Layers::Foreground, std::move(dst), 255);
     auto comps = std::make_unique<std::vector<std::unique_ptr<Component>>>();
 
     comps->push_back(std::make_unique<TransformComponent>(x_pos, y_pos, 63, 100, Direction::POSITIVE, Direction::POSITIVE));
@@ -68,14 +68,14 @@ int EntityFactory::createPanda1(double x_pos, double y_pos, int player_id) const
     return entityManager->createEntity(std::move(comps), std::nullopt);
 }
 
-int EntityFactory::createPanda2(double x_pos, double y_pos, int player_id) const {
+int EntityFactory::createCheetah(double x_pos, double y_pos, int player_id) const {
     auto dst = std::unique_ptr<Rect>(new Rect{ 0, 0, 0, 0 });
-    auto r = renderableFactory.createImage(graphicsPath + "beasts/panda/2.png", (int)Layers::Foreground, std::move(dst), 255);
+    auto r = renderableFactory.createImage(graphicsPath + "beasts/cheetah/1.png", (int)Layers::Foreground, std::move(dst), 255);
     auto comps = std::make_unique<std::vector<std::unique_ptr<Component>>>();
 
-    comps->push_back(std::make_unique<TransformComponent>(x_pos, y_pos, 63, 100, Direction::POSITIVE, Direction::POSITIVE));
+    comps->push_back(std::make_unique<TransformComponent>(x_pos, y_pos, 50, 100, Direction::POSITIVE, Direction::POSITIVE));
     comps->push_back(std::make_unique<RectangleColliderComponent>(1, 1, 1, false));
-    comps->push_back(std::make_unique<PhysicsComponent>(100, true, 0, 0, true, Kinematic::IS_NOT_KINEMATIC, true, false));
+    comps->push_back(std::make_unique<PhysicsComponent>(90, true, 0, 0, true, Kinematic::IS_NOT_KINEMATIC, true, false));
     comps->push_back(std::make_unique<TextureComponent>(std::move(r)));
     comps->push_back(std::make_unique<PlayerComponent>(player_id));
     comps->push_back(std::make_unique<HealthComponent>(100, [em = entityManager](int entity_id) {
@@ -92,14 +92,14 @@ int EntityFactory::createPanda2(double x_pos, double y_pos, int player_id) const
     return entityManager->createEntity(std::move(comps), std::nullopt);
 }
 
-int EntityFactory::createPanda3(double x_pos, double y_pos, int player_id) const {
+int EntityFactory::createElephant(double x_pos, double y_pos, int player_id) const {
     auto dst = std::unique_ptr<Rect>(new Rect{ 0, 0, 0, 0 });
-    auto r = renderableFactory.createImage(graphicsPath + "beasts/panda/3.png", (int)Layers::Foreground, std::move(dst), 255);
+    auto r = renderableFactory.createImage(graphicsPath + "beasts/elephant/elephant.png", (int)Layers::Foreground, std::move(dst), 255);
     auto comps = std::make_unique<std::vector<std::unique_ptr<Component>>>();
 
-    comps->push_back(std::make_unique<TransformComponent>(x_pos, y_pos, 63, 100, Direction::POSITIVE, Direction::POSITIVE));
+    comps->push_back(std::make_unique<TransformComponent>(x_pos, y_pos, 100, 100, Direction::POSITIVE, Direction::POSITIVE));
     comps->push_back(std::make_unique<RectangleColliderComponent>(1, 1, 1, false));
-    comps->push_back(std::make_unique<PhysicsComponent>(100, true, 0, 0, true, Kinematic::IS_NOT_KINEMATIC, true, false));
+    comps->push_back(std::make_unique<PhysicsComponent>(115, true, 0, 0, true, Kinematic::IS_NOT_KINEMATIC, true, false));
     comps->push_back(std::make_unique<TextureComponent>(std::move(r)));
     comps->push_back(std::make_unique<PlayerComponent>(player_id));
     comps->push_back(std::make_unique<HealthComponent>(100, [em = entityManager](int entity_id) {
