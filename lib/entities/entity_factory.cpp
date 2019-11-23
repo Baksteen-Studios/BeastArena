@@ -188,7 +188,7 @@ int EntityFactory::createSniper(double x_pos, double y_pos, bool ammo) const {
     std::optional<int> ammoOpt;
     if (ammo) ammoOpt = 10;
 
-    comps->push_back(std::make_unique<TransformComponent>(x_pos, y_pos, 75, 23, Direction::POSITIVE, Direction::POSITIVE));
+    comps->push_back(std::make_unique<TransformComponent>(x_pos, y_pos, 85, 28, Direction::POSITIVE, Direction::POSITIVE));
     comps->push_back(std::make_unique<RectangleColliderComponent>(1, 1, 1, true));
     comps->push_back(std::make_unique<PhysicsComponent>(80, false, 0, 0, true, Kinematic::IS_NOT_KINEMATIC, true, true));
     comps->push_back(std::make_unique<TextureComponent>(std::move(weapon_r)));
