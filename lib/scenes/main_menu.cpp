@@ -16,7 +16,7 @@
 MainMenu::MainMenu(EntityFactory& factory, GameController& game_controller)
     : Menu(factory, WIDTH, HEIGHT), game_controller(game_controller) { }
 
-void MainMenu::prepare() {
+void MainMenu::performPrepare() {
     // General information
     this->bg_path = "colors/white.png";
     this->bg_music = "music/rainforest.mp3";

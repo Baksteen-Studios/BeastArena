@@ -19,10 +19,10 @@ public:
     static SceneLayer getLayerStatic() {
         return SceneLayer::Secondary;
     }
-
-    void prepare();
     void start();
     void leave();
+protected:
+    void performPrepare();
 private:
     EntityFactory& entity_factory;
     int timer;

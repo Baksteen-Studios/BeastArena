@@ -249,7 +249,7 @@ void GameController::loadNextLevel() {
         scene_manager->createScene<LevelScene>(*entityFactory, level_json);
     } else {
         // There are no levels left in the queue.
-        loadEndGameLevel();
+        loadMainMenu();
     }
 }
 

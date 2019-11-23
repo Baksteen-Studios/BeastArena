@@ -7,7 +7,9 @@
 #include "scenes/exceptions/not_enough_player_spawns_exception.hpp"
 
 LevelScene::LevelScene(EntityFactory& factory, Json json)
-    : json(json), BeastScene<LevelScene>(factory, json.getInt("width"), json.getInt("height")) {
+    : json(json), BeastScene<LevelScene>(factory, json.getInt("width"), json.getInt("height")) {}
+
+void LevelScene::performPrepare() {
     this->description = json.getString("description");
     this->version = json.getDouble("version");
     this->name = json.getString("name");
@@ -69,8 +71,6 @@ LevelScene::LevelScene(EntityFactory& factory, Json json)
         this->solids.push_back(solid);
     }
 }
-
-void LevelScene::prepare() {}
 void LevelScene::start() {
     auto em = factory.getEntityManager();
 
@@ -80,7 +80,6 @@ void LevelScene::start() {
     factory.createWeapon(600, 200, true);
     factory.createWeapon(500, 200, false);
 
-    std::cout << "The background image is: " << this->bg_path << std::endl;
     // Create the background
     factory.createImage(this->bg_path, this->screen_width / 2, this->screen_height / 2, this->screen_width, this->screen_height, Layers::Background, 255);
 
@@ -94,9 +93,6 @@ void LevelScene::start() {
 
         transform_component->x_pos = player_spawns[count].x / getRelativeModifier();
         transform_component->y_pos = player_spawns[count].y / getRelativeModifier();
-
-        std::cout << transform_component->x_pos << std::endl;
-        std::cout << transform_component->y_pos << std::endl;
 
         auto despawn_component = em->getComponent<DespawnComponent>(entity_id);
         despawn_component->despawn_on_out_of_screen = true;

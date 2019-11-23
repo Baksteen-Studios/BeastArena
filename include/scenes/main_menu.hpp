@@ -23,9 +23,10 @@ public:
         return SceneLayer::Primary;
     }
 
-    void prepare();
     void start();
     void leave();
+protected:
+    void performPrepare();
 private:
     static const int WIDTH = 1920;
     static const int HEIGHT = 1080;

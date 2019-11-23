@@ -19,9 +19,10 @@ public:
         return SceneLayer::Secondary;
     }
 
-    void prepare();
     void start();
     void leave();
+protected:
+    void performPrepare();
 private:
     static const int WIDTH;
     static const int HEIGHT;

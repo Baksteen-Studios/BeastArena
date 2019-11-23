@@ -21,9 +21,10 @@ public:
         return SceneLayer::Primary;
     }
 
-    void prepare();
     void start();
     void leave();
+protected:
+    void performPrepare();
 private:
     Json json;
     

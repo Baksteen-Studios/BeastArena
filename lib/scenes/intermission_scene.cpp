@@ -4,7 +4,7 @@
 IntermissionScene::IntermissionScene(int timer, EntityFactory& entity_factory)
     : entity_factory(entity_factory), timer(timer) { }
 
-void IntermissionScene::prepare(){
+void IntermissionScene::performPrepare(){
     entity_components = std::make_unique<std::vector<std::unique_ptr<std::vector<std::unique_ptr<Component>>>>>();
     {
         auto comps = std::make_unique<std::vector<std::unique_ptr<Component>>>();
