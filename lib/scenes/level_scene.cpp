@@ -82,7 +82,7 @@ void LevelScene::performPrepare() {
     }
 }
 void LevelScene::start() {
-    auto em = factory.getEntityManager();
+    auto& em = factory.getEntityManager();
 
     // Create the players
     factory.createWeapon(1000, 200, true);
@@ -94,20 +94,20 @@ void LevelScene::start() {
     factory.createImage(this->bg_path, this->screen_width / 2, this->screen_height / 2, this->screen_width, this->screen_height, Layers::Background, 255);
 
     // Load the players on the spawn locations
-    auto entities_with_player = em->getEntitiesByComponent<PlayerComponent>();
+    auto entities_with_player = em.getEntitiesByComponent<PlayerComponent>();
 
     int count = 0;
     for(auto& [entity_id, player]: entities_with_player) {
         player->disabled = false;
-        auto transform_component = em->getComponent<TransformComponent>(entity_id);
+        auto transform_component = em.getComponent<TransformComponent>(entity_id);
 
         transform_component->x_pos = player_spawns[count].x / getRelativeModifier();
         transform_component->y_pos = player_spawns[count].y / getRelativeModifier();
 
-        auto despawn_component = em->getComponent<DespawnComponent>(entity_id);
+        auto despawn_component = em.getComponent<DespawnComponent>(entity_id);
         despawn_component->despawn_on_out_of_screen = true;
 
-        auto health_component = em->getComponent<HealthComponent>(entity_id);
+        auto health_component = em.getComponent<HealthComponent>(entity_id);
         (*health_component->revive)(entity_id);
 
         ++count;
@@ -134,14 +134,14 @@ void LevelScene::start() {
     //engine->toggleCursor(false);
 }
 void LevelScene::leave() {
-    auto em = factory.getEntityManager();
-    auto entities_with_player = em->getEntitiesByComponent<PlayerComponent>();
+    auto& em = factory.getEntityManager();
+    auto entities_with_player = em.getEntitiesByComponent<PlayerComponent>();
     for(auto& [entity_id, player]: entities_with_player) {
-        auto transform_component = em->getComponent<TransformComponent>(entity_id);
+        auto transform_component = em.getComponent<TransformComponent>(entity_id);
         transform_component->x_pos = -2000;
         transform_component->y_pos = -2000;
         player->disabled = true;
-        auto despawn_component = em->getComponent<DespawnComponent>(entity_id);
+        auto despawn_component = em.getComponent<DespawnComponent>(entity_id);
         despawn_component->despawn_on_out_of_screen = false;
     }
 }

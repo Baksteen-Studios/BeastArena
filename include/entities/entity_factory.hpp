@@ -18,8 +18,8 @@ public:
     EntityFactory(std::shared_ptr<EntityManager> em, RenderableFactory& rf);
     ~EntityFactory() = default;
 
-    std::shared_ptr<EntityManager> getEntityManager() {
-        return entityManager;
+    EntityManager& getEntityManager() {
+        return *entityManager;
     }
     RenderableFactory& getRenderableFactory() {
         return renderableFactory;
