@@ -30,7 +30,8 @@ void MovementSystem::update(double) {
         // Moving left or right
         auto x_movement = input.checkInput(player->player_id, PlayerInput::X_AXIS);
         if (x_movement < 0) {
-            if (vx > 0) vx = 0;
+            if (vx > 0) 
+                vx = 0;
             vx = x_movement * MOVEMENT_FORCE / mass;
         }
         else if (x_movement > 0) {
