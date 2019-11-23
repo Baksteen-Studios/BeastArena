@@ -47,7 +47,7 @@ void GameSystem::update(double deltatime) {
 }
 
 void GameSystem::reset() {
-    dead_players.empty();
+    dead_players.clear();
     double timer = 0;
     int seconds = 3;
 }

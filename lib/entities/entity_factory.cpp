@@ -40,6 +40,8 @@ EntityFactory::EntityFactory(std::shared_ptr<EntityManager> em, RenderableFactor
         em->removeComponentFromEntity<PickupComponent>(entity_id);
         auto physics = em->getComponent<PhysicsComponent>(entity_id);
         physics->kinematic = Kinematic::IS_NOT_KINEMATIC;
+        auto health = em->getComponent<HealthComponent>(entity_id);
+        health->health = health->max_health;
     };
 }
 

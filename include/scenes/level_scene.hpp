@@ -7,21 +7,23 @@
 #include "level/gadget_spawn.hpp"
 #include "level/solid.hpp"
 
-class LevelScene : BeastScene<LevelScene> {
+class LevelScene : public BeastScene<LevelScene> {
 public:
     LevelScene(EntityFactory& factory, Json json);
 
     static std::string getTagStatic() {
         return "LevelScene";
     }
-    GameState getSystemState() {
+    GameState getSystemState() const {
         return GameState::InGame;
+    }
+    static SceneLayer getLayerStatic() {
+        return SceneLayer::Primary;
     }
 
     void prepare();
     void start();
     void leave();
-
 private:
     Json json;
     
@@ -38,8 +40,6 @@ private:
 
     // Solids (floors and walls)
     std::vector<Solid> solids;
-
-    static const SceneLayer LAYER = SceneLayer::Primary;
 };
 
 #endif // FILE_LEVEL_SCENE_HPP

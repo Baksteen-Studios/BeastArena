@@ -11,13 +11,16 @@
 
 class MainMenu : public Menu<MainMenu> {
 public:
-    MainMenu(EntityFactory& factory, int width, int height, GameController* game_controller);
+    MainMenu(EntityFactory& factory, GameController& game_controller);
 
     static std::string getTagStatic() {
         return "MainMenu";
     }
-    GameState getSystemState() {
+    GameState getSystemState() const {
         return GameState::MainMenu;
+    }
+    static SceneLayer getLayerStatic() {
+        return SceneLayer::Primary;
     }
 
     void prepare();
@@ -26,5 +29,6 @@ public:
 private:
     static const int WIDTH = 1920;
     static const int HEIGHT = 1080;
+    GameController& game_controller;
 };
 #endif // FILE_MAIN_MENU_HPP

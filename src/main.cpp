@@ -2,9 +2,6 @@
 
 int main() {
     GameController gc;
-
-    gc.loadMainMenu();
-
     gc.gameLoop();
     return 0;
 }

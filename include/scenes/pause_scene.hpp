@@ -15,6 +15,10 @@ public:
     GameState getSystemState() {
         return GameState::Paused;
     };
+    static SceneLayer getLayerStatic() {
+        return SceneLayer::Secondary;
+    }
+
     void prepare();
     void start();
     void leave();

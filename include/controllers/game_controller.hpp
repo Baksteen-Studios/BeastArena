@@ -33,11 +33,10 @@ public:
     inline static const int SCREEN_HEIGHT = 900;
     inline static const int SCREEN_WIDTH = 1600;
 private:
-    void createSystems();
+    void createGameStateManager();
     void setupInput();
 
     std::unique_ptr<BrickEngine> engine;
-    std::vector<std::unique_ptr<System>> systems;
     std::shared_ptr<EntityManager> entityManager;
     std::shared_ptr<EntityFactory> entityFactory;
     std::shared_ptr<CollisionDetector> collisionDetector;

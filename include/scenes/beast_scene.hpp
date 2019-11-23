@@ -7,16 +7,24 @@
 #include "enums/game_state.hpp"
 #include "entities/entity_factory.hpp"
 #include "controllers/game_controller.hpp"
+#include "scenes/exceptions/size_mismatch_exception.hpp"
 
 template<typename SceneType>
-class BeastScene : SceneImpl<SceneType, GameState> {
+class BeastScene : public SceneImpl<SceneType, GameState> {
 public:
-    BeastScene(EntityFactory& factory, SceneLayer layer, int width, int height) : SceneImpl<SceneType, GameState>(layer), factory(factory), width(width), height(height) {}
-
-    EntityFactory& factory;
-
+    BeastScene(EntityFactory& factory, int width, int height) : factory(factory), width(width), height(height) {}
+protected:
     // General information
-    double getRelativeModifier(); // Modifier needed to create entities at the right place with the right size
+    // Modifier needed to create entities at the right place with the right size
+    double getRelativeModifier() {
+        double width_ratio = (double)width / (double)screen_width;
+        double height_ratio = (double)height / (double)screen_height;
+    
+        if(width_ratio != height_ratio) {
+            throw SizeMismatchException();
+        }
+        return width_ratio;
+    }
     std::string bg_path;
     std::string bg_music;
 
@@ -24,7 +32,8 @@ public:
     int screen_height = GameController::SCREEN_HEIGHT;
     int width;
     int height;
-private:
+
+    EntityFactory& factory;
 };
 
 #endif // FILE_BEAST_SCENE_HPP

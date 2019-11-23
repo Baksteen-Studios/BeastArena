@@ -2,6 +2,7 @@
 #define FILE_GAME_STATE_HPP
 
 enum class GameState {
+    Unintialized,
     MainMenu,
     InGame,
     EndGame,

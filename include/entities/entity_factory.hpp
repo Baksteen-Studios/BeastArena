@@ -17,6 +17,14 @@ class EntityFactory {
 public:
     EntityFactory(std::shared_ptr<EntityManager> em, RenderableFactory& rf);
     ~EntityFactory() = default;
+
+    std::shared_ptr<EntityManager> getEntityManager() {
+        return entityManager;
+    }
+    RenderableFactory& getRenderableFactory() {
+        return renderableFactory;
+    };
+
     int createGorilla(int player_id) const;
     int createPanda1(int player_id) const;
     int createPanda2(int player_id) const;
