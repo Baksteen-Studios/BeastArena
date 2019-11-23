@@ -37,6 +37,7 @@ using namespace std::chrono_literals;
 #include "brickengine/components/colliders/rectangle_collider_component.hpp"
 #include "brickengine/std/random.hpp"
 #include "menu/main_menu.hpp"
+#include "systems/game_speed_system.hpp"
 
 #include "components/wandering_component.hpp"
 
@@ -49,6 +50,8 @@ GameController::GameController() {
 #endif // PERFORMANCE_DEBUGGING
     // From layers.hpp
     this->layers = { 0, 1, 2, 3, 4 };
+
+    this->delta_time_modifier = std::unique_ptr<double>(new double(1));
 
     engine = std::make_unique<BrickEngine>("Beast Arena", SCREEN_WIDTH, SCREEN_HEIGHT, layers, fps_cap);
     engine->start();
@@ -63,6 +66,7 @@ GameController::GameController() {
 
 void GameController::createSystems() {
     systems = std::vector<std::unique_ptr<System>>();
+    systems.push_back(std::make_unique<GameSpeedSystem>(entityManager, delta_time_modifier.get()));
     systems.push_back(std::make_unique<GameSystem>(entityManager, *this));
     systems.push_back(std::make_unique<ClickSystem>(entityManager));
     systems.push_back(std::make_unique<MovementSystem>(collisionDetector, entityManager, entityFactory));
@@ -87,6 +91,8 @@ void GameController::setupInput() {
     inputMapping[1][InputKeyCode::EKey_e] = PlayerInput::SHOOT;
     inputMapping[1][InputKeyCode::EKey_mouse_left] = PlayerInput::MOUSE_LEFT;
     inputMapping[1][InputKeyCode::EKey_mouse_right] = PlayerInput::MOUSE_RIGHT;
+    inputMapping[1][InputKeyCode::EKey_pagedown] = PlayerInput::PAGE_DOWN;
+    inputMapping[1][InputKeyCode::EKey_pageup] = PlayerInput::PAGE_UP;
     // Player 2
     inputMapping[2][InputKeyCode::EKey_up] = PlayerInput::UP;
     inputMapping[2][InputKeyCode::EKey_left] = PlayerInput::LEFT;
@@ -112,6 +118,8 @@ void GameController::setupInput() {
     std::unordered_map<PlayerInput, double> time_to_wait_mapping;
     time_to_wait_mapping[PlayerInput::GRAB] = 0.1;
     time_to_wait_mapping[PlayerInput::MOUSE_LEFT] = 0.1;
+    time_to_wait_mapping[PlayerInput::PAGE_DOWN] = 0.1;
+    time_to_wait_mapping[PlayerInput::PAGE_UP] = 0.1;
 
     input.setInputMapping(inputMapping, time_to_wait_mapping);
 }
@@ -129,6 +137,8 @@ void GameController::gameLoop() {
         BrickInput<PlayerInput>::getInstance().processInput(delta_time);
 
         engine->getRenderer()->clearScreen();
+
+        delta_time *= *delta_time_modifier.get();
 
         for (auto& system : systems) {
             system->update(delta_time);
