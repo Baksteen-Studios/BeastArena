@@ -70,6 +70,16 @@ void LevelScene::performPrepare() {
 
         this->solids.push_back(solid);
     }
+
+    // Create critter spawns
+    for(Json critter_spawn_json : json.getVector("critter_spawns")) {
+        CritterSpawn critter_spawn = CritterSpawn();
+
+        critter_spawn.x = critter_spawn_json.getInt("x");
+        critter_spawn.y = critter_spawn_json.getInt("y");
+
+        this->critter_spawns.push_back(critter_spawn);
+    }
 }
 void LevelScene::start() {
     auto em = factory.getEntityManager();
@@ -103,7 +113,7 @@ void LevelScene::start() {
         ++count;
     }
 
-    // Create the platforms
+    // Load the platforms
     for(Solid platform : solids) {
         if(platform.shape == SolidShape::RECTANGLE && platform.effect == SolidEffect::NONE) {
             int x = platform.x / getRelativeModifier();
@@ -113,6 +123,13 @@ void LevelScene::start() {
             factory.createPlatform(x, y, xScale, yScale, platform.texture_path, platform.alpha);
         }
     }
+
+    // Load the critters on the spawn locations
+    for(int i = 0; i < critter_spawns.size(); i++) {
+        factory.createCritter(critter_spawns[i].x / getRelativeModifier(),
+            critter_spawns[i].y / getRelativeModifier());
+    }
+
 
     //engine->toggleCursor(false);
 }

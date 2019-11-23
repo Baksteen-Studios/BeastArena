@@ -30,6 +30,7 @@ using namespace std::chrono_literals;
 #include "systems/damage_system.hpp"
 #include "systems/despawn_system.hpp"
 #include "systems/movement_system.hpp"
+#include "systems/critter_system.hpp"
 #include "systems/game_system.hpp"
 
 #include "entities/layers.hpp"
@@ -83,6 +84,7 @@ void GameController::createGameStateManager() {
     state_systems->at(GameState::InGame)->push_back(std::make_unique<MovementSystem>(collisionDetector, entityManager, entityFactory));
     state_systems->at(GameState::InGame)->push_back(std::make_unique<PhysicsSystem>(collisionDetector, entityManager));
     state_systems->at(GameState::InGame)->push_back(std::make_unique<PickupSystem>(collisionDetector, entityManager, entityFactory));
+    state_systems->at(GameState::InGame)->push_back(std::make_unique<CritterSystem>(collisionDetector, entityManager, entityFactory));
     state_systems->at(GameState::InGame)->push_back(std::make_unique<WeaponSystem>(collisionDetector, entityManager, entityFactory));
     state_systems->at(GameState::InGame)->push_back(std::make_unique<DamageSystem>(collisionDetector, entityManager, entityFactory));
     state_systems->at(GameState::InGame)->push_back(std::make_unique<DespawnSystem>(collisionDetector, entityManager, SCREEN_WIDTH, SCREEN_HEIGHT));

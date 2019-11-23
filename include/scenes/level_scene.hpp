@@ -6,6 +6,7 @@
 #include "level/player_spawn.hpp"
 #include "level/gadget_spawn.hpp"
 #include "level/solid.hpp"
+#include "level/critter_spawn.hpp"
 
 class LevelScene : public BeastScene<LevelScene> {
 public:
@@ -38,6 +39,9 @@ private:
 
     // Gadget spawns
     std::vector<GadgetSpawn> gadget_spawns;
+
+    // Critter spawns
+    std::vector<CritterSpawn> critter_spawns;
 
     // Solids (floors and walls)
     std::vector<Solid> solids;
