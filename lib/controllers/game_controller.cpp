@@ -248,7 +248,7 @@ void GameController::loadNextLevel() {
 
         // Create the level
         Json level_json { path, true };
-        scene_manager->createScene<LevelScene>(*entityFactory, level_json);
+        scene_manager->createScene<LevelScene>(*entityFactory, *engine, level_json);
     } else {
         // There are no levels left in the queue.
         loadMainMenu();
@@ -262,7 +262,7 @@ void GameController::intermission(int timer) {
 
 void GameController::loadMainMenu() {
     scene_manager->destroyAllScenes();
-    scene_manager->createScene<MainMenu>(*entityFactory, *this);
+    scene_manager->createScene<MainMenu>(*entityFactory, *engine, *this);
 }
 void GameController::loadEndGameLevel() {
     // entity_id and points
@@ -282,6 +282,5 @@ void GameController::loadEndGameLevel() {
        auto player = entityManager->getComponent<PlayerComponent>(entity_id);
        std::cout << entity_id << " - " << player->name << " - " << points << std::endl;
    }
-
-   //scene_manager->endGame(results);
+   //scene_manager->createScene<EndGame>(results);
 }

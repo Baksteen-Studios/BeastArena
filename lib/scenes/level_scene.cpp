@@ -6,8 +6,8 @@
 #include "components/despawn_component.hpp"
 #include "scenes/exceptions/not_enough_player_spawns_exception.hpp"
 
-LevelScene::LevelScene(EntityFactory& factory, Json json)
-    : json(json), BeastScene<LevelScene>(factory, json.getInt("width"), json.getInt("height")) {}
+LevelScene::LevelScene(EntityFactory& factory, BrickEngine& engine, Json json)
+    : json(json), BeastScene<LevelScene>(factory, engine, json.getInt("width"), json.getInt("height")) {}
 
 void LevelScene::performPrepare() {
     this->description = json.getString("description");
@@ -130,9 +130,9 @@ void LevelScene::start() {
             critter_spawns[i].y / getRelativeModifier());
     }
 
-
-    //engine->toggleCursor(false);
+    engine.toggleCursor(false);
 }
+
 void LevelScene::leave() {
     auto& em = factory.getEntityManager();
     auto entities_with_player = em.getEntitiesByComponent<PlayerComponent>();

@@ -12,7 +12,7 @@
 template<typename SceneType>
 class BeastScene : public SceneImpl<SceneType, GameState> {
 public:
-    BeastScene(EntityFactory& factory, int width, int height) : factory(factory), width(width), height(height) {}
+    BeastScene(EntityFactory& factory, BrickEngine& engine, int width, int height) : factory(factory), engine(engine), width(width), height(height) {}
 protected:
     // General information
     // Modifier needed to create entities at the right place with the right size
@@ -34,6 +34,7 @@ protected:
     int height;
 
     EntityFactory& factory;
+    BrickEngine& engine;
 };
 
 #endif // FILE_BEAST_SCENE_HPP

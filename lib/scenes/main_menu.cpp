@@ -13,8 +13,8 @@
 #include "brickengine/json/json.hpp"
 #include "controllers/game_controller.hpp"
 
-MainMenu::MainMenu(EntityFactory& factory, GameController& game_controller)
-    : Menu(factory, WIDTH, HEIGHT), game_controller(game_controller) { }
+MainMenu::MainMenu(EntityFactory& factory, BrickEngine& engine, GameController& game_controller)
+    : Menu(factory, engine, WIDTH, HEIGHT), game_controller(game_controller) { }
 
 void MainMenu::performPrepare() {
     // General information
@@ -51,7 +51,10 @@ void MainMenu::performPrepare() {
     logo.y_scale = 106;
     this->images.push_back(logo);
 }
+
 void MainMenu::start() {
+    engine.toggleCursor(true);
+
     // Create the background
     factory.createImage(this->bg_path, this->screen_width / 2, this->screen_height / 2, this->screen_width, this->screen_height, Layers::Background, 255);
 

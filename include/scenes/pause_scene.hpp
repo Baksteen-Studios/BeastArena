@@ -8,7 +8,7 @@
 
 class PauseScene : public Menu<PauseScene> {
 public:
-    PauseScene(EntityFactory& factory) : Menu<PauseScene>(factory, WIDTH, HEIGHT) {};
+    PauseScene(EntityFactory& factory, BrickEngine& engine) : Menu<PauseScene>(factory, engine, WIDTH, HEIGHT) {};
     static std::string getTagStatic() {
         return "PauseScene";
     };

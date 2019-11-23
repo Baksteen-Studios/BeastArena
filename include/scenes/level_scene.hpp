@@ -10,7 +10,7 @@
 
 class LevelScene : public BeastScene<LevelScene> {
 public:
-    LevelScene(EntityFactory& factory, Json json);
+    LevelScene(EntityFactory& factory, BrickEngine& engine, Json json);
 
     static std::string getTagStatic() {
         return "LevelScene";
