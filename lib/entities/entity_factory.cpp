@@ -23,12 +23,12 @@ EntityFactory::EntityFactory(std::shared_ptr<EntityManager> em, RenderableFactor
 
 int EntityFactory::createGorilla(double x_pos, double y_pos, int player_id) const {
     auto dst = std::unique_ptr<Rect>(new Rect{ 0, 0, 0, 0 });
-    auto r = renderableFactory.createImage(graphicsPath + "beasts/gorilla/idle-1.png", (int)Layers::Foreground, std::move(dst), 255);
+    auto r = renderableFactory.createImage(graphicsPath + "beasts/gorilla/gorilla-1.png", (int)Layers::Foreground, std::move(dst), 255);
     auto comps = std::make_unique<std::vector<std::unique_ptr<Component>>>();
 
     comps->push_back(std::make_unique<TransformComponent>(x_pos, y_pos, 50, 100, Direction::POSITIVE, Direction::POSITIVE));
     comps->push_back(std::make_unique<RectangleColliderComponent>(1, 1, 1, false));
-    comps->push_back(std::make_unique<PhysicsComponent>(105, true, 0, 0, true, Kinematic::IS_NOT_KINEMATIC, true, false));
+    comps->push_back(std::make_unique<PhysicsComponent>(100, true, 0, 0, true, Kinematic::IS_NOT_KINEMATIC, true, false));
     comps->push_back(std::make_unique<TextureComponent>(std::move(r)));
     comps->push_back(std::make_unique<PlayerComponent>(player_id));
     comps->push_back(std::make_unique<HealthComponent>(100, [em = entityManager](int entity_id) {
@@ -54,7 +54,7 @@ int EntityFactory::createPanda(double x_pos, double y_pos, int player_id) const 
 
     comps->push_back(std::make_unique<TransformComponent>(x_pos, y_pos, 63, 100, Direction::POSITIVE, Direction::POSITIVE));
     comps->push_back(std::make_unique<RectangleColliderComponent>(1, 1, 1, false));
-    comps->push_back(std::make_unique<PhysicsComponent>(100, true, 0, 0, true, Kinematic::IS_NOT_KINEMATIC, true, false));
+    comps->push_back(std::make_unique<PhysicsComponent>(95, true, 0, 0, true, Kinematic::IS_NOT_KINEMATIC, true, false));
     comps->push_back(std::make_unique<TextureComponent>(std::move(r)));
     comps->push_back(std::make_unique<PlayerComponent>(player_id));
     comps->push_back(std::make_unique<HealthComponent>(100, [em = entityManager](int entity_id) {
@@ -75,7 +75,7 @@ int EntityFactory::createPanda(double x_pos, double y_pos, int player_id) const 
 
 int EntityFactory::createCheetah(double x_pos, double y_pos, int player_id) const {
     auto dst = std::unique_ptr<Rect>(new Rect{ 0, 0, 0, 0 });
-    auto r = renderableFactory.createImage(graphicsPath + "beasts/cheetah/1.png", (int)Layers::Foreground, std::move(dst), 255);
+    auto r = renderableFactory.createImage(graphicsPath + "beasts/cheetah/cheetah-1.png", (int)Layers::Foreground, std::move(dst), 255);
     auto comps = std::make_unique<std::vector<std::unique_ptr<Component>>>();
 
     comps->push_back(std::make_unique<TransformComponent>(x_pos, y_pos, 50, 100, Direction::POSITIVE, Direction::POSITIVE));
@@ -106,7 +106,7 @@ int EntityFactory::createElephant(double x_pos, double y_pos, int player_id) con
 
     comps->push_back(std::make_unique<TransformComponent>(x_pos, y_pos, 100, 100, Direction::POSITIVE, Direction::POSITIVE));
     comps->push_back(std::make_unique<RectangleColliderComponent>(1, 1, 1, false));
-    comps->push_back(std::make_unique<PhysicsComponent>(115, true, 0, 0, true, Kinematic::IS_NOT_KINEMATIC, true, false));
+    comps->push_back(std::make_unique<PhysicsComponent>(105, true, 0, 0, true, Kinematic::IS_NOT_KINEMATIC, true, false));
     comps->push_back(std::make_unique<TextureComponent>(std::move(r)));
     comps->push_back(std::make_unique<PlayerComponent>(player_id));
     comps->push_back(std::make_unique<HealthComponent>(100, [em = entityManager](int entity_id) {
@@ -125,7 +125,7 @@ int EntityFactory::createElephant(double x_pos, double y_pos, int player_id) con
     return entity;
 }
 
-int EntityFactory::createWeapon(double x_pos, double y_pos, bool ammo) const {
+int EntityFactory::createPistol(double x_pos, double y_pos, bool ammo) const {
     auto weapon_dst = std::unique_ptr<Rect>(new Rect{ 0, 0, 0, 0 });
     auto bullet_dst = std::unique_ptr<Rect>(new Rect{ 0, 0, 0, 0 });
     auto weapon_r = renderableFactory.createImage(graphicsPath + "weapons/pistol-1.png", (int)Layers::Foreground, std::move(weapon_dst), 255);
@@ -146,6 +146,60 @@ int EntityFactory::createWeapon(double x_pos, double y_pos, bool ammo) const {
         DespawnComponent(true, true),
         Scale(12, 4),
         0.2, ammoOpt));
+
+    int entity = entityManager->createEntity(std::move(comps), std::nullopt);
+    entityManager->setTag(entity, "Weapon");
+    return entity;
+}
+
+int EntityFactory::createRifle(double x_pos, double y_pos, bool ammo) const {
+    auto weapon_dst = std::unique_ptr<Rect>(new Rect{ 0, 0, 0, 0 });
+    auto bullet_dst = std::unique_ptr<Rect>(new Rect{ 0, 0, 0, 0 });
+    auto weapon_r = renderableFactory.createImage(graphicsPath + "weapons/rifle-1.png", (int)Layers::Foreground, std::move(weapon_dst), 255);
+    auto bullet_r = renderableFactory.createImage(graphicsPath + "bullets/1.png", (int)Layers::Middleground, std::move(bullet_dst), 255);
+    auto comps = std::make_unique<std::vector<std::unique_ptr<Component>>>();
+    std::optional<int> ammoOpt;
+    if (ammo) ammoOpt = 30;
+
+    comps->push_back(std::make_unique<TransformComponent>(x_pos, y_pos, 71, 23, Direction::POSITIVE, Direction::POSITIVE));
+    comps->push_back(std::make_unique<RectangleColliderComponent>(1, 1, 1, true));
+    comps->push_back(std::make_unique<PhysicsComponent>(75, false, 0, 0, true, Kinematic::IS_NOT_KINEMATIC, true, true));
+    comps->push_back(std::make_unique<TextureComponent>(std::move(weapon_r)));
+    comps->push_back(std::make_unique<PickupComponent>());
+    comps->push_back(std::make_unique<WeaponComponent>(
+        DamageComponent(50),
+        TextureComponent(std::move(bullet_r)),
+        PhysicsComponent(1, 0, 2500, 0, false, Kinematic::IS_NOT_KINEMATIC, false, false),
+        DespawnComponent(true, true),
+        Scale(12, 4),
+        0.1, ammoOpt));
+
+    int entity = entityManager->createEntity(std::move(comps), std::nullopt);
+    entityManager->setTag(entity, "Weapon");
+    return entity;
+}
+
+int EntityFactory::createSniper(double x_pos, double y_pos, bool ammo) const {
+    auto weapon_dst = std::unique_ptr<Rect>(new Rect{ 0, 0, 0, 0 });
+    auto bullet_dst = std::unique_ptr<Rect>(new Rect{ 0, 0, 0, 0 });
+    auto weapon_r = renderableFactory.createImage(graphicsPath + "weapons/sniper-1.png", (int)Layers::Foreground, std::move(weapon_dst), 255);
+    auto bullet_r = renderableFactory.createImage(graphicsPath + "bullets/1.png", (int)Layers::Middleground, std::move(bullet_dst), 255);
+    auto comps = std::make_unique<std::vector<std::unique_ptr<Component>>>();
+    std::optional<int> ammoOpt;
+    if (ammo) ammoOpt = 10;
+
+    comps->push_back(std::make_unique<TransformComponent>(x_pos, y_pos, 75, 23, Direction::POSITIVE, Direction::POSITIVE));
+    comps->push_back(std::make_unique<RectangleColliderComponent>(1, 1, 1, true));
+    comps->push_back(std::make_unique<PhysicsComponent>(80, false, 0, 0, true, Kinematic::IS_NOT_KINEMATIC, true, true));
+    comps->push_back(std::make_unique<TextureComponent>(std::move(weapon_r)));
+    comps->push_back(std::make_unique<PickupComponent>());
+    comps->push_back(std::make_unique<WeaponComponent>(
+        DamageComponent(50),
+        TextureComponent(std::move(bullet_r)),
+        PhysicsComponent(1, 0, 3000, 0, false, Kinematic::IS_NOT_KINEMATIC, false, false),
+        DespawnComponent(true, true),
+        Scale(12, 4),
+        0.4, ammoOpt));
 
     int entity = entityManager->createEntity(std::move(comps), std::nullopt);
     entityManager->setTag(entity, "Weapon");
