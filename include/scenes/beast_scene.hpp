@@ -11,7 +11,9 @@
 template<typename SceneType>
 class BeastScene : SceneImpl<SceneType, GameState> {
 public:
-    BeastScene(int width, int height) : width(width), height(height) {}
+    BeastScene(EntityFactory& factory, SceneLayer layer, int width, int height) : SceneImpl<SceneType, GameState>(layer), factory(factory), width(width), height(height) {}
+
+    EntityFactory& factory;
 
     // General information
     double getRelativeModifier(); // Modifier needed to create entities at the right place with the right size

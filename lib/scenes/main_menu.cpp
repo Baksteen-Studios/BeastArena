@@ -13,7 +13,9 @@
 #include "brickengine/json/json.hpp"
 #include "controllers/game_controller.hpp"
 
-MainMenu::MainMenu(int screen_width, int screen_height, GameController* game_controller) : Menu(screen_width, screen_height) {
+MainMenu::MainMenu(EntityFactory& factory, int screen_width, int screen_height,
+                   GameController* game_controller)
+    : Menu(factory, screen_width, screen_height) {
     // General information
     this->bg_path = "colors/white.png";
     this->bg_music = "music/rainforest.mp3";

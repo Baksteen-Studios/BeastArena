@@ -9,7 +9,7 @@
 
 class LevelScene : BeastScene<LevelScene> {
 public:
-    LevelScene(Json json);
+    LevelScene(EntityFactory& factory, Json json);
 
     static std::string getTagStatic() {
         return "LevelScene";
@@ -38,6 +38,8 @@ private:
 
     // Solids (floors and walls)
     std::vector<Solid> solids;
+
+    static const SceneLayer LAYER = SceneLayer::Primary;
 };
 
 #endif // FILE_LEVEL_SCENE_HPP

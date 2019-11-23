@@ -219,7 +219,7 @@ void GameController::loadLevels() {
 
 void GameController::loadNextLevel() {
     // Remove the current scene
-    scene_manager->destroyCurrentScene();
+    scene_manager->destroyScene(SceneLayer::Primary);
 
     if(!level_queue.empty()) {
         // load from queue
@@ -228,8 +228,7 @@ void GameController::loadNextLevel() {
 
         // Create the level
         Json level_json { path, true };
-        Level level { level_json, SCREEN_WIDTH, SCREEN_HEIGHT };
-        scene_manager->loadLevel(level);
+        scene_manager->createScene<LevelScene>(*entityFactory, level_json);
     } else {
         // There are no levels left in the queue.
         loadEndGameLevel();
@@ -237,13 +236,12 @@ void GameController::loadNextLevel() {
 }
 
 void GameController::intermission(int timer) {
-    scene_manager->intermission(timer);
+    scene_manager->createScene<Intermission>(timer);
 }
 
 void GameController::loadMainMenu() {
-    scene_manager->destroyCurrentScene();
-    MainMenu main_menu { getScreenWidth(), getScreenHeight(), this };
-    scene_manager->loadMenu(main_menu);
+    scene_manager->destroyAllScenes();
+    scene_manager->createScene<MainMenu>(getScreenWidth(), getScreenHeight(), this);
 }
 void GameController::loadEndGameLevel() {
     // entity_id and points

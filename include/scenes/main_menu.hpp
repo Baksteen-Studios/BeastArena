@@ -11,7 +11,7 @@
 
 class MainMenu : public Menu<MainMenu> {
 public:
-    MainMenu(int width, int height, GameController* game_controller);
+    MainMenu(EntityFactory& factory, int width, int height, GameController* game_controller);
 
     static std::string getTagStatic() {
         return "MainMenu";

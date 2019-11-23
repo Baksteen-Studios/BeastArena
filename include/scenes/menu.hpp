@@ -11,13 +11,15 @@
 template<typename MenuType>
 class Menu : public BeastScene<MenuType> {
 public:
-    Menu(int width, int height) : BeastScene<MenuType>(width, height) {}
+    Menu(EntityFactory& factory, int width, int height) : BeastScene<MenuType>(factory, LAYER, width, height) {}
 
     // Buttons
     std::vector<Button> buttons;
 
     // Images
     std::vector<Image> images;
+private:
+    static const SceneLayer LAYER = SceneLayer::Secondary;
 };
 
 #endif // FILE_MENU_HPP
