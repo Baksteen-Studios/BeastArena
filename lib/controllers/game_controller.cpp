@@ -286,9 +286,11 @@ void GameController::loadLevels() {
 void GameController::loadNextLevel() {
     // Remove the current scene
     scene_manager->destroyScene(SceneLayer::Primary);
+    // Remove the current scene
     if (scene_manager->isSceneActive<IntermissionScene>())
         scene_manager->destroyScene(IntermissionScene::getLayerStatic());
 
+    // Remove the current scene
     if(!level_queue.empty()) {
         // load from queue
         std::string path = level_queue.front();
@@ -322,13 +324,11 @@ void GameController::loadEndGameLevel() {
         results.push_back(std::make_pair(entity_id, stats->points));
     }
 
-   std::sort(results.begin(), results.end(), [](auto lhs, auto rhs) {
-       return lhs.second > rhs.second;
-   });
+    std::sort(results.begin(), results.end(), [](auto lhs, auto rhs) {
+        return lhs.second > rhs.second;
+    });
 
-   for (auto& [entity_id, points] : results) {
-       auto player = entityManager->getComponent<PlayerComponent>(entity_id);
-       std::cout << entity_id << " - " << player->name << " - " << points << std::endl;
-   }
-   //scene_manager->createScene<EndGame>(results);
+    for (auto& [entity_id, points] : results) {
+        auto player = entityManager->getComponent<PlayerComponent>(entity_id);
+    }
 }

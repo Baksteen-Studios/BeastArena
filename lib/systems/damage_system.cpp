@@ -44,7 +44,6 @@ void DamageSystem::collide(DamageComponent* damage_comp, CollisionReturnValues c
                 auto points_gainer = entityManager->getComponent<StatsComponent>(*damage_comp->damage_dealer_entity_id);
                 if(points_gainer && health_hit_entity->points_on_kill){
                     points_gainer->points += *health_hit_entity->points_on_kill;
-                    std::cout << points_gainer->points << std::endl;
                 }
             }
         }
