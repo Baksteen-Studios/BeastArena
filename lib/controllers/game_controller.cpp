@@ -139,22 +139,22 @@ void GameController::setupInput() {
     inputMapping[1][InputKeyCode::EController_x_axis] = PlayerInput::X_AXIS;
     inputMapping[1][InputKeyCode::EController_a] = PlayerInput::Y_AXIS;
     inputMapping[1][InputKeyCode::EController_x] = PlayerInput::SHOOT;
-    inputMapping[1][InputKeyCode::EController_y] = PlayerInput::GRAB;
+    inputMapping[1][InputKeyCode::EController_b] = PlayerInput::GRAB;
 
     inputMapping[2][InputKeyCode::EController_x_axis] = PlayerInput::X_AXIS;
     inputMapping[2][InputKeyCode::EController_a] = PlayerInput::Y_AXIS;
     inputMapping[2][InputKeyCode::EController_x] = PlayerInput::SHOOT;
-    inputMapping[2][InputKeyCode::EController_y] = PlayerInput::GRAB;
+    inputMapping[2][InputKeyCode::EController_b] = PlayerInput::GRAB;
 
     inputMapping[3][InputKeyCode::EController_x_axis] = PlayerInput::X_AXIS;
     inputMapping[3][InputKeyCode::EController_a] = PlayerInput::Y_AXIS;
     inputMapping[3][InputKeyCode::EController_x] = PlayerInput::SHOOT;
-    inputMapping[3][InputKeyCode::EController_y] = PlayerInput::GRAB;
+    inputMapping[3][InputKeyCode::EController_b] = PlayerInput::GRAB;
 
     inputMapping[4][InputKeyCode::EController_x_axis] = PlayerInput::X_AXIS;
     inputMapping[4][InputKeyCode::EController_a] = PlayerInput::Y_AXIS;
     inputMapping[4][InputKeyCode::EController_x] = PlayerInput::SHOOT;
-    inputMapping[4][InputKeyCode::EController_y] = PlayerInput::GRAB;
+    inputMapping[4][InputKeyCode::EController_b] = PlayerInput::GRAB;
 
     std::unordered_map<PlayerInput, double> time_to_wait_mapping;
     time_to_wait_mapping[PlayerInput::GRAB] = 0.1;
