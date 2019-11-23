@@ -66,7 +66,7 @@ GameController::GameController() {
 
 void GameController::createSystems() {
     systems = std::vector<std::unique_ptr<System>>();
-    systems.push_back(std::make_unique<GameSpeedSystem>(entityManager, delta_time_modifier.get()));
+    systems.push_back(std::make_unique<GameSpeedSystem>(entityManager, *delta_time_modifier.get()));
     systems.push_back(std::make_unique<GameSystem>(entityManager, *this));
     systems.push_back(std::make_unique<ClickSystem>(entityManager));
     systems.push_back(std::make_unique<MovementSystem>(collisionDetector, entityManager, entityFactory));

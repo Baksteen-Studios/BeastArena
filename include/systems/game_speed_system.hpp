@@ -7,10 +7,10 @@
 
 class GameSpeedSystem : public System {
 public:
-    GameSpeedSystem(std::shared_ptr<EntityManager> em, double *delta_time_modifier);
+    GameSpeedSystem(std::shared_ptr<EntityManager> em, double &delta_time_modifier);
     void update(double delta_time);
 private:
-    double *delta_time_modifier;
+    double &delta_time_modifier;
     const double step_size = 0.2;
 };
 
