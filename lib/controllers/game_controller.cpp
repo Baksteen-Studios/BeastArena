@@ -93,6 +93,7 @@ void GameController::setupInput() {
     inputMapping[1][InputKeyCode::EKey_mouse_right] = PlayerInput::MOUSE_RIGHT;
     inputMapping[1][InputKeyCode::EKey_pagedown] = PlayerInput::PAGE_DOWN;
     inputMapping[1][InputKeyCode::EKey_pageup] = PlayerInput::PAGE_UP;
+    inputMapping[1][InputKeyCode::EKey_home] = PlayerInput::HOME;
     // Player 2
     inputMapping[2][InputKeyCode::EKey_up] = PlayerInput::UP;
     inputMapping[2][InputKeyCode::EKey_left] = PlayerInput::LEFT;
@@ -120,6 +121,7 @@ void GameController::setupInput() {
     time_to_wait_mapping[PlayerInput::MOUSE_LEFT] = 0.1;
     time_to_wait_mapping[PlayerInput::PAGE_DOWN] = 0.1;
     time_to_wait_mapping[PlayerInput::PAGE_UP] = 0.1;
+    time_to_wait_mapping[PlayerInput::HOME] = 0.1;
 
     input.setInputMapping(inputMapping, time_to_wait_mapping);
 }

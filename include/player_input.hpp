@@ -11,7 +11,8 @@ enum PlayerInput {
     MOUSE_LEFT,
     MOUSE_RIGHT,
     PAGE_DOWN,
-    PAGE_UP
+    PAGE_UP,
+    HOME
 };
 
  #endif // FILE_PLAYER_INPUT_HPP 
