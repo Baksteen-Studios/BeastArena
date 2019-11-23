@@ -85,11 +85,10 @@ void LevelScene::start() {
     auto& em = factory.getEntityManager();
 
     // Create the players
-    factory.createWeapon(1000, 200, true);
-    factory.createWeapon(1100, 200, false);
-    factory.createWeapon(600, 200, true);
-    factory.createWeapon(500, 200, false);
-
+    factory.createPistol(1000, 200, false);
+    factory.createRifle(1100, 200, true);
+    factory.createSniper(500, 200, false);
+    factory.createRifle(600, 200, true);
     // Create the background
     factory.createImage(this->bg_path, this->screen_width / 2, this->screen_height / 2, this->screen_width, this->screen_height, Layers::Background, 255);
 
@@ -131,6 +130,7 @@ void LevelScene::start() {
     }
 
     engine.toggleCursor(false);
+    engine.getSoundManager().playMusic(this->bg_music);
 }
 
 void LevelScene::leave() {

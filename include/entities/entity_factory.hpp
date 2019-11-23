@@ -26,11 +26,13 @@ public:
     };
 
     int createGorilla(int player_id) const;
-    int createPanda1(int player_id) const;
-    int createPanda2(int player_id) const;
-    int createPanda3(int player_id) const;
+    int createPanda(int player_id) const;
+    int createCheetah(int player_id) const;
+    int createElephant(int player_id) const;
+    int createPistol(double x_pos, double y_pos, bool ammo) const;
+    int createRifle(double x_pos, double y_pos, bool ammo) const;
+    int createSniper(double x_pos, double y_pos, bool ammo) const;
     int createCritter(double x_pos, double y_pos) const;
-    int createWeapon(double x_pos, double y_pos, bool ammo) const;
     int createImage(std::string path, int x_pos, int y_pos, int x_scale, int y_scale, Layers layer, int alpha);
     int createPlatform(double x_pos, double y_pos, double x_scale, double y_scale, std::string path, int alpha);
     std::pair<int, int> createButton(const Button button, const double relative_modifier);

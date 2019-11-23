@@ -19,7 +19,7 @@ MainMenu::MainMenu(EntityFactory& factory, BrickEngine& engine, GameController& 
 void MainMenu::performPrepare() {
     // General information
     this->bg_path = "colors/white.png";
-    this->bg_music = "music/rainforest.mp3";
+    this->bg_music = "music/main.mp3";
 
     // Buttons
     Button start_game_button = Button();
@@ -53,8 +53,6 @@ void MainMenu::performPrepare() {
 }
 
 void MainMenu::start() {
-    engine.toggleCursor(true);
-
     // Create the background
     factory.createImage(this->bg_path, this->screen_width / 2, this->screen_height / 2, this->screen_width, this->screen_height, Layers::Background, 255);
 
@@ -67,5 +65,8 @@ void MainMenu::start() {
     for(Image image : images) {
         factory.createImage(image.texture_path, image.x / getRelativeModifier(), image.y / getRelativeModifier(), image.x_scale / getRelativeModifier(), image.y_scale / getRelativeModifier(), Layers::Middleground, image.alpha);
     }
+
+    engine.toggleCursor(true);
+    engine.getSoundManager().playMusic(this->bg_music);
 }
 void MainMenu::leave() {}
