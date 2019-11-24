@@ -36,9 +36,9 @@ using namespace std::chrono_literals;
 
 #include "entities/layers.hpp"
 #include "player_input.hpp"
-#include "level/player_spawn.hpp"
-#include "level/gadget_spawn.hpp"
-#include "level/solid.hpp"
+#include "scenes/data/level/player_spawn.hpp"
+#include "scenes/data/level/gadget_spawn.hpp"
+#include "scenes/data/level/solid.hpp"
 #include "scenes/main_menu.hpp"
 #include "components/stats_component.hpp"
 #include "scenes/level_scene.hpp"

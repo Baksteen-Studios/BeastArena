@@ -5,13 +5,13 @@
 #include <string>
 #include <utility>
 
-#include "menu/button.hpp"
 #include "brickengine/entities/entity_manager.hpp"
 #include "brickengine/rendering/renderables/texture.hpp"
 #include "brickengine/rendering/renderable_factory.hpp"
-#include "entities/layers.hpp"
 #include "brickengine/rendering/renderables/data/color.hpp"
+#include "entities/layers.hpp"
 #include "components/health_component.hpp"
+#include "scenes/data/menu/button.hpp"
 
 class EntityFactory {
 public:

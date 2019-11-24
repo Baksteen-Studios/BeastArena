@@ -5,8 +5,8 @@
 #include <vector>
 
 #include "scenes/beast_scene.hpp"
-#include "menu/button.hpp"
-#include "menu/image.hpp"
+#include "scenes/data/menu/button.hpp"
+#include "scenes/data/menu/image.hpp"
 
 template<typename MenuType>
 class Menu : public BeastScene<MenuType> {

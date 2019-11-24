@@ -3,10 +3,10 @@
 
 #include "scenes/beast_scene.hpp"
 #include "brickengine/json/json.hpp"
-#include "level/player_spawn.hpp"
-#include "level/gadget_spawn.hpp"
-#include "level/solid.hpp"
-#include "level/critter_spawn.hpp"
+#include "scenes/data/level/player_spawn.hpp"
+#include "scenes/data/level/gadget_spawn.hpp"
+#include "scenes/data/level/solid.hpp"
+#include "scenes/data/level/critter_spawn.hpp"
 
 class LevelScene : public BeastScene<LevelScene> {
 public:
