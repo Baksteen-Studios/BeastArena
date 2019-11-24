@@ -95,7 +95,7 @@ void GameController::createGameStateManager() {
     reset_on_set_state.insert({ GameState::EndGame, true });
     reset_on_set_state.insert({ GameState::MainMenu, true });
     reset_on_set_state.insert({ GameState::Paused, false });
-    GameState begin_state = GameState::MainMenu;
+    GameState begin_state = GameState::Unintialized;
     game_state_manager = std::make_unique<GameStateManager<GameState>>(std::move(state_systems), reset_on_set_state, begin_state);
 }
 
