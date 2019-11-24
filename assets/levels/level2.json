@@ -36,7 +36,7 @@
             "type": "weapon",
             "available_spawns": ["rifle", "sniper"],
             "respawn_timer": 5,
-            "x": 1100,
+            "x": 1200,
             "y": 200
         },
         {
@@ -50,15 +50,15 @@
     "critter_spawns": [
         {
             "x": 25,
-            "y": 650
+            "y": 850
         },
         {
             "x": 1220,
-            "y": 540
+            "y": 740
         },
         {
             "x": 600,
-            "y": 540
+            "y": 740
         }
     ],
     "solids": [

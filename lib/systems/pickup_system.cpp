@@ -3,6 +3,7 @@
 
 #include "systems/pickup_system.hpp"
 #include "components/pickup_component.hpp"
+#include "components/weapon_component.hpp"
 #include "player_input.hpp"
 
 PickupSystem::PickupSystem(std::shared_ptr<CollisionDetector> cd,
@@ -31,11 +32,18 @@ void PickupSystem::update(double){
                 if (!trigger.object_id || !trigger.is_in_trigger) continue;
 
                 auto trigger_pickup = entityManager->getComponent<PickupComponent>(*trigger.object_id);
-                if(trigger_pickup){
+                if (trigger_pickup) {
                     auto collider_id = trigger.object_id.value();
+                    auto collider_transform1 = entityManager->getComponent<TransformComponent>(collider_id);
+                    // If you are "picking up" a spawner set the collider_id to be his child instead
+                    if (entityManager->hasTag(collider_id, "Spawner")) {
+                        collider_id = entityManager->getChildrenWithComponent<WeaponComponent>(collider_id)[0].first;
+                        entityManager->moveOutOfParentsHouse(collider_id);
+                    }
                     auto collider_transform = entityManager->getComponent<TransformComponent>(collider_id);
                     auto entity_transform = entityManager->getComponent<TransformComponent>(entity_id);
                     auto [ entity_position, entity_scale ] = entityManager->getAbsoluteTransform(entity_id);
+
                     if (entity_transform->x_direction == Direction::NEGATIVE) {
                         collider_transform->x_pos = entity_transform->x_scale / 2 * -1;
                     } else {
@@ -45,9 +53,11 @@ void PickupSystem::update(double){
                         collider_transform->x_direction = entity_transform->x_direction;
                     if (trigger_pickup->match_parent_y_direction)
                         collider_transform->y_direction = entity_transform->y_direction;
+
                     collider_transform->y_pos = 0;
                     collider_transform->x_scale /= entity_scale.x;
                     collider_transform->y_scale /= entity_scale.y;
+
                     entityManager->setParent(collider_id, entity_id, true);
                 }
             }

@@ -41,24 +41,24 @@
     "gadget_spawns": [
         {
             "type": "weapon",
-            "available_spawns": ["pistol", "rifle", "sniper"],
+            "available_spawns": ["pistol"],
             "respawn_timer": 5,
             "x": 1000,
-            "y": 200
+            "y": 20
         },
         {
             "type": "weapon",
-            "available_spawns": ["rifle", "sniper"],
+            "available_spawns": ["rifle"],
             "respawn_timer": 5,
             "x": 1100,
-            "y": 200
+            "y": 20
         },
         {
             "type": "weapon",
             "available_spawns": ["sniper"],
             "respawn_timer": 5,
             "x": 500,
-            "y": 200
+            "y": 20
         }
     ],
     "solids": [

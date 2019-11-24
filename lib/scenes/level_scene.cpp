@@ -5,6 +5,7 @@
 #include "brickengine/components/player_component.hpp"
 #include "components/despawn_component.hpp"
 #include "scenes/exceptions/not_enough_player_spawns_exception.hpp"
+#include "brickengine/std/random.hpp"
 
 LevelScene::LevelScene(EntityFactory& factory, BrickEngine& engine, Json json)
     : json(json), BeastScene<LevelScene>(factory, engine, json.getInt("width"), json.getInt("height")) {}
@@ -83,13 +84,25 @@ void LevelScene::performPrepare() {
 }
 void LevelScene::start() {
     auto& em = factory.getEntityManager();
+    auto& r = Random::getInstance(); 
 
-    // Load the spawners
-    // for(int i = 0; i < gadget_spawns.size(); i++) {
-    //     factory.createSpawner(gadget_spawns[i].x / getRelativeModifier(),
-    //      gadget_spawns[i].y / getRelativeModifier(), gadget_spawns[i].gadget_spawn_type,
-    //      gadget_spawns[i].available_spawns, gadget_spawns[i].respawn_timer);
-    // }
+    // Load the spawners and spawn weapons
+    for(int i = 0; i < gadget_spawns.size(); i++) {
+        int spawner = factory.createSpawner(gadget_spawns[i].x / getRelativeModifier(),
+         gadget_spawns[i].y / getRelativeModifier(), gadget_spawns[i].gadget_spawn_type,
+         gadget_spawns[i].available_spawns, gadget_spawns[i].respawn_timer);
+         
+        int random_gadget = r.getRandomInt(1, gadget_spawns[i].available_spawns.size());
+        auto gadget = gadget_spawns[i].available_spawns[random_gadget - 1];
+
+        if(gadget == "pistol") {
+            factory.createPistol(gadget_spawns[i].x / getRelativeModifier(), gadget_spawns[i].y / getRelativeModifier() - 25, true, spawner);
+        } else if(gadget == "rifle") {
+            factory.createRifle(gadget_spawns[i].x / getRelativeModifier(), gadget_spawns[i].y / getRelativeModifier() - 25, true, spawner);
+        } else if(gadget == "sniper") {
+            factory.createSniper(gadget_spawns[i].x / getRelativeModifier(), gadget_spawns[i].y / getRelativeModifier() - 25, true, spawner);
+        }
+    }
 
     // Create the background
     factory.createImage(this->bg_path, this->screen_width / 2, this->screen_height / 2, this->screen_width, this->screen_height, Layers::Background, 255);
