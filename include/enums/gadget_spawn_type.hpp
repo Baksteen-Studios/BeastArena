@@ -1,0 +1,6 @@
+#ifndef FILE_GADGET_SPAWN_TYPE_HPP
+#define FILE_GADGET_SPAWN_TYPE_HPP
+
+enum GadgetSpawnType { WEAPON, ITEM };
+
+#endif // FILE_GADGET_SPAWN_TYPE_HPP 

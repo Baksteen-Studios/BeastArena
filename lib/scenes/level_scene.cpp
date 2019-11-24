@@ -30,7 +30,7 @@ void LevelScene::performPrepare() {
         this->player_spawns.push_back(player_spawn);
     }
 
-    // Create weapon and item spawns
+    // Create gadget spawns
     for(Json gadget_spawn_json : json.getVector("gadget_spawns")) {
         GadgetSpawn gadget_spawn = GadgetSpawn();
 
@@ -84,11 +84,13 @@ void LevelScene::performPrepare() {
 void LevelScene::start() {
     auto& em = factory.getEntityManager();
 
-    // Create the players
-    factory.createPistol(1000, 200, false);
-    factory.createRifle(1100, 200, true);
-    factory.createSniper(500, 200, false);
-    factory.createRifle(600, 200, true);
+    // Load the spawners
+    // for(int i = 0; i < gadget_spawns.size(); i++) {
+    //     factory.createSpawner(gadget_spawns[i].x / getRelativeModifier(),
+    //      gadget_spawns[i].y / getRelativeModifier(), gadget_spawns[i].gadget_spawn_type,
+    //      gadget_spawns[i].available_spawns, gadget_spawns[i].respawn_timer);
+    // }
+
     // Create the background
     factory.createImage(this->bg_path, this->screen_width / 2, this->screen_height / 2, this->screen_width, this->screen_height, Layers::Background, 255);
 

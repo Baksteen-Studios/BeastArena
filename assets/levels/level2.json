@@ -27,24 +27,24 @@
     "gadget_spawns": [
         {
             "type": "weapon",
-            "available_spawns": ["pistol", "rifle"],
+            "available_spawns": ["pistol", "rifle", "sniper"],
             "respawn_timer": 5,
-            "x": 0,
-            "y": 0
+            "x": 1000,
+            "y": 200
         },
         {
             "type": "weapon",
-            "available_spawns": ["pistol", "rifle"],
+            "available_spawns": ["rifle", "sniper"],
             "respawn_timer": 5,
-            "x": 0,
-            "y": 0
+            "x": 1100,
+            "y": 200
         },
         {
             "type": "weapon",
-            "available_spawns": ["pistol", "rifle"],
+            "available_spawns": ["sniper"],
             "respawn_timer": 5,
-            "x": 0,
-            "y": 0
+            "x": 500,
+            "y": 200
         }
     ],
     "critter_spawns": [

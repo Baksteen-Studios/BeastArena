@@ -41,17 +41,24 @@
     "gadget_spawns": [
         {
             "type": "weapon",
-            "available_spawns": ["pistol", "ak", "rpg"],
+            "available_spawns": ["pistol", "rifle", "sniper"],
             "respawn_timer": 5,
-            "x": 0,
-            "y": 0
-        }, 
+            "x": 1000,
+            "y": 200
+        },
         {
-            "type": "item",
-            "available_spawns": ["jetpack"],
+            "type": "weapon",
+            "available_spawns": ["rifle", "sniper"],
             "respawn_timer": 5,
-            "x": 0,
-            "y": 0
+            "x": 1100,
+            "y": 200
+        },
+        {
+            "type": "weapon",
+            "available_spawns": ["sniper"],
+            "respawn_timer": 5,
+            "x": 500,
+            "y": 200
         }
     ],
     "solids": [

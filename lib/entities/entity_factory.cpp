@@ -16,6 +16,7 @@
 #include "components/weapon_component.hpp"
 #include "components/stats_component.hpp"
 #include "components/wandering_component.hpp"
+#include "components/spawn_component.hpp"
 #include "brickengine/rendering/renderables/data/color.hpp"
 #include "brickengine/rendering/renderables/renderable.hpp"
 #include "brickengine/components/data/scale.hpp"
@@ -121,7 +122,16 @@ int EntityFactory::createElephant(int player_id) const {
     return entity;
 }
 
-int EntityFactory::createPistol(double x_pos, double y_pos, bool ammo) const {
+int EntityFactory::createSpawner(double x_pos, double y_pos, GadgetSpawnType gadget_spawn_type, std::vector<std::string> available_spawns, int respawn_timer) const {
+    auto comps = std::make_unique<std::vector<std::unique_ptr<Component>>>();
+
+    comps->push_back(std::make_unique<TransformComponent>(x_pos, y_pos, 10, 10, Direction::POSITIVE, Direction::POSITIVE));
+    comps->push_back(std::make_unique<SpawnComponent>(gadget_spawn_type, available_spawns, x_pos, y_pos, respawn_timer));
+
+    return entityManager->createEntity(std::move(comps), std::nullopt);
+}
+
+int EntityFactory::createPistol(double x_pos, double y_pos, bool ammo, int spawner_id) const {
     auto weapon_dst = std::unique_ptr<Rect>(new Rect{ 0, 0, 0, 0 });
     auto bullet_dst = std::unique_ptr<Rect>(new Rect{ 0, 0, 0, 0 });
     auto weapon_r = renderableFactory.createImage(GRAPHICS_PATH + "weapons/pistol-1.png", (int)Layers::Foreground, std::move(weapon_dst), 255);
@@ -130,7 +140,7 @@ int EntityFactory::createPistol(double x_pos, double y_pos, bool ammo) const {
     std::optional<int> ammoOpt;
     if (ammo) ammoOpt = 15;
 
-    comps->push_back(std::make_unique<TransformComponent>(x_pos, y_pos, 31, 22, Direction::POSITIVE, Direction::POSITIVE));
+    comps->push_back(std::make_unique<TransformComponent>(x_pos, y_pos, 3.1, 2.2, Direction::POSITIVE, Direction::POSITIVE));
     comps->push_back(std::make_unique<RectangleColliderComponent>(1, 1, 1, true));
     comps->push_back(std::make_unique<PhysicsComponent>(50, false, 0, 0, true, Kinematic::IS_NOT_KINEMATIC, true, true));
     comps->push_back(std::make_unique<TextureComponent>(std::move(weapon_r)));
@@ -143,12 +153,12 @@ int EntityFactory::createPistol(double x_pos, double y_pos, bool ammo) const {
         Scale(12, 4),
         0.2, ammoOpt));
 
-    int entity = entityManager->createEntity(std::move(comps), std::nullopt);
+    int entity = entityManager->createEntity(std::move(comps), std::make_pair(spawner_id, true));
     entityManager->setTag(entity, "Weapon");
     return entity;
 }
 
-int EntityFactory::createRifle(double x_pos, double y_pos, bool ammo) const {
+int EntityFactory::createRifle(double x_pos, double y_pos, bool ammo, int spawner_id) const {
     auto weapon_dst = std::unique_ptr<Rect>(new Rect{ 0, 0, 0, 0 });
     auto bullet_dst = std::unique_ptr<Rect>(new Rect{ 0, 0, 0, 0 });
     auto weapon_r = renderableFactory.createImage(GRAPHICS_PATH + "weapons/rifle-1.png", (int)Layers::Foreground, std::move(weapon_dst), 255);
@@ -157,7 +167,7 @@ int EntityFactory::createRifle(double x_pos, double y_pos, bool ammo) const {
     std::optional<int> ammoOpt;
     if (ammo) ammoOpt = 30;
 
-    comps->push_back(std::make_unique<TransformComponent>(x_pos, y_pos, 71, 23, Direction::POSITIVE, Direction::POSITIVE));
+    comps->push_back(std::make_unique<TransformComponent>(x_pos, y_pos, 7.2, 2.3, Direction::POSITIVE, Direction::POSITIVE));
     comps->push_back(std::make_unique<RectangleColliderComponent>(1, 1, 1, true));
     comps->push_back(std::make_unique<PhysicsComponent>(75, false, 0, 0, true, Kinematic::IS_NOT_KINEMATIC, true, true));
     comps->push_back(std::make_unique<TextureComponent>(std::move(weapon_r)));
@@ -170,12 +180,12 @@ int EntityFactory::createRifle(double x_pos, double y_pos, bool ammo) const {
         Scale(12, 4),
         0.1, ammoOpt));
 
-    int entity = entityManager->createEntity(std::move(comps), std::nullopt);
+    int entity = entityManager->createEntity(std::move(comps), std::make_pair(spawner_id, true));
     entityManager->setTag(entity, "Weapon");
     return entity;
 }
 
-int EntityFactory::createSniper(double x_pos, double y_pos, bool ammo) const {
+int EntityFactory::createSniper(double x_pos, double y_pos, bool ammo, int spawner_id) const {
     auto weapon_dst = std::unique_ptr<Rect>(new Rect{ 0, 0, 0, 0 });
     auto bullet_dst = std::unique_ptr<Rect>(new Rect{ 0, 0, 0, 0 });
     auto weapon_r = renderableFactory.createImage(GRAPHICS_PATH + "weapons/sniper-1.png", (int)Layers::Foreground, std::move(weapon_dst), 255);
@@ -197,7 +207,7 @@ int EntityFactory::createSniper(double x_pos, double y_pos, bool ammo) const {
         Scale(12, 4),
         0.4, ammoOpt));
 
-    int entity = entityManager->createEntity(std::move(comps), std::nullopt);
+    int entity = entityManager->createEntity(std::move(comps), std::make_pair(spawner_id, true));
     entityManager->setTag(entity, "Weapon");
     return entity;
 }
