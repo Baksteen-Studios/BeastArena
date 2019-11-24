@@ -34,7 +34,6 @@ void PickupSystem::update(double){
                 auto trigger_pickup = entityManager->getComponent<PickupComponent>(*trigger.object_id);
                 if (trigger_pickup) {
                     auto collider_id = trigger.object_id.value();
-                    auto collider_transform1 = entityManager->getComponent<TransformComponent>(collider_id);
                     // If you are "picking up" a spawner set the collider_id to be his child instead
                     if (entityManager->hasTag(collider_id, "Spawner")) {
                         collider_id = entityManager->getChildrenWithComponent<WeaponComponent>(collider_id)[0].first;
