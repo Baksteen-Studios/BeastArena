@@ -34,7 +34,7 @@ void PickupSystem::update(double){
                 auto trigger_pickup = entityManager->getComponent<PickupComponent>(*trigger.object_id);
                 if (trigger_pickup) {
                     auto collider_id = trigger.object_id.value();
-                    // If you are "picking up" a spawner set the collider_id to be his child instead
+                    // If you are "picking up" a spawner set the collider_id to be its child instead
                     if (entityManager->hasTag(collider_id, "Spawner")) {
                         collider_id = entityManager->getChildrenWithComponent<WeaponComponent>(collider_id)[0].first;
                         entityManager->moveOutOfParentsHouse(collider_id);
