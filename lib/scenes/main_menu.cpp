@@ -37,9 +37,28 @@ void MainMenu::performPrepare() {
     start_game_button.text.x_scale = 400;
     start_game_button.text.y_scale = 100;
     start_game_button.on_click = [gm = &game_controller]() {
-        gm->startGame();
+        gm->loadLobby();
     };
     this->buttons.push_back(start_game_button);
+
+    Button exit_game_button = Button();
+    exit_game_button.texture_path = "menu/button.png";
+    exit_game_button.alpha = 255;
+    exit_game_button.x = 960;
+    exit_game_button.y = 460;
+    exit_game_button.x_scale = 400;
+    exit_game_button.y_scale = 100;
+    exit_game_button.text.text = "Exit game";
+    exit_game_button.text.font_size = 72;
+    exit_game_button.text.color = { 255, 255, 255, 255 };
+    exit_game_button.text.x = 960;
+    exit_game_button.text.y = 455;
+    exit_game_button.text.x_scale = 400;
+    exit_game_button.text.y_scale = 100;
+    exit_game_button.on_click = [gm = &game_controller]() {
+        gm->exitGame();
+    };
+    this->buttons.push_back(exit_game_button);
 
     // Images
     Image logo = Image();
