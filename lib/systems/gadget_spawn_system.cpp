@@ -17,7 +17,7 @@ void GadgetSpawnSystem::update(double deltatime) {
     int size = entities_with_spawn.size();
     
     // If there are the same amount of weapons as spawners in the game : continue
-    if (entityManager->getEntitiesByComponent<WeaponComponent>().size() == size) continue;
+    if (entityManager->getEntitiesByComponent<WeaponComponent>().size() == size) return;
 
     for (auto& [entity_id, spawn]: entities_with_spawn) {
         // If spawner has a child (gadget spawned) : continue
