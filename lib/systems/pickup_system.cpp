@@ -17,10 +17,8 @@ void PickupSystem::update(double){
         if (player->disabled) continue;
 
         if (input.checkInput(player->player_id, PlayerInput::GRAB)) {
-            std::cout << "grab inputed" << std::endl;
             auto children = entityManager->getChildren(entity_id);
             if (!children.empty()) {
-                std::cout << "trying to drop children" << std::endl;
                 for (const int& child : children) {
                     auto child_pickup = entityManager->getComponent<PickupComponent>(child);
                     if(child_pickup) {
@@ -29,13 +27,11 @@ void PickupSystem::update(double){
                 }
             }
             else {
-                std::cout << "trying to pickup" << std::endl;
                 auto trigger = collision_detector->isInTrigger(entity_id);
                 if (!trigger.object_id || !trigger.is_in_trigger) continue;
 
                 auto trigger_pickup = entityManager->getComponent<PickupComponent>(*trigger.object_id);
                 if(trigger_pickup){
-                    std::cout << "initiating pickup" << std::endl;
                     auto collider_id = trigger.object_id.value();
                     auto collider_transform = entityManager->getComponent<TransformComponent>(collider_id);
                     auto entity_transform = entityManager->getComponent<TransformComponent>(entity_id);
