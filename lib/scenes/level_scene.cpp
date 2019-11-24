@@ -95,19 +95,25 @@ void LevelScene::start() {
     // Load the players on the spawn locations
     auto entities_with_player = em.getEntitiesByComponent<PlayerComponent>();
 
+    for(auto& [entity_id, player]: entities_with_player) {
+        for (auto& child : em.getChildren(entity_id)) {
+            em.moveOutOfParentsHouse(child);
+        }
+    }
+
     int count = 0;
     for(auto& [entity_id, player]: entities_with_player) {
         player->disabled = false;
         auto transform_component = em.getComponent<TransformComponent>(entity_id);
+
+        auto health_component = em.getComponent<HealthComponent>(entity_id);
+        (*health_component->revive)(entity_id);
 
         transform_component->x_pos = player_spawns[count].x / getRelativeModifier();
         transform_component->y_pos = player_spawns[count].y / getRelativeModifier();
 
         auto despawn_component = em.getComponent<DespawnComponent>(entity_id);
         despawn_component->despawn_on_out_of_screen = true;
-
-        auto health_component = em.getComponent<HealthComponent>(entity_id);
-        (*health_component->revive)(entity_id);
 
         ++count;
     }
