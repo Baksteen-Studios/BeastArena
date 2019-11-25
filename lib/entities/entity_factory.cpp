@@ -16,6 +16,7 @@
 #include "components/weapon_component.hpp"
 #include "components/stats_component.hpp"
 #include "components/wandering_component.hpp"
+#include "components/character_selection_component.hpp"
 #include "brickengine/rendering/renderables/data/color.hpp"
 #include "brickengine/rendering/renderables/renderable.hpp"
 #include "brickengine/components/data/scale.hpp"
@@ -43,6 +44,77 @@ EntityFactory::EntityFactory(std::shared_ptr<EntityManager> em, RenderableFactor
         auto health = em->getComponent<HealthComponent>(entity_id);
         health->health = health->max_health;
     };
+}
+
+int EntityFactory::createPlayer(int player_id, Character character, int x, int y) const {
+    std::string path;
+    int x_scale;
+    int y_scale;
+    int mass;
+    std::string name;
+    int health;
+
+    switch(character){
+        case Character::GORILLA:
+            path = "beasts/gorilla/gorilla-1.png";
+            x_scale = 50;
+            y_scale = 100;
+            mass = 105;
+            name = "Gorilla";
+            health = 100;
+            break;
+        case Character::PANDA:
+            path = "beasts/panda/panda-1.png";
+            x_scale = 63;
+            y_scale = 100;
+            mass = 95;
+            name = "Panda";
+            health = 100;
+            break;
+        case Character::CHEETAH:
+            path = "beasts/cheetah/cheetah-1.png";
+            x_scale = 50;
+            y_scale = 100;
+            mass = 90;
+            name = "Cheetah";
+            health = 100;
+            break;
+        case Character::ELEPHANT:
+            path = "beasts/elephant/elephant-1.png";
+            x_scale = 100;
+            y_scale = 100;
+            mass = 105;
+            name = "Elephant";
+            health = 100;
+            break;
+        case Character::RANDOM:
+            path = "menu/question-mark.png";
+            x_scale = 50;
+            y_scale = 100;
+            mass = 100;
+            name = "Question-mark";
+            health = 100;
+            break;
+    }
+
+    std::cout << "Now creating a " << name << std::endl;
+
+    auto dst = std::unique_ptr<Rect>(new Rect{ 0, 0, 0, 0 });
+    auto r = renderableFactory.createImage(GRAPHICS_PATH + path, (int)Layers::Foreground, std::move(dst), 255);
+    auto comps = std::make_unique<std::vector<std::unique_ptr<Component>>>();
+
+    comps->push_back(std::make_unique<TransformComponent>(x, y, x_scale, y_scale, Direction::POSITIVE, Direction::POSITIVE));
+    comps->push_back(std::make_unique<RectangleColliderComponent>(1, 1, 1, false));
+    comps->push_back(std::make_unique<PhysicsComponent>(mass, true, 0, 0, true, Kinematic::IS_NOT_KINEMATIC, true, false));
+    comps->push_back(std::make_unique<TextureComponent>(std::move(r)));
+    comps->push_back(std::make_unique<PlayerComponent>(player_id, name));
+    comps->push_back(std::make_unique<HealthComponent>(health, player_on_death, player_revive, POINTS_ON_KILL_PLAYER));
+    comps->push_back(std::make_unique<DespawnComponent>(false, false));
+    comps->push_back(std::make_unique<StatsComponent>());
+
+    int entity = entityManager->createEntity(std::move(comps), std::nullopt);
+    entityManager->setTag(entity, "Player");
+    return entity;
 }
 
 int EntityFactory::createGorilla(int player_id) const {
@@ -282,4 +354,64 @@ int EntityFactory::createText(std::string text, int x, int y, int x_scale, int y
     comps->push_back(std::make_unique<TextureComponent>(std::move(r_text)));
 
     return entityManager->createEntity(std::move(comps));
+}
+
+int EntityFactory::createCharacterSelector(int player_id, int x, int y) {
+    auto dst = std::unique_ptr<Rect>(new Rect{ 0, 0 , 0, 0});
+    auto comps = std::make_unique<std::vector<std::unique_ptr<Component>>>();
+    comps->push_back(std::make_unique<CharacterSelectionComponent>(player_id));
+    comps->push_back(std::make_unique<TransformComponent>(x, y, 0, 0, Direction::POSITIVE, Direction::POSITIVE));
+
+    return entityManager->createEntity(std::move(comps));
+}
+
+void EntityFactory::createCharacterSelectorTexture(int entity_id){
+    auto dst = std::unique_ptr<Rect>(new Rect{ 0, 0 , 0, 0});
+    auto r = renderableFactory.createImage(GRAPHICS_PATH + "beasts/gorilla/gorilla-1.png", (int)Layers::Foreground, std::move(dst), 255);
+    entityManager->addComponentToEntity(entity_id, std::make_unique<TextureComponent>(std::move(r)));
+
+    entityManager->getComponent<TransformComponent>(entity_id)->x_scale = 50;
+    entityManager->getComponent<TransformComponent>(entity_id)->y_scale = 100;
+}
+
+void EntityFactory::changeCharacterSelectorTexture(int entity_id, Character character){
+    entityManager->removeComponentFromEntity<TextureComponent>(entity_id);
+
+    std::string path;
+    int x_scale;
+    int y_scale;
+
+    switch(character){
+        case Character::GORILLA:
+            path = "beasts/gorilla/gorilla-1.png";
+            x_scale = 50;
+            y_scale = 100;
+            break;
+        case Character::PANDA:
+            path = "beasts/panda/panda-1.png";
+            x_scale = 63;
+            y_scale = 100;
+            break;
+        case Character::CHEETAH:
+            path = "beasts/cheetah/cheetah-1.png";
+            x_scale = 50;
+            y_scale = 100;
+            break;
+        case Character::ELEPHANT:
+            path = "beasts/elephant/elephant-1.png";
+            x_scale = 100;
+            y_scale = 100;
+            break;
+        case Character::RANDOM:
+            path = "menu/question-mark.png";
+            x_scale = 50;
+            y_scale = 100;
+    }
+
+    auto dst = std::unique_ptr<Rect>(new Rect{ 0, 0 , 0, 0});
+    auto r = renderableFactory.createImage(GRAPHICS_PATH + path, (int)Layers::Foreground, std::move(dst), 255);
+    entityManager->addComponentToEntity(entity_id, std::make_unique<TextureComponent>(std::move(r)));
+
+    entityManager->getComponent<TransformComponent>(entity_id)->x_scale = x_scale;
+    entityManager->getComponent<TransformComponent>(entity_id)->y_scale = y_scale;
 }

@@ -1,6 +1,8 @@
 #ifndef FILE_LOBBY_HPP
 #define FILE_LOBBY_HPP
 
+#include <utility>
+
 #include "scenes/beast_scene.hpp"
 #include "entities/entity_factory.hpp"
 #include "brickengine/scenes/scene_manager.hpp"
@@ -8,6 +10,7 @@
 #include "scenes/data/menu/button.hpp"
 #include "scenes/data/menu/image.hpp"
 #include "scenes/data/level/solid.hpp"
+#include "enums/character.hpp"
 
 class Lobby : public BeastScene<Lobby> {
 public:
@@ -40,6 +43,19 @@ private:
 
     // Solids
     std::vector<Solid> solids;
+
+    // Critters
+    std::vector<std::pair<int, int>> critters;
+
+    // Character selection components --> std::pair<player_id, std::pair<x, y>>
+    std::vector<std::pair<int, std::pair<int, int>>> character_selection_components;
+
+    std::vector<Character> available_characters = {
+        Character::GORILLA,
+        Character::PANDA,
+        Character::CHEETAH,
+        Character::ELEPHANT
+    };
 };
 
 #endif // FILE_LOBBY_HPP

@@ -12,6 +12,7 @@
 #include "entities/layers.hpp"
 #include "components/health_component.hpp"
 #include "scenes/data/menu/button.hpp"
+#include "enums/character.hpp"
 
 class EntityFactory {
 public:
@@ -25,6 +26,7 @@ public:
         return renderableFactory;
     };
 
+    int createPlayer(int player_id, Character character, int x = -2000, int y = -2000) const;
     int createGorilla(int player_id) const;
     int createPanda(int player_id) const;
     int createCheetah(int player_id) const;
@@ -37,6 +39,9 @@ public:
     int createPlatform(double x_pos, double y_pos, double x_scale, double y_scale, std::string path, int alpha);
     std::pair<int, int> createButton(const Button button, const double relative_modifier);
     int createText(std::string text, int x, int y, int x_scale, int y_scale);
+    int createCharacterSelector(int player_id, int x, int y);
+    void createCharacterSelectorTexture(int entity_id);
+    void changeCharacterSelectorTexture(int entity_id, Character character);
 private:
     std::shared_ptr<EntityManager> entityManager;
     RenderableFactory& renderableFactory;

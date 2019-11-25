@@ -12,6 +12,7 @@
 #include "brickengine/rendering/renderables/data/color.hpp"
 #include "brickengine/json/json.hpp"
 #include "controllers/game_controller.hpp"
+#include "brickengine/components/player_component.hpp"
 
 MainMenu::MainMenu(EntityFactory& factory, BrickEngine& engine, GameController& game_controller)
     : Menu(factory, engine, WIDTH, HEIGHT), game_controller(game_controller) { }
@@ -72,6 +73,14 @@ void MainMenu::performPrepare() {
 }
 
 void MainMenu::start() {
+    // Remove remaining player components
+    auto& em = factory.getEntityManager();
+    auto player_entities = em.getEntitiesByComponent<PlayerComponent>();
+
+    for (auto& [ entity_id, player ] : player_entities ) {
+        em.removeEntity(entity_id);
+    }
+
     // Create the background
     factory.createImage(this->bg_path, this->screen_width / 2, this->screen_height / 2, this->screen_width, this->screen_height, Layers::Background, 255);
 

@@ -9,7 +9,7 @@
 ClickSystem::ClickSystem(std::shared_ptr<EntityManager> em) : System(em) {}
 
 void ClickSystem::update(double) {
-    auto input = BrickInput<PlayerInput>::getInstance();
+    auto& input = BrickInput<PlayerInput>::getInstance();
 
     // Here we do not check if the player is disabled and always use player one, because ClickComponents are not used for gameplay
     // Check if the user clicked the left mouse button. If not, return the user out of the method.
@@ -32,6 +32,9 @@ void ClickSystem::update(double) {
             y < bottom && y > top) {
             // The button was clicked
             click->fn();
+            // After the fn has been executed we must break the glass.
+            // Because if the fn destroys the current scene with its click components, and completely destory this loop
+            break;
         }
     }
 }
