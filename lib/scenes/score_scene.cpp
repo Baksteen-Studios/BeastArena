@@ -19,7 +19,7 @@ void ScoreScene::performPrepare() {
 
     for (auto text : json.getVector("texts")){
         entity_components->push_back(std::move(entity_factory.createText(text.getString("text"), 
-        {text.getInt("r"), text.getInt("g"), text.getInt("b"), text.getInt("alpha")}, 
+        {(unsigned short int)text.getInt("r"), (unsigned short int)text.getInt("g"), (unsigned short int)text.getInt("b"), (unsigned short int)text.getInt("alpha")}, 
         text.getInt("font_size"), text.getInt("x"), text.getInt("y"), text.getInt("x_scale"), text.getInt("y_scale"), getRelativeModifier())));
     }
 }
