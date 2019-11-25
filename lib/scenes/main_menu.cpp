@@ -86,6 +86,9 @@ void MainMenu::start() {
     }
 
     engine.toggleCursor(true);
-    engine.getSoundManager().playMusic(this->bg_music);
+
+    if(!engine.getSoundManager().isPlaying()) {
+        engine.getSoundManager().playMusic(this->bg_music);
+    }
 }
 void MainMenu::leave() {}

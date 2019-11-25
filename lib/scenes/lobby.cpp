@@ -14,7 +14,7 @@
 #include "controllers/game_controller.hpp"
 
 Lobby::Lobby(EntityFactory& factory, BrickEngine& engine, GameController& game_controller)
-    : Menu(factory, engine, WIDTH, HEIGHT), game_controller(game_controller) { }
+    : BeastScene(factory, engine, WIDTH, HEIGHT), game_controller(game_controller) { }
 
 void Lobby::performPrepare() {
     // General information
@@ -175,6 +175,9 @@ void Lobby::start() {
     }
 
     engine.toggleCursor(true);
-    engine.getSoundManager().playMusic(this->bg_music);
+
+    if(!engine.getSoundManager().isPlaying()) {
+        engine.getSoundManager().playMusic(this->bg_music);
+    }
 }
 void Lobby::leave() {}
