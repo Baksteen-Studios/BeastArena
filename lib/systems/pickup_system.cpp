@@ -4,6 +4,7 @@
 #include "systems/pickup_system.hpp"
 #include "components/pickup_component.hpp"
 #include "components/weapon_component.hpp"
+#include "components/hold_component.hpp"
 #include "player_input.hpp"
 
 PickupSystem::PickupSystem(std::shared_ptr<CollisionDetector> cd,
@@ -16,6 +17,8 @@ void PickupSystem::update(double){
 
     for (auto& [entity_id, player]: entities_with_player) {
         if (player->disabled) continue;
+        auto hold_comp = entityManager->getComponent<HoldComponent>(entity_id);
+        if (!hold_comp) continue;
 
         if (input.checkInput(player->player_id, PlayerInput::GRAB)) {
             auto children = entityManager->getChildren(entity_id);
@@ -34,26 +37,30 @@ void PickupSystem::update(double){
                 auto trigger_pickup = entityManager->getComponent<PickupComponent>(*trigger.object_id);
                 if (trigger_pickup) {
                     auto collider_id = trigger.object_id.value();
-                    // If you are "picking up" a spawner set the collider_id to be its child instead
-                    if (entityManager->hasTag(collider_id, "Spawner")) {
-                        collider_id = entityManager->getChildrenWithComponent<WeaponComponent>(collider_id)[0].first;
-                        entityManager->moveOutOfParentsHouse(collider_id);
-                    }
+                    entityManager->moveOutOfParentsHouse(collider_id);
                     auto collider_transform = entityManager->getComponent<TransformComponent>(collider_id);
                     auto entity_transform = entityManager->getComponent<TransformComponent>(entity_id);
                     auto [ entity_position, entity_scale ] = entityManager->getAbsoluteTransform(entity_id);
 
+                    // Set position
                     if (entity_transform->x_direction == Direction::NEGATIVE) {
-                        collider_transform->x_pos = entity_transform->x_scale / 2 * -1;
+                        collider_transform->x_pos = hold_comp->position.x * -1;
                     } else {
-                        collider_transform->x_pos = entity_transform->x_scale / 2;
+                        collider_transform->x_pos = hold_comp->position.x;
                     }
+                    if (entity_transform->y_direction == Direction::NEGATIVE) {
+                        collider_transform->y_pos = hold_comp->position.y * -1;
+                    } else {
+                        collider_transform->y_pos = hold_comp->position.y;
+                    }
+
+                    // Set direction
                     if (trigger_pickup->match_parent_x_direction)
                         collider_transform->x_direction = entity_transform->x_direction;
                     if (trigger_pickup->match_parent_y_direction)
                         collider_transform->y_direction = entity_transform->y_direction;
 
-                    collider_transform->y_pos = 0;
+                    // Set scale
                     collider_transform->x_scale /= entity_scale.x;
                     collider_transform->y_scale /= entity_scale.y;
 

@@ -3,21 +3,22 @@
 
 #include "brickengine/components/component_impl.hpp"
 #include <functional>
+#include <memory>
+#include <vector>
 #include "brickengine/enum/direction.hpp"
-#include "enums/gadget_spawn_type.hpp"
+#include "enums/gadget_type.hpp"
 
 class SpawnComponent : public ComponentImpl<SpawnComponent> {
 public:
-    SpawnComponent(GadgetSpawnType gadget_spawn_type, std::vector<std::string> available_spawns, int x, int y, int respawn_timer);
+    using CreateGadgetCompsFn = std::function<std::unique_ptr<std::vector<std::unique_ptr<Component>>> ()>;
+
+    SpawnComponent(int respawn_timer, std::vector<CreateGadgetCompsFn> gadget_fns);
     static std::string getNameStatic();
 
     // Data
-    GadgetSpawnType gadget_spawn_type;
-    std::vector<std::string> available_spawns;
+    std::vector<CreateGadgetCompsFn> gadget_fns;
     double respawn_timer;
-    int x;
-    int y;
-    double time_elapsed = 0;
+    double time_elapsed;
 };
 
 #endif // FILE_SPAWN_COMPONENT_HPP

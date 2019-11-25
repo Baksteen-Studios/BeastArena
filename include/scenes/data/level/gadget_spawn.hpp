@@ -3,12 +3,11 @@
 
 #include <vector>
 #include <string>
-#include "enums/gadget_spawn_type.hpp"
+#include "enums/gadget_type.hpp"
 
 struct GadgetSpawn {
 public:
-    GadgetSpawnType gadget_spawn_type;
-    std::vector<std::string> available_spawns;
+    std::vector<GadgetType> available_spawns;
     double respawn_timer;
     int x;
     int y;

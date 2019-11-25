@@ -35,13 +35,9 @@ void LevelScene::performPrepare() {
     for(Json gadget_spawn_json : json.getVector("gadget_spawns")) {
         GadgetSpawn gadget_spawn = GadgetSpawn();
 
-        if(gadget_spawn_json.getString("type") == "weapon") {
-            gadget_spawn.gadget_spawn_type = GadgetSpawnType::WEAPON;
-        } else if(gadget_spawn_json.getString("type") == "item") {
-            gadget_spawn.gadget_spawn_type = GadgetSpawnType::ITEM;
+        for (const std::string& s : gadget_spawn_json.getStringVector("available_spawns")) {
+            gadget_spawn.available_spawns.push_back(GadgetTypeConverter::stringToGadgetType(s));
         }
-
-        gadget_spawn.available_spawns = gadget_spawn_json.getStringVector("available_spawns");
         gadget_spawn.respawn_timer = gadget_spawn_json.getInt("respawn_timer");
         gadget_spawn.x = gadget_spawn_json.getInt("x");
         gadget_spawn.y = gadget_spawn_json.getInt("y");
@@ -89,19 +85,9 @@ void LevelScene::start() {
     // Load the spawners and spawn weapons
     for(int i = 0; i < gadget_spawns.size(); i++) {
         int spawner = factory.createSpawner(gadget_spawns[i].x / getRelativeModifier(),
-         gadget_spawns[i].y / getRelativeModifier(), gadget_spawns[i].gadget_spawn_type,
-         gadget_spawns[i].available_spawns, gadget_spawns[i].respawn_timer);
-         
-        int random_gadget = r.getRandomInt(1, gadget_spawns[i].available_spawns.size());
-        auto gadget = gadget_spawns[i].available_spawns[random_gadget - 1];
-
-        if(gadget == "pistol") {
-            factory.createPistol(gadget_spawns[i].x / getRelativeModifier(), gadget_spawns[i].y / getRelativeModifier() - 25, true, spawner);
-        } else if(gadget == "rifle") {
-            factory.createRifle(gadget_spawns[i].x / getRelativeModifier(), gadget_spawns[i].y / getRelativeModifier() - 25, true, spawner);
-        } else if(gadget == "sniper") {
-            factory.createSniper(gadget_spawns[i].x / getRelativeModifier(), gadget_spawns[i].y / getRelativeModifier() - 25, true, spawner);
-        }
+         gadget_spawns[i].y / getRelativeModifier(), 
+         gadget_spawns[i].available_spawns, 
+         gadget_spawns[i].respawn_timer);
     }
 
     // Create the background
