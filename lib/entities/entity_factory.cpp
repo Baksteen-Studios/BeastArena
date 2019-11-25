@@ -223,27 +223,27 @@ int EntityFactory::createCritter(double x_pos, double y_pos) const {
     return entity;
 }
 
-int EntityFactory::createImage(std::string path, int x_pos, int y_pos, int x_scale, int y_scale, Layers layer, int alpha) {
+std::unique_ptr<std::vector<std::unique_ptr<Component>>> EntityFactory::createImage(std::string path, int x_pos, int y_pos, int x_scale, int y_scale, double relative_modifier, Layers layer, int alpha) {
     auto dst = std::unique_ptr<Rect>(new Rect{ 0, 0, 0, 0 });
     auto r = renderableFactory.createImage(GRAPHICS_PATH + path, (int)layer, std::move(dst), alpha);
 
     auto comps = std::make_unique<std::vector<std::unique_ptr<Component>>>();
-    comps->push_back(std::make_unique<TransformComponent>(x_pos, y_pos, x_scale, y_scale, Direction::POSITIVE, Direction::POSITIVE));
+    comps->push_back(std::make_unique<TransformComponent>(x_pos / relative_modifier, y_pos / relative_modifier, x_scale / relative_modifier, y_scale / relative_modifier, Direction::POSITIVE, Direction::POSITIVE));
     comps->push_back(std::make_unique<TextureComponent>(std::move(r)));
 
-    return entityManager->createEntity(std::move(comps), std::nullopt);
+    return std::move(comps);
 }
 
-int EntityFactory::createPlatform(double x_pos, double y_pos, double x_scale, double y_scale, std::string path, int alpha) {
+std::unique_ptr<std::vector<std::unique_ptr<Component>>> EntityFactory::createPlatform(double x_pos, double y_pos, double x_scale, double y_scale, double relative_modifier, std::string path, int alpha) {
     auto dst = std::unique_ptr<Rect>(new Rect{ 0, 0, 0, 0 });
     auto r = renderableFactory.createImage(GRAPHICS_PATH + path, (int)Layers::Foreground, std::move(dst), alpha);
  
     auto comps = std::make_unique<std::vector<std::unique_ptr<Component>>>();
-    comps->push_back(std::make_unique<TransformComponent>(x_pos, y_pos, x_scale, y_scale, Direction::POSITIVE, Direction::POSITIVE));
+    comps->push_back(std::make_unique<TransformComponent>(x_pos / relative_modifier, y_pos /relative_modifier, x_scale / relative_modifier, y_scale / relative_modifier, Direction::POSITIVE, Direction::POSITIVE));
     comps->push_back(std::make_unique<RectangleColliderComponent>(1, 1, 1, false));
     comps->push_back(std::make_unique<TextureComponent>(std::move(r)));
 
-    return entityManager->createEntity(std::move(comps), std::nullopt);
+    return std::move(comps);
 }
 
 std::pair<int, int> EntityFactory::createButton(const Button button, const double relative_modifier) {
@@ -274,12 +274,18 @@ std::pair<int, int> EntityFactory::createButton(const Button button, const doubl
     return std::make_pair(button_id, text_id);
 }
 
-int EntityFactory::createText(std::string text, int x, int y, int x_scale, int y_scale) {
+std::unique_ptr<std::vector<std::unique_ptr<Component>>> EntityFactory::createText(std::string text, Color color, int font_size, int x, int y, int x_scale, int y_scale, double relative_modifier) {
     auto dst = std::unique_ptr<Rect>(new Rect{ 0, 0 , 0, 0});
-    auto r_text = renderableFactory.createText(text, 50, { 0, 255, 0, 255 }, (int)Layers::UI, std::move(dst));
+    auto r_text = renderableFactory.createText(text, font_size, color, (int)Layers::UI, std::move(dst));
     auto comps = std::make_unique<std::vector<std::unique_ptr<Component>>>();
-    comps->push_back(std::make_unique<TransformComponent>(x, y, x_scale, y_scale, Direction::POSITIVE, Direction::POSITIVE));
+    comps->push_back(std::make_unique<TransformComponent>(x / relative_modifier, y / relative_modifier, x_scale / relative_modifier, y_scale / relative_modifier, Direction::POSITIVE, Direction::POSITIVE));
     comps->push_back(std::make_unique<TextureComponent>(std::move(r_text)));
 
-    return entityManager->createEntity(std::move(comps));
+    return std::move(comps);
+}
+
+int EntityFactory::addToEntityManager(std::unique_ptr<std::vector<std::unique_ptr<Component>>> component_list,
+                     std::optional<std::pair<int,bool>> parent_opt,
+                     std::optional<std::string> scene_tag) {
+    return entityManager->createEntity(std::move(component_list), parent_opt, scene_tag);
 }

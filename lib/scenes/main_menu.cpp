@@ -54,7 +54,8 @@ void MainMenu::performPrepare() {
 
 void MainMenu::start() {
     // Create the background
-    factory.createImage(this->bg_path, this->screen_width / 2, this->screen_height / 2, this->screen_width, this->screen_height, Layers::Background, 255);
+    auto comps = factory.createImage(this->bg_path, this->screen_width / 2, this->screen_height / 2, this->screen_width, this->screen_height, 1, Layers::Background, 255);
+    factory.addToEntityManager(std::move(comps));
 
     // Load the buttons
     for (Button button : this->buttons) {
@@ -63,7 +64,8 @@ void MainMenu::start() {
 
     // Load the images
     for(Image image : images) {
-        factory.createImage(image.texture_path, image.x / getRelativeModifier(), image.y / getRelativeModifier(), image.x_scale / getRelativeModifier(), image.y_scale / getRelativeModifier(), Layers::Middleground, image.alpha);
+        auto comps = factory.createImage(image.texture_path, image.x, image.y, image.x_scale, image.y_scale, getRelativeModifier(), Layers::Middleground, image.alpha);
+        factory.addToEntityManager(std::move(comps));
     }
 
     engine.toggleCursor(true);

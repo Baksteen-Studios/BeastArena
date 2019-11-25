@@ -90,7 +90,7 @@ void LevelScene::start() {
     factory.createSniper(500, 200, false);
     factory.createRifle(600, 200, true);
     // Create the background
-    factory.createImage(this->bg_path, this->screen_width / 2, this->screen_height / 2, this->screen_width, this->screen_height, Layers::Background, 255);
+    factory.createImage(this->bg_path, this->screen_width / 2, this->screen_height / 2, this->screen_width, this->screen_height, getRelativeModifier(), Layers::Background, 255);
 
     // Load the players on the spawn locations
     auto entities_with_player = em.getEntitiesByComponent<PlayerComponent>();
@@ -121,11 +121,12 @@ void LevelScene::start() {
     // Load the platforms
     for(Solid platform : solids) {
         if(platform.shape == SolidShape::RECTANGLE && platform.effect == SolidEffect::NONE) {
-            int x = platform.x / getRelativeModifier();
-            int y = platform.y / getRelativeModifier();
-            int xScale = platform.xScale / getRelativeModifier();
-            int yScale = platform.yScale / getRelativeModifier();
-            factory.createPlatform(x, y, xScale, yScale, platform.texture_path, platform.alpha);
+            int x = platform.x;
+            int y = platform.y;
+            int xScale = platform.xScale;
+            int yScale = platform.yScale;
+            auto comps = factory.createPlatform(x, y, xScale, yScale, getRelativeModifier(), platform.texture_path, platform.alpha);
+            factory.addToEntityManager(std::move(comps));
         }
     }
 

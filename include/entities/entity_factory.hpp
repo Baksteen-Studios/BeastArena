@@ -4,6 +4,7 @@
 #include <vector>
 #include <string>
 #include <utility>
+#include <optional>
 
 #include "brickengine/entities/entity_manager.hpp"
 #include "brickengine/rendering/renderables/texture.hpp"
@@ -33,10 +34,14 @@ public:
     int createRifle(double x_pos, double y_pos, bool ammo) const;
     int createSniper(double x_pos, double y_pos, bool ammo) const;
     int createCritter(double x_pos, double y_pos) const;
-    int createImage(std::string path, int x_pos, int y_pos, int x_scale, int y_scale, Layers layer, int alpha);
-    int createPlatform(double x_pos, double y_pos, double x_scale, double y_scale, std::string path, int alpha);
+    std::unique_ptr<std::vector<std::unique_ptr<Component>>> createImage(std::string path, int x_pos, int y_pos, int x_scale, int y_scale, double relative_modifier, Layers layer, int alpha);
+    std::unique_ptr<std::vector<std::unique_ptr<Component>>> createPlatform(double x_pos, double y_pos, double x_scale, double y_scale, double relative_modifier, std::string path, int alpha);
     std::pair<int, int> createButton(const Button button, const double relative_modifier);
-    int createText(std::string text, int x, int y, int x_scale, int y_scale);
+    std::unique_ptr<std::vector<std::unique_ptr<Component>>> createText(std::string text, Color color, int font_size, int x, int y, int x_scale, int y_scale, double relative_modifier);
+
+    int addToEntityManager(std::unique_ptr<std::vector<std::unique_ptr<Component>>> component_list, 
+                    std::optional<std::pair<int,bool>> parent_opt = std::nullopt, std::optional<std::string> scene_tag = std::nullopt);
+
 private:
     std::shared_ptr<EntityManager> entityManager;
     RenderableFactory& renderableFactory;

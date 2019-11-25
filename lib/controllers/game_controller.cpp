@@ -9,6 +9,7 @@
 #include <deque>
 #include <filesystem>
 #include <map>
+#include <algorithm>
 using namespace std::chrono_literals;
 
 #include "controllers/game_controller.hpp"
@@ -41,9 +42,10 @@ using namespace std::chrono_literals;
 #include "scenes/data/level/solid.hpp"
 #include "scenes/main_menu.hpp"
 #include "components/stats_component.hpp"
+
 #include "scenes/level_scene.hpp"
 #include "scenes/intermission_scene.hpp"
-#include <algorithm>
+#include "scenes/score_scene.hpp"
 
 GameController::GameController() {
     this->delta_time = 1;
@@ -78,6 +80,7 @@ void GameController::createGameStateManager() {
     auto state_systems = std::make_unique<GameStateManager<GameState>::StateSystems>();
     state_systems->insert({ GameState::MainMenu, std::make_unique<GameStateManager<GameState>::Systems>() });
     state_systems->insert({ GameState::InGame, std::make_unique<std::vector<std::unique_ptr<System>>>() });
+    state_systems->insert({ GameState::EndGame, std::make_unique<std::vector<std::unique_ptr<System>>>() });
     state_systems->at(GameState::MainMenu)->push_back(std::make_unique<ClickSystem>(entityManager));
     state_systems->at(GameState::MainMenu)->push_back(std::make_unique<RenderingSystem>(entityManager, *engine->getRenderer()));
     state_systems->at(GameState::InGame)->push_back(std::make_unique<GameSystem>(entityManager, *this));
@@ -90,6 +93,18 @@ void GameController::createGameStateManager() {
     state_systems->at(GameState::InGame)->push_back(std::make_unique<DamageSystem>(collisionDetector, entityManager, entityFactory));
     state_systems->at(GameState::InGame)->push_back(std::make_unique<DespawnSystem>(collisionDetector, entityManager, SCREEN_WIDTH, SCREEN_HEIGHT));
     state_systems->at(GameState::InGame)->push_back(std::make_unique<RenderingSystem>(entityManager, *engine->getRenderer()));
+
+    state_systems->at(GameState::EndGame)->push_back(std::make_unique<GameSystem>(entityManager, *this));
+    state_systems->at(GameState::EndGame)->push_back(std::make_unique<ClickSystem>(entityManager));
+    state_systems->at(GameState::EndGame)->push_back(std::make_unique<MovementSystem>(collisionDetector, entityManager, entityFactory));
+    state_systems->at(GameState::EndGame)->push_back(std::make_unique<PhysicsSystem>(collisionDetector, entityManager));
+    state_systems->at(GameState::EndGame)->push_back(std::make_unique<PickupSystem>(collisionDetector, entityManager, entityFactory));
+    state_systems->at(GameState::EndGame)->push_back(std::make_unique<CritterSystem>(collisionDetector, entityManager, entityFactory));
+    state_systems->at(GameState::EndGame)->push_back(std::make_unique<WeaponSystem>(collisionDetector, entityManager, entityFactory));
+    state_systems->at(GameState::EndGame)->push_back(std::make_unique<DamageSystem>(collisionDetector, entityManager, entityFactory));
+    state_systems->at(GameState::EndGame)->push_back(std::make_unique<DespawnSystem>(collisionDetector, entityManager, SCREEN_WIDTH, SCREEN_HEIGHT));
+    state_systems->at(GameState::EndGame)->push_back(std::make_unique<RenderingSystem>(entityManager, *engine->getRenderer()));
+
     std::unordered_map<GameState, bool> reset_on_set_state;
     reset_on_set_state.insert({ GameState::InGame, true });
     reset_on_set_state.insert({ GameState::EndGame, true });
@@ -259,7 +274,8 @@ int GameController::getScreenHeight() const {
 
 void GameController::startGame() {
     loadLevels();
-    loadNextLevel();
+    //loadNextLevel();
+    loadEndGameLevel();
 }
 
 void GameController::loadLevels() {
@@ -303,7 +319,7 @@ void GameController::loadNextLevel() {
         scene_manager->createScene<LevelScene>(*entityFactory, *engine, level_json);
     } else {
         // There are no levels left in the queue.
-        loadMainMenu();
+        loadEndGameLevel();
     }
 }
 
@@ -317,20 +333,26 @@ void GameController::loadMainMenu() {
     scene_manager->createScene<MainMenu>(*entityFactory, *engine, *this);
 }
 void GameController::loadEndGameLevel() {
+    scene_manager->destroyScene(SceneLayer::Primary);
+
     // entity_id and points
-    std::vector<std::pair<int, int>> results;
-    auto entities_with_player = entityManager->getEntitiesByComponent<PlayerComponent>();
-    for (auto& [ entity_id, player ] : entities_with_player) {
-        auto stats = entityManager->getComponent<StatsComponent>(entity_id);
+    //std::vector<std::pair<int, int>> results;
+    //auto entities_with_player = entityManager->getEntitiesByComponent<PlayerComponent>();
+    //for (auto& [ entity_id, player ] : entities_with_player) {
+    //    auto stats = entityManager->getComponent<StatsComponent>(entity_id);
 
-        results.push_back(std::make_pair(entity_id, stats->points));
-    }
+    //    results.push_back(std::make_pair(entity_id, stats->points));
+    //}
 
-    std::sort(results.begin(), results.end(), [](auto lhs, auto rhs) {
-        return lhs.second > rhs.second;
-    });
+    //std::sort(results.begin(), results.end(), [](auto lhs, auto rhs) {
+    //    return lhs.second > rhs.second;
+    //});
 
-    for (auto& [entity_id, points] : results) {
-        auto player = entityManager->getComponent<PlayerComponent>(entity_id);
-    }
+    //for (auto& [entity_id, points] : results) {
+    //    auto player = entityManager->getComponent<PlayerComponent>(entity_id);
+    //}
+
+    // Load the json
+    Json json { END_GAME_PATH, true };
+    scene_manager->createScene<ScoreScene>(*entityFactory, *engine, json);
 }

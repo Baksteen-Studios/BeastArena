@@ -1,0 +1,96 @@
+{
+    "version": 1.0,
+    "name": "End game screen",
+    "description": "Get in there Gorilla!",
+    "width": 1920,
+    "height": 1080,
+    "bg_path": "backgrounds/arena.jpg",
+    "bg_music": "music/forest.mp3",
+    "player_spawns": [
+        {
+            "x": 400,
+            "y": 500
+        },
+        {
+            "x": 700,
+            "y": 500
+        },
+        {
+            "x": 1000,
+            "y": 500
+        },
+        {
+           "x": 1300,
+           "y": 500
+        }
+    ],
+    "critter_spawns": [
+        {
+            "x": 200,
+            "y": 500
+        },
+        {
+            "x": 300,
+            "y": 500
+        },
+        {
+            "x": 400,
+            "y": 500
+        }
+    ],
+    "gadget_spawns": [
+        {
+            "type": "item",
+            "available_spawns": ["trophy"],
+            "respawn_timer": 0,
+            "x": 0,
+            "y": 0
+        }
+    ],
+    "solids": [
+        {
+            "shape": "rectangle",
+            "effect": "none",
+            "texture_path": "colors/blue.jpg",
+            "alpha": 255,
+            "x": 760,
+            "y": 1000,
+            "xScale": 200,
+            "yScale": 200
+        },
+        {
+            "shape": "rectangle",
+            "effect": "none",
+            "texture_path": "colors/blue.jpg",
+            "alpha": 255,
+            "x": 960,
+            "y": 930,
+            "xScale": 200,
+            "yScale": 300
+        },
+        {
+            "shape": "rectangle",
+            "effect": "none",
+            "texture_path": "colors/blue.jpg",
+            "alpha": 255,
+            "x": 1159,
+            "y": 1020,
+            "xScale": 200,
+            "yScale": 100
+        }
+    ],
+    "texts" : [
+        {
+            "text" : "1",
+            "font_size" : 25,
+            "x" : 960,
+            "y" : 960,
+            "r" : 255,
+            "g" : 255,
+            "b" : 255,
+            "alpha" : 255,
+            "x_scale" : 200,
+            "y_scale" : 400
+        }
+    ]
+}
