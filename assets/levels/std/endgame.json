@@ -51,6 +51,76 @@
         {
             "shape": "rectangle",
             "effect": "none",
+            "texture_path": "colors/black.jpg",
+            "alpha": 255,
+            "x": 1159,
+            "y": 975,
+            "xScale": 200,
+            "yScale": 10 
+        },
+        {
+            "shape": "rectangle",
+            "effect": "none",
+            "texture_path": "colors/black.jpg",
+            "alpha": 255,
+            "x": 855,
+            "y": 840,
+            "xScale": 10,
+            "yScale": 120
+        },
+        {
+            "shape": "rectangle",
+            "effect": "none",
+            "texture_path": "colors/black.jpg",
+            "alpha": 255,
+            "x": 955,
+            "y": 780,
+            "xScale": 209,
+            "yScale": 10 
+        },
+        {
+            "shape": "rectangle",
+            "effect": "none",
+            "texture_path": "colors/black.jpg",
+            "alpha": 255,
+            "x": 760,
+            "y": 900,
+            "xScale": 200,
+            "yScale": 10 
+        },
+        {
+            "shape": "rectangle",
+            "effect": "none",
+            "texture_path": "colors/black.jpg",
+            "alpha": 255,
+            "x": 660,
+            "y": 988,
+            "xScale": 10,
+            "yScale": 187
+        },
+        {
+            "shape": "rectangle",
+            "effect": "none",
+            "texture_path": "colors/black.jpg",
+            "alpha": 255,
+            "x": 1054,
+            "y": 880,
+            "xScale": 10,
+            "yScale": 200
+        },
+        {
+            "shape": "rectangle",
+            "effect": "none",
+            "texture_path": "colors/black.jpg",
+            "alpha": 255,
+            "x": 1254,
+            "y": 1030,
+            "xScale": 10,
+            "yScale": 101
+        },
+        {
+            "shape": "rectangle",
+            "effect": "none",
             "texture_path": "colors/blue.jpg",
             "alpha": 255,
             "x": 760,
@@ -78,6 +148,8 @@
             "xScale": 200,
             "yScale": 100
         }
+        
+
     ],
     "texts" : [
         {
