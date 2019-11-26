@@ -47,66 +47,18 @@ EntityFactory::EntityFactory(std::shared_ptr<EntityManager> em, RenderableFactor
 }
 
 int EntityFactory::createPlayer(int player_id, Character character, int x, int y) const {
-    std::string path;
-    int x_scale;
-    int y_scale;
-    int mass;
-    std::string name;
-    int health;
-
-    switch(character){
-        case Character::GORILLA:
-            path = "beasts/gorilla/gorilla-1.png";
-            x_scale = 50;
-            y_scale = 100;
-            mass = 105;
-            name = "Gorilla";
-            health = 100;
-            break;
-        case Character::PANDA:
-            path = "beasts/panda/panda-1.png";
-            x_scale = 63;
-            y_scale = 100;
-            mass = 95;
-            name = "Panda";
-            health = 100;
-            break;
-        case Character::CHEETAH:
-            path = "beasts/cheetah/cheetah-1.png";
-            x_scale = 50;
-            y_scale = 100;
-            mass = 90;
-            name = "Cheetah";
-            health = 100;
-            break;
-        case Character::ELEPHANT:
-            path = "beasts/elephant/elephant-1.png";
-            x_scale = 100;
-            y_scale = 100;
-            mass = 105;
-            name = "Elephant";
-            health = 100;
-            break;
-        case Character::RANDOM:
-            path = "menu/question-mark.png";
-            x_scale = 50;
-            y_scale = 100;
-            mass = 100;
-            name = "Question-mark";
-            health = 100;
-            break;
-    }
+    auto character_specs = getCharacterSpecs(character);
 
     auto dst = std::unique_ptr<Rect>(new Rect{ 0, 0, 0, 0 });
-    auto r = renderableFactory.createImage(GRAPHICS_PATH + path, (int)Layers::Foreground, std::move(dst), 255);
+    auto r = renderableFactory.createImage(GRAPHICS_PATH + character_specs.path, (int)Layers::Foreground, std::move(dst), 255);
     auto comps = std::make_unique<std::vector<std::unique_ptr<Component>>>();
 
-    comps->push_back(std::make_unique<TransformComponent>(x, y, x_scale, y_scale, Direction::POSITIVE, Direction::POSITIVE));
+    comps->push_back(std::make_unique<TransformComponent>(x, y, character_specs.x_scale, character_specs.y_scale, Direction::POSITIVE, Direction::POSITIVE));
     comps->push_back(std::make_unique<RectangleColliderComponent>(1, 1, 1, false));
-    comps->push_back(std::make_unique<PhysicsComponent>(mass, true, 0, 0, true, Kinematic::IS_NOT_KINEMATIC, true, false));
+    comps->push_back(std::make_unique<PhysicsComponent>(character_specs.mass, true, 0, 0, true, Kinematic::IS_NOT_KINEMATIC, true, false));
     comps->push_back(std::make_unique<TextureComponent>(std::move(r)));
-    comps->push_back(std::make_unique<PlayerComponent>(player_id, name));
-    comps->push_back(std::make_unique<HealthComponent>(health, player_on_death, player_revive, POINTS_ON_KILL_PLAYER));
+    comps->push_back(std::make_unique<PlayerComponent>(player_id, character_specs.name));
+    comps->push_back(std::make_unique<HealthComponent>(character_specs.health, player_on_death, player_revive, POINTS_ON_KILL_PLAYER));
     comps->push_back(std::make_unique<DespawnComponent>(false, false));
     comps->push_back(std::make_unique<StatsComponent>());
 
@@ -290,7 +242,7 @@ int EntityFactory::createCharacterSelector(int player_id, int x, int y) {
 
 void EntityFactory::createCharacterSelectorTexture(int entity_id){
     auto dst = std::unique_ptr<Rect>(new Rect{ 0, 0 , 0, 0});
-    auto r = renderableFactory.createImage(GRAPHICS_PATH + "beasts/gorilla/gorilla-1.png", (int)Layers::Foreground, std::move(dst), 255);
+    auto r = renderableFactory.createImage(GRAPHICS_PATH + "beasts/gorilla/gorilla-1.png", (int)Layers::Middleground, std::move(dst), 255);
     entityManager->addComponentToEntity(entity_id, std::make_unique<TextureComponent>(std::move(r)));
 
     entityManager->getComponent<TransformComponent>(entity_id)->x_scale = 50;
@@ -300,41 +252,61 @@ void EntityFactory::createCharacterSelectorTexture(int entity_id){
 void EntityFactory::changeCharacterSelectorTexture(int entity_id, Character character){
     entityManager->removeComponentFromEntity<TextureComponent>(entity_id);
 
-    std::string path;
-    int x_scale;
-    int y_scale;
+    auto character_specs = getCharacterSpecs(character);
+
+    auto dst = std::unique_ptr<Rect>(new Rect{ 0, 0 , 0, 0});
+    auto r = renderableFactory.createImage(GRAPHICS_PATH + character_specs.path, (int)Layers::Middleground, std::move(dst), 255);
+    entityManager->addComponentToEntity(entity_id, std::make_unique<TextureComponent>(std::move(r)));
+
+    entityManager->getComponent<TransformComponent>(entity_id)->x_scale = character_specs.x_scale;
+    entityManager->getComponent<TransformComponent>(entity_id)->y_scale = character_specs.y_scale;
+}
+
+const CharacterSpecs EntityFactory::getCharacterSpecs(Character character) const {
+    CharacterSpecs specs = CharacterSpecs();
 
     switch(character){
         case Character::GORILLA:
-            path = "beasts/gorilla/gorilla-1.png";
-            x_scale = 50;
-            y_scale = 100;
+            specs.path = "beasts/gorilla/gorilla-1.png";
+            specs.x_scale = 50;
+            specs.y_scale = 100;
+            specs.mass = 105;
+            specs.name = "Gorilla";
+            specs.health = 100;
             break;
         case Character::PANDA:
-            path = "beasts/panda/panda-1.png";
-            x_scale = 63;
-            y_scale = 100;
+            specs.path = "beasts/panda/panda-1.png";
+            specs.x_scale = 63;
+            specs.y_scale = 100;
+            specs.mass = 95;
+            specs.name = "Panda";
+            specs.health = 100;
             break;
         case Character::CHEETAH:
-            path = "beasts/cheetah/cheetah-1.png";
-            x_scale = 50;
-            y_scale = 100;
+            specs.path = "beasts/cheetah/cheetah-1.png";
+            specs.x_scale = 50;
+            specs.y_scale = 100;
+            specs.mass = 90;
+            specs.name = "Cheetah";
+            specs.health = 100;
             break;
         case Character::ELEPHANT:
-            path = "beasts/elephant/elephant-1.png";
-            x_scale = 100;
-            y_scale = 100;
+            specs.path = "beasts/elephant/elephant-1.png";
+            specs.x_scale = 100;
+            specs.y_scale = 100;
+            specs.mass = 105;
+            specs.name = "Elephant";
+            specs.health = 100;
             break;
         case Character::RANDOM:
-            path = "menu/question-mark.png";
-            x_scale = 50;
-            y_scale = 100;
+            specs.path = "menu/question-mark.png";
+            specs.x_scale = 50;
+            specs.y_scale = 100;
+            specs.mass = 100;
+            specs.name = "Question-mark";
+            specs.health = 100;
+            break;
     }
 
-    auto dst = std::unique_ptr<Rect>(new Rect{ 0, 0 , 0, 0});
-    auto r = renderableFactory.createImage(GRAPHICS_PATH + path, (int)Layers::Foreground, std::move(dst), 255);
-    entityManager->addComponentToEntity(entity_id, std::make_unique<TextureComponent>(std::move(r)));
-
-    entityManager->getComponent<TransformComponent>(entity_id)->x_scale = x_scale;
-    entityManager->getComponent<TransformComponent>(entity_id)->y_scale = y_scale;
-}
+    return specs;
+};

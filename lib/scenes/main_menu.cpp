@@ -27,14 +27,14 @@ void MainMenu::performPrepare() {
     start_game_button.texture_path = "menu/button.png";
     start_game_button.alpha = 255;
     start_game_button.x = 960;
-    start_game_button.y = 340;
+    start_game_button.y = 400;
     start_game_button.x_scale = 400;
     start_game_button.y_scale = 100;
     start_game_button.text.text = "Play Game!";
     start_game_button.text.font_size = 72;
     start_game_button.text.color = { 255, 255, 255, 255 };
     start_game_button.text.x = 960;
-    start_game_button.text.y = 335;
+    start_game_button.text.y = 395;
     start_game_button.text.x_scale = 400;
     start_game_button.text.y_scale = 100;
     start_game_button.on_click = [gm = &game_controller]() {
@@ -46,14 +46,14 @@ void MainMenu::performPrepare() {
     exit_game_button.texture_path = "menu/button.png";
     exit_game_button.alpha = 255;
     exit_game_button.x = 960;
-    exit_game_button.y = 460;
+    exit_game_button.y = 520;
     exit_game_button.x_scale = 400;
     exit_game_button.y_scale = 100;
     exit_game_button.text.text = "Exit game";
     exit_game_button.text.font_size = 72;
     exit_game_button.text.color = { 255, 255, 255, 255 };
     exit_game_button.text.x = 960;
-    exit_game_button.text.y = 455;
+    exit_game_button.text.y = 515;
     exit_game_button.text.x_scale = 400;
     exit_game_button.text.y_scale = 100;
     exit_game_button.on_click = [gm = &game_controller]() {
@@ -66,7 +66,7 @@ void MainMenu::performPrepare() {
     logo.texture_path = "menu/logo.png";
     logo.alpha = 255;
     logo.x = 960;
-    logo.y = 210;
+    logo.y = 140;
     logo.x_scale = 680;
     logo.y_scale = 106;
     this->images.push_back(logo);

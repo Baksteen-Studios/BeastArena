@@ -73,6 +73,7 @@ void Lobby::performPrepare() {
     logo.y = 106;
     logo.x_scale = 680;
     logo.y_scale = 106;
+    logo.layer = Layers::Middleground;
     this->images.push_back(logo);
 
     Image player1_selector = Image();
@@ -82,7 +83,18 @@ void Lobby::performPrepare() {
     player1_selector.y = 400;
     player1_selector.x_scale = 380;
     player1_selector.y_scale = 380;
+    player1_selector.layer = Layers::Middleground;
     this->images.push_back(player1_selector);
+
+    Image player1_selector_background = Image();
+    player1_selector_background.texture_path = "colors/white.png";
+    player1_selector_background.alpha = 90;
+    player1_selector_background.x = player1_selector.x;
+    player1_selector_background.y = player1_selector.y - 30;
+    player1_selector_background.x_scale = player1_selector.x_scale;
+    player1_selector_background.y_scale = player1_selector.y_scale - 60;
+    player1_selector_background.layer = Layers::Lowground;
+    this->images.push_back(player1_selector_background);
 
     Image player1_left_arrow = Image();
     player1_left_arrow.texture_path = "arrows/left-arrow.png";
@@ -91,6 +103,7 @@ void Lobby::performPrepare() {
     player1_left_arrow.y = 380;
     player1_left_arrow.x_scale = 40;
     player1_left_arrow.y_scale = 60;
+    player1_left_arrow.layer = Layers::Middleground;
     this->images.push_back(player1_left_arrow);
 
     Image player1_right_arrow = Image();
@@ -100,6 +113,7 @@ void Lobby::performPrepare() {
     player1_right_arrow.y = 380;
     player1_right_arrow.x_scale = 40;
     player1_right_arrow.y_scale = 60;
+    player1_right_arrow.layer = Layers::Middleground;
     this->images.push_back(player1_right_arrow);
 
     Image player2_selector = Image();
@@ -109,7 +123,18 @@ void Lobby::performPrepare() {
     player2_selector.y = 400;
     player2_selector.x_scale = 380;
     player2_selector.y_scale = 380;
+    player2_selector.layer = Layers::Middleground;
     this->images.push_back(player2_selector);
+
+    Image player2_selector_background = Image();
+    player2_selector_background.texture_path = "colors/white.png";
+    player2_selector_background.alpha = 90;
+    player2_selector_background.x = player2_selector.x;
+    player2_selector_background.y = player2_selector.y - 30;
+    player2_selector_background.x_scale = player2_selector.x_scale;
+    player2_selector_background.y_scale = player2_selector.y_scale - 60;
+    player2_selector_background.layer = Layers::Lowground;
+    this->images.push_back(player2_selector_background);
 
     Image player2_left_arrow = Image();
     player2_left_arrow.texture_path = "arrows/left-arrow.png";
@@ -118,6 +143,7 @@ void Lobby::performPrepare() {
     player2_left_arrow.y = 380;
     player2_left_arrow.x_scale = 40;
     player2_left_arrow.y_scale = 60;
+    player2_left_arrow.layer = Layers::Middleground;
     this->images.push_back(player2_left_arrow);
 
     Image player2_right_arrow = Image();
@@ -127,6 +153,7 @@ void Lobby::performPrepare() {
     player2_right_arrow.y = 380;
     player2_right_arrow.x_scale = 40;
     player2_right_arrow.y_scale = 60;
+    player2_right_arrow.layer = Layers::Middleground;
     this->images.push_back(player2_right_arrow);
 
     Image player3_selector = Image();
@@ -136,7 +163,18 @@ void Lobby::performPrepare() {
     player3_selector.y = 400;
     player3_selector.x_scale = 380;
     player3_selector.y_scale = 380;
+    player3_selector.layer = Layers::Middleground;
     this->images.push_back(player3_selector);
+
+    Image player3_selector_background = Image();
+    player3_selector_background.texture_path = "colors/white.png";
+    player3_selector_background.alpha = 90;
+    player3_selector_background.x = player3_selector.x;
+    player3_selector_background.y = player3_selector.y - 30;
+    player3_selector_background.x_scale = player3_selector.x_scale;
+    player3_selector_background.y_scale = player3_selector.y_scale - 60;
+    player3_selector_background.layer = Layers::Lowground;
+    this->images.push_back(player3_selector_background);
 
     Image player3_left_arrow = Image();
     player3_left_arrow.texture_path = "arrows/left-arrow.png";
@@ -145,6 +183,7 @@ void Lobby::performPrepare() {
     player3_left_arrow.y = 380;
     player3_left_arrow.x_scale = 40;
     player3_left_arrow.y_scale = 60;
+    player3_left_arrow.layer = Layers::Middleground;
     this->images.push_back(player3_left_arrow);
 
     Image player3_right_arrow = Image();
@@ -154,6 +193,7 @@ void Lobby::performPrepare() {
     player3_right_arrow.y = 380;
     player3_right_arrow.x_scale = 40;
     player3_right_arrow.y_scale = 60;
+    player3_right_arrow.layer = Layers::Middleground;
     this->images.push_back(player3_right_arrow);
 
     Image player4_selector = Image();
@@ -163,7 +203,18 @@ void Lobby::performPrepare() {
     player4_selector.y = 400;
     player4_selector.x_scale = 380;
     player4_selector.y_scale = 380;
+    player4_selector.layer = Layers::Middleground;
     this->images.push_back(player4_selector);
+
+    Image player4_selector_background = Image();
+    player4_selector_background.texture_path = "colors/white.png";
+    player4_selector_background.alpha = 90;
+    player4_selector_background.x = player4_selector.x;
+    player4_selector_background.y = player4_selector.y - 30;
+    player4_selector_background.x_scale = player4_selector.x_scale;
+    player4_selector_background.y_scale = player4_selector.y_scale - 60;
+    player4_selector_background.layer = Layers::Lowground;
+    this->images.push_back(player4_selector_background);
 
     Image player4_left_arrow = Image();
     player4_left_arrow.texture_path = "arrows/left-arrow.png";
@@ -172,6 +223,7 @@ void Lobby::performPrepare() {
     player4_left_arrow.y = 380;
     player4_left_arrow.x_scale = 40;
     player4_left_arrow.y_scale = 60;
+    player4_left_arrow.layer = Layers::Middleground;
     this->images.push_back(player4_left_arrow);
 
     Image player4_right_arrow = Image();
@@ -181,6 +233,7 @@ void Lobby::performPrepare() {
     player4_right_arrow.y = 380;
     player4_right_arrow.x_scale = 40;
     player4_right_arrow.y_scale = 60;
+    player4_right_arrow.layer = Layers::Middleground;
     this->images.push_back(player4_right_arrow);
 
     // Solids
@@ -245,7 +298,7 @@ void Lobby::start() {
 
     // Load the images
     for(Image image : images) {
-        factory.createImage(image.texture_path, image.x / getRelativeModifier(), image.y / getRelativeModifier(), image.x_scale / getRelativeModifier(), image.y_scale / getRelativeModifier(), Layers::Middleground, image.alpha);
+        factory.createImage(image.texture_path, image.x / getRelativeModifier(), image.y / getRelativeModifier(), image.x_scale / getRelativeModifier(), image.y_scale / getRelativeModifier(), image.layer, image.alpha);
     }
 
     // Load solids

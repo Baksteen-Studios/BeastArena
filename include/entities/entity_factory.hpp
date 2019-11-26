@@ -13,6 +13,7 @@
 #include "components/health_component.hpp"
 #include "scenes/data/menu/button.hpp"
 #include "enums/character.hpp"
+#include "entities/character_specs.hpp"
 
 class EntityFactory {
 public:
@@ -50,6 +51,8 @@ private:
     inline static const int POINTS_ON_KILL_PLAYER = 10;
     HealthComponent::EntityFunction player_on_death;
     HealthComponent::EntityFunction player_revive;
+
+    const CharacterSpecs getCharacterSpecs(Character character) const;
 };
 
 #endif // FILE_ENTITY_FACTORY_HPP

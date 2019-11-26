@@ -49,8 +49,7 @@ void LobbySystem::update(double) {
                         auto transform_component = em->getComponent<TransformComponent>(entity_id);
                         selector->player_entity_id = ef->createPlayer(selector->player_id, selector->selected_character, transform_component->x_pos, transform_component->y_pos);
 
-                        em->removeComponentFromEntity<TextureComponent>(entity_id);
-                        em->removeComponentFromEntity<TransformComponent>(entity_id);
+                        ef->createImage("menu/check.png", transform_component->x_pos, transform_component->y_pos, 84, 66, Layers::Foreground, 255);
 
                         input.removeTimeToWait(selector->player_id, PlayerInput::X_AXIS);
                     }
