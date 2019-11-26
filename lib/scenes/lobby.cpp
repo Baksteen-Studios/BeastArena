@@ -273,6 +273,42 @@ void Lobby::performPrepare() {
     behind_button.alpha = 0;
     this->solids.push_back(behind_button);
 
+    Solid left_left_platform = Solid();
+    left_left_platform.x = start_game_button.x - 700;
+    left_left_platform.y = start_game_button.y + 200;
+    left_left_platform.xScale = 196;
+    left_left_platform.yScale = 40;
+    left_left_platform.texture_path = "platforms/log.png";
+    left_left_platform.alpha = 255;
+    this->solids.push_back(left_left_platform);
+
+    Solid left_platform = Solid();
+    left_platform.x = left_left_platform.x + 300;
+    left_platform.y = left_left_platform.y - 200;
+    left_platform.xScale = 196;
+    left_platform.yScale = 40;
+    left_platform.texture_path = "platforms/log.png";
+    left_platform.alpha = 255;
+    this->solids.push_back(left_platform);
+
+    Solid right_right_platform = Solid();
+    right_right_platform.x = start_game_button.x + 700;
+    right_right_platform.y = start_game_button.y + 200;
+    right_right_platform.xScale = 196;
+    right_right_platform.yScale = 40;
+    right_right_platform.texture_path = "platforms/log.png";
+    right_right_platform.alpha = 255;
+    this->solids.push_back(right_right_platform);
+
+    Solid right_platform = Solid();
+    right_platform.x = right_right_platform.x - 300;
+    right_platform.y = right_right_platform.y - 200;
+    right_platform.xScale = 196;
+    right_platform.yScale = 40;
+    right_platform.texture_path = "platforms/log.png";
+    right_platform.alpha = 255;
+    this->solids.push_back(right_platform);
+
     // Critters
     this->critters.push_back(std::pair<int, int>(600, 800));
     this->critters.push_back(std::pair<int, int>(700, 800));
