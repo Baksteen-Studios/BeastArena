@@ -84,23 +84,23 @@ void LobbySystem::update(double) {
                 }
             } else if (x_movement > 0) {
                 // Right
-                // for(auto character : picked_characters) {
-                //     if(character.first == selector->selected_character) {
-                //         auto iterator = std::find(picked_characters.begin(), picked_characters.end(), character);
-                //         int index = std::distance(picked_characters.begin(), iterator);
+                for(auto character : picked_characters) {
+                    if(character.first == selector->selected_character) {
+                        auto iterator = std::find(picked_characters.begin(), picked_characters.end(), character);
+                        int index = std::distance(picked_characters.begin(), iterator);
 
-                //         int new_index = 0;
-                //         if(index == picked_characters.size() - 1) {
-                //             new_index = 0;
-                //         } else {
-                //             new_index = index + 1;
-                //         }
-                //         selector->selected_character = picked_characters.at(new_index).first;
+                        int new_index = 0;
+                        if(index == picked_characters.size() - 1) {
+                            new_index = 0;
+                        } else {
+                            new_index = index + 1;
+                        }
+                        selector->selected_character = picked_characters.at(new_index).first;
 
-                //         changed = true;
-                //         break;
-                //     }
-                // }
+                        changed = true;
+                        break;
+                    }
+                }
             }
         }
 
