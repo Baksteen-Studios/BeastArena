@@ -97,8 +97,6 @@ int EntityFactory::createPlayer(int player_id, Character character, int x, int y
             break;
     }
 
-    std::cout << "Now creating a " << name << std::endl;
-
     auto dst = std::unique_ptr<Rect>(new Rect{ 0, 0, 0, 0 });
     auto r = renderableFactory.createImage(GRAPHICS_PATH + path, (int)Layers::Foreground, std::move(dst), 255);
     auto comps = std::make_unique<std::vector<std::unique_ptr<Component>>>();
@@ -114,82 +112,7 @@ int EntityFactory::createPlayer(int player_id, Character character, int x, int y
 
     int entity = entityManager->createEntity(std::move(comps), std::nullopt);
     entityManager->setTag(entity, "Player");
-    return entity;
-}
 
-int EntityFactory::createGorilla(int player_id) const {
-    auto dst = std::unique_ptr<Rect>(new Rect{ 0, 0, 0, 0 });
-    auto r = renderableFactory.createImage(GRAPHICS_PATH + "beasts/gorilla/gorilla-1.png", (int)Layers::Foreground, std::move(dst), 255);
-    auto comps = std::make_unique<std::vector<std::unique_ptr<Component>>>();
-
-    comps->push_back(std::make_unique<TransformComponent>(-2000, -2000, 50, 100, Direction::POSITIVE, Direction::POSITIVE));
-    comps->push_back(std::make_unique<RectangleColliderComponent>(1, 1, 1, false));
-    comps->push_back(std::make_unique<PhysicsComponent>(105, true, 0, 0, true, Kinematic::IS_NOT_KINEMATIC, true, false));
-    comps->push_back(std::make_unique<TextureComponent>(std::move(r)));
-    comps->push_back(std::make_unique<PlayerComponent>(player_id, "Gorilla"));
-    comps->push_back(std::make_unique<HealthComponent>(100, player_on_death, player_revive, POINTS_ON_KILL_PLAYER));
-    comps->push_back(std::make_unique<DespawnComponent>(false, false));
-    comps->push_back(std::make_unique<StatsComponent>());
-
-    int entity = entityManager->createEntity(std::move(comps), std::nullopt);
-    entityManager->setTag(entity, "Player");
-    return entity;
-}
-
-int EntityFactory::createPanda(int player_id) const {
-    auto dst = std::unique_ptr<Rect>(new Rect{ 0, 0, 0, 0 });
-    auto r = renderableFactory.createImage(GRAPHICS_PATH + "beasts/panda/panda-1.png", (int)Layers::Foreground, std::move(dst), 255);
-    auto comps = std::make_unique<std::vector<std::unique_ptr<Component>>>();
-
-    comps->push_back(std::make_unique<TransformComponent>(-2000, -2000, 63, 100, Direction::POSITIVE, Direction::POSITIVE));
-    comps->push_back(std::make_unique<RectangleColliderComponent>(1, 1, 1, false));
-    comps->push_back(std::make_unique<PhysicsComponent>(95, true, 0, 0, true, Kinematic::IS_NOT_KINEMATIC, true, false));
-    comps->push_back(std::make_unique<TextureComponent>(std::move(r)));
-    comps->push_back(std::make_unique<PlayerComponent>(player_id, "Panda"));
-    comps->push_back(std::make_unique<HealthComponent>(100, player_on_death, player_revive, POINTS_ON_KILL_PLAYER));
-    comps->push_back(std::make_unique<DespawnComponent>(false, false));
-    comps->push_back(std::make_unique<StatsComponent>());
-
-    int entity = entityManager->createEntity(std::move(comps), std::nullopt);
-    entityManager->setTag(entity, "Player");
-    return entity;
-}
-
-int EntityFactory::createCheetah(int player_id) const {
-    auto dst = std::unique_ptr<Rect>(new Rect{ 0, 0, 0, 0 });
-    auto r = renderableFactory.createImage(GRAPHICS_PATH + "beasts/cheetah/cheetah-1.png", (int)Layers::Foreground, std::move(dst), 255);
-    auto comps = std::make_unique<std::vector<std::unique_ptr<Component>>>();
-
-    comps->push_back(std::make_unique<TransformComponent>(-2000, -2000, 50, 100, Direction::POSITIVE, Direction::POSITIVE));
-    comps->push_back(std::make_unique<RectangleColliderComponent>(1, 1, 1, false));
-    comps->push_back(std::make_unique<PhysicsComponent>(90, true, 0, 0, true, Kinematic::IS_NOT_KINEMATIC, true, false));
-    comps->push_back(std::make_unique<TextureComponent>(std::move(r)));
-    comps->push_back(std::make_unique<PlayerComponent>(player_id, "Cheetah"));
-    comps->push_back(std::make_unique<HealthComponent>(100, player_on_death, player_revive, POINTS_ON_KILL_PLAYER));
-    comps->push_back(std::make_unique<DespawnComponent>(false, false));
-    comps->push_back(std::make_unique<StatsComponent>());
-
-    int entity = entityManager->createEntity(std::move(comps), std::nullopt);
-    entityManager->setTag(entity, "Player");
-    return entity;
-}
-
-int EntityFactory::createElephant(int player_id) const {
-    auto dst = std::unique_ptr<Rect>(new Rect{ 0, 0, 0, 0 });
-    auto r = renderableFactory.createImage(GRAPHICS_PATH + "beasts/elephant/elephant-1.png", (int)Layers::Foreground, std::move(dst), 255);
-    auto comps = std::make_unique<std::vector<std::unique_ptr<Component>>>();
-
-    comps->push_back(std::make_unique<TransformComponent>(-2000, -2000, 100, 100, Direction::POSITIVE, Direction::POSITIVE));
-    comps->push_back(std::make_unique<RectangleColliderComponent>(1, 1, 1, false));
-    comps->push_back(std::make_unique<PhysicsComponent>(105, true, 0, 0, true, Kinematic::IS_NOT_KINEMATIC, true, false));
-    comps->push_back(std::make_unique<TextureComponent>(std::move(r)));
-    comps->push_back(std::make_unique<PlayerComponent>(player_id, "Elephant"));
-    comps->push_back(std::make_unique<HealthComponent>(100, player_on_death, player_revive, POINTS_ON_KILL_PLAYER));
-    comps->push_back(std::make_unique<DespawnComponent>(false, false));
-    comps->push_back(std::make_unique<StatsComponent>());
-
-    int entity = entityManager->createEntity(std::move(comps), std::nullopt);
-    entityManager->setTag(entity, "Player");
     return entity;
 }
 

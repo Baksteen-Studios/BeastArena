@@ -23,7 +23,7 @@ Lobby::Lobby(EntityFactory& factory, BrickEngine& engine, GameController& game_c
 
 void Lobby::performPrepare() {
     // General information
-    this->bg_path = "colors/white.png";
+    this->bg_path = "backgrounds/pixel-forest.png";
     this->bg_music = "music/main.mp3";
 
     // Buttons
@@ -221,12 +221,9 @@ void Lobby::performPrepare() {
     this->solids.push_back(behind_button);
 
     // Critters
-    this->critters.push_back(std::pair<int, int>(400, 800));
-    this->critters.push_back(std::pair<int, int>(500, 800));
     this->critters.push_back(std::pair<int, int>(600, 800));
     this->critters.push_back(std::pair<int, int>(700, 800));
     this->critters.push_back(std::pair<int, int>(800, 800));
-    this->critters.push_back(std::pair<int, int>(900, 800));
 
     // Weapons --> DIRECT FACTORY CALLS IN start()
 
@@ -286,7 +283,6 @@ void Lobby::start() {
 void Lobby::leave() {
     auto& em = factory.getEntityManager();
     auto character_selection_entities = em.getEntitiesByComponent<CharacterSelectionComponent>();
-    std::cout << "The size is " << character_selection_entities.size() << std::endl;
 
     std::vector<int> need_character_components;
     for (auto& [ entity_id, character_selection ] : character_selection_entities ) {
@@ -294,9 +290,6 @@ void Lobby::leave() {
             if(character_selection->selected_character != Character::RANDOM) {
                 available_characters.erase(std::remove(available_characters.begin(), available_characters.end(), character_selection->selected_character), available_characters.end());
             } else {
-                std::cout << "THE PLAYER ID = " << character_selection->player_id << std::endl;
-                std::cout << entity_id << std::endl;
-                std::cout << em.getComponent<PlayerComponent>(entity_id) << std::endl;
                 need_character_components.push_back(entity_id);
             }
         }
@@ -306,15 +299,12 @@ void Lobby::leave() {
         auto& random = Random::getInstance();
         auto random_index = random.getRandomInt(0, available_characters.size() - 1);
 
-        int player_id = em.getComponent<CharacterSelectionComponent>(entity_id)->player_id;
-        std::cout << entity_id << std::endl;
-        std::cout << em.getEntitiesByComponent<PlayerComponent>().size() << std::endl;
-        std::cout << em.getComponent<PlayerComponent>(entity_id) << std::endl;
-        em.removeEntity(entity_id);
-        std::cout << em.getEntitiesByComponent<PlayerComponent>().size() << std::endl;
-        factory.createPlayer(player_id, available_characters.at(random_index), 500, 500);
+        auto character_selection_component = em.getComponent<CharacterSelectionComponent>(entity_id);
+        factory.createPlayer(character_selection_component->player_id, available_characters.at(random_index), 500, 500);
 
         available_characters.erase(available_characters.begin() + random_index);
+
+        em.removeEntity(character_selection_component->player_entity_id);
     }
 
     auto player_entities = em.getEntitiesByComponent<PlayerComponent>();

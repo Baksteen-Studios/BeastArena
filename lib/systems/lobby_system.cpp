@@ -47,11 +47,7 @@ void LobbySystem::update(double) {
                         selector->picked = true;
 
                         auto transform_component = em->getComponent<TransformComponent>(entity_id);
-                        int id = ef->createPlayer(selector->player_id, selector->selected_character, transform_component->x_pos, transform_component->y_pos);
-
-                        std::cout << "The important id = " << id << std::endl;
-                        std::cout << "The player id = " << selector->player_id << std::endl;
-                        std::cout << em->getComponent<PlayerComponent>(id) << std::endl;
+                        selector->player_entity_id = ef->createPlayer(selector->player_id, selector->selected_character, transform_component->x_pos, transform_component->y_pos);
 
                         em->removeComponentFromEntity<TextureComponent>(entity_id);
                         em->removeComponentFromEntity<TransformComponent>(entity_id);
@@ -59,7 +55,7 @@ void LobbySystem::update(double) {
                         input.removeTimeToWait(selector->player_id, PlayerInput::X_AXIS);
                     }
                 } else {
-                    std::cout << "Player has already picked" << std::endl;
+                    // The player already picked a character
                     continue;
                 }
             }

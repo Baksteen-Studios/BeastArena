@@ -69,12 +69,6 @@ GameController::GameController() {
     entityManager->setGetCurrentSceneTagFunction(scene_manager->createGetPrimaryTagFunction());
 
     setupInput();
-    // Create test players
-    entityFactory->createGorilla(1);
-    entityFactory->createPanda(2);
-    entityFactory->createCheetah(3);
-    entityFactory->createElephant(4);
-
     loadMainMenu();
 }
 
@@ -89,7 +83,6 @@ void GameController::createGameStateManager() {
 
     state_systems->at(GameState::Lobby)->push_back(std::make_unique<LobbySystem>(entityFactory, entityManager));
     state_systems->at(GameState::Lobby)->push_back(std::make_unique<ClickSystem>(entityManager));
-    state_systems->at(GameState::Lobby)->push_back(std::make_unique<RenderingSystem>(entityManager, *engine->getRenderer()));
     state_systems->at(GameState::Lobby)->push_back(std::make_unique<MovementSystem>(collisionDetector, entityManager, entityFactory));
     state_systems->at(GameState::Lobby)->push_back(std::make_unique<PhysicsSystem>(collisionDetector, entityManager));
     state_systems->at(GameState::Lobby)->push_back(std::make_unique<PickupSystem>(collisionDetector, entityManager, entityFactory));
@@ -97,6 +90,7 @@ void GameController::createGameStateManager() {
     state_systems->at(GameState::Lobby)->push_back(std::make_unique<WeaponSystem>(collisionDetector, entityManager, entityFactory));
     state_systems->at(GameState::Lobby)->push_back(std::make_unique<DamageSystem>(collisionDetector, entityManager, entityFactory));
     state_systems->at(GameState::Lobby)->push_back(std::make_unique<DespawnSystem>(collisionDetector, entityManager, SCREEN_WIDTH, SCREEN_HEIGHT));
+    state_systems->at(GameState::Lobby)->push_back(std::make_unique<RenderingSystem>(entityManager, *engine->getRenderer()));
 
     state_systems->at(GameState::InGame)->push_back(std::make_unique<GameSystem>(entityManager, *this));
     state_systems->at(GameState::InGame)->push_back(std::make_unique<ClickSystem>(entityManager));

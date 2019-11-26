@@ -19,7 +19,7 @@ MainMenu::MainMenu(EntityFactory& factory, BrickEngine& engine, GameController& 
 
 void MainMenu::performPrepare() {
     // General information
-    this->bg_path = "colors/white.png";
+    this->bg_path = "backgrounds/pixel-forest.png";
     this->bg_music = "music/main.mp3";
 
     // Buttons
