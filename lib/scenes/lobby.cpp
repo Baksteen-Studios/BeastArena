@@ -239,26 +239,26 @@ void Lobby::performPrepare() {
     // Solids
     Solid bottom = Solid();
     bottom.x = 960;
-    bottom.y = 1080;
+    bottom.y = 1085;
     bottom.xScale = 1920;
-    bottom.yScale = 20;
+    bottom.yScale = 10;
     bottom.texture_path = "colors/black.jpg";
     bottom.alpha = 255;
     this->solids.push_back(bottom);
 
     Solid left = Solid();
-    left.x = 0;
+    left.x = -5;
     left.y = 540;
-    left.xScale = 20;
+    left.xScale = 10;
     left.yScale = 1080;
     left.texture_path = "colors/black.jpg";
     left.alpha = 255;
     this->solids.push_back(left);
 
     Solid right = Solid();
-    right.x = 1920;
+    right.x = 1925;
     right.y = 540;
-    right.xScale = 20;
+    right.xScale = 10;
     right.yScale = 1080;
     right.texture_path = "colors/black.jpg";
     right.alpha = 255;
