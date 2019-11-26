@@ -123,7 +123,6 @@ int EntityFactory::createGorilla(int player_id) const {
     auto r = renderableFactory.createImage(GRAPHICS_PATH + "beasts/gorilla/gorilla-1.png", (int)Layers::Foreground, std::move(dst), 255);
     auto comps = std::make_unique<std::vector<std::unique_ptr<Component>>>();
 
-
     comps->push_back(std::make_unique<TransformComponent>(-2000, -2000, 50, 100, Direction::POSITIVE, Direction::POSITIVE));
     comps->push_back(std::make_unique<RectangleColliderComponent>(1, 1, 1, false));
     comps->push_back(std::make_unique<PhysicsComponent>(105, true, 0, 0, true, Kinematic::IS_NOT_KINEMATIC, true, false));
@@ -131,7 +130,7 @@ int EntityFactory::createGorilla(int player_id) const {
     comps->push_back(std::make_unique<PlayerComponent>(player_id, "Gorilla"));
     comps->push_back(std::make_unique<HealthComponent>(100, player_on_death, player_revive, POINTS_ON_KILL_PLAYER));
     comps->push_back(std::make_unique<DespawnComponent>(false, false));
-    comps->push_back(std::make_unique<HoldComponent>(Position {30, 0}));
+    comps->push_back(std::make_unique<HoldComponent>(Position {32, -9}));
     comps->push_back(std::make_unique<StatsComponent>());
 
     int entity = entityManager->createEntity(std::move(comps), std::nullopt);
@@ -144,7 +143,6 @@ int EntityFactory::createPanda(int player_id) const {
     auto r = renderableFactory.createImage(GRAPHICS_PATH + "beasts/panda/panda-1.png", (int)Layers::Foreground, std::move(dst), 255);
     auto comps = std::make_unique<std::vector<std::unique_ptr<Component>>>();
 
-
     comps->push_back(std::make_unique<TransformComponent>(-2000, -2000, 63, 100, Direction::POSITIVE, Direction::POSITIVE));
     comps->push_back(std::make_unique<RectangleColliderComponent>(1, 1, 1, false));
     comps->push_back(std::make_unique<PhysicsComponent>(95, true, 0, 0, true, Kinematic::IS_NOT_KINEMATIC, true, false));
@@ -152,7 +150,7 @@ int EntityFactory::createPanda(int player_id) const {
     comps->push_back(std::make_unique<PlayerComponent>(player_id, "Panda"));
     comps->push_back(std::make_unique<HealthComponent>(100, player_on_death, player_revive, POINTS_ON_KILL_PLAYER));
     comps->push_back(std::make_unique<DespawnComponent>(false, false));
-    comps->push_back(std::make_unique<HoldComponent>(Position {60, 150}));
+    comps->push_back(std::make_unique<HoldComponent>(Position {40, -12}));
     comps->push_back(std::make_unique<StatsComponent>());
 
     int entity = entityManager->createEntity(std::move(comps), std::nullopt);
@@ -165,7 +163,6 @@ int EntityFactory::createCheetah(int player_id) const {
     auto r = renderableFactory.createImage(GRAPHICS_PATH + "beasts/cheetah/cheetah-1.png", (int)Layers::Foreground, std::move(dst), 255);
     auto comps = std::make_unique<std::vector<std::unique_ptr<Component>>>();
 
-
     comps->push_back(std::make_unique<TransformComponent>(-2000, -2000, 50, 100, Direction::POSITIVE, Direction::POSITIVE));
     comps->push_back(std::make_unique<RectangleColliderComponent>(1, 1, 1, false));
     comps->push_back(std::make_unique<PhysicsComponent>(90, true, 0, 0, true, Kinematic::IS_NOT_KINEMATIC, true, false));
@@ -173,7 +170,7 @@ int EntityFactory::createCheetah(int player_id) const {
     comps->push_back(std::make_unique<PlayerComponent>(player_id, "Cheetah"));
     comps->push_back(std::make_unique<HealthComponent>(100, player_on_death, player_revive, POINTS_ON_KILL_PLAYER));
     comps->push_back(std::make_unique<DespawnComponent>(false, false));
-    comps->push_back(std::make_unique<HoldComponent>(Position {150, 5}));
+    comps->push_back(std::make_unique<HoldComponent>(Position {30, -10}));
     comps->push_back(std::make_unique<StatsComponent>());
 
     int entity = entityManager->createEntity(std::move(comps), std::nullopt);
@@ -193,7 +190,7 @@ int EntityFactory::createElephant(int player_id) const {
     comps->push_back(std::make_unique<PlayerComponent>(player_id, "Elephant"));
     comps->push_back(std::make_unique<HealthComponent>(100, player_on_death, player_revive, POINTS_ON_KILL_PLAYER));
     comps->push_back(std::make_unique<DespawnComponent>(false, false));
-    comps->push_back(std::make_unique<HoldComponent>(Position {55, -20}));
+    comps->push_back(std::make_unique<HoldComponent>(Position {50, -20}));
     comps->push_back(std::make_unique<StatsComponent>());
 
     int entity = entityManager->createEntity(std::move(comps), std::nullopt);
