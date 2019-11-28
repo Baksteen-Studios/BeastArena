@@ -5,9 +5,8 @@
 #include "components/weapon_component.hpp"
 #include "brickengine/std/random.hpp"
 
-GadgetSpawnSystem::GadgetSpawnSystem(std::shared_ptr<CollisionDetector> cd,
-    std::shared_ptr<EntityManager> em, std::shared_ptr<EntityFactory> ef)
-    : BeastSystem(ef, em), collision_detector(cd) {}
+GadgetSpawnSystem::GadgetSpawnSystem(std::shared_ptr<EntityManager> em, std::shared_ptr<EntityFactory> ef)
+    : BeastSystem(ef, em) {}
 
 void GadgetSpawnSystem::update(double deltatime) {
     auto& r = Random::getInstance(); 

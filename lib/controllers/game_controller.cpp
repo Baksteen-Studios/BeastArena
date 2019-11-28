@@ -96,7 +96,7 @@ void GameController::createGameStateManager() {
     state_systems->at(GameState::InGame)->push_back(std::make_unique<WeaponSystem>(collisionDetector, entityManager, entityFactory));
     state_systems->at(GameState::InGame)->push_back(std::make_unique<DamageSystem>(collisionDetector, entityManager, entityFactory));
     state_systems->at(GameState::InGame)->push_back(std::make_unique<DespawnSystem>(collisionDetector, entityManager, SCREEN_WIDTH, SCREEN_HEIGHT));
-    state_systems->at(GameState::InGame)->push_back(std::make_unique<GadgetSpawnSystem>(collisionDetector, entityManager, entityFactory));
+    state_systems->at(GameState::InGame)->push_back(std::make_unique<GadgetSpawnSystem>(entityManager, entityFactory));
     state_systems->at(GameState::InGame)->push_back(std::make_unique<RenderingSystem>(entityManager, *engine->getRenderer()));
 
     std::unordered_map<GameState, bool> reset_on_set_state;
