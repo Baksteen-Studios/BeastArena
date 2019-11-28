@@ -72,7 +72,7 @@ void GameController::createSystems() {
     systems.push_back(std::make_unique<ClickSystem>(entityManager));
     systems.push_back(std::make_unique<MovementSystem>(collisionDetector, entityManager, entityFactory));
     systems.push_back(std::make_unique<CritterSystem>(collisionDetector, entityManager, entityFactory));
-    systems.push_back(std::make_unique<PhysicsSystem>(collisionDetector, entityManager));
+    systems.push_back(std::make_unique<PhysicsSystem>(collisionDetector, entityManager, *delta_time_modifier.get()));
     systems.push_back(std::make_unique<PickupSystem>(collisionDetector, entityManager, entityFactory));
     systems.push_back(std::make_unique<WeaponSystem>(collisionDetector, entityManager, entityFactory));
     systems.push_back(std::make_unique<DamageSystem>(collisionDetector, entityManager, entityFactory));
