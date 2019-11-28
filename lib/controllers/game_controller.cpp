@@ -96,9 +96,9 @@ void GameController::setupInput() {
     inputMapping[1][InputKeyCode::EKey_e] = PlayerInput::SHOOT;
     inputMapping[1][InputKeyCode::EKey_mouse_left] = PlayerInput::MOUSE_LEFT;
     inputMapping[1][InputKeyCode::EKey_mouse_right] = PlayerInput::MOUSE_RIGHT;
-    inputMapping[1][InputKeyCode::EKey_pagedown] = PlayerInput::PAGE_DOWN;
-    inputMapping[1][InputKeyCode::EKey_pageup] = PlayerInput::PAGE_UP;
-    inputMapping[1][InputKeyCode::EKey_home] = PlayerInput::HOME;
+    inputMapping[1][InputKeyCode::EKey_pagedown] = PlayerInput::SPEED_DOWN;
+    inputMapping[1][InputKeyCode::EKey_pageup] = PlayerInput::SPEED_UP;
+    inputMapping[1][InputKeyCode::EKey_home] = PlayerInput::SPEED_RESET;
 
     axis_mapping[InputKeyCode::EKey_w] = 1;
     axis_mapping[InputKeyCode::EKey_a] = -1;
@@ -166,9 +166,9 @@ void GameController::setupInput() {
     std::unordered_map<PlayerInput, double> time_to_wait_mapping;
     time_to_wait_mapping[PlayerInput::GRAB] = 0.1;
     time_to_wait_mapping[PlayerInput::MOUSE_LEFT] = 0.1;
-    time_to_wait_mapping[PlayerInput::PAGE_DOWN] = 0.1;
-    time_to_wait_mapping[PlayerInput::PAGE_UP] = 0.1;
-    time_to_wait_mapping[PlayerInput::HOME] = 0.1;
+    time_to_wait_mapping[PlayerInput::SPEED_DOWN] = 0.1;
+    time_to_wait_mapping[PlayerInput::SPEED_UP] = 0.1;
+    time_to_wait_mapping[PlayerInput::SPEED_RESET] = 0.1;
 
     input.setInputMapping(inputMapping, time_to_wait_mapping, axis_mapping);
 }

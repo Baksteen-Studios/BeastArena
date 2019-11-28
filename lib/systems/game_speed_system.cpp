@@ -14,19 +14,19 @@ void GameSpeedSystem::update(double delta_time) {
     auto input = BrickInput<PlayerInput>::getInstance();
     bool modifier_changed = false;
 
-    if(input.checkInput(1, PlayerInput::PAGE_DOWN)) {
+    if(input.checkInput(1, PlayerInput::SPEED_DOWN)) {
         // Decrease game speed
         if(delta_time_modifier - step_size >= step_size) {
             delta_time_modifier -= step_size;
             modifier_changed = true;
         }
-    } else if (input.checkInput(1, PlayerInput::PAGE_UP)) {
+    } else if (input.checkInput(1, PlayerInput::SPEED_UP)) {
         // Increase game speed
         if(delta_time_modifier + step_size <= 3) {
             delta_time_modifier += step_size;
             modifier_changed = true;
         }
-    } else if (input.checkInput(1, PlayerInput::HOME)) {
+    } else if (input.checkInput(1, PlayerInput::SPEED_RESET)) {
         // Reset modifier
         delta_time_modifier = 1;
         modifier_changed = true;

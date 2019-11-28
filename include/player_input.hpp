@@ -8,9 +8,9 @@ enum PlayerInput {
     GRAB,
     MOUSE_LEFT,
     MOUSE_RIGHT,
-    PAGE_DOWN,
-    PAGE_UP,
-    HOME
+    SPEED_UP,
+    SPEED_DOWN,
+    SPEED_RESET
 };
 
  #endif // FILE_PLAYER_INPUT_HPP 
