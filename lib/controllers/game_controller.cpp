@@ -274,8 +274,7 @@ int GameController::getScreenHeight() const {
 
 void GameController::startGame() {
     loadLevels();
-    //loadNextLevel();
-    loadEndGameLevel();
+    loadNextLevel();
 }
 
 void GameController::loadLevels() {
@@ -334,23 +333,6 @@ void GameController::loadMainMenu() {
 }
 void GameController::loadEndGameLevel() {
     scene_manager->destroyScene(SceneLayer::Primary);
-
-    // entity_id and points
-    //std::vector<std::pair<int, int>> results;
-    //auto entities_with_player = entityManager->getEntitiesByComponent<PlayerComponent>();
-    //for (auto& [ entity_id, player ] : entities_with_player) {
-    //    auto stats = entityManager->getComponent<StatsComponent>(entity_id);
-
-    //    results.push_back(std::make_pair(entity_id, stats->points));
-    //}
-
-    //std::sort(results.begin(), results.end(), [](auto lhs, auto rhs) {
-    //    return lhs.second > rhs.second;
-    //});
-
-    //for (auto& [entity_id, points] : results) {
-    //    auto player = entityManager->getComponent<PlayerComponent>(entity_id);
-    //}
 
     // Load the json
     Json json { END_GAME_PATH, true };
