@@ -19,6 +19,7 @@
 #include "brickengine/rendering/renderables/data/color.hpp"
 #include "brickengine/rendering/renderables/renderable.hpp"
 #include "brickengine/components/data/scale.hpp"
+#include "brickengine/components/enums/collision_detection_type.hpp"
 
 EntityFactory::EntityFactory(std::shared_ptr<EntityManager> em, RenderableFactory& rf) : entityManager(em), renderableFactory(rf) {
     player_on_death = [em = entityManager](int entity_id) {
@@ -52,7 +53,7 @@ int EntityFactory::createGorilla(int player_id) const {
 
     comps->push_back(std::make_unique<TransformComponent>(-2000, -2000, 50, 100, Direction::POSITIVE, Direction::POSITIVE));
     comps->push_back(std::make_unique<RectangleColliderComponent>(1, 1, 1, false));
-    comps->push_back(std::make_unique<PhysicsComponent>(105, true, 0, 0, true, Kinematic::IS_NOT_KINEMATIC, true, false));
+    comps->push_back(std::make_unique<PhysicsComponent>(105, true, 0, 0, true, Kinematic::IS_NOT_KINEMATIC, true, false, CollisionDetectionType::Discrete));
     comps->push_back(std::make_unique<TextureComponent>(std::move(r)));
     comps->push_back(std::make_unique<PlayerComponent>(player_id, "Gorilla"));
     comps->push_back(std::make_unique<HealthComponent>(100, player_on_death, player_revive, POINTS_ON_KILL_PLAYER));
@@ -71,7 +72,7 @@ int EntityFactory::createPanda(int player_id) const {
 
     comps->push_back(std::make_unique<TransformComponent>(-2000, -2000, 63, 100, Direction::POSITIVE, Direction::POSITIVE));
     comps->push_back(std::make_unique<RectangleColliderComponent>(1, 1, 1, false));
-    comps->push_back(std::make_unique<PhysicsComponent>(95, true, 0, 0, true, Kinematic::IS_NOT_KINEMATIC, true, false));
+    comps->push_back(std::make_unique<PhysicsComponent>(95, true, 0, 0, true, Kinematic::IS_NOT_KINEMATIC, true, false, CollisionDetectionType::Discrete));
     comps->push_back(std::make_unique<TextureComponent>(std::move(r)));
     comps->push_back(std::make_unique<PlayerComponent>(player_id, "Panda"));
     comps->push_back(std::make_unique<HealthComponent>(100, player_on_death, player_revive, POINTS_ON_KILL_PLAYER));
@@ -90,7 +91,7 @@ int EntityFactory::createCheetah(int player_id) const {
 
     comps->push_back(std::make_unique<TransformComponent>(-2000, -2000, 50, 100, Direction::POSITIVE, Direction::POSITIVE));
     comps->push_back(std::make_unique<RectangleColliderComponent>(1, 1, 1, false));
-    comps->push_back(std::make_unique<PhysicsComponent>(90, true, 0, 0, true, Kinematic::IS_NOT_KINEMATIC, true, false));
+    comps->push_back(std::make_unique<PhysicsComponent>(90, true, 0, 0, true, Kinematic::IS_NOT_KINEMATIC, true, false, CollisionDetectionType::Discrete));
     comps->push_back(std::make_unique<TextureComponent>(std::move(r)));
     comps->push_back(std::make_unique<PlayerComponent>(player_id, "Cheetah"));
     comps->push_back(std::make_unique<HealthComponent>(100, player_on_death, player_revive, POINTS_ON_KILL_PLAYER));
@@ -109,7 +110,7 @@ int EntityFactory::createElephant(int player_id) const {
 
     comps->push_back(std::make_unique<TransformComponent>(-2000, -2000, 100, 100, Direction::POSITIVE, Direction::POSITIVE));
     comps->push_back(std::make_unique<RectangleColliderComponent>(1, 1, 1, false));
-    comps->push_back(std::make_unique<PhysicsComponent>(105, true, 0, 0, true, Kinematic::IS_NOT_KINEMATIC, true, false));
+    comps->push_back(std::make_unique<PhysicsComponent>(105, true, 0, 0, true, Kinematic::IS_NOT_KINEMATIC, true, false, CollisionDetectionType::Discrete));
     comps->push_back(std::make_unique<TextureComponent>(std::move(r)));
     comps->push_back(std::make_unique<PlayerComponent>(player_id, "Elephant"));
     comps->push_back(std::make_unique<HealthComponent>(100, player_on_death, player_revive, POINTS_ON_KILL_PLAYER));
@@ -132,13 +133,13 @@ int EntityFactory::createPistol(double x_pos, double y_pos, bool ammo) const {
 
     comps->push_back(std::make_unique<TransformComponent>(x_pos, y_pos, 31, 22, Direction::POSITIVE, Direction::POSITIVE));
     comps->push_back(std::make_unique<RectangleColliderComponent>(1, 1, 1, true));
-    comps->push_back(std::make_unique<PhysicsComponent>(50, false, 0, 0, true, Kinematic::IS_NOT_KINEMATIC, true, true));
+    comps->push_back(std::make_unique<PhysicsComponent>(50, false, 0, 0, true, Kinematic::IS_NOT_KINEMATIC, true, true, CollisionDetectionType::Discrete));
     comps->push_back(std::make_unique<TextureComponent>(std::move(weapon_r)));
     comps->push_back(std::make_unique<PickupComponent>());
     comps->push_back(std::make_unique<WeaponComponent>(
         DamageComponent(25),
         TextureComponent(std::move(bullet_r)),
-        PhysicsComponent(1, 0, 2250, 0, false, Kinematic::IS_NOT_KINEMATIC, false, false),
+        PhysicsComponent(1, 0, 2250, 0, false, Kinematic::IS_NOT_KINEMATIC, false, false, CollisionDetectionType::Continuous),
         DespawnComponent(true, true),
         Scale(12, 4),
         0.2, ammoOpt));
@@ -159,13 +160,13 @@ int EntityFactory::createRifle(double x_pos, double y_pos, bool ammo) const {
 
     comps->push_back(std::make_unique<TransformComponent>(x_pos, y_pos, 71, 23, Direction::POSITIVE, Direction::POSITIVE));
     comps->push_back(std::make_unique<RectangleColliderComponent>(1, 1, 1, true));
-    comps->push_back(std::make_unique<PhysicsComponent>(75, false, 0, 0, true, Kinematic::IS_NOT_KINEMATIC, true, true));
+    comps->push_back(std::make_unique<PhysicsComponent>(75, false, 0, 0, true, Kinematic::IS_NOT_KINEMATIC, true, true, CollisionDetectionType::Discrete));
     comps->push_back(std::make_unique<TextureComponent>(std::move(weapon_r)));
     comps->push_back(std::make_unique<PickupComponent>());
     comps->push_back(std::make_unique<WeaponComponent>(
         DamageComponent(50),
         TextureComponent(std::move(bullet_r)),
-        PhysicsComponent(1, 0, 2500, 0, false, Kinematic::IS_NOT_KINEMATIC, false, false),
+        PhysicsComponent(1, 0, 2500, 0, false, Kinematic::IS_NOT_KINEMATIC, false, false, CollisionDetectionType::Continuous),
         DespawnComponent(true, true),
         Scale(12, 4),
         0.1, ammoOpt));
@@ -186,13 +187,13 @@ int EntityFactory::createSniper(double x_pos, double y_pos, bool ammo) const {
 
     comps->push_back(std::make_unique<TransformComponent>(x_pos, y_pos, 85, 28, Direction::POSITIVE, Direction::POSITIVE));
     comps->push_back(std::make_unique<RectangleColliderComponent>(1, 1, 1, true));
-    comps->push_back(std::make_unique<PhysicsComponent>(80, false, 0, 0, true, Kinematic::IS_NOT_KINEMATIC, true, true));
+    comps->push_back(std::make_unique<PhysicsComponent>(80, false, 0, 0, true, Kinematic::IS_NOT_KINEMATIC, true, true, CollisionDetectionType::Discrete));
     comps->push_back(std::make_unique<TextureComponent>(std::move(weapon_r)));
     comps->push_back(std::make_unique<PickupComponent>());
     comps->push_back(std::make_unique<WeaponComponent>(
         DamageComponent(50),
         TextureComponent(std::move(bullet_r)),
-        PhysicsComponent(1, 0, 3000, 0, false, Kinematic::IS_NOT_KINEMATIC, false, false),
+        PhysicsComponent(1, 0, 3000, 0, false, Kinematic::IS_NOT_KINEMATIC, false, false, CollisionDetectionType::Continuous),
         DespawnComponent(true, true),
         Scale(12, 4),
         0.4, ammoOpt));
@@ -209,7 +210,7 @@ int EntityFactory::createCritter(double x_pos, double y_pos) const {
 
     comps->push_back(std::make_unique<TransformComponent>(x_pos, y_pos, 20, 20, Direction::POSITIVE, Direction::POSITIVE));
     comps->push_back(std::make_unique<RectangleColliderComponent>(1, 1, 1, true));
-    comps->push_back(std::make_unique<PhysicsComponent>(50, false, 0, 0, true, Kinematic::IS_NOT_KINEMATIC, true, false));
+    comps->push_back(std::make_unique<PhysicsComponent>(50, false, 0, 0, true, Kinematic::IS_NOT_KINEMATIC, true, false, CollisionDetectionType::Discrete));
     comps->push_back(std::make_unique<TextureComponent>(std::move(r)));
     comps->push_back(std::make_unique<WanderingComponent>());
     comps->push_back(std::make_unique<DespawnComponent>(false, true));

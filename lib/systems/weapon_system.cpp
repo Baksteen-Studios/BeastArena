@@ -8,7 +8,7 @@
 #include "player_input.hpp"
 #include <tuple>
 
-WeaponSystem::WeaponSystem(std::shared_ptr<CollisionDetector> cd, std::shared_ptr<EntityManager> em, std::shared_ptr<EntityFactory> ef)
+WeaponSystem::WeaponSystem(CollisionDetector2& cd, std::shared_ptr<EntityManager> em, std::shared_ptr<EntityFactory> ef)
     : BeastSystem(ef, em), collision_detector(cd) {}
 
 void WeaponSystem::update(double deltatime){
