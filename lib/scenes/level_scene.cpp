@@ -7,9 +7,12 @@
 #include "scenes/exceptions/not_enough_player_spawns_exception.hpp"
 
 LevelScene::LevelScene(EntityFactory& factory, BrickEngine& engine, Json json)
-    : json(json), BeastScene<LevelScene>(factory, engine, json.getInt("width"), json.getInt("height")) {}
+    : json(json), BeastScene<LevelScene>(factory, engine, json.getInt("width"), json.getInt("height")) {
+        prepared = false;
+    }
 
 void LevelScene::performPrepare() {
+
     this->description = json.getString("description");
     this->version = json.getDouble("version");
     this->name = json.getString("name");
@@ -82,6 +85,8 @@ void LevelScene::performPrepare() {
     }
 }
 void LevelScene::start() {
+    entity_components = std::make_unique<std::vector<std::unique_ptr<std::vector<std::unique_ptr<Component>>>>>();
+    
     auto& em = factory.getEntityManager();
 
     // Create the players
@@ -89,8 +94,9 @@ void LevelScene::start() {
     factory.createRifle(1100, 200, true);
     factory.createSniper(500, 200, false);
     factory.createRifle(600, 200, true);
+    
     // Create the background
-    factory.createImage(this->bg_path, this->screen_width / 2, this->screen_height / 2, this->screen_width, this->screen_height, getRelativeModifier(), Layers::Background, 255);
+    entity_components->push_back(std::move(factory.createImage(this->bg_path, this->screen_width / 2, this->screen_height / 2, this->screen_width, this->screen_height, getRelativeModifier(), Layers::Background, 255)));
 
     // Load the players on the spawn locations
     auto entities_with_player = em.getEntitiesByComponent<PlayerComponent>();
@@ -129,7 +135,7 @@ void LevelScene::start() {
             factory.addToEntityManager(std::move(comps));
         }
     }
-
+    
     // Load the critters on the spawn locations
     for(int i = 0; i < critter_spawns.size(); i++) {
         factory.createCritter(critter_spawns[i].x / getRelativeModifier(),

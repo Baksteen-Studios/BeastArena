@@ -274,8 +274,8 @@ int GameController::getScreenHeight() const {
 
 void GameController::startGame() {
     loadLevels();
-    //loadNextLevel();
-    loadEndGameLevel();
+    loadNextLevel();
+    //loadEndGameLevel();
 }
 
 void GameController::loadLevels() {
