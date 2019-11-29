@@ -26,9 +26,20 @@ void ScoreScene::performPrepare() {
 
     auto& em = factory.getEntityManager();
 
+    
+    for (auto text : json.getVector("texts")){
+        entity_components->push_back(std::move(entity_factory.createText(text.getString("text"), 
+        {(unsigned short int)text.getInt("r"), (unsigned short int)text.getInt("g"), (unsigned short int)text.getInt("b"), (unsigned short int)text.getInt("alpha")}, 
+        text.getInt("font_size"), text.getInt("x"), text.getInt("y"), text.getInt("x_scale"), text.getInt("y_scale"), getRelativeModifier())));
+    }
+}
+
+void ScoreScene::start() {
+    auto& em = factory.getEntityManager();
+    auto entities_with_player = em.getEntitiesByComponent<PlayerComponent>();
+
     // entity_id and points
     std::vector<std::pair<int, int>> results;
-    auto entities_with_player = em.getEntitiesByComponent<PlayerComponent>();
     for (auto& [ entity_id, player ] : entities_with_player) {
         auto stats = em.getComponent<StatsComponent>(entity_id);
         results.push_back(std::make_pair(entity_id, stats->points));
@@ -49,20 +60,19 @@ void ScoreScene::performPrepare() {
         auto despawn_component = em.getComponent<DespawnComponent>(entity_id);
         despawn_component->despawn_on_out_of_screen = true;
 
-        auto health_component = em.getComponent<HealthComponent>(entity_id);
-        // (*health_component->revive)(entity_id);
-
         ++count;
-
     }
 
-    for (auto text : json.getVector("texts")){
-        entity_components->push_back(std::move(entity_factory.createText(text.getString("text"), 
-        {(unsigned short int)text.getInt("r"), (unsigned short int)text.getInt("g"), (unsigned short int)text.getInt("b"), (unsigned short int)text.getInt("alpha")}, 
-        text.getInt("font_size"), text.getInt("x"), text.getInt("y"), text.getInt("x_scale"), text.getInt("y_scale"), getRelativeModifier())));
+
+    // Revive the players
+    for(auto& [entity_id, player]: entities_with_player) {
+        auto health_component = em.getComponent<HealthComponent>(entity_id);
+        (*health_component->revive)(entity_id);
+        auto despawn_component = em.getComponent<DespawnComponent>(entity_id);
+        despawn_component->despawn_on_out_of_screen = true;
     }
+
+
 }
-
-void ScoreScene::start() {}
 
 void ScoreScene::leave() {}

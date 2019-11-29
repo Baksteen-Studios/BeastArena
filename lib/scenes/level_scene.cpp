@@ -12,7 +12,6 @@ LevelScene::LevelScene(EntityFactory& factory, BrickEngine& engine, Json json)
     }
 
 void LevelScene::performPrepare() {
-
     this->description = json.getString("description");
     this->version = json.getDouble("version");
     this->name = json.getString("name");
@@ -96,7 +95,8 @@ void LevelScene::start() {
     factory.createRifle(600, 200, true);
     
     // Create the background
-    entity_components->push_back(std::move(factory.createImage(this->bg_path, this->screen_width / 2, this->screen_height / 2, this->screen_width, this->screen_height, getRelativeModifier(), Layers::Background, 255)));
+    auto comps = factory.createImage(this->bg_path, this->screen_width / 2, this->screen_height / 2, this->screen_width, this->screen_height, 1, Layers::Background, 255);
+    factory.addToEntityManager(std::move(comps));
 
     // Load the players on the spawn locations
     auto entities_with_player = em.getEntitiesByComponent<PlayerComponent>();

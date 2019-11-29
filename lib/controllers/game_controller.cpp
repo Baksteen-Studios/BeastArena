@@ -94,7 +94,7 @@ void GameController::createGameStateManager() {
     state_systems->at(GameState::InGame)->push_back(std::make_unique<DespawnSystem>(collisionDetector, entityManager, SCREEN_WIDTH, SCREEN_HEIGHT));
     state_systems->at(GameState::InGame)->push_back(std::make_unique<RenderingSystem>(entityManager, *engine->getRenderer()));
 
-    state_systems->at(GameState::EndGame)->push_back(std::make_unique<GameSystem>(entityManager, *this));
+    //state_systems->at(GameState::EndGame)->push_back(std::make_unique<GameSystem>(entityManager, *this));
     state_systems->at(GameState::EndGame)->push_back(std::make_unique<ClickSystem>(entityManager));
     state_systems->at(GameState::EndGame)->push_back(std::make_unique<MovementSystem>(collisionDetector, entityManager, entityFactory));
     state_systems->at(GameState::EndGame)->push_back(std::make_unique<PhysicsSystem>(collisionDetector, entityManager));
@@ -275,7 +275,6 @@ int GameController::getScreenHeight() const {
 void GameController::startGame() {
     loadLevels();
     loadNextLevel();
-    //loadEndGameLevel();
 }
 
 void GameController::loadLevels() {
