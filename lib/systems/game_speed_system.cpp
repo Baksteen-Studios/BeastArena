@@ -16,13 +16,13 @@ void GameSpeedSystem::update(double delta_time) {
 
     if(input.checkInput(1, PlayerInput::SPEED_DOWN)) {
         // Decrease game speed
-        if(delta_time_modifier - step_size >= step_size) {
+        if(delta_time_modifier - step_size >= 0.5) {
             delta_time_modifier -= step_size;
             modifier_changed = true;
         }
     } else if (input.checkInput(1, PlayerInput::SPEED_UP)) {
         // Increase game speed
-        if(delta_time_modifier + step_size <= 3) {
+        if(delta_time_modifier + step_size <= 2.1) {
             delta_time_modifier += step_size;
             modifier_changed = true;
         }

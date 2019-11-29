@@ -11,7 +11,7 @@ public:
     void update(double delta_time);
 private:
     double &delta_time_modifier;
-    const double step_size = 0.2;
+    const double step_size = 0.1;
 };
 
 #endif // FILE_GAME_SPEED_SYSTEM_HPP
