@@ -32,7 +32,7 @@ void PickupSystem::update(double){
                 [](DiscreteCollision& collision) {
                     return collision.opposite.is_trigger;
                 });
-                if (is_trigger_collision != collisions.end()) continue;
+                if (is_trigger_collision == collisions.end()) continue;
 
                 int pickup_entity_id = is_trigger_collision->opposite.id;
                 auto pickup = entityManager->getComponent<PickupComponent>(pickup_entity_id);

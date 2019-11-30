@@ -38,14 +38,33 @@ void DespawnSystem::update(double) {
             }
         }
         if (despawn_comp->despawn_on_collision) {
-            auto collisions = collision_detector.detectDiscreteCollision(entity_id);
-            auto is_not_trigger_collision = std::find_if(collisions.begin(), collisions.end(),
-            [](DiscreteCollision& collision) {
-                return !collision.opposite.is_trigger;
-            });
-            if (is_not_trigger_collision != collisions.end()) {
-                entityManager->removeEntity(entity_id);
-                continue;
+            {
+                auto collision = collision_detector.detectContinuousCollision(entity_id, Axis::X, Direction::NEGATIVE);
+                if (collision.space_left >= 0 && collision.opposite && !collision.opposite->is_trigger) {
+                    entityManager->removeEntity(entity_id);
+                    continue;
+                }                    
+            }
+            {
+                auto collision = collision_detector.detectContinuousCollision(entity_id, Axis::X, Direction::POSITIVE);
+                if (collision.space_left <= 0 && collision.opposite && !collision.opposite->is_trigger) {
+                    entityManager->removeEntity(entity_id);
+                    continue;
+                }
+            }
+            {
+                auto collision = collision_detector.detectContinuousCollision(entity_id, Axis::Y, Direction::NEGATIVE);
+                if (collision.space_left >= 0 && collision.opposite && !collision.opposite->is_trigger) {
+                    entityManager->removeEntity(entity_id);
+                    continue;
+                }
+            }
+            {
+                auto collision = collision_detector.detectContinuousCollision(entity_id, Axis::Y, Direction::POSITIVE);
+                if (collision.space_left <= 0 && collision.opposite && !collision.opposite->is_trigger) {
+                    entityManager->removeEntity(entity_id);
+                    continue;
+                }
             }
         }
     }

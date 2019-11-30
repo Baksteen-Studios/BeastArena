@@ -7,7 +7,7 @@ DamageSystem::DamageSystem(CollisionDetector2& cd, std::shared_ptr<EntityManager
 
 void DamageSystem::update(double) {
     auto entities_with_damage_component = entityManager->getEntitiesByComponent<DamageComponent>();
-    
+
     for (auto& [entity_id, damage_comp]: entities_with_damage_component) {
         {
             auto collision = collision_detector.detectContinuousCollision(entity_id, Axis::X, Direction::NEGATIVE);
