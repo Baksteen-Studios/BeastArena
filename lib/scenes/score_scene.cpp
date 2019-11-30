@@ -23,15 +23,15 @@ void ScoreScene::performPrepare() {
         entity_components->push_back(std::move(comps));
     }
 
-
     auto& em = factory.getEntityManager();
-
     
     for (auto text : json.getVector("texts")){
         entity_components->push_back(std::move(entity_factory.createText(text.getString("text"), 
         {(unsigned short int)text.getInt("r"), (unsigned short int)text.getInt("g"), (unsigned short int)text.getInt("b"), (unsigned short int)text.getInt("alpha")}, 
         text.getInt("font_size"), text.getInt("x"), text.getInt("y"), text.getInt("x_scale"), text.getInt("y_scale"), getRelativeModifier())));
     }
+
+    
 }
 
 void ScoreScene::start() {
@@ -40,19 +40,19 @@ void ScoreScene::start() {
 
     // entity_id and points
     std::vector<std::pair<int, int>> results;
+  
     for (auto& [ entity_id, player ] : entities_with_player) {
         auto stats = em.getComponent<StatsComponent>(entity_id);
-        results.push_back(std::make_pair(entity_id, stats->points));
+        results.push_back(std::make_pair(entity_id, stats->levels_won));
     }
 
     std::sort(results.begin(), results.end(), [](auto lhs, auto rhs) {
         return lhs.second > rhs.second;
     });
 
-    int count = 0;
+    int player_count = 0;
     for(Json player_spawn_json : json.getVector("player_spawns")) {
-        int entity_id = results[count].first;
-        std::cout << entity_id << " is the entity id." << std::endl;
+        int entity_id = results[player_count].first;
         auto transformComponent = em.getComponent<TransformComponent>(entity_id);
         transformComponent->x_pos = player_spawn_json.getInt("x") / getRelativeModifier();
         transformComponent->y_pos = player_spawn_json.getInt("y") / getRelativeModifier();
@@ -60,10 +60,10 @@ void ScoreScene::start() {
         auto despawn_component = em.getComponent<DespawnComponent>(entity_id);
         despawn_component->despawn_on_out_of_screen = true;
 
-        ++count;
+        ++player_count;
     }
 
-
+ 
     // Revive the players
     for(auto& [entity_id, player]: entities_with_player) {
         auto health_component = em.getComponent<HealthComponent>(entity_id);
@@ -72,7 +72,28 @@ void ScoreScene::start() {
         despawn_component->despawn_on_out_of_screen = true;
     }
 
+    int count = 1;  
+    int y = 200;
+    for(auto [entity_id, result] : results) {
+        // Render the leaderboard
+        auto stats_component = em.getComponent<StatsComponent>(entity_id);
+        auto player_component = em.getComponent<PlayerComponent>(entity_id);
+        // Check how many dots we have to insert
+        auto text = std::to_string(count) + ": " + player_component->name;
+        auto level_digits = 1;
+        if(stats_component->levels_won > 0)
+            level_digits = floor(log10(stats_component->levels_won));
+        auto dots_to_add = 60 - level_digits - player_component->name.size() - text.size();
+        while(text.size() < dots_to_add) {
+            text = text + ".";
+        }
+        text = text + std::to_string(result);
 
+        auto comps = factory.createText(text, { 255, 255, 255, 255 }, 50, this->screen_width / 2, y, 750, 50, 1);
+        factory.addToEntityManager(std::move(comps));
+        ++count;
+        y += 50;
+    }
 }
 
 void ScoreScene::leave() {}

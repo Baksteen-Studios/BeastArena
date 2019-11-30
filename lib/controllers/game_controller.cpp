@@ -83,6 +83,7 @@ void GameController::createGameStateManager() {
     state_systems->insert({ GameState::EndGame, std::make_unique<std::vector<std::unique_ptr<System>>>() });
     state_systems->at(GameState::MainMenu)->push_back(std::make_unique<ClickSystem>(entityManager));
     state_systems->at(GameState::MainMenu)->push_back(std::make_unique<RenderingSystem>(entityManager, *engine->getRenderer()));
+
     state_systems->at(GameState::InGame)->push_back(std::make_unique<GameSystem>(entityManager, *this));
     state_systems->at(GameState::InGame)->push_back(std::make_unique<ClickSystem>(entityManager));
     state_systems->at(GameState::InGame)->push_back(std::make_unique<MovementSystem>(collisionDetector, entityManager, entityFactory));

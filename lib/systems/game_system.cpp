@@ -1,7 +1,7 @@
 
 #include "systems/game_system.hpp"
 #include "brickengine/std/random.hpp"
-
+#include "components/stats_component.hpp"
 
 GameSystem::GameSystem(std::shared_ptr<EntityManager> em, GameController& gc) : entity_manager(em), game_controller(gc), System(em) {}
 
@@ -24,8 +24,9 @@ void GameSystem::update(double deltatime) {
             timer += deltatime;
             
             // Intermission should show all numbers. You can not call it only in the timer because then it would count down from 2.
-            if(seconds == 3)
+            if(seconds == 3) {
                 game_controller.intermission(seconds);
+            }
             
             // If the timer reached above 1 reset it. Update the intermission screen with the new view. 
             if (timer > 1) {
@@ -36,8 +37,20 @@ void GameSystem::update(double deltatime) {
             
             // Load the new level and reset all timers.
             if(seconds <= 0) {
+                std::cout << dead_players.size() <<std::endl;
                 timer = 0;
                 seconds = 3;
+                auto alive_player = std::find_if(players.begin(), players.end(), [dp = dead_players](std::pair<int, PlayerComponent*> player) -> bool {
+                    std::cout << "I am dead" << player.second->name << std::endl; 
+                    return dp.find(player.first) == dp.end();
+                });
+
+                if(alive_player != players.end()){
+                    std::cout << "I won a game as a " << alive_player->second->name << std::endl;
+                    auto stats_alive_player = entityManager->getComponent<StatsComponent>(alive_player->first);
+                    ++stats_alive_player->levels_won;
+                }
+
                 dead_players.clear();
                 game_controller.loadNextLevel();
             }
