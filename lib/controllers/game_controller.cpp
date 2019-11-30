@@ -60,7 +60,14 @@ GameController::GameController() {
     engine->start();
     entityManager = std::make_shared<EntityManager>();
     entityFactory = std::make_shared<EntityFactory>(entityManager, *engine->getRenderableFactory());
-    collision_detector = std::make_unique<CollisionDetector2>(*entityManager);
+
+    std::unordered_map<std::string, std::set<std::string>> is_trigger_exceptions;
+    is_trigger_exceptions.insert({ "Critter", std::set<std::string> { "Platform" } });
+    is_trigger_exceptions.insert({ "Weapon", std::set<std::string> { "Platform" } });
+    // For when the players are ded
+    is_trigger_exceptions.insert({ "Player", std::set<std::string> { "Platform" } });
+    collision_detector = std::make_unique<CollisionDetector2>(is_trigger_exceptions, *entityManager);
+
     createGameStateManager();
     scene_manager = std::make_unique<SceneManager<GameState>>(*entityManager, *game_state_manager);
     entityManager->setGetCurrentSceneTagFunction(scene_manager->createGetPrimaryTagFunction());
@@ -76,10 +83,6 @@ GameController::GameController() {
 }
 
 void GameController::createGameStateManager() {
-    std::unordered_map<std::string, std::set<std::string>> displacement_is_trigger_exceptions;
-    displacement_is_trigger_exceptions.insert({ "Critter", std::set<std::string> { "Platform" } });
-    displacement_is_trigger_exceptions.insert({ "Weapon", std::set<std::string> { "Platform" } });
-
     auto state_systems = std::make_unique<GameStateManager<GameState>::StateSystems>();
     state_systems->insert({ GameState::MainMenu, std::make_unique<GameStateManager<GameState>::Systems>() });
     state_systems->insert({ GameState::InGame, std::make_unique<std::vector<std::unique_ptr<System>>>() });
@@ -94,7 +97,7 @@ void GameController::createGameStateManager() {
     state_systems->at(GameState::InGame)->push_back(std::make_unique<WeaponSystem>(*collision_detector, entityManager, entityFactory));
     state_systems->at(GameState::InGame)->push_back(std::make_unique<DamageSystem>(*collision_detector, entityManager, entityFactory));
     state_systems->at(GameState::InGame)->push_back(std::make_unique<DespawnSystem>(*collision_detector, entityManager, SCREEN_WIDTH, SCREEN_HEIGHT));
-    state_systems->at(GameState::InGame)->push_back(std::make_unique<DisplacementSystem>(displacement_is_trigger_exceptions, *collision_detector, entityManager));
+    state_systems->at(GameState::InGame)->push_back(std::make_unique<DisplacementSystem>(*collision_detector, entityManager));
     state_systems->at(GameState::InGame)->push_back(std::make_unique<RenderingSystem>(entityManager, *engine->getRenderer()));
     std::unordered_map<GameState, bool> reset_on_set_state;
     reset_on_set_state.insert({ GameState::InGame, true });

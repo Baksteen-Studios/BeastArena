@@ -171,7 +171,7 @@ int EntityFactory::createRifle(double x_pos, double y_pos, bool ammo) const {
         DespawnComponent(true, true),
         RectangleColliderComponent(1, 1, 1, false),
         Scale(12, 4),
-        0.1, ammoOpt));
+        1.0, ammoOpt));
 
     int entity = entityManager->createEntity(std::move(comps), std::nullopt);
     entityManager->setTag(entity, "Weapon");

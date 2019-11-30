@@ -30,11 +30,11 @@ void PickupSystem::update(double){
                 auto collisions = collision_detector.detectDiscreteCollision(entity_id);
                 auto is_trigger_collision = std::find_if(collisions.begin(), collisions.end(),
                 [](DiscreteCollision& collision) {
-                    return collision.opposite.is_trigger;
+                    return collision.is_trigger;
                 });
                 if (is_trigger_collision == collisions.end()) continue;
 
-                int pickup_entity_id = is_trigger_collision->opposite.id;
+                int pickup_entity_id = is_trigger_collision->opposite_id;
                 auto pickup = entityManager->getComponent<PickupComponent>(pickup_entity_id);
                 if (pickup) {
                     auto pickup_transform = entityManager->getComponent<TransformComponent>(pickup_entity_id);

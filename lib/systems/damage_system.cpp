@@ -11,34 +11,40 @@ void DamageSystem::update(double) {
     for (auto& [entity_id, damage_comp]: entities_with_damage_component) {
         {
             auto collision = collision_detector.detectContinuousCollision(entity_id, Axis::X, Direction::NEGATIVE);
-            if (collision.space_left >= 0 && collision.opposite && !collision.opposite->is_trigger)
+            if (collision.space_left >= 0 && collision.opposite_id && !collision.is_trigger)
                 this->collide(damage_comp, collision);
         }
         {
             auto collision = collision_detector.detectContinuousCollision(entity_id, Axis::X, Direction::POSITIVE);
-            if (collision.space_left <= 0 && collision.opposite && !collision.opposite->is_trigger)
+            std::cout << "bullet_id: " << collision.entity_id << std::endl;
+            if (collision.opposite_id)
+                std::cout << "opposite_id: " << *collision.opposite_id << std::endl;
+            std::cout << "space_left: " << collision.space_left << std::endl;
+            if (collision.space_left <= 0 && collision.opposite_id && !collision.is_trigger){
+                std::cout << "collided" << std::endl;
                 this->collide(damage_comp, collision);
+            }
         }
         {
             auto collision = collision_detector.detectContinuousCollision(entity_id, Axis::Y, Direction::NEGATIVE);
-            if (collision.space_left >= 0 && collision.opposite && !collision.opposite->is_trigger)
+            if (collision.space_left >= 0 && collision.opposite_id && !collision.is_trigger)
                 this->collide(damage_comp, collision);
         }
         {
             auto collision = collision_detector.detectContinuousCollision(entity_id, Axis::Y, Direction::POSITIVE);
-            if (collision.space_left <= 0 && collision.opposite && !collision.opposite->is_trigger)
+            if (collision.space_left <= 0 && collision.opposite_id && !collision.is_trigger)
                 this->collide(damage_comp, collision);
         }
     }
 }
 
 void DamageSystem::collide(DamageComponent* damage_comp, ContinuousCollision collision) {
-    auto health_hit_entity = entityManager->getComponent<HealthComponent>(collision.opposite->id);
+    auto health_hit_entity = entityManager->getComponent<HealthComponent>(*collision.opposite_id);
     if (health_hit_entity) {
         health_hit_entity->health -= damage_comp->damage;
         // u ded m8
         if (health_hit_entity->health <= 0) {
-            health_hit_entity->on_death(collision.opposite->id);
+            health_hit_entity->on_death(*collision.opposite_id);
 
             if(damage_comp->damage_dealer_entity_id){
                 auto points_gainer = entityManager->getComponent<StatsComponent>(*damage_comp->damage_dealer_entity_id);
