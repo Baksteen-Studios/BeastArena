@@ -1,11 +1,13 @@
 #include "scenes/score_scene.hpp"
 
+#include "brickengine/components/colliders/rectangle_collider_component.hpp"
 #include "brickengine/components/renderables/texture_component.hpp"
 #include "brickengine/components/player_component.hpp"
 
 #include "components/despawn_component.hpp"
 #include "components/health_component.hpp"
 #include "components/stats_component.hpp"
+#include "components/pickup_component.hpp"
 
 ScoreScene::ScoreScene(EntityFactory& entity_factory, BrickEngine& engine, Json json) : 
     json(json), entity_factory(entity_factory), 
@@ -31,7 +33,15 @@ void ScoreScene::performPrepare() {
         text.getInt("font_size"), text.getInt("x"), text.getInt("y"), text.getInt("x_scale"), text.getInt("y_scale"), getRelativeModifier())));
     }
 
-    
+    // Spawn the trophy
+    {
+        auto comps = factory.createImage("/items/trophy.png", this->screen_width / 1.8, 400, 50, 75, getRelativeModifier(), Layers::Middleground, 255);
+        comps->push_back(std::make_unique<RectangleColliderComponent>(1, 1, 1, true));
+        comps->push_back(std::make_unique<PhysicsComponent>(50, false, 0, 0, true, Kinematic::IS_NOT_KINEMATIC, true, true));
+        comps->push_back(std::make_unique<PickupComponent>());
+        comps->push_back(std::make_unique<DespawnComponent>(false, true));
+        entity_components->push_back(std::move(comps));
+    }
 }
 
 void ScoreScene::start() {

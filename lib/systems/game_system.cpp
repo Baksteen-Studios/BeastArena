@@ -37,16 +37,13 @@ void GameSystem::update(double deltatime) {
             
             // Load the new level and reset all timers.
             if(seconds <= 0) {
-                std::cout << dead_players.size() <<std::endl;
                 timer = 0;
                 seconds = 3;
                 auto alive_player = std::find_if(players.begin(), players.end(), [dp = dead_players](std::pair<int, PlayerComponent*> player) -> bool {
-                    std::cout << "I am dead" << player.second->name << std::endl; 
                     return dp.find(player.first) == dp.end();
                 });
 
                 if(alive_player != players.end()){
-                    std::cout << "I won a game as a " << alive_player->second->name << std::endl;
                     auto stats_alive_player = entityManager->getComponent<StatsComponent>(alive_player->first);
                     ++stats_alive_player->levels_won;
                 }
