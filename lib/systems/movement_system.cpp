@@ -43,9 +43,9 @@ void MovementSystem::update(double) {
         }
         // Jumping
         if (input.checkInput(player->player_id, PlayerInput::Y_AXIS) == 1) {
-            bool standsOnPlatform = collision_detector.detectContinuousCollision(entity_id, Axis::Y, Direction::POSITIVE).space_left == 0;
+            bool is_on_platform = collision_detector.detectContinuousCollision(entity_id, Axis::Y, Direction::POSITIVE).space_left == 0;
 
-            if (standsOnPlatform) {
+            if (is_on_platform) {
                 vy = -1 * (JUMP_FORCE / mass);
             }
         }
