@@ -18,6 +18,7 @@ void ScoreController::writeScores() {
         auto deaths = stats_component->deaths;
         auto killed_critters = stats_component->killed_critters; 
         auto levels_won = stats_component->levels_won;
+        auto accidents = stats_component->accidents;
 
         // if the player already exists in the json we need to add the values
         try {
@@ -25,6 +26,7 @@ void ScoreController::writeScores() {
             deaths += json.getIntFromObject(player->name, "deaths");
             killed_critters += json.getIntFromObject(player->name, "killed_critters");
             levels_won += json.getIntFromObject(player->name, "levels_won");
+            accidents += json.getIntFromObject(player->name, "accidents");
         }
         catch(...) {
             // No need to do anything, continue normally.
@@ -35,6 +37,7 @@ void ScoreController::writeScores() {
         json.addIntToObject(player->name, "deaths", deaths);
         json.addIntToObject(player->name, "killed_critters", killed_critters);
         json.addIntToObject(player->name, "levels_won", levels_won);
+        json.addIntToObject(player->name, "accidents", accidents);
     }
 
     // Write contents to file

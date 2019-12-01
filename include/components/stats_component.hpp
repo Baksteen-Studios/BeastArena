@@ -11,6 +11,7 @@ public:
     int kills = 0;
     int killed_critters = 0;
     int deaths = 0;
+    int accidents = 0;
 };
 
 #endif // FILE_STATS_COMPONENT_HPP

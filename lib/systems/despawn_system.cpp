@@ -1,5 +1,8 @@
+#include "brickengine/components/player_component.hpp"
+
 #include "systems/despawn_system.hpp"
 #include "components/health_component.hpp"
+#include "components/stats_component.hpp"
 
 DespawnSystem::DespawnSystem(std::shared_ptr<CollisionDetector> cd, std::shared_ptr<EntityManager> em,
                              int screen_width, int screen_height)
@@ -18,12 +21,19 @@ void DespawnSystem::update(double) {
             double bottom = position.y + (scale.y / 2 );
             if(left > screen_width || top > screen_height ||
                right < 0 || bottom < 0) {
+                
                 // :O
                 // Kill object.
+
                 auto health = entityManager->getComponent<HealthComponent>(entity_id);
                 if (health) {
                     health->health = 0;
                     auto transform = entityManager->getComponent<TransformComponent>(entity_id);
+                    auto player = entityManager->getComponent<PlayerComponent>(entity_id);
+                    if (player && transform->x_pos != -2000 && transform->y_pos != -2000) {
+                        auto stats = entityManager->getComponent<StatsComponent>(entity_id);
+                        ++stats->accidents;
+                    }
                     transform->x_pos = -2000;
                     transform->y_pos = -2000;
                     auto physics = entityManager->getComponent<PhysicsComponent>(entity_id);
