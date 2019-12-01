@@ -15,6 +15,7 @@
 #include "components/damage_component.hpp"
 #include "components/weapon_component.hpp"
 #include "components/stats_component.hpp"
+#include "components/ready_component.hpp"
 #include "components/wandering_component.hpp"
 #include "brickengine/rendering/renderables/data/color.hpp"
 #include "brickengine/rendering/renderables/renderable.hpp"
@@ -58,6 +59,7 @@ int EntityFactory::createGorilla(int player_id) const {
     comps->push_back(std::make_unique<HealthComponent>(100, player_on_death, player_revive, POINTS_ON_KILL_PLAYER));
     comps->push_back(std::make_unique<DespawnComponent>(false, false));
     comps->push_back(std::make_unique<StatsComponent>());
+    comps->push_back(std::make_unique<ReadyComponent>());
 
     int entity = entityManager->createEntity(std::move(comps), std::nullopt);
     entityManager->setTag(entity, "Player");
@@ -77,6 +79,7 @@ int EntityFactory::createPanda(int player_id) const {
     comps->push_back(std::make_unique<HealthComponent>(100, player_on_death, player_revive, POINTS_ON_KILL_PLAYER));
     comps->push_back(std::make_unique<DespawnComponent>(false, false));
     comps->push_back(std::make_unique<StatsComponent>());
+    comps->push_back(std::make_unique<ReadyComponent>());
 
     int entity = entityManager->createEntity(std::move(comps), std::nullopt);
     entityManager->setTag(entity, "Player");
@@ -96,6 +99,7 @@ int EntityFactory::createCheetah(int player_id) const {
     comps->push_back(std::make_unique<HealthComponent>(100, player_on_death, player_revive, POINTS_ON_KILL_PLAYER));
     comps->push_back(std::make_unique<DespawnComponent>(false, false));
     comps->push_back(std::make_unique<StatsComponent>());
+    comps->push_back(std::make_unique<ReadyComponent>());
 
     int entity = entityManager->createEntity(std::move(comps), std::nullopt);
     entityManager->setTag(entity, "Player");
@@ -115,6 +119,7 @@ int EntityFactory::createElephant(int player_id) const {
     comps->push_back(std::make_unique<HealthComponent>(100, player_on_death, player_revive, POINTS_ON_KILL_PLAYER));
     comps->push_back(std::make_unique<DespawnComponent>(false, false));
     comps->push_back(std::make_unique<StatsComponent>());
+    comps->push_back(std::make_unique<ReadyComponent>());
 
     int entity = entityManager->createEntity(std::move(comps), std::nullopt);
     entityManager->setTag(entity, "Player");
