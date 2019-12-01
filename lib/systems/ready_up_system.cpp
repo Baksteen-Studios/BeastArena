@@ -3,11 +3,11 @@
 #include "components/ready_component.hpp"
 
 #include "systems/ready_up_system.hpp"
-
 #include "player_input.hpp"
 
-ReadyUpSystem::ReadyUpSystem(std::shared_ptr<EntityManager> em, std::shared_ptr<EntityFactory> ef)
-    : BeastSystem(ef, em){}
+ReadyUpSystem::ReadyUpSystem(std::shared_ptr<EntityManager> em, std::shared_ptr<EntityFactory> ef,
+                            std::function<void()> ready_function)
+    : BeastSystem(ef, em), ready_function(ready_function){}
 
 void ReadyUpSystem::update(double){    
     auto& input = BrickInput<PlayerInput>::getInstance();
@@ -30,7 +30,7 @@ void ReadyUpSystem::update(double){
     }
 
     if(readied_up_counter == entities_with_player.size()){
-        std::cout << "Go to the main menu baby :)" << std::endl;
+        this->ready_function();
     }
 
 }

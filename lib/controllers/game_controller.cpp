@@ -65,6 +65,7 @@ GameController::GameController() {
     collisionDetector = std::make_shared<CollisionDetector>(entityManager);
     createGameStateManager();
     scene_manager = std::make_unique<SceneManager<GameState>>(*entityManager, *game_state_manager);
+    score_controller = std::make_unique<ScoreController>(*entityManager);
     entityManager->setGetCurrentSceneTagFunction(scene_manager->createGetPrimaryTagFunction());
 
     setupInput();
@@ -103,7 +104,7 @@ void GameController::createGameStateManager() {
     state_systems->at(GameState::EndGame)->push_back(std::make_unique<PickupSystem>(collisionDetector, entityManager, entityFactory));
     state_systems->at(GameState::EndGame)->push_back(std::make_unique<CritterSystem>(collisionDetector, entityManager, entityFactory));
     //state_systems->at(GameState::EndGame)->push_back(std::make_unique<WeaponSystem>(collisionDetector, entityManager, entityFactory));
-    state_systems->at(GameState::EndGame)->push_back(std::make_unique<ReadyUpSystem>(entityManager, entityFactory));
+    state_systems->at(GameState::EndGame)->push_back(std::make_unique<ReadyUpSystem>(entityManager, entityFactory, [this]() { this->loadMainMenu(); }));
     state_systems->at(GameState::EndGame)->push_back(std::make_unique<DamageSystem>(collisionDetector, entityManager, entityFactory));
     state_systems->at(GameState::EndGame)->push_back(std::make_unique<DespawnSystem>(collisionDetector, entityManager, SCREEN_WIDTH, SCREEN_HEIGHT));
     state_systems->at(GameState::EndGame)->push_back(std::make_unique<RenderingSystem>(entityManager, *engine->getRenderer()));
@@ -336,7 +337,7 @@ void GameController::loadMainMenu() {
 }
 void GameController::loadEndGameLevel() {
     scene_manager->destroyScene(SceneLayer::Primary);
-
+    score_controller->writeScores();
     // Load the json
     Json json { END_GAME_PATH, true };
     scene_manager->createScene<ScoreScene>(*entityFactory, *engine, json);

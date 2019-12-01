@@ -40,7 +40,7 @@ void DamageSystem::collide(DamageComponent* damage_comp, CollisionReturnValues c
         if (health_hit_entity->health <= 0) {
             auto stats_hit_entity = entityManager->getComponent<StatsComponent>(*collision.object_id);
             // User's stats are updated with one dead added.
-            stats_hit_entity->died+=1;
+            stats_hit_entity->deaths+=1;
 
             health_hit_entity->on_death(*collision.object_id);
 
@@ -48,7 +48,7 @@ void DamageSystem::collide(DamageComponent* damage_comp, CollisionReturnValues c
                 auto points_gainer = entityManager->getComponent<StatsComponent>(*damage_comp->damage_dealer_entity_id);
                 if(points_gainer && health_hit_entity->points_on_kill.has_value()){
                     // User's stats are updated with kill points.
-                    points_gainer->kill_points += *health_hit_entity->points_on_kill;
+                    ++points_gainer->kills;
                 }else{
                     // User killed a critter and that stat is updated.
                     points_gainer->killed_critters += 1;
