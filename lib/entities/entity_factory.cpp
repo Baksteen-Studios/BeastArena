@@ -9,6 +9,7 @@
 #include "brickengine/components/physics_component.hpp"
 #include "brickengine/components/player_component.hpp"
 #include "brickengine/components/click_component.hpp"
+#include "brickengine/components/animation_component.hpp"
 #include "brickengine/components/renderables/texture_component.hpp"
 #include "components/pickup_component.hpp"
 #include "components/health_component.hpp"
@@ -23,24 +24,32 @@
 EntityFactory::EntityFactory(std::shared_ptr<EntityManager> em, RenderableFactory& rf) : entityManager(em), renderableFactory(rf) {
     player_on_death = [em = entityManager](int entity_id) {
         auto transform = em->getComponent<TransformComponent>(entity_id);
-        transform->y_direction = Direction::NEGATIVE;
         auto player = em->getComponent<PlayerComponent>(entity_id);
-        player->disabled = true;
         auto collider = em->getComponent<RectangleColliderComponent>(entity_id);
+        auto animation = em->getComponent<AnimationComponent>(entity_id);
+        if (animation) {
+            animation->sprite_size = 1;
+        }
+        transform->y_direction = Direction::NEGATIVE;
+        player->disabled = true;
         collider->is_trigger = true;
         em->addComponentToEntity(entity_id, std::make_unique<PickupComponent>(true, false));
     };
     player_revive = [em = entityManager](int entity_id) {
         auto transform = em->getComponent<TransformComponent>(entity_id);
-        transform->y_direction = Direction::POSITIVE;
         auto player = em->getComponent<PlayerComponent>(entity_id);
-        player->disabled = false;
         auto collider = em->getComponent<RectangleColliderComponent>(entity_id);
+        auto physics = em->getComponent<PhysicsComponent>(entity_id);
+        auto health = em->getComponent<HealthComponent>(entity_id);
+        auto animation = em->getComponent<AnimationComponent>(entity_id);
+        if (animation) {
+            animation->sprite_size = 2;
+        }
+        transform->y_direction = Direction::POSITIVE;
+        player->disabled = false;
         collider->is_trigger = false;
         em->removeComponentFromEntity<PickupComponent>(entity_id);
-        auto physics = em->getComponent<PhysicsComponent>(entity_id);
         physics->kinematic = Kinematic::IS_NOT_KINEMATIC;
-        auto health = em->getComponent<HealthComponent>(entity_id);
         health->health = health->max_health;
     };
 }
@@ -65,9 +74,9 @@ int EntityFactory::createGorilla(int player_id) const {
 }
 
 int EntityFactory::createPanda(int player_id) const {
-    auto src = std::unique_ptr<Rect>(new Rect{ 0, 0, 20, 32});
-    auto dst = std::unique_ptr<Rect>(new Rect{ 10, 10, 20, 32 });
-    auto r = renderableFactory.createImage(GRAPHICS_PATH + "beasts/panda/pande_walking.png", (int)Layers::Foreground, std::move(dst), std::move(src), 255);
+    auto src = std::unique_ptr<Rect>(new Rect{ 0, 0, 20, 32 });
+    auto dst = std::unique_ptr<Rect>(new Rect{ 0, 0, 0, 0 });
+    auto r = renderableFactory.createImage(GRAPHICS_PATH + "beasts/panda/panda_idle.png", (int)Layers::Foreground, std::move(dst), std::move(src), 255);
     auto comps = std::make_unique<std::vector<std::unique_ptr<Component>>>();
 
     comps->push_back(std::make_unique<TransformComponent>(-2000, -2000, 63, 100, Direction::POSITIVE, Direction::POSITIVE));
@@ -78,6 +87,7 @@ int EntityFactory::createPanda(int player_id) const {
     comps->push_back(std::make_unique<HealthComponent>(100, player_on_death, player_revive, POINTS_ON_KILL_PLAYER));
     comps->push_back(std::make_unique<DespawnComponent>(false, false));
     comps->push_back(std::make_unique<StatsComponent>());
+    comps->push_back(std::make_unique<AnimationComponent>(0.2, 2));
 
     int entity = entityManager->createEntity(std::move(comps), std::nullopt);
     entityManager->setTag(entity, "Player");
@@ -104,8 +114,9 @@ int EntityFactory::createCheetah(int player_id) const {
 }
 
 int EntityFactory::createElephant(int player_id) const {
+    auto src = std::unique_ptr<Rect>(new Rect{ 0, 0, 32, 32 });
     auto dst = std::unique_ptr<Rect>(new Rect{ 0, 0, 0, 0 });
-    auto r = renderableFactory.createImage(GRAPHICS_PATH + "beasts/elephant/elephant-1.png", (int)Layers::Foreground, std::move(dst), 255);
+    auto r = renderableFactory.createImage(GRAPHICS_PATH + "beasts/elephant/elephant_idle.png", (int)Layers::Foreground, std::move(dst), std::move(src), 255);
     auto comps = std::make_unique<std::vector<std::unique_ptr<Component>>>();
 
     comps->push_back(std::make_unique<TransformComponent>(-2000, -2000, 100, 100, Direction::POSITIVE, Direction::POSITIVE));
@@ -116,6 +127,7 @@ int EntityFactory::createElephant(int player_id) const {
     comps->push_back(std::make_unique<HealthComponent>(100, player_on_death, player_revive, POINTS_ON_KILL_PLAYER));
     comps->push_back(std::make_unique<DespawnComponent>(false, false));
     comps->push_back(std::make_unique<StatsComponent>());
+    comps->push_back(std::make_unique<AnimationComponent>(0.2, 2));
 
     int entity = entityManager->createEntity(std::move(comps), std::nullopt);
     entityManager->setTag(entity, "Player");
@@ -222,6 +234,20 @@ int EntityFactory::createCritter(double x_pos, double y_pos) const {
     int entity = entityManager->createEntity(std::move(comps), std::nullopt);
     entityManager->setTag(entity, "Critter");
     return entity;
+}
+
+int EntityFactory::createAnimationBackground(std::string path, int x_pos, int y_pos, int x_scale, int y_scale, Layers layer, int alpha,
+                                            double update_time, int sprite_size) const {
+    auto src = std::unique_ptr<Rect>(new Rect{ 0, 0, 32, 32});
+    auto dst = std::unique_ptr<Rect>(new Rect{ 0, 0, 0, 0});
+    auto r = renderableFactory.createImage(GRAPHICS_PATH + path, (int) layer, std::move(dst), std::move(src), alpha);
+
+    auto comps = std::make_unique<std::vector<std::unique_ptr<Component>>>();
+    comps->push_back(std::make_unique<TransformComponent>(x_pos, y_pos, x_scale, y_scale, Direction::POSITIVE, Direction::POSITIVE));
+    comps->push_back(std::make_unique<TextureComponent>(std::move(r)));
+    comps->push_back(std::make_unique<AnimationComponent>(update_time, sprite_size));
+
+    return entityManager->createEntity(std::move(comps), std::nullopt);
 }
 
 int EntityFactory::createImage(std::string path, int x_pos, int y_pos, int x_scale, int y_scale, Layers layer, int alpha) {

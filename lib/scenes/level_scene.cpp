@@ -91,6 +91,8 @@ void LevelScene::start() {
     factory.createRifle(600, 200, true);
     // Create the background
     factory.createImage(this->bg_path, this->screen_width / 2, this->screen_height / 2, this->screen_width, this->screen_height, Layers::Background, 255);
+    // Clouds
+    factory.createAnimationBackground("backgrounds/clouds.png", this->screen_width / 2, this->screen_height / 2, 500, 500, Layers::Foreground, 255, 0.3, 4);
 
     // Load the players on the spawn locations
     auto entities_with_player = em.getEntitiesByComponent<PlayerComponent>();
