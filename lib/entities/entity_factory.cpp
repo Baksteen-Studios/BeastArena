@@ -182,7 +182,7 @@ int EntityFactory::createElephant(int player_id) const {
     auto dst = std::unique_ptr<Rect>(new Rect{ 0, 0, 0, 0 });
     auto r = renderableFactory.createImage(GRAPHICS_PATH + "beasts/elephant/elephant-1.png", (int)Layers::Foreground, std::move(dst), 255);
     auto comps = std::make_unique<std::vector<std::unique_ptr<Component>>>();
-    
+
     comps->push_back(std::make_unique<TransformComponent>(-2000, -2000, 100, 100, Direction::POSITIVE, Direction::POSITIVE));
     comps->push_back(std::make_unique<RectangleColliderComponent>(1, 1, 1, false));
     comps->push_back(std::make_unique<PhysicsComponent>(105, true, 0, 0, true, Kinematic::IS_NOT_KINEMATIC, true, false));

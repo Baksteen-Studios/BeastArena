@@ -1,5 +1,5 @@
-#ifndef FILE_GADGET_HOLDER_COMPONENT_HPP
-#define FILE_GADGET_HOLDER_COMPONENT_HPP
+#ifndef FILE_HOLD_COMPONENT_HPP
+#define FILE_HOLD_COMPONENT_HPP
 
 #include "brickengine/components/component_impl.hpp"
 #include "brickengine/components/data/position.hpp"
@@ -18,4 +18,4 @@ public:
     Position position;
 };
 
-#endif // FILE_GADGET_HOLDER_COMPONENT_HPP
+#endif // FILE_HOLD_COMPONENT_HPP
