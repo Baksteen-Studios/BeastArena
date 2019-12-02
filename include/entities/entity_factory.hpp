@@ -39,7 +39,7 @@ public:
     int createImage(std::string path, int x_pos, int y_pos, int x_scale, int y_scale, Layers layer, int alpha);
     int createPlatform(double x_pos, double y_pos, double x_scale, double y_scale, std::string path, int alpha);
     std::pair<int, int> createButton(const Button button, const double relative_modifier);
-    int createText(std::string text, int x, int y, int x_scale, int y_scale);
+    int createText(std::string text, int x, int y, int x_scale, int y_scale, int font_size, Color color);
     int createCharacterSelector(int player_id, int x, int y);
     void createCharacterSelectorTexture(int entity_id);
     void changeCharacterSelectorTexture(int entity_id, Character character);

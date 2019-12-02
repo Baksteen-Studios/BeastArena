@@ -221,9 +221,9 @@ std::pair<int, int> EntityFactory::createButton(const Button button, const doubl
     return std::make_pair(button_id, text_id);
 }
 
-int EntityFactory::createText(std::string text, int x, int y, int x_scale, int y_scale) {
+int EntityFactory::createText(std::string text, int x, int y, int x_scale, int y_scale, int font_size, Color color) {
     auto dst = std::unique_ptr<Rect>(new Rect{ 0, 0 , 0, 0});
-    auto r_text = renderableFactory.createText(text, 50, { 0, 255, 0, 255 }, (int)Layers::UI, std::move(dst));
+    auto r_text = renderableFactory.createText(text, font_size, color, (int)Layers::UI, std::move(dst));
     auto comps = std::make_unique<std::vector<std::unique_ptr<Component>>>();
     comps->push_back(std::make_unique<TransformComponent>(x, y, x_scale, y_scale, Direction::POSITIVE, Direction::POSITIVE));
     comps->push_back(std::make_unique<TextureComponent>(std::move(r_text)));

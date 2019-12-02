@@ -65,7 +65,10 @@ void Lobby::start() {
     factory.createButton(start_game_button, getRelativeModifier());
 
     // Logo
-    factory.createImage("menu/logo.png", 960 / getRelativeModifier(), 106 / getRelativeModifier(), 680 / getRelativeModifier(), 106 / getRelativeModifier(), Layers::Middleground, 255);
+    factory.createImage("menu/logo.png", 960 / getRelativeModifier(), 86 / getRelativeModifier(), 680 / getRelativeModifier(), 106 / getRelativeModifier(), Layers::Middleground, 255);
+
+    // Help text
+    factory.createText("Press GRAB to start", 960 / getRelativeModifier(), 175 / getRelativeModifier(), 400 / getRelativeModifier(), 50 / getRelativeModifier(), 72, { 0, 0, 0, 255});
 
     // Player 1 selector
     factory.createImage("menu/frame.png", 270 / getRelativeModifier(), 400 / getRelativeModifier(), 380 / getRelativeModifier(), 380 / getRelativeModifier(), Layers::Middleground, 255);
@@ -104,13 +107,13 @@ void Lobby::start() {
     factory.createImage("arrows/right-arrow.png", 1795 / getRelativeModifier(), 380 / getRelativeModifier(), 40 / getRelativeModifier(), 60 / getRelativeModifier(), Layers::Middleground, 255);
 
     // Bottom solid
-    factory.createPlatform(960 / getRelativeModifier(), 1085 / getRelativeModifier(), 1920 / getRelativeModifier(), 10 / getRelativeModifier(), "colors/black.jpg", 255);
+    factory.createPlatform(960 / getRelativeModifier(), 1085 / getRelativeModifier(), 1920 / getRelativeModifier(), 10 / getRelativeModifier(), "colors/black.jpg", 0);
 
     // Left solid
-    factory.createPlatform(-5 / getRelativeModifier(), 540 / getRelativeModifier(), 10 / getRelativeModifier(), 1080 / getRelativeModifier(), "colors/black.jpg", 255);
+    factory.createPlatform(-5 / getRelativeModifier(), 540 / getRelativeModifier(), 10 / getRelativeModifier(), 1080 / getRelativeModifier(), "colors/black.jpg", 0);
 
     // Right solid
-    factory.createPlatform(1925 / getRelativeModifier(), 540 / getRelativeModifier(), 10 / getRelativeModifier(), 1080 / getRelativeModifier(), "colors/black.jpg", 255);
+    factory.createPlatform(1925 / getRelativeModifier(), 540 / getRelativeModifier(), 10 / getRelativeModifier(), 1080 / getRelativeModifier(), "colors/black.jpg", 0);
 
     // Behind button solid
     factory.createPlatform(960 / getRelativeModifier(), 700 / getRelativeModifier(), 350 / getRelativeModifier(), 150 / getRelativeModifier(), "colors/black.jpg", 0);
