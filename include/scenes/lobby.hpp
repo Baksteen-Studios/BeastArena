@@ -35,21 +35,6 @@ private:
     static const int HEIGHT = 1080;
     GameController& game_controller;
 
-    // Buttons
-    std::vector<Button> buttons;
-
-    // Images
-    std::vector<Image> images;
-
-    // Solids
-    std::vector<Solid> solids;
-
-    // Critters
-    std::vector<std::pair<int, int>> critters;
-
-    // Character selection components --> std::pair<player_id, std::pair<x, y>>
-    std::vector<std::pair<int, std::pair<int, int>>> character_selection_components;
-
     std::vector<Character> available_characters = {
         Character::GORILLA,
         Character::PANDA,

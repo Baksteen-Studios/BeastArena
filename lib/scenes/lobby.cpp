@@ -21,12 +21,11 @@
 Lobby::Lobby(EntityFactory& factory, BrickEngine& engine, GameController& game_controller)
     : BeastScene(factory, engine, WIDTH, HEIGHT), game_controller(game_controller) { }
 
-void Lobby::performPrepare() {
-    // General information
-    this->bg_path = "backgrounds/pixel-forest.png";
-    this->bg_music = "music/main.mp3";
+void Lobby::start() {
+    // Create the background
+    factory.createImage("backgrounds/pixel-forest.png", this->screen_width / 2, this->screen_height / 2, this->screen_width, this->screen_height, Layers::Background, 255);
 
-    // Buttons
+    // Load the buttons
     Button back_button = Button();
     back_button.texture_path = "menu/button.png";
     back_button.alpha = 255;
@@ -44,7 +43,7 @@ void Lobby::performPrepare() {
     back_button.on_click = [gm = &game_controller]() {
         gm->loadMainMenu();
     };
-    this->buttons.push_back(back_button);
+    factory.createButton(back_button, getRelativeModifier());
 
     Button start_game_button = Button();
     start_game_button.texture_path = "menu/button.png";
@@ -63,304 +62,91 @@ void Lobby::performPrepare() {
     start_game_button.on_click = [gm = &game_controller]() {
         gm->startGame();
     };
-    this->buttons.push_back(start_game_button);
+    factory.createButton(start_game_button, getRelativeModifier());
 
-    // Images
-    Image logo = Image();
-    logo.texture_path = "menu/logo.png";
-    logo.alpha = 255;
-    logo.x = 960;
-    logo.y = 106;
-    logo.x_scale = 680;
-    logo.y_scale = 106;
-    logo.layer = Layers::Middleground;
-    this->images.push_back(logo);
+    // Logo
+    factory.createImage("menu/logo.png", 960 / getRelativeModifier(), 106 / getRelativeModifier(), 680 / getRelativeModifier(), 106 / getRelativeModifier(), Layers::Middleground, 255);
 
-    Image player1_selector = Image();
-    player1_selector.texture_path = "menu/frame.png";
-    player1_selector.alpha = 255;
-    player1_selector.x = 270;
-    player1_selector.y = 400;
-    player1_selector.x_scale = 380;
-    player1_selector.y_scale = 380;
-    player1_selector.layer = Layers::Middleground;
-    this->images.push_back(player1_selector);
+    // Player 1 selector
+    factory.createImage("menu/frame.png", 270 / getRelativeModifier(), 400 / getRelativeModifier(), 380 / getRelativeModifier(), 380 / getRelativeModifier(), Layers::Middleground, 255);
+    // Player 1 selector background
+    factory.createImage("colors/white.png", 270 / getRelativeModifier(), 370 / getRelativeModifier(), 380 / getRelativeModifier(), 320 / getRelativeModifier(), Layers::Lowground, 90);
+    // Player 1 left arrow
+    factory.createImage("arrows/left-arrow.png", 125 / getRelativeModifier(), 380 / getRelativeModifier(), 40 / getRelativeModifier(), 60 / getRelativeModifier(), Layers::Middleground, 255);
+    // Player 1 right arrow
+    factory.createImage("arrows/right-arrow.png", 415 / getRelativeModifier(), 380 / getRelativeModifier(), 40 / getRelativeModifier(), 60 / getRelativeModifier(), Layers::Middleground, 255);
 
-    Image player1_selector_background = Image();
-    player1_selector_background.texture_path = "colors/white.png";
-    player1_selector_background.alpha = 90;
-    player1_selector_background.x = player1_selector.x;
-    player1_selector_background.y = player1_selector.y - 30;
-    player1_selector_background.x_scale = player1_selector.x_scale;
-    player1_selector_background.y_scale = player1_selector.y_scale - 60;
-    player1_selector_background.layer = Layers::Lowground;
-    this->images.push_back(player1_selector_background);
+    // Player 2 selector
+    factory.createImage("menu/frame.png", 730 / getRelativeModifier(), 400 / getRelativeModifier(), 380 / getRelativeModifier(), 380 / getRelativeModifier(), Layers::Middleground, 255);
+    // Player 2 selector background
+    factory.createImage("colors/white.png", 730 / getRelativeModifier(), 370 / getRelativeModifier(), 380 / getRelativeModifier(), 320 / getRelativeModifier(), Layers::Lowground, 90);
+    // Player 2 left arrow
+    factory.createImage("arrows/left-arrow.png", 585 / getRelativeModifier(), 380 / getRelativeModifier(), 40 / getRelativeModifier(), 60 / getRelativeModifier(), Layers::Middleground, 255);
+    // Player 2 right arrow
+    factory.createImage("arrows/right-arrow.png", 875 / getRelativeModifier(), 380 / getRelativeModifier(), 40 / getRelativeModifier(), 60 / getRelativeModifier(), Layers::Middleground, 255);
 
-    Image player1_left_arrow = Image();
-    player1_left_arrow.texture_path = "arrows/left-arrow.png";
-    player1_left_arrow.alpha = 255;
-    player1_left_arrow.x = 125;
-    player1_left_arrow.y = 380;
-    player1_left_arrow.x_scale = 40;
-    player1_left_arrow.y_scale = 60;
-    player1_left_arrow.layer = Layers::Middleground;
-    this->images.push_back(player1_left_arrow);
+    // Player 3 selector
+    factory.createImage("menu/frame.png", 1190 / getRelativeModifier(), 400 / getRelativeModifier(), 380 / getRelativeModifier(), 380 / getRelativeModifier(), Layers::Middleground, 255);
+    // Player 3 selector background
+    factory.createImage("colors/white.png", 1190 / getRelativeModifier(), 370 / getRelativeModifier(), 380 / getRelativeModifier(), 320 / getRelativeModifier(), Layers::Lowground, 90);
+    // Player 3 left arrow
+    factory.createImage("arrows/left-arrow.png", 1045 / getRelativeModifier(), 380 / getRelativeModifier(), 40 / getRelativeModifier(), 60 / getRelativeModifier(), Layers::Middleground, 255);
+    // Player 3 right arrow
+    factory.createImage("arrows/right-arrow.png", 1335 / getRelativeModifier(), 380 / getRelativeModifier(), 40 / getRelativeModifier(), 60 / getRelativeModifier(), Layers::Middleground, 255);
 
-    Image player1_right_arrow = Image();
-    player1_right_arrow.texture_path = "arrows/right-arrow.png";
-    player1_right_arrow.alpha = 255;
-    player1_right_arrow.x = 415;
-    player1_right_arrow.y = 380;
-    player1_right_arrow.x_scale = 40;
-    player1_right_arrow.y_scale = 60;
-    player1_right_arrow.layer = Layers::Middleground;
-    this->images.push_back(player1_right_arrow);
+    // Player 4 selector
+    factory.createImage("menu/frame.png", 1650 / getRelativeModifier(), 400 / getRelativeModifier(), 380 / getRelativeModifier(), 380 / getRelativeModifier(), Layers::Middleground, 255);
+    // Player 4 selector background
+    factory.createImage("colors/white.png", 1650 / getRelativeModifier(), 370 / getRelativeModifier(), 380 / getRelativeModifier(), 320 / getRelativeModifier(), Layers::Lowground, 90);
+    // Player 4 left arrow
+    factory.createImage("arrows/left-arrow.png", 1505 / getRelativeModifier(), 380 / getRelativeModifier(), 40 / getRelativeModifier(), 60 / getRelativeModifier(), Layers::Middleground, 255);
+    // Player 4 right arrow
+    factory.createImage("arrows/right-arrow.png", 1795 / getRelativeModifier(), 380 / getRelativeModifier(), 40 / getRelativeModifier(), 60 / getRelativeModifier(), Layers::Middleground, 255);
 
-    Image player2_selector = Image();
-    player2_selector.texture_path = "menu/frame.png";
-    player2_selector.alpha = 255;
-    player2_selector.x = 730;
-    player2_selector.y = 400;
-    player2_selector.x_scale = 380;
-    player2_selector.y_scale = 380;
-    player2_selector.layer = Layers::Middleground;
-    this->images.push_back(player2_selector);
+    // Bottom solid
+    factory.createPlatform(960 / getRelativeModifier(), 1085 / getRelativeModifier(), 1920 / getRelativeModifier(), 10 / getRelativeModifier(), "colors/black.jpg", 255);
 
-    Image player2_selector_background = Image();
-    player2_selector_background.texture_path = "colors/white.png";
-    player2_selector_background.alpha = 90;
-    player2_selector_background.x = player2_selector.x;
-    player2_selector_background.y = player2_selector.y - 30;
-    player2_selector_background.x_scale = player2_selector.x_scale;
-    player2_selector_background.y_scale = player2_selector.y_scale - 60;
-    player2_selector_background.layer = Layers::Lowground;
-    this->images.push_back(player2_selector_background);
+    // Left solid
+    factory.createPlatform(-5 / getRelativeModifier(), 540 / getRelativeModifier(), 10 / getRelativeModifier(), 1080 / getRelativeModifier(), "colors/black.jpg", 255);
 
-    Image player2_left_arrow = Image();
-    player2_left_arrow.texture_path = "arrows/left-arrow.png";
-    player2_left_arrow.alpha = 255;
-    player2_left_arrow.x = 585;
-    player2_left_arrow.y = 380;
-    player2_left_arrow.x_scale = 40;
-    player2_left_arrow.y_scale = 60;
-    player2_left_arrow.layer = Layers::Middleground;
-    this->images.push_back(player2_left_arrow);
+    // Right solid
+    factory.createPlatform(1925 / getRelativeModifier(), 540 / getRelativeModifier(), 10 / getRelativeModifier(), 1080 / getRelativeModifier(), "colors/black.jpg", 255);
 
-    Image player2_right_arrow = Image();
-    player2_right_arrow.texture_path = "arrows/right-arrow.png";
-    player2_right_arrow.alpha = 255;
-    player2_right_arrow.x = 875;
-    player2_right_arrow.y = 380;
-    player2_right_arrow.x_scale = 40;
-    player2_right_arrow.y_scale = 60;
-    player2_right_arrow.layer = Layers::Middleground;
-    this->images.push_back(player2_right_arrow);
+    // Behind button solid
+    factory.createPlatform(960 / getRelativeModifier(), 700 / getRelativeModifier(), 350 / getRelativeModifier(), 150 / getRelativeModifier(), "colors/black.jpg", 0);
 
-    Image player3_selector = Image();
-    player3_selector.texture_path = "menu/frame.png";
-    player3_selector.alpha = 255;
-    player3_selector.x = 1190;
-    player3_selector.y = 400;
-    player3_selector.x_scale = 380;
-    player3_selector.y_scale = 380;
-    player3_selector.layer = Layers::Middleground;
-    this->images.push_back(player3_selector);
+    // Left left solid
+    factory.createPlatform(260 / getRelativeModifier(), 900 / getRelativeModifier(), 196 / getRelativeModifier(), 40 / getRelativeModifier(), "platforms/log.png", 255);
 
-    Image player3_selector_background = Image();
-    player3_selector_background.texture_path = "colors/white.png";
-    player3_selector_background.alpha = 90;
-    player3_selector_background.x = player3_selector.x;
-    player3_selector_background.y = player3_selector.y - 30;
-    player3_selector_background.x_scale = player3_selector.x_scale;
-    player3_selector_background.y_scale = player3_selector.y_scale - 60;
-    player3_selector_background.layer = Layers::Lowground;
-    this->images.push_back(player3_selector_background);
+    // Left solid
+    factory.createPlatform(560 / getRelativeModifier(), 700 / getRelativeModifier(), 196 / getRelativeModifier(), 40 / getRelativeModifier(), "platforms/log.png", 255);
 
-    Image player3_left_arrow = Image();
-    player3_left_arrow.texture_path = "arrows/left-arrow.png";
-    player3_left_arrow.alpha = 255;
-    player3_left_arrow.x = 1045;
-    player3_left_arrow.y = 380;
-    player3_left_arrow.x_scale = 40;
-    player3_left_arrow.y_scale = 60;
-    player3_left_arrow.layer = Layers::Middleground;
-    this->images.push_back(player3_left_arrow);
+    // Right right solid
+    factory.createPlatform(1660 / getRelativeModifier(), 900 / getRelativeModifier(), 196 / getRelativeModifier(), 40 / getRelativeModifier(), "platforms/log.png", 255);
 
-    Image player3_right_arrow = Image();
-    player3_right_arrow.texture_path = "arrows/right-arrow.png";
-    player3_right_arrow.alpha = 255;
-    player3_right_arrow.x = 1335;
-    player3_right_arrow.y = 380;
-    player3_right_arrow.x_scale = 40;
-    player3_right_arrow.y_scale = 60;
-    player3_right_arrow.layer = Layers::Middleground;
-    this->images.push_back(player3_right_arrow);
-
-    Image player4_selector = Image();
-    player4_selector.texture_path = "menu/frame.png";
-    player4_selector.alpha = 255;
-    player4_selector.x = 1650;
-    player4_selector.y = 400;
-    player4_selector.x_scale = 380;
-    player4_selector.y_scale = 380;
-    player4_selector.layer = Layers::Middleground;
-    this->images.push_back(player4_selector);
-
-    Image player4_selector_background = Image();
-    player4_selector_background.texture_path = "colors/white.png";
-    player4_selector_background.alpha = 90;
-    player4_selector_background.x = player4_selector.x;
-    player4_selector_background.y = player4_selector.y - 30;
-    player4_selector_background.x_scale = player4_selector.x_scale;
-    player4_selector_background.y_scale = player4_selector.y_scale - 60;
-    player4_selector_background.layer = Layers::Lowground;
-    this->images.push_back(player4_selector_background);
-
-    Image player4_left_arrow = Image();
-    player4_left_arrow.texture_path = "arrows/left-arrow.png";
-    player4_left_arrow.alpha = 255;
-    player4_left_arrow.x = 1505;
-    player4_left_arrow.y = 380;
-    player4_left_arrow.x_scale = 40;
-    player4_left_arrow.y_scale = 60;
-    player4_left_arrow.layer = Layers::Middleground;
-    this->images.push_back(player4_left_arrow);
-
-    Image player4_right_arrow = Image();
-    player4_right_arrow.texture_path = "arrows/right-arrow.png";
-    player4_right_arrow.alpha = 255;
-    player4_right_arrow.x = 1795;
-    player4_right_arrow.y = 380;
-    player4_right_arrow.x_scale = 40;
-    player4_right_arrow.y_scale = 60;
-    player4_right_arrow.layer = Layers::Middleground;
-    this->images.push_back(player4_right_arrow);
-
-    // Solids
-    Solid bottom = Solid();
-    bottom.x = 960;
-    bottom.y = 1085;
-    bottom.xScale = 1920;
-    bottom.yScale = 10;
-    bottom.texture_path = "colors/black.jpg";
-    bottom.alpha = 255;
-    this->solids.push_back(bottom);
-
-    Solid left = Solid();
-    left.x = -5;
-    left.y = 540;
-    left.xScale = 10;
-    left.yScale = 1080;
-    left.texture_path = "colors/black.jpg";
-    left.alpha = 255;
-    this->solids.push_back(left);
-
-    Solid right = Solid();
-    right.x = 1925;
-    right.y = 540;
-    right.xScale = 10;
-    right.yScale = 1080;
-    right.texture_path = "colors/black.jpg";
-    right.alpha = 255;
-    this->solids.push_back(right);
-
-    Solid behind_button = Solid();
-    behind_button.x = start_game_button.x;
-    behind_button.y = start_game_button.y;
-    behind_button.xScale = start_game_button.x_scale;
-    behind_button.yScale = start_game_button.y_scale;
-    behind_button.texture_path = "colors/black.jpg";
-    behind_button.alpha = 0;
-    this->solids.push_back(behind_button);
-
-    Solid left_left_platform = Solid();
-    left_left_platform.x = start_game_button.x - 700;
-    left_left_platform.y = start_game_button.y + 200;
-    left_left_platform.xScale = 196;
-    left_left_platform.yScale = 40;
-    left_left_platform.texture_path = "platforms/log.png";
-    left_left_platform.alpha = 255;
-    this->solids.push_back(left_left_platform);
-
-    Solid left_platform = Solid();
-    left_platform.x = left_left_platform.x + 300;
-    left_platform.y = left_left_platform.y - 200;
-    left_platform.xScale = 196;
-    left_platform.yScale = 40;
-    left_platform.texture_path = "platforms/log.png";
-    left_platform.alpha = 255;
-    this->solids.push_back(left_platform);
-
-    Solid right_right_platform = Solid();
-    right_right_platform.x = start_game_button.x + 700;
-    right_right_platform.y = start_game_button.y + 200;
-    right_right_platform.xScale = 196;
-    right_right_platform.yScale = 40;
-    right_right_platform.texture_path = "platforms/log.png";
-    right_right_platform.alpha = 255;
-    this->solids.push_back(right_right_platform);
-
-    Solid right_platform = Solid();
-    right_platform.x = right_right_platform.x - 300;
-    right_platform.y = right_right_platform.y - 200;
-    right_platform.xScale = 196;
-    right_platform.yScale = 40;
-    right_platform.texture_path = "platforms/log.png";
-    right_platform.alpha = 255;
-    this->solids.push_back(right_platform);
-
-    // Critters
-    this->critters.push_back(std::pair<int, int>(600, 800));
-    this->critters.push_back(std::pair<int, int>(700, 800));
-    this->critters.push_back(std::pair<int, int>(800, 800));
-
-    // Weapons --> DIRECT FACTORY CALLS IN start()
-
-    // Character selection components
-    this->character_selection_components.push_back(std::pair<int, std::pair<int, int>>(1, std::pair<int, int>(player1_selector.x, player1_selector.y)));
-    this->character_selection_components.push_back(std::pair<int, std::pair<int, int>>(2, std::pair<int, int>(player2_selector.x, player2_selector.y)));
-    this->character_selection_components.push_back(std::pair<int, std::pair<int, int>>(3, std::pair<int, int>(player3_selector.x, player3_selector.y)));
-    this->character_selection_components.push_back(std::pair<int, std::pair<int, int>>(4, std::pair<int, int>(player4_selector.x, player4_selector.y)));
-}
-
-void Lobby::start() {
-    // Create the background
-    factory.createImage(this->bg_path, this->screen_width / 2, this->screen_height / 2, this->screen_width, this->screen_height, Layers::Background, 255);
-
-    // Load the buttons
-    for (Button button : this->buttons) {
-        auto ids = factory.createButton(button, getRelativeModifier());
-    }
-
-    // Load the images
-    for(Image image : images) {
-        factory.createImage(image.texture_path, image.x / getRelativeModifier(), image.y / getRelativeModifier(), image.x_scale / getRelativeModifier(), image.y_scale / getRelativeModifier(), image.layer, image.alpha);
-    }
-
-    // Load solids
-    for(Solid solid : solids) {
-        factory.createPlatform(solid.x / getRelativeModifier(), solid.y / getRelativeModifier(), solid.xScale / getRelativeModifier(), solid.yScale / getRelativeModifier(), solid.texture_path, solid.alpha);
-    }
-
+    // Right solid
+    factory.createPlatform(1360 / getRelativeModifier(), 700 / getRelativeModifier(), 196 / getRelativeModifier(), 40 / getRelativeModifier(), "platforms/log.png", 255);
+    
     // Load critters
-    for(auto critter : critters) {
-        factory.createCritter(critter.first / getRelativeModifier(), critter.second / getRelativeModifier());
-    }
+    factory.createCritter(600 / getRelativeModifier(), 800 / getRelativeModifier());
+    factory.createCritter(700 / getRelativeModifier(), 800 / getRelativeModifier());
+    factory.createCritter(800 / getRelativeModifier(), 800 / getRelativeModifier());
 
     // Load weapons
+    // TODO weapon spawners
     factory.createPistol(100, 500, 10);
 
     // Load character selection components
-    for(auto selector : character_selection_components) {
-        factory.createCharacterSelector(selector.first, selector.second.first / getRelativeModifier(), selector.second.second / getRelativeModifier());
-    }
+    factory.createCharacterSelector(1, 270 / getRelativeModifier(), 400 / getRelativeModifier());
+    factory.createCharacterSelector(2, 730 / getRelativeModifier(), 400 / getRelativeModifier());
+    factory.createCharacterSelector(3, 1190 / getRelativeModifier(), 400 / getRelativeModifier());
+    factory.createCharacterSelector(4, 1650 / getRelativeModifier(), 400 / getRelativeModifier());
 
     engine.toggleCursor(true);
 
     if(!engine.getSoundManager().isPlaying()) {
-        engine.getSoundManager().playMusic(this->bg_music);
+        engine.getSoundManager().playMusic("music/main.mp3");
     }
-
 
     auto& input = BrickInput<PlayerInput>::getInstance();
     input.setTimeToWait(1, PlayerInput::X_AXIS, 0.1);
@@ -402,3 +188,5 @@ void Lobby::leave() {
         em.removeTag(entity_id, this->getTag());
     }
 }
+
+void Lobby::performPrepare() { }
