@@ -24,24 +24,24 @@
 EntityFactory::EntityFactory(std::shared_ptr<EntityManager> em, RenderableFactory& rf) : entityManager(em), renderableFactory(rf) {
     player_on_death = [em = entityManager](int entity_id) {
         auto transform = em->getComponent<TransformComponent>(entity_id);
-        transform->y_direction = Direction::NEGATIVE;
         auto player = em->getComponent<PlayerComponent>(entity_id);
-        player->disabled = true;
         auto collider = em->getComponent<RectangleColliderComponent>(entity_id);
+        transform->y_direction = Direction::NEGATIVE;
+        player->disabled = true;
         collider->is_trigger = true;
         em->addComponentToEntity(entity_id, std::make_unique<PickupComponent>(true, false));
     };
     player_revive = [em = entityManager](int entity_id) {
         auto transform = em->getComponent<TransformComponent>(entity_id);
-        transform->y_direction = Direction::POSITIVE;
         auto player = em->getComponent<PlayerComponent>(entity_id);
-        player->disabled = false;
         auto collider = em->getComponent<RectangleColliderComponent>(entity_id);
+        auto physics = em->getComponent<PhysicsComponent>(entity_id);
+        auto health = em->getComponent<HealthComponent>(entity_id);
+        transform->y_direction = Direction::POSITIVE;
+        player->disabled = false;
         collider->is_trigger = false;
         em->removeComponentFromEntity<PickupComponent>(entity_id);
-        auto physics = em->getComponent<PhysicsComponent>(entity_id);
         physics->kinematic = Kinematic::IS_NOT_KINEMATIC;
-        auto health = em->getComponent<HealthComponent>(entity_id);
         health->health = health->max_health;
     };
 }
@@ -170,8 +170,8 @@ int EntityFactory::createRifle(double x_pos, double y_pos, bool ammo) const {
         PhysicsComponent(1, 0, 2500, 0, false, Kinematic::IS_NOT_KINEMATIC, false, false, CollisionDetectionType::Continuous),
         DespawnComponent(true, true),
         RectangleColliderComponent(1, 1, 1, false),
-        Scale(12, 4),
-        1.0, ammoOpt));
+        Scale(12, 4), 
+        0.1, ammoOpt));
 
     int entity = entityManager->createEntity(std::move(comps), std::nullopt);
     entityManager->setTag(entity, "Weapon");
