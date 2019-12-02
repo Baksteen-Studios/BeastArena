@@ -32,7 +32,8 @@ public:
     int createCheetah(int player_id) const;
     int createElephant(int player_id) const;
     int createCritter(double x_pos, double y_pos) const;
-    int createSpawner(double x_pos, double y_pos, std::vector<GadgetType> available_spawns, int respawn_timer)  const;
+    int createSpawner(double x_pos, double y_pos, std::vector<GadgetType> available_spawns, int respawn_timer,
+                      bool always_respawn)  const;
     int createImage(std::string path, int x_pos, int y_pos, int x_scale, int y_scale, Layers layer, int alpha);
     int createPlatform(double x_pos, double y_pos, double x_scale, double y_scale, std::string path, int alpha);
     std::pair<int, int> createButton(const Button button, const double relative_modifier);
@@ -45,9 +46,9 @@ private:
     inline static const int POINTS_ON_KILL_PLAYER = 10;
     HealthComponent::EntityFunction player_on_death;
     HealthComponent::EntityFunction player_revive;
-    SpawnComponent::CreateGadgetCompsFn createPistolComponents;
-    SpawnComponent::CreateGadgetCompsFn createRifleComponents;
-    SpawnComponent::CreateGadgetCompsFn createSniperComponents;
+    SpawnComponent::CreateCompsFn createPistolComponents;
+    SpawnComponent::CreateCompsFn createRifleComponents;
+    SpawnComponent::CreateCompsFn createSniperComponents;
 };
 
 #endif // FILE_ENTITY_FACTORY_HPP

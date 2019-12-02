@@ -41,6 +41,7 @@ void LevelScene::performPrepare() {
         gadget_spawn.respawn_timer = gadget_spawn_json.getInt("respawn_timer");
         gadget_spawn.x = gadget_spawn_json.getInt("x");
         gadget_spawn.y = gadget_spawn_json.getInt("y");
+        gadget_spawn.always_respawn = gadget_spawn_json.getBool("always_respawn");
 
         this->gadget_spawns.push_back(gadget_spawn);
     }
@@ -87,7 +88,8 @@ void LevelScene::start() {
         int spawner = factory.createSpawner(gadget_spawns[i].x / getRelativeModifier(),
          gadget_spawns[i].y / getRelativeModifier(), 
          gadget_spawns[i].available_spawns, 
-         gadget_spawns[i].respawn_timer);
+         gadget_spawns[i].respawn_timer,
+         gadget_spawns[i].always_respawn);
     }
 
     // Create the background

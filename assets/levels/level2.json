@@ -29,6 +29,7 @@
             "type": "weapon",
             "available_spawns": ["pistol", "rifle", "sniper"],
             "respawn_timer": 5,
+            "always_respawn": true,
             "x": 1000,
             "y": 200
         },
@@ -36,6 +37,7 @@
             "type": "weapon",
             "available_spawns": ["rifle", "sniper"],
             "respawn_timer": 5,
+            "always_respawn": false,
             "x": 1200,
             "y": 200
         },
@@ -43,6 +45,7 @@
             "type": "weapon",
             "available_spawns": ["sniper"],
             "respawn_timer": 5,
+            "always_respawn": false,
             "x": 500,
             "y": 200
         }

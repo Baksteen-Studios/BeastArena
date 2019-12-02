@@ -11,6 +11,7 @@ public:
     double respawn_timer;
     int x;
     int y;
+    bool always_respawn;
 };
 
 #endif // FILE_GADGET_SPAWN_HPP

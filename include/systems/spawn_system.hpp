@@ -4,9 +4,9 @@
 #include "systems/beast_system.hpp"
 #include "brickengine/collision_detector.hpp"
 
-class GadgetSpawnSystem : public BeastSystem {
+class SpawnSystem : public BeastSystem {
 public:
-    GadgetSpawnSystem(std::shared_ptr<EntityManager> em, std::shared_ptr<EntityFactory> ef);
+    SpawnSystem(std::shared_ptr<EntityManager> em, std::shared_ptr<EntityFactory> ef);
     void update(double delta_time);
 };
 

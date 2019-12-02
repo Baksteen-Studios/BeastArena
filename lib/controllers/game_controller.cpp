@@ -33,7 +33,7 @@ using namespace std::chrono_literals;
 #include "systems/movement_system.hpp"
 #include "systems/critter_system.hpp"
 #include "systems/game_system.hpp"
-#include "systems/gadget_spawn_system.hpp"
+#include "systems/spawn_system.hpp"
 
 #include "entities/layers.hpp"
 #include "player_input.hpp"
@@ -110,7 +110,7 @@ void GameController::createGameStateManager() {
     state_systems->at(GameState::InGame)->push_back(std::make_unique<WeaponSystem>(collisionDetector, entityManager, entityFactory));
     state_systems->at(GameState::InGame)->push_back(std::make_unique<DamageSystem>(collisionDetector, entityManager, entityFactory));
     state_systems->at(GameState::InGame)->push_back(std::make_unique<DespawnSystem>(collisionDetector, entityManager, SCREEN_WIDTH, SCREEN_HEIGHT));
-    state_systems->at(GameState::InGame)->push_back(std::make_unique<GadgetSpawnSystem>(entityManager, entityFactory));
+    state_systems->at(GameState::InGame)->push_back(std::make_unique<SpawnSystem>(entityManager, entityFactory));
     state_systems->at(GameState::InGame)->push_back(std::make_unique<RenderingSystem>(entityManager, *engine->getRenderer()));
 
     std::unordered_map<GameState, bool> reset_on_set_state;

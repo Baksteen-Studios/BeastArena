@@ -198,8 +198,8 @@ int EntityFactory::createElephant(int player_id) const {
     return entity;
 }
 
-int EntityFactory::createSpawner(double x_pos, double y_pos,
-                                 std::vector<GadgetType> gadget_types, int respawn_timer) const {
+int EntityFactory::createSpawner(double x_pos, double y_pos, std::vector<GadgetType> gadget_types,
+                                 int respawn_timer, bool always_respawn) const {
     auto dst = std::unique_ptr<Rect>(new Rect{ 0, 0, 0, 0 });
     auto r = renderableFactory.createImage(GRAPHICS_PATH + "weapons/spawner-2.png",
                                            (int)Layers::Foreground, std::move(dst), 255);
@@ -207,21 +207,21 @@ int EntityFactory::createSpawner(double x_pos, double y_pos,
 
     comps->push_back(std::make_unique<TransformComponent>(x_pos, y_pos, 48, 9, Direction::POSITIVE, Direction::POSITIVE));
     comps->push_back(std::make_unique<TextureComponent>(std::move(r)));
-    std::vector<SpawnComponent::CreateGadgetCompsFn> gadget_fns;
+    std::vector<SpawnComponent::CreateCompsFn> comps_fns;
     for (auto& type : gadget_types) {
         switch (type) {
             case GadgetType::Pistol:
-                gadget_fns.push_back(createPistolComponents);
+                comps_fns.push_back(createPistolComponents);
                 break;
             case GadgetType::Rifle:
-                gadget_fns.push_back(createRifleComponents);
+                comps_fns.push_back(createRifleComponents);
                 break;
             case GadgetType::Sniper:
-                gadget_fns.push_back(createSniperComponents);
+                comps_fns.push_back(createSniperComponents);
                 break;
         }
     }
-    comps->push_back(std::make_unique<SpawnComponent>(respawn_timer, gadget_fns));
+    comps->push_back(std::make_unique<SpawnComponent>(respawn_timer, comps_fns, always_respawn));
 
     int entity = entityManager->createEntity(std::move(comps), std::nullopt);
     entityManager->setTag(entity, "Spawner");
