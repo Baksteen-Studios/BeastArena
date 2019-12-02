@@ -9,7 +9,7 @@ class DamageSystem : public BeastSystem {
 public:
     DamageSystem(CollisionDetector2& cd, std::shared_ptr<EntityManager> em, std::shared_ptr<EntityFactory> ef);
     void update(double delta_time);
-    void collide(DamageComponent* damage_comp, ContinuousCollision collision);
+    void collide(DamageComponent& damage_comp, const Collision& collision);
 private:
     CollisionDetector2& collision_detector;
 };

@@ -137,7 +137,7 @@ int EntityFactory::createPistol(double x_pos, double y_pos, bool ammo) const {
     comps->push_back(std::make_unique<TextureComponent>(std::move(weapon_r)));
     comps->push_back(std::make_unique<PickupComponent>());
     comps->push_back(std::make_unique<WeaponComponent>(
-        DamageComponent(25),
+        DamageComponent(25, true),
         TextureComponent(std::move(bullet_r)),
         PhysicsComponent(1, 0, 2250, 0, false, Kinematic::IS_NOT_KINEMATIC, false, false, CollisionDetectionType::Continuous),
         DespawnComponent(true, true),
@@ -165,7 +165,7 @@ int EntityFactory::createRifle(double x_pos, double y_pos, bool ammo) const {
     comps->push_back(std::make_unique<TextureComponent>(std::move(weapon_r)));
     comps->push_back(std::make_unique<PickupComponent>());
     comps->push_back(std::make_unique<WeaponComponent>(
-        DamageComponent(50),
+        DamageComponent(50, true),
         TextureComponent(std::move(bullet_r)),
         PhysicsComponent(1, 0, 2500, 0, false, Kinematic::IS_NOT_KINEMATIC, false, false, CollisionDetectionType::Continuous),
         DespawnComponent(true, true),
@@ -193,7 +193,7 @@ int EntityFactory::createSniper(double x_pos, double y_pos, bool ammo) const {
     comps->push_back(std::make_unique<TextureComponent>(std::move(weapon_r)));
     comps->push_back(std::make_unique<PickupComponent>());
     comps->push_back(std::make_unique<WeaponComponent>(
-        DamageComponent(50),
+        DamageComponent(50, true),
         TextureComponent(std::move(bullet_r)),
         PhysicsComponent(1, 0, 3000, 0, false, Kinematic::IS_NOT_KINEMATIC, false, false, CollisionDetectionType::Continuous),
         DespawnComponent(true, true),

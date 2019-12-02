@@ -37,35 +37,9 @@ void DespawnSystem::update(double) {
                 continue;
             }
         }
-        // todo make it work with discrete (damage as well)
         if (despawn_comp->despawn_on_collision) {
-            {
-                auto collision = collision_detector.detectContinuousCollision(entity_id, Axis::X, Direction::NEGATIVE);
-                if (collision.space_left >= 0 && collision.opposite_id && !collision.is_trigger) {
-                    entityManager->removeEntity(entity_id);
-                    continue;
-                }                    
-            }
-            {
-                auto collision = collision_detector.detectContinuousCollision(entity_id, Axis::X, Direction::POSITIVE);
-                if (collision.space_left <= 0 && collision.opposite_id && !collision.is_trigger) {
-                    entityManager->removeEntity(entity_id);
-                    continue;
-                }
-            }
-            {
-                auto collision = collision_detector.detectContinuousCollision(entity_id, Axis::Y, Direction::NEGATIVE);
-                if (collision.space_left >= 0 && collision.opposite_id && !collision.is_trigger) {
-                    entityManager->removeEntity(entity_id);
-                    continue;
-                }
-            }
-            {
-                auto collision = collision_detector.detectContinuousCollision(entity_id, Axis::Y, Direction::POSITIVE);
-                if (collision.space_left <= 0 && collision.opposite_id && !collision.is_trigger) {
-                    entityManager->removeEntity(entity_id);
-                    continue;
-                }
+            if (!collision_detector.detectCollision(entity_id).empty()) {
+                entityManager->removeEntity(entity_id);
             }
         }
     }

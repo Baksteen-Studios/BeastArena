@@ -219,25 +219,22 @@ void GameController::gameLoop() {
         engine->getRenderer()->drawScreen();
 
 #ifdef PERFORMANCE_DEBUGGING
-        std::cout << "space left calculations: " << collisionDetector->space_left_calculated_counter << std::endl;
-        std::cout << "space left cache hits: " << collisionDetector->space_left_cache_hits << std::endl;
-        std::cout << "trigger calculations: " << collisionDetector->trigger_calculated_counter << std::endl;
-        std::cout << "trigger cache hits: " << collisionDetector->trigger_cache_hits << std::endl;
-        std::cout << "fps: " << engine->getFps() << std::endl;
-        std::cout << "colliders: " << entityManager->getEntitiesByComponent<RectangleColliderComponent>().size() << std::endl;
-        std::cout << totalTime << std::endl;
+        CollisionDetector2CacheInfo collision_cache_info = collision_detector->getCacheInfo();
+        std::cout << "Collision Detector 2 © - continuous calculations: " << collision_cache_info.continuous_calculations_counter << std::endl;
+        std::cout << "Collision Detector 2 © - continuous cache hits: " << collision_cache_info.continuous_calculations_counter << std::endl;
+        std::cout << "Collision Detector 2 © - discrete calculations: " << collision_cache_info.discrete_calculated_counter << std::endl;
+        std::cout << "Collision Detector 2 © - discrete cache hits:  " << collision_cache_info.discrete_cache_hits << std::endl;
+        std::cout << "FPS: " << engine->getFps() << std::endl;
+        std::cout << "Entities with colliders: " << entityManager->getEntitiesByComponent<RectangleColliderComponent>().size() << std::endl;
+        std::cout << "Total running time: " << totalTime << std::endl;
         int total = 0;
         for (int& fps : fps_history) {
             total += fps;
         }
-        std::cout << "average fps: " << total / fps_history.size() << std::endl;
+        std::cout << "Average FPS: " << total / fps_history.size() << std::endl;
 #endif // PERFORMANCE_DEBUGGING
 
-        // collisionDetector->clearCache();
-        // collisionDetector->space_left_cache_hits = 0;
-        // collisionDetector->space_left_calculated_counter = 0;
-        // collisionDetector->trigger_cache_hits = 0;
-        // collisionDetector->trigger_calculated_counter = 0;
+        collision_detector->invalidateCache();
 
         auto end_time = std::chrono::high_resolution_clock::now();
         engine->delay(start_time, end_time);
