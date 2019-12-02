@@ -65,8 +65,9 @@ int EntityFactory::createGorilla(int player_id) const {
 }
 
 int EntityFactory::createPanda(int player_id) const {
-    auto dst = std::unique_ptr<Rect>(new Rect{ 0, 0, 0, 0 });
-    auto r = renderableFactory.createImage(GRAPHICS_PATH + "beasts/panda/panda-1.png", (int)Layers::Foreground, std::move(dst), 255);
+    auto src = std::unique_ptr<Rect>(new Rect{ 0, 0, 20, 32});
+    auto dst = std::unique_ptr<Rect>(new Rect{ 10, 10, 20, 32 });
+    auto r = renderableFactory.createImage(GRAPHICS_PATH + "beasts/panda/pande_walking.png", (int)Layers::Foreground, std::move(dst), std::move(src), 255);
     auto comps = std::make_unique<std::vector<std::unique_ptr<Component>>>();
 
     comps->push_back(std::make_unique<TransformComponent>(-2000, -2000, 63, 100, Direction::POSITIVE, Direction::POSITIVE));
