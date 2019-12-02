@@ -42,18 +42,56 @@ void MainMenu::performPrepare() {
     };
     this->buttons.push_back(start_game_button);
 
+    Button help_button = Button();
+    help_button.texture_path = "menu/button.png";
+    help_button.alpha = 255;
+    help_button.x = 960;
+    help_button.y = 520;
+    help_button.x_scale = 400;
+    help_button.y_scale = 100;
+    help_button.text.text = "Help";
+    help_button.text.font_size = 72;
+    help_button.text.color = { 255, 255, 255, 255 };
+    help_button.text.x = 960;
+    help_button.text.y = 515;
+    help_button.text.x_scale = 200;
+    help_button.text.y_scale = 100;
+    help_button.on_click = [gm = &game_controller]() {
+        gm->loadHelp();
+    };
+    this->buttons.push_back(help_button);
+
+    Button credits_button = Button();
+    credits_button.texture_path = "menu/button.png";
+    credits_button.alpha = 255;
+    credits_button.x = 960;
+    credits_button.y = 640;
+    credits_button.x_scale = 400;
+    credits_button.y_scale = 100;
+    credits_button.text.text = "Credits";
+    credits_button.text.font_size = 72;
+    credits_button.text.color = { 255, 255, 255, 255 };
+    credits_button.text.x = 960;
+    credits_button.text.y = 635;
+    credits_button.text.x_scale = 250;
+    credits_button.text.y_scale = 100;
+    credits_button.on_click = [gm = &game_controller]() {
+        gm->loadCredits();
+    };
+    this->buttons.push_back(credits_button);
+
     Button exit_game_button = Button();
     exit_game_button.texture_path = "menu/button.png";
     exit_game_button.alpha = 255;
     exit_game_button.x = 960;
-    exit_game_button.y = 520;
+    exit_game_button.y = 760;
     exit_game_button.x_scale = 400;
     exit_game_button.y_scale = 100;
     exit_game_button.text.text = "Exit game";
     exit_game_button.text.font_size = 72;
     exit_game_button.text.color = { 255, 255, 255, 255 };
     exit_game_button.text.x = 960;
-    exit_game_button.text.y = 515;
+    exit_game_button.text.y = 755;
     exit_game_button.text.x_scale = 400;
     exit_game_button.text.y_scale = 100;
     exit_game_button.on_click = [gm = &game_controller]() {

@@ -28,6 +28,8 @@ public:
     void loadLevels();
     void loadNextLevel();
     void loadMainMenu();
+    void loadHelp();
+    void loadCredits();
     void loadEndGameLevel();
     void intermission(int timer);
 

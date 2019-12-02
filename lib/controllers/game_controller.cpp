@@ -54,6 +54,9 @@ using namespace std::chrono_literals;
 #include "scenes/data/level/solid.hpp"
 #include "scenes/main_menu.hpp"
 #include "scenes/lobby.hpp"
+#include "scenes/help_scene.hpp"
+#include "scenes/credits_scene.hpp"
+
 #include "components/stats_component.hpp"
 #include "scenes/level_scene.hpp"
 #include "scenes/intermission_scene.hpp"
@@ -98,16 +101,13 @@ GameController::GameController() {
 
 void GameController::createGameStateManager() {
     auto state_systems = std::make_unique<GameStateManager<GameState>::StateSystems>();
-    state_systems->insert({ GameState::MainMenu, std::make_unique<GameStateManager<GameState>::Systems>() });
+    state_systems->insert({ GameState::Menu, std::make_unique<GameStateManager<GameState>::Systems>() });
     state_systems->insert({ GameState::Lobby, std::make_unique<GameStateManager<GameState>::Systems>() });
     state_systems->insert({ GameState::InGame, std::make_unique<std::vector<std::unique_ptr<System>>>() });
 
-    // Main Menu
-    state_systems->at(GameState::MainMenu)->push_back(std::make_unique<GameSpeedSystem>(entityManager, *delta_time_modifier.get()));
-    state_systems->at(GameState::MainMenu)->push_back(std::make_unique<ClickSystem>(entityManager));
-    state_systems->at(GameState::MainMenu)->push_back(std::make_unique<RenderingSystem>(entityManager, *engine->getRenderer()));
-    state_systems->at(GameState::MainMenu)->push_back(std::make_unique<ClickSystem>(entityManager));
-    state_systems->at(GameState::MainMenu)->push_back(std::make_unique<RenderingSystem>(entityManager, *engine->getRenderer()));
+    // Menu
+    state_systems->at(GameState::Menu)->push_back(std::make_unique<ClickSystem>(entityManager));
+    state_systems->at(GameState::Menu)->push_back(std::make_unique<RenderingSystem>(entityManager, *engine->getRenderer()));
 
     // Lobby
     state_systems->at(GameState::Lobby)->push_back(std::make_unique<LobbySystem>(entityFactory, entityManager));
@@ -141,8 +141,8 @@ void GameController::createGameStateManager() {
     std::unordered_map<GameState, bool> reset_on_set_state;
     reset_on_set_state.insert({ GameState::InGame, true });
     reset_on_set_state.insert({ GameState::EndGame, true });
-    reset_on_set_state.insert({ GameState::MainMenu, true });
     reset_on_set_state.insert({ GameState::Lobby, true });
+    reset_on_set_state.insert({ GameState::Menu, true });
     reset_on_set_state.insert({ GameState::Paused, false });
 
     GameState begin_state = GameState::Unintialized;
@@ -385,6 +385,17 @@ void GameController::loadMainMenu() {
     scene_manager->destroyAllScenes();
     scene_manager->createScene<MainMenu>(*entityFactory, *engine, *this);
 }
+
+void GameController::loadHelp() {
+    scene_manager->destroyAllScenes();
+    scene_manager->createScene<HelpScene>(*entityFactory, *engine, *this);
+}
+
+void GameController::loadCredits() {
+    scene_manager->destroyAllScenes();
+    scene_manager->createScene<CreditsScene>(*entityFactory, *engine, *this);
+}
+
 void GameController::loadEndGameLevel() {
     // entity_id and points
     std::vector<std::pair<int, int>> results;
