@@ -17,7 +17,7 @@ void SpawnSystem::update(double deltatime) {
         if (!spawn->always_respawn) {
             // If the spawned entity is still surviving
             if (spawn->spawned_entity)
-                if (entityManager->entity_exists(*spawn->spawned_entity)) continue;
+                if (entityManager->entityExists(*spawn->spawned_entity)) continue;
         }
         
         // If spawner has a child (gadget spawned) : continue
