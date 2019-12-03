@@ -14,15 +14,21 @@ LobbySystem::LobbySystem(std::shared_ptr<EntityFactory> ef, std::shared_ptr<Enti
 void LobbySystem::update(double) {
     auto& input = BrickInput<PlayerInput>::getInstance();
 
-    auto selectorEntities = em->getEntitiesByComponent<CharacterSelectionComponent>();
+    auto selector_entities = em->getEntitiesByComponent<CharacterSelectionComponent>();
 
-    for(auto& [entity_id, selector] : selectorEntities) {
+    for(auto& [entity_id, selector] : selector_entities) {
         if(input.checkInput(selector->player_id, PlayerInput::GRAB)) {
             if(!selector->joined) {
                 // Player wants to play
                 selector->joined = true;
-                ef->createCharacterSelectorTexture(entity_id);
-                selector->selected_character = Character::GORILLA;
+                for(auto& character : picked_characters) {
+                    // Select the first available character
+                    if(!character.second) {
+                        selector->selected_character = character.first;
+                        ef->changeCharacterSelectorTexture(entity_id, character.first, true);
+                        break;
+                    }
+                }
             } else {
                 // Player selected character
                 if(!selector->picked) {
@@ -43,6 +49,22 @@ void LobbySystem::update(double) {
                                     break;
                                 }
                             }
+
+                            // Update the other selector so they do not show the character chosen by this player
+                            auto selector_entities_2 = em->getEntitiesByComponent<CharacterSelectionComponent>();
+                            for(auto& [entity_id_2, selector_2] : selector_entities_2) {
+                                if(entity_id != entity_id_2 && selector_2->joined && !selector_2->picked && selector_2->selected_character == selector->selected_character) {
+                                    // This is not the current selector, the player has joined but not picked a character and the character currently displayed is just picked by the other player
+                                    for(auto& character : picked_characters) {
+                                    // Select the first available character
+                                    if(!character.second) {
+                                        selector_2->selected_character = character.first;
+                                        ef->changeCharacterSelectorTexture(entity_id_2, character.first, true);
+                                        break;
+                                    }
+                                }
+                                }
+                            }
                         }
                         selector->picked = true;
 
@@ -61,24 +83,32 @@ void LobbySystem::update(double) {
         }
 
         bool changed = false;
+        int change_amount = 1; // This int is needed when looking for the first available character
         if(selector->joined && !selector->picked) {
             auto x_movement = input.checkInput(selector->player_id, PlayerInput::X_AXIS);
             if (x_movement < 0) {
                 // Left
                 for(auto character : picked_characters) {
                     if(character.first == selector->selected_character) {
-                        auto iterator = std::find(picked_characters.begin(), picked_characters.end(), character);
-                        int index = std::distance(picked_characters.begin(), iterator);
+                        while(!changed) {
+                            auto iterator = std::find(picked_characters.begin(), picked_characters.end(), character);
+                            int index = std::distance(picked_characters.begin(), iterator);
 
-                        int new_index = 0;
-                        if(index == 0) {
-                            new_index = picked_characters.size() - 1;
-                        } else {
-                            new_index = index - 1;
+                            int new_index = 0;
+                            if(index - change_amount < 0) {
+                                new_index = picked_characters.size() - ((index - change_amount) * -1);
+                            } else {
+                                new_index = index - change_amount;
+                            }
+
+                            if(picked_characters.at(new_index).second) {
+                                // This character is already picked
+                                change_amount++;
+                            } else {
+                                selector->selected_character = picked_characters.at(new_index).first;
+                                changed = true;
+                            }
                         }
-                        selector->selected_character = picked_characters.at(new_index).first;
-
-                        changed = true;
                         break;
                     }
                 }
@@ -86,18 +116,25 @@ void LobbySystem::update(double) {
                 // Right
                 for(auto character : picked_characters) {
                     if(character.first == selector->selected_character) {
-                        auto iterator = std::find(picked_characters.begin(), picked_characters.end(), character);
-                        int index = std::distance(picked_characters.begin(), iterator);
+                        while(!changed) {
+                            auto iterator = std::find(picked_characters.begin(), picked_characters.end(), character);
+                            int index = std::distance(picked_characters.begin(), iterator);
 
-                        int new_index = 0;
-                        if(index == picked_characters.size() - 1) {
-                            new_index = 0;
-                        } else {
-                            new_index = index + 1;
+                            int new_index = 0;
+                            if(index + change_amount > picked_characters.size() - 1) {
+                                new_index = 0 + ((index + change_amount) - picked_characters.size());
+                            } else {
+                                new_index = index + change_amount;
+                            }
+
+                            if(picked_characters.at(new_index).second) {
+                                // This character is already picked
+                                change_amount++;
+                            } else {
+                                selector->selected_character = picked_characters.at(new_index).first;
+                                changed = true;
+                            }
                         }
-                        selector->selected_character = picked_characters.at(new_index).first;
-
-                        changed = true;
                         break;
                     }
                 }
@@ -105,7 +142,7 @@ void LobbySystem::update(double) {
         }
 
         if(changed) {
-            entity_factory->changeCharacterSelectorTexture(entity_id, selector->selected_character);
+            entity_factory->changeCharacterSelectorTexture(entity_id, selector->selected_character, false);
         }
     }
 }

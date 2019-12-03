@@ -262,20 +262,11 @@ int EntityFactory::createCharacterSelector(int player_id, int x, int y) {
     return entityManager->createEntity(std::move(comps));
 }
 
-void EntityFactory::createCharacterSelectorTexture(int entity_id){
-    auto dst = std::unique_ptr<Rect>(new Rect{ 0, 0 , 0, 0});
-    auto r = renderableFactory.createImage(GRAPHICS_PATH + "beasts/gorilla/gorilla-1.png", (int)Layers::Middleground, std::move(dst), 255);
-    entityManager->addComponentToEntity(entity_id, std::make_unique<TextureComponent>(std::move(r)));
-
-    entityManager->getComponent<TransformComponent>(entity_id)->x_scale = 50;
-    entityManager->getComponent<TransformComponent>(entity_id)->y_scale = 100;
-}
-
-void EntityFactory::changeCharacterSelectorTexture(int entity_id, Character character){
-    entityManager->removeComponentFromEntity<TextureComponent>(entity_id);
-
+void EntityFactory::changeCharacterSelectorTexture(int entity_id, Character character, bool create){
+    if(!create)
+        entityManager->removeComponentFromEntity<TextureComponent>(entity_id);
+    
     auto character_specs = getCharacterSpecs(character);
-
     auto dst = std::unique_ptr<Rect>(new Rect{ 0, 0 , 0, 0});
     auto r = renderableFactory.createImage(GRAPHICS_PATH + character_specs.path, (int)Layers::Middleground, std::move(dst), 255);
     entityManager->addComponentToEntity(entity_id, std::make_unique<TextureComponent>(std::move(r)));
