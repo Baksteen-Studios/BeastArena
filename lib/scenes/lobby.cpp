@@ -70,7 +70,7 @@ void Lobby::start() {
     factory.createImage("menu/logo.png", 960 / getRelativeModifier(), 86 / getRelativeModifier(), 680 / getRelativeModifier(), 106 / getRelativeModifier(), Layers::Middleground, 255);
 
     // Help text
-    factory.createText("Press GRAB to start", 960 / getRelativeModifier(), 175 / getRelativeModifier(), 400 / getRelativeModifier(), 50 / getRelativeModifier(), 72, { 0, 0, 0, 255});
+    factory.createText("Press GRAB to start, use movement to select and press GRAB again to confirm", 960 / getRelativeModifier(), 175 / getRelativeModifier(), 1200 / getRelativeModifier(), 50 / getRelativeModifier(), 72, { 0, 0, 0, 255});
 
     // Player 1 selector
     factory.createImage("menu/frame.png", 270 / getRelativeModifier(), 400 / getRelativeModifier(), 380 / getRelativeModifier(), 380 / getRelativeModifier(), Layers::Middleground, 255);
