@@ -2,6 +2,7 @@
 
 #include <string>
 #include <functional>
+#include <vector>
 
 #include "entities/entity_factory.hpp"
 #include "brickengine/scenes/scene_manager.hpp"
@@ -17,6 +18,7 @@
 #include "player_input.hpp"
 #include "components/character_selection_component.hpp"
 #include "brickengine/std/random.hpp"
+#include "enums/gadget_type.hpp"
 
 Lobby::Lobby(EntityFactory& factory, BrickEngine& engine, GameController& game_controller)
     : BeastScene(factory, engine, WIDTH, HEIGHT), game_controller(game_controller) { }
@@ -135,9 +137,9 @@ void Lobby::start() {
     factory.createCritter(700 / getRelativeModifier(), 800 / getRelativeModifier());
     factory.createCritter(800 / getRelativeModifier(), 800 / getRelativeModifier());
 
-    // Load weapons
-    // TODO weapon spawners
-    factory.createPistol(100, 500, 10);
+    // Load weapon spawners
+    factory.createSpawner(300 / getRelativeModifier(), 1080 / getRelativeModifier(), std::vector<GadgetType>{ GadgetType::Pistol, GadgetType::Rifle, GadgetType::Sniper }, 5, true);
+    factory.createSpawner(1620 / getRelativeModifier(), 1080 / getRelativeModifier(), std::vector<GadgetType>{ GadgetType::Pistol, GadgetType::Rifle, GadgetType::Sniper }, 5, true);
 
     // Load character selection components
     factory.createCharacterSelector(1, 270 / getRelativeModifier(), 400 / getRelativeModifier());
