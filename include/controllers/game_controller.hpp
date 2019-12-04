@@ -23,7 +23,9 @@ public:
     SceneManager<GameState>& getSceneManager() const;
     int getScreenWidth() const;
     int getScreenHeight() const;
+    void loadLobby();
     void startGame();
+    void exitGame();
     void loadLevels();
     void loadNextLevel();
     void loadMainMenu();
@@ -36,6 +38,7 @@ public:
     inline static const int SCREEN_WIDTH = 1600;
 private:
     inline static const std::string END_GAME_PATH = "assets/stdlevels/endgame.json";
+    bool should_quit;
 
     void createGameStateManager();
     void setupInput();
@@ -51,6 +54,7 @@ private:
     std::unique_ptr<Renderable> fps_counter;
     double delta_time;
     int fps_cap;
+    std::unique_ptr<double> delta_time_modifier;
 
     std::queue<std::string> level_queue;
 

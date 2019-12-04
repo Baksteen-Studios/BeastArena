@@ -47,8 +47,12 @@ void HighscoreScene::start() {
     for (auto& comp : entity_components) {
         factory.addToEntityManager(std::move(comp), std::nullopt, "highscore_player");
     }
+
+    auto& input = BrickInput<PlayerInput>::getInstance();
+    input.setTimeToWait(1, PlayerInput::X_AXIS, 0.1);
 }
 
 void HighscoreScene::leave() {
-
+    auto& input = BrickInput<PlayerInput>::getInstance();
+    input.removeTimeToWait(1, PlayerInput::X_AXIS);
 }

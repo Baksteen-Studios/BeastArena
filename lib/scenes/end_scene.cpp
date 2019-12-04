@@ -47,40 +47,32 @@ void EndScene::performPrepare() {
 void EndScene::start() {
     auto& em = factory.getEntityManager();
     auto entities_with_player = em.getEntitiesByComponent<PlayerComponent>();
-
     // entity_id and points
     std::vector<std::pair<int, int>> results;
   
+    int spawn = 0;
     for (auto& [ entity_id, player ] : entities_with_player) {
         auto stats = em.getComponent<StatsComponent>(entity_id);
         results.push_back(std::make_pair(entity_id, stats->levels_won));
-    }
 
-    std::sort(results.begin(), results.end(), [](auto lhs, auto rhs) {
-        return lhs.second > rhs.second;
-    });
-
-    int player_count = 0;
-    for(Json player_spawn_json : json.getVector("player_spawns")) {
-        int entity_id = results[player_count].first;
+        auto player_spawn_json = json.getVector("player_spawns").at(spawn);
         auto transformComponent = em.getComponent<TransformComponent>(entity_id);
-        transformComponent->x_pos = player_spawn_json.getInt("x") / getRelativeModifier();
-        transformComponent->y_pos = player_spawn_json.getInt("y") / getRelativeModifier();
+        if(transformComponent) {
+            transformComponent->x_pos = player_spawn_json.getInt("x") / getRelativeModifier();
+            transformComponent->y_pos = player_spawn_json.getInt("y") / getRelativeModifier();
+        }
+        ++spawn;
 
-        auto despawn_component = em.getComponent<DespawnComponent>(entity_id);
-        despawn_component->despawn_on_out_of_screen = true;
-
-        ++player_count;
-    }
-
- 
-    // Revive the players
-    for(auto& [entity_id, player]: entities_with_player) {
+        // Revive the player
         auto health_component = em.getComponent<HealthComponent>(entity_id);
         (*health_component->revive)(entity_id);
         auto despawn_component = em.getComponent<DespawnComponent>(entity_id);
         despawn_component->despawn_on_out_of_screen = true;
     }
+
+    std::sort(results.begin(), results.end(), [](auto lhs, auto rhs) {
+        return lhs.second > rhs.second;
+    });
 
     int count = 1;  
     int y = 200;

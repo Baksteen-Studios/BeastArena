@@ -12,30 +12,30 @@ HighscoreSystem::HighscoreSystem(std::shared_ptr<EntityManager> entity_manager,s
 
 void HighscoreSystem::update(double) {
     auto& input = BrickInput<PlayerInput>::getInstance();
-    auto entities_with_player = entityManager->getEntitiesByComponent<PlayerComponent>();
-    for (auto& [entity_id, player]: entities_with_player) { 
-        int x = input.checkInput(player->player_id, PlayerInput::X_AXIS);
-        if(x > 0) {
-            entityManager->removeEntitiesWithTag("highscore_player");
-            auto score = scores.at(selector);
-            createHighscores(score.first, score.second);
-            selector++;
-            if (selector > scores.size() - 1) {
-                selector = 0;
-            }
-        } else if(x < 0) {
-            entityManager->removeEntitiesWithTag("highscore_player");
-            auto score = scores.at(selector);
-            createHighscores(score.first, score.second);
-            selector--;
-            if (selector < 0) {
-                selector = scores.size() - 1;
-            }
+    int x = input.checkInput(1, PlayerInput::X_AXIS);
+    if(x > 0) {
+        entityManager->removeEntitiesWithTag("highscore_player");
+        auto score = scores.at(selector);
+        createHighscores(score.first, score.second);
+        selector++;
+        if (selector > scores.size() - 1) {
+            selector = 0;
+        }
+    } else if(x < 0) {
+        entityManager->removeEntitiesWithTag("highscore_player");
+        auto score = scores.at(selector);
+        createHighscores(score.first, score.second);
+        selector--;
+        if (selector < 0) {
+            selector = scores.size() - 1;
         }
     }
 }
 
 void HighscoreSystem::createHighscores(std::string name, Score score) {
+    // Watch out! This method does not use the relative modifier as it is not possible to access this in a system
+    // Because we do not have scaling, we won't bother with it for now but we have a Github Issue
+
     std::vector<EntityFactory::Components> entity_components;
     // Load the first object
     {
