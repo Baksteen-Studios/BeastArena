@@ -59,7 +59,7 @@ using namespace std::chrono_literals;
 #include <algorithm>
 
 GameController::GameController() {
-    this->alive = true;
+    this->should_quit = false;
 
     this->delta_time = 1;
 #ifdef PERFORMANCE_DEBUGGING
@@ -240,7 +240,7 @@ void GameController::gameLoop() {
     std::deque<int> fps_history { FPS_HISTORY_MAX };
 #endif // PERFORMANCE_DEBUGGING
 
-    while(alive) {
+    while(!should_quit) {
         auto start_time = std::chrono::high_resolution_clock::now();
 
         BrickInput<PlayerInput>::getInstance().processInput(delta_time);
@@ -318,7 +318,7 @@ void GameController::startGame() {
 }
 
 void GameController::exitGame() {
-    alive = false;
+    should_quit = true;
 }
 
 void GameController::loadLevels() {

@@ -164,6 +164,7 @@ void Lobby::leave() {
     auto& em = factory.getEntityManager();
     auto character_selection_entities = em.getEntitiesByComponent<CharacterSelectionComponent>();
 
+    auto available_characters = factory.getAvailableCharacters();
     std::vector<int> need_character_components;
     for (auto& [ entity_id, character_selection ] : character_selection_entities ) {
         if(character_selection->joined && character_selection->picked) {

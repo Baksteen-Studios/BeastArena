@@ -277,6 +277,25 @@ void EntityFactory::changeCharacterSelectorTexture(int entity_id, Character char
     entityManager->getComponent<TransformComponent>(entity_id)->y_scale = character_specs.y_scale;
 }
 
+const std::vector<Character> EntityFactory::getAvailableCharacters() const {
+    return {
+        Character::GORILLA,
+        Character::PANDA,
+        Character::CHEETAH,
+        Character::ELEPHANT
+    };
+}
+
+const std::vector<std::pair<Character, bool>> EntityFactory::getPickedCharacters() const {
+    return {
+        std::pair<Character, bool>(Character::GORILLA, false),
+        std::pair<Character, bool>(Character::PANDA, false),
+        std::pair<Character, bool>(Character::CHEETAH, false),
+        std::pair<Character, bool>(Character::ELEPHANT, false),
+        std::pair<Character, bool>(Character::RANDOM, false)
+    };
+}
+
 const CharacterSpecs EntityFactory::getCharacterSpecs(Character character) const {
     CharacterSpecs specs = CharacterSpecs();
 

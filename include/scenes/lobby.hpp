@@ -34,13 +34,6 @@ private:
     static const int WIDTH = 1920;
     static const int HEIGHT = 1080;
     GameController& game_controller;
-
-    std::vector<Character> available_characters = {
-        Character::GORILLA,
-        Character::PANDA,
-        Character::CHEETAH,
-        Character::ELEPHANT
-    };
 };
 
 #endif // FILE_LOBBY_HPP

@@ -148,7 +148,5 @@ void LobbySystem::update(double) {
 }
 
 void LobbySystem::reset() {
-    for(auto& character : picked_characters) {
-        character.second = false;
-    }
+    picked_characters = entity_factory->getPickedCharacters();
 }

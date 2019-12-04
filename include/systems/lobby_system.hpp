@@ -17,13 +17,7 @@ private:
     std::shared_ptr<EntityFactory> ef;
     std::shared_ptr<EntityManager> em;
 
-    std::vector<std::pair<Character, bool>> picked_characters = {
-        std::pair<Character, bool>(Character::GORILLA, false),
-        std::pair<Character, bool>(Character::PANDA, false),
-        std::pair<Character, bool>(Character::CHEETAH, false),
-        std::pair<Character, bool>(Character::ELEPHANT, false),
-        std::pair<Character, bool>(Character::RANDOM, false)
-    };
+    std::vector<std::pair<Character, bool>> picked_characters;
 };
 
 #endif // FILE_LOBBY_SYSTEM_HPP

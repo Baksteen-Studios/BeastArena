@@ -43,6 +43,9 @@ public:
     int createText(std::string text, int x, int y, int x_scale, int y_scale, int font_size, Color color);
     int createCharacterSelector(int player_id, int x, int y);
     void changeCharacterSelectorTexture(int entity_id, Character character, bool create);
+
+    const std::vector<Character> getAvailableCharacters() const;
+    const std::vector<std::pair<Character, bool>> getPickedCharacters() const;
 private:
     std::shared_ptr<EntityManager> entityManager;
     RenderableFactory& renderableFactory;
