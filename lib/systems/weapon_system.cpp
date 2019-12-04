@@ -57,7 +57,8 @@ void WeaponSystem::update(double deltatime){
                 bullet_comps->push_back(std::move(damage));
                 bullet_comps->push_back(std::make_unique<DespawnComponent>(weapon->bullet_despawn));
 
-                entityManager->createEntity(std::move(bullet_comps));
+                int bullet_id = entityManager->createEntity(std::move(bullet_comps));
+                entityManager->setTag(bullet_id, "Bullet");
 
                 if (weapon->ammo) {
                     --*weapon->ammo;

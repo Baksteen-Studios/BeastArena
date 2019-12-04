@@ -76,8 +76,7 @@ GameController::GameController() {
     std::unordered_map<std::string, std::set<std::string>> is_trigger_exceptions;
     is_trigger_exceptions.insert({ "Critter", std::set<std::string> { "Platform" } });
     is_trigger_exceptions.insert({ "Weapon", std::set<std::string> { "Platform" } });
-    // For when the players are ded
-    is_trigger_exceptions.insert({ "Player", std::set<std::string> { "Platform" } });
+    is_trigger_exceptions.insert({ "Player", std::set<std::string> { "Platform", "Bullet" } });
     collision_detector = std::make_unique<CollisionDetector2>(is_trigger_exceptions, *entityManager);
 
     createGameStateManager();
