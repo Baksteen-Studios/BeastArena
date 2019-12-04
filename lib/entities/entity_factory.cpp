@@ -263,6 +263,8 @@ int EntityFactory::createCharacterSelector(int player_id, int x, int y) {
 }
 
 void EntityFactory::changeCharacterSelectorTexture(int entity_id, Character character, bool create){
+    // When create is true, no texture is being displayed yet
+    // When create is false, the old texture needs to be deleted before a new one is added
     if(!create)
         entityManager->removeComponentFromEntity<TextureComponent>(entity_id);
     

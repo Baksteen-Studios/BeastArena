@@ -12,6 +12,7 @@ class LobbySystem : public BeastSystem {
 public:
     LobbySystem(std::shared_ptr<EntityFactory> ef, std::shared_ptr<EntityManager> em);
     void update(double deltatime);
+    void reset();
 private:
     std::shared_ptr<EntityFactory> ef;
     std::shared_ptr<EntityManager> em;

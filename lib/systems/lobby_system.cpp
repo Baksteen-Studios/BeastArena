@@ -51,15 +51,15 @@ void LobbySystem::update(double) {
                             }
 
                             // Update the other selector so they do not show the character chosen by this player
-                            auto selector_entities_2 = em->getEntitiesByComponent<CharacterSelectionComponent>();
-                            for(auto& [entity_id_2, selector_2] : selector_entities_2) {
-                                if(entity_id != entity_id_2 && selector_2->joined && !selector_2->picked && selector_2->selected_character == selector->selected_character) {
+                            auto to_update_selector_entities = em->getEntitiesByComponent<CharacterSelectionComponent>();
+                            for(auto& [to_update_entity_id, to_update_selector] : to_update_selector_entities) {
+                                if(entity_id != to_update_entity_id && to_update_selector->joined && !to_update_selector->picked && to_update_selector->selected_character == selector->selected_character) {
                                     // This is not the current selector, the player has joined but not picked a character and the character currently displayed is just picked by the other player
                                     for(auto& character : picked_characters) {
                                     // Select the first available character
                                     if(!character.second) {
-                                        selector_2->selected_character = character.first;
-                                        ef->changeCharacterSelectorTexture(entity_id_2, character.first, true);
+                                        to_update_selector->selected_character = character.first;
+                                        ef->changeCharacterSelectorTexture(to_update_entity_id, character.first, true);
                                         break;
                                     }
                                 }
@@ -82,7 +82,7 @@ void LobbySystem::update(double) {
             }
         }
 
-        bool changed = false;
+        bool changed = false; // This bool is to check if the character has been changed
         int change_amount = 1; // This int is needed when looking for the first available character
         if(selector->joined && !selector->picked) {
             auto x_movement = input.checkInput(selector->player_id, PlayerInput::X_AXIS);
@@ -144,5 +144,11 @@ void LobbySystem::update(double) {
         if(changed) {
             entity_factory->changeCharacterSelectorTexture(entity_id, selector->selected_character, false);
         }
+    }
+}
+
+void LobbySystem::reset() {
+    for(auto& character : picked_characters) {
+        character.second = false;
     }
 }

@@ -32,8 +32,9 @@ void ClickSystem::update(double) {
             y < bottom && y > top) {
             // The button was clicked
             click->fn();
-            // After the fn has been executed we must break the glass.
-            // Because if the fn destroys the current scene with its click components, and completely destory this loop
+            // When a button is clicked, there is a chance that the scene has been deleted
+            // You want to stop looping through click components as there is no guarantee that they still exist
+            // This is no problem because if they still exist, you can just click another button in the next trick
             break;
         }
     }
