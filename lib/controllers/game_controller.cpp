@@ -10,6 +10,7 @@
 #include <filesystem>
 #include <map>
 #include <algorithm>
+#include <unordered_map>
 using namespace std::chrono_literals;
 
 #include "controllers/game_controller.hpp"
@@ -46,7 +47,9 @@ using namespace std::chrono_literals;
 
 #include "scenes/level_scene.hpp"
 #include "scenes/intermission_scene.hpp"
-#include "scenes/score_scene.hpp"
+#include "scenes/end_scene.hpp"
+
+#include "data/score.hpp"
 
 GameController::GameController() {
     this->delta_time = 1;
@@ -65,7 +68,7 @@ GameController::GameController() {
     collisionDetector = std::make_shared<CollisionDetector>(entityManager);
     createGameStateManager();
     scene_manager = std::make_unique<SceneManager<GameState>>(*entityManager, *game_state_manager);
-    score_controller = std::make_unique<ScoreController>(*entityManager);
+    score_controller = std::make_unique<ScoreController>();
     entityManager->setGetCurrentSceneTagFunction(scene_manager->createGetPrimaryTagFunction());
 
     setupInput();
@@ -74,7 +77,7 @@ GameController::GameController() {
     entityFactory->createPanda(2);
     entityFactory->createCheetah(3);
     entityFactory->createElephant(4);
-
+    score_controller->readScores();
     loadMainMenu();
 }
 
@@ -337,8 +340,21 @@ void GameController::loadMainMenu() {
 }
 void GameController::loadEndGameLevel() {
     scene_manager->destroyScene(SceneLayer::Primary);
-    score_controller->writeScores();
+    // Create scores
+    auto players = entityManager->getEntitiesByComponent<PlayerComponent>();
+    std::unordered_map<std::string, Score> scores;
+    for(auto [entity_id, player] : players) {
+        auto stats = entityManager->getComponent<StatsComponent>(entity_id);
+        Score score;
+        score.accidents = stats->accidents;
+        score.deaths = stats->deaths;
+        score.killed_critters = stats->killed_critters;
+        score.kills = stats->kills;
+        score.levels_won = stats->levels_won;
+        scores.insert_or_assign(player->name, score);
+    }
+    score_controller->writeScores(scores);
     // Load the json
     Json json { END_GAME_PATH, true };
-    scene_manager->createScene<ScoreScene>(*entityFactory, *engine, json);
+    scene_manager->createScene<EndScene>(*entityFactory, *engine, json);
 }

@@ -228,7 +228,7 @@ int EntityFactory::createCritter(double x_pos, double y_pos) const {
     return entity;
 }
 
-std::unique_ptr<std::vector<std::unique_ptr<Component>>> EntityFactory::createImage(std::string path, int x_pos, int y_pos, int x_scale, int y_scale, double relative_modifier, Layers layer, int alpha) {
+EntityFactory::Components EntityFactory::createImage(std::string path, int x_pos, int y_pos, int x_scale, int y_scale, double relative_modifier, Layers layer, int alpha) {
     auto dst = std::unique_ptr<Rect>(new Rect{ 0, 0, 0, 0 });
     auto r = renderableFactory.createImage(GRAPHICS_PATH + path, (int)layer, std::move(dst), alpha);
 
@@ -239,7 +239,7 @@ std::unique_ptr<std::vector<std::unique_ptr<Component>>> EntityFactory::createIm
     return std::move(comps);
 }
 
-std::unique_ptr<std::vector<std::unique_ptr<Component>>> EntityFactory::createPlatform(double x_pos, double y_pos, double x_scale, double y_scale, double relative_modifier, std::string path, int alpha) {
+EntityFactory::Components EntityFactory::createPlatform(double x_pos, double y_pos, double x_scale, double y_scale, double relative_modifier, std::string path, int alpha) {
     auto dst = std::unique_ptr<Rect>(new Rect{ 0, 0, 0, 0 });
     auto r = renderableFactory.createImage(GRAPHICS_PATH + path, (int)Layers::Foreground, std::move(dst), alpha);
  
@@ -279,7 +279,7 @@ std::pair<int, int> EntityFactory::createButton(const Button button, const doubl
     return std::make_pair(button_id, text_id);
 }
 
-std::unique_ptr<std::vector<std::unique_ptr<Component>>> EntityFactory::createText(std::string text, Color color, int font_size, int x, int y, int x_scale, int y_scale, double relative_modifier) {
+EntityFactory::Components EntityFactory::createText(std::string text, Color color, int font_size, int x, int y, int x_scale, int y_scale, double relative_modifier) {
     auto dst = std::unique_ptr<Rect>(new Rect{ 0, 0 , 0, 0});
     auto r_text = renderableFactory.createText(text, font_size, color, (int)Layers::UI, std::move(dst));
     auto comps = std::make_unique<std::vector<std::unique_ptr<Component>>>();

@@ -1,4 +1,4 @@
-#include "scenes/score_scene.hpp"
+#include "scenes/end_scene.hpp"
 
 #include "brickengine/components/colliders/rectangle_collider_component.hpp"
 #include "brickengine/components/renderables/texture_component.hpp"
@@ -9,11 +9,11 @@
 #include "components/stats_component.hpp"
 #include "components/pickup_component.hpp"
 
-ScoreScene::ScoreScene(EntityFactory& entity_factory, BrickEngine& engine, Json json) : 
+EndScene::EndScene(EntityFactory& entity_factory, BrickEngine& engine, Json json) : 
     json(json), entity_factory(entity_factory), 
-    BeastScene<ScoreScene>(entity_factory, engine, json.getInt("width"), json.getInt("height")) {};
+    BeastScene<EndScene>(entity_factory, engine, json.getInt("width"), json.getInt("height")) {};
 
-void ScoreScene::performPrepare() {
+void EndScene::performPrepare() {
     entity_components = std::make_unique<std::vector<std::unique_ptr<std::vector<std::unique_ptr<Component>>>>>();
 
     // Background
@@ -44,7 +44,7 @@ void ScoreScene::performPrepare() {
     }
 }
 
-void ScoreScene::start() {
+void EndScene::start() {
     auto& em = factory.getEntityManager();
     auto entities_with_player = em.getEntitiesByComponent<PlayerComponent>();
 
@@ -106,4 +106,4 @@ void ScoreScene::start() {
     }
 }
 
-void ScoreScene::leave() {}
+void EndScene::leave() {}

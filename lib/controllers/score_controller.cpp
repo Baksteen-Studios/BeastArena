@@ -3,46 +3,52 @@
 #include "brickengine/json/json.hpp"
 
 #include "brickengine/components/player_component.hpp"
-#include "components/stats_component.hpp"
 
-ScoreController::ScoreController(EntityManager& em) : entity_manager(em) {}
-
-void ScoreController::writeScores() {
-    auto json = Json(HIGHSCORES_PATH, true);
-    auto players = entity_manager.getEntitiesByComponent<PlayerComponent>();
-    for (auto& [entity_id, player] : players) {
-        auto stats_component = entity_manager.getComponent<StatsComponent>(entity_id);
-
+void ScoreController::writeScores(std::unordered_map<std::string, Score> scores) {
+    auto json = Json { HIGHSCORES_PATH, true };
+    for (auto& [name, score] : scores) {
         // Retrieve statistics from the previous game.
-        auto kills = stats_component->kills;
-        auto deaths = stats_component->deaths;
-        auto killed_critters = stats_component->killed_critters; 
-        auto levels_won = stats_component->levels_won;
-        auto accidents = stats_component->accidents;
+        auto kills = score.kills;
+        auto deaths = score.deaths;
+        auto killed_critters = score.killed_critters; 
+        auto levels_won = score.levels_won;
+        auto accidents = score.accidents;
 
-        // if the player already exists in the json we need to add the values
-        try {
-            kills += json.getIntFromObject(player->name, "kills");
-            deaths += json.getIntFromObject(player->name, "deaths");
-            killed_critters += json.getIntFromObject(player->name, "killed_critters");
-            levels_won += json.getIntFromObject(player->name, "levels_won");
-            accidents += json.getIntFromObject(player->name, "accidents");
-        }
-        catch(...) {
-            // No need to do anything, continue normally.
-        }
+        Json object = json.getObject(name);
+        kills += object.getInt("kills");
+        deaths += object.getInt("deaths");
+        killed_critters += object.getInt("killed_critters");
+        levels_won += object.getInt("levels_won");
+        accidents += object.getInt("accidents");
 
         // Add the statistics to the json.
-        json.addIntToObject(player->name, "kills", kills);
-        json.addIntToObject(player->name, "deaths", deaths);
-        json.addIntToObject(player->name, "killed_critters", killed_critters);
-        json.addIntToObject(player->name, "levels_won", levels_won);
-        json.addIntToObject(player->name, "accidents", accidents);
+        object.setInt("kills", kills);
+        object.setInt("deaths", deaths);
+        object.setInt("killed_critters", killed_critters);
+        object.setInt("levels_won", levels_won);
+        object.setInt("accidents", accidents);
+
+        json.setObject(name, object);
     }
 
     // Write contents to file
-    std::ofstream file;
-    file.open(HIGHSCORES_PATH);
+    std::ofstream file { HIGHSCORES_PATH };
     file << json;
     file.close();
+}
+
+ScoreController::Scores ScoreController::readScores() {
+    auto json = Json { HIGHSCORES_PATH, true };
+    Scores scores;
+    auto map = json.getUnorderedMap();
+    for(auto [key, object] : map) {
+        Score score;
+        score.accidents = object.getInt("accidents");
+        score.kills = object.getInt("kills");
+        score.deaths = object.getInt("deaths");
+        score.killed_critters = object.getInt("killed_critters");
+        score.levels_won = object.getInt("levels_won");
+        scores[key] = score;
+    }
+    return scores;
 }

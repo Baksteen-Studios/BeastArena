@@ -9,12 +9,12 @@
 #include "scenes/data/level/solid.hpp"
 #include "scenes/data/level/critter_spawn.hpp"
 
-class ScoreScene : public BeastScene<ScoreScene> {
+class EndScene : public BeastScene<EndScene> {
 public:
-    ScoreScene(EntityFactory& entity_factory, BrickEngine& engine, Json json);
+    EndScene(EntityFactory& entity_factory, BrickEngine& engine, Json json);
     
     static std::string getTagStatic() {
-        return "ScoreScene";
+        return "EndScene";
     }
     GameState getSystemState() const {
         return GameState::EndGame;
