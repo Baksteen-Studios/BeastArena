@@ -10,7 +10,7 @@
 #include "components/pickup_component.hpp"
 
 EndScene::EndScene(EntityFactory& entity_factory, BrickEngine& engine, Json json) : 
-    json(json), entity_factory(entity_factory), 
+    json(json),
     BeastScene<EndScene>(entity_factory, engine, json.getInt("width"), json.getInt("height")) {};
 
 void EndScene::performPrepare() {
@@ -28,7 +28,7 @@ void EndScene::performPrepare() {
     auto& em = factory.getEntityManager();
     
     for (auto text : json.getVector("texts")){
-        entity_components->push_back(std::move(entity_factory.createText(text.getString("text"), 
+        entity_components->push_back(std::move(factory.createText(text.getString("text"), 
         {(unsigned short int)text.getInt("r"), (unsigned short int)text.getInt("g"), (unsigned short int)text.getInt("b"), (unsigned short int)text.getInt("alpha")}, 
         text.getInt("font_size"), text.getInt("x"), text.getInt("y"), text.getInt("x_scale"), text.getInt("y_scale"), getRelativeModifier())));
     }

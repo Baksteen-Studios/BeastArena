@@ -28,6 +28,7 @@ public:
     void loadNextLevel();
     void loadMainMenu();
     void loadEndGameLevel();
+    void showHighscores();
     void intermission(int timer);
 
     static constexpr int MAX_LEVELS = 2;

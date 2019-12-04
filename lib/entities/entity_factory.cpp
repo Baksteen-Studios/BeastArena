@@ -3,6 +3,7 @@
 #include <iostream>
 #include <string>
 #include <utility>
+#include <tuple>
 
 #include "brickengine/components/transform_component.hpp"
 #include "brickengine/components/colliders/rectangle_collider_component.hpp"
@@ -251,32 +252,37 @@ EntityFactory::Components EntityFactory::createPlatform(double x_pos, double y_p
     return std::move(comps);
 }
 
-std::pair<int, int> EntityFactory::createButton(const Button button, const double relative_modifier) {
-    // Make background
-    auto dst = std::unique_ptr<Rect>(new Rect{ 0, 0 , 0, 0});
-    auto r = renderableFactory.createImage(GRAPHICS_PATH + button.texture_path, (int)Layers::Middleground, std::move(dst), button.alpha);
+//std::pair<int, int> EntityFactory::createButton(const Button button, const double relative_modifier) {
+std::vector<EntityFactory::Components> EntityFactory::createButton(std::string text, Color text_color, int font_size,
+    std::string texture_path, int x, int y, int x_scale, int y_scale, 
+    int alpha, double relative_modifier, std::function<void ()> on_click) {
+    std::vector<EntityFactory::Components> component_list;
+    {
+        // Make background
+        auto dst = std::unique_ptr<Rect>(new Rect{ 0, 0 , 0, 0});
+        auto r = renderableFactory.createImage(GRAPHICS_PATH + texture_path, (int)Layers::Middleground, std::move(dst), alpha);
 
-    auto comps = std::make_unique<std::vector<std::unique_ptr<Component>>>();
-    comps->push_back(std::make_unique<TransformComponent>(button.x / relative_modifier, button.y / relative_modifier, button.x_scale / relative_modifier, button.y_scale / relative_modifier, Direction::POSITIVE, Direction::POSITIVE));
-    comps->push_back(std::make_unique<TextureComponent>(std::move(r)));
-    comps->push_back(std::make_unique<ClickComponent>(button.on_click, 1, 1));
+        EntityFactory::Components comps = std::make_unique<std::vector<std::unique_ptr<Component>>>();
+        comps->push_back(std::make_unique<TransformComponent>(x / relative_modifier, y / relative_modifier, x_scale / relative_modifier, y_scale / relative_modifier, Direction::POSITIVE, Direction::POSITIVE));
+        comps->push_back(std::make_unique<TextureComponent>(std::move(r)));
+        comps->push_back(std::make_unique<ClickComponent>(on_click, 1, 1));
+        component_list.push_back(std::move(comps));
+    }
+    {
+        auto dstText = std::unique_ptr<Rect>(new Rect{ 0, 0 , 0, 0});
+        auto rText = renderableFactory.createText(text, font_size, text_color, (int)Layers::Foreground, std::move(dstText));
 
-    int button_id = entityManager->createEntity(std::move(comps), std::nullopt);
-
-    auto dstText = std::unique_ptr<Rect>(new Rect{ 0, 0 , 0, 0});
-    auto rText = renderableFactory.createText(button.text.text, button.text.font_size, button.text.color, (int)Layers::Foreground, std::move(dstText));
-
-    auto compsText = std::make_unique<std::vector<std::unique_ptr<Component>>>();
-    int x = button.text.x / relative_modifier;
-    int y = button.text.y / relative_modifier;
-    int x_scale = (button.text.x_scale / relative_modifier) / 1.5;
-    int y_scale = (button.text.y_scale / relative_modifier) / 1.5;
-    compsText->push_back(std::make_unique<TransformComponent>(x, y, x_scale, y_scale, Direction::POSITIVE, Direction::POSITIVE));
-    compsText->push_back(std::make_unique<TextureComponent>(std::move(rText)));
-
-    int text_id = entityManager->createEntity(std::move(compsText), std::nullopt);
-
-    return std::make_pair(button_id, text_id);
+        EntityFactory::Components comps = std::make_unique<std::vector<std::unique_ptr<Component>>>();
+        // Relative to button
+        int text_x = x / relative_modifier;
+        int text_y = (y - 10) / relative_modifier;
+        int text_x_scale = ((text.size() * 30) / relative_modifier);
+        int text_y_scale = ((y_scale - 30) / relative_modifier);
+        comps->push_back(std::make_unique<TransformComponent>(text_x, text_y, text_x_scale, text_y_scale, Direction::POSITIVE, Direction::POSITIVE));
+        comps->push_back(std::make_unique<TextureComponent>(std::move(rText)));
+        component_list.push_back(std::move(comps));
+    }
+    return std::move(component_list);
 }
 
 EntityFactory::Components EntityFactory::createText(std::string text, Color color, int font_size, int x, int y, int x_scale, int y_scale, double relative_modifier) {

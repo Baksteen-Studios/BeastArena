@@ -36,6 +36,7 @@ using namespace std::chrono_literals;
 #include "systems/critter_system.hpp"
 #include "systems/game_system.hpp"
 #include "systems/ready_up_system.hpp"
+#include "systems/highscore_system.hpp"
 
 #include "entities/layers.hpp"
 #include "player_input.hpp"
@@ -48,6 +49,7 @@ using namespace std::chrono_literals;
 #include "scenes/level_scene.hpp"
 #include "scenes/intermission_scene.hpp"
 #include "scenes/end_scene.hpp"
+#include "scenes/highscore_scene.hpp"
 
 #include "data/score.hpp"
 
@@ -86,6 +88,7 @@ void GameController::createGameStateManager() {
     state_systems->insert({ GameState::MainMenu, std::make_unique<GameStateManager<GameState>::Systems>() });
     state_systems->insert({ GameState::InGame, std::make_unique<std::vector<std::unique_ptr<System>>>() });
     state_systems->insert({ GameState::EndGame, std::make_unique<std::vector<std::unique_ptr<System>>>() });
+    state_systems->insert({ GameState::Highscore, std::make_unique<std::vector<std::unique_ptr<System>>>() });
     state_systems->at(GameState::MainMenu)->push_back(std::make_unique<ClickSystem>(entityManager));
     state_systems->at(GameState::MainMenu)->push_back(std::make_unique<RenderingSystem>(entityManager, *engine->getRenderer()));
 
@@ -112,9 +115,14 @@ void GameController::createGameStateManager() {
     state_systems->at(GameState::EndGame)->push_back(std::make_unique<DespawnSystem>(collisionDetector, entityManager, SCREEN_WIDTH, SCREEN_HEIGHT));
     state_systems->at(GameState::EndGame)->push_back(std::make_unique<RenderingSystem>(entityManager, *engine->getRenderer()));
 
+    state_systems->at(GameState::Highscore)->push_back(std::make_unique<ClickSystem>(entityManager));
+    state_systems->at(GameState::Highscore)->push_back(std::make_unique<HighscoreSystem>(entityManager, entityFactory, *score_controller));
+    state_systems->at(GameState::Highscore)->push_back(std::make_unique<RenderingSystem>(entityManager, *engine->getRenderer()));
+
     std::unordered_map<GameState, bool> reset_on_set_state;
     reset_on_set_state.insert({ GameState::InGame, true });
     reset_on_set_state.insert({ GameState::EndGame, true });
+    reset_on_set_state.insert({ GameState::Highscore, true });
     reset_on_set_state.insert({ GameState::MainMenu, true });
     reset_on_set_state.insert({ GameState::Paused, false });
     GameState begin_state = GameState::Unintialized;
@@ -357,4 +365,9 @@ void GameController::loadEndGameLevel() {
     // Load the json
     Json json { END_GAME_PATH, true };
     scene_manager->createScene<EndScene>(*entityFactory, *engine, json);
+}
+
+void GameController::showHighscores() {
+    scene_manager->destroyAllScenes();
+    scene_manager->createScene<HighscoreScene>(*entityFactory, *engine, *score_controller);
 }

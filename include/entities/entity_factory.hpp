@@ -37,7 +37,9 @@ public:
     int createCritter(double x_pos, double y_pos) const;
     Components createImage(std::string path, int x_pos, int y_pos, int x_scale, int y_scale, double relative_modifier, Layers layer, int alpha);
     Components createPlatform(double x_pos, double y_pos, double x_scale, double y_scale, double relative_modifier, std::string path, int alpha);
-    std::pair<int, int> createButton(const Button button, const double relative_modifier);
+    std::vector<EntityFactory::Components> createButton(std::string text, Color text_color, int font_size,
+        std::string texture_path, int x, int y, int x_scale, int y_scale, 
+        int alpha, double relative_modifier, std::function<void ()> on_click);
     Components createText(std::string text, Color color, int font_size, int x, int y, int x_scale, int y_scale, double relative_modifier);
 
     int addToEntityManager(std::unique_ptr<std::vector<std::unique_ptr<Component>>> component_list, 

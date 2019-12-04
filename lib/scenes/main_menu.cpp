@@ -17,29 +17,30 @@ MainMenu::MainMenu(EntityFactory& factory, BrickEngine& engine, GameController& 
     : Menu(factory, engine, WIDTH, HEIGHT), game_controller(game_controller) { }
 
 void MainMenu::performPrepare() {
+    entity_components = std::make_unique<std::vector<std::unique_ptr<std::vector<std::unique_ptr<Component>>>>>();
+
     // General information
     this->bg_path = "colors/white.png";
     this->bg_music = "music/main.mp3";
-
-    // Buttons
-    Button start_game_button = Button();
-    start_game_button.texture_path = "menu/button.png";
-    start_game_button.alpha = 255;
-    start_game_button.x = 960;
-    start_game_button.y = 340;
-    start_game_button.x_scale = 400;
-    start_game_button.y_scale = 100;
-    start_game_button.text.text = "Play Game!";
-    start_game_button.text.font_size = 72;
-    start_game_button.text.color = { 255, 255, 255, 255 };
-    start_game_button.text.x = 960;
-    start_game_button.text.y = 335;
-    start_game_button.text.x_scale = 400;
-    start_game_button.text.y_scale = 100;
-    start_game_button.on_click = [gm = &game_controller]() {
-        gm->startGame();
-    };
-    this->buttons.push_back(start_game_button);
+   {
+        auto on_click = [gm = &game_controller]() {
+            gm->showHighscores();
+        };
+        auto comps_list = factory.createButton("Highscores", { 255, 255, 255, 255}, 70, "menu/button.png", 960, 490, 400, 100, 255, getRelativeModifier(), on_click);
+        for(auto& comps : comps_list) {
+            entity_components->push_back(std::move(comps));
+        }
+    }
+    {
+        auto on_click = [gm = &game_controller]() {
+            gm->startGame();
+        };
+        auto comps_list = factory.createButton("Play Game!", { 255, 255, 255, 255}, 70, "menu/button.png", 960, 340, 400, 100, 255, getRelativeModifier(), on_click);
+        for(auto& comps : comps_list) {
+            entity_components->push_back(std::move(comps));
+        }
+    }
+ 
 
     // Images
     Image logo = Image();
@@ -56,11 +57,6 @@ void MainMenu::start() {
     // Create the background
     auto comps = factory.createImage(this->bg_path, this->screen_width / 2, this->screen_height / 2, this->screen_width, this->screen_height, 1, Layers::Background, 255);
     factory.addToEntityManager(std::move(comps));
-
-    // Load the buttons
-    for (Button button : this->buttons) {
-        auto ids = factory.createButton(button, getRelativeModifier());
-    }
 
     // Load the images
     for(Image image : images) {

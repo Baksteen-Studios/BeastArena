@@ -27,7 +27,6 @@ public:
     void leave();
 private:
     Json json;
-    EntityFactory& entity_factory;
 };
 
 #endif // FILE_SCORE_SCENE_HPP
