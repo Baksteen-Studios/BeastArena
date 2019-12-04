@@ -25,22 +25,18 @@ EntityFactory::EntityFactory(std::shared_ptr<EntityManager> em, RenderableFactor
     player_on_death = [em = entityManager](int entity_id) {
         auto transform = em->getComponent<TransformComponent>(entity_id);
         auto player = em->getComponent<PlayerComponent>(entity_id);
-        auto collider = em->getComponent<RectangleColliderComponent>(entity_id);
         transform->y_direction = Direction::NEGATIVE;
         player->disabled = true;
-        collider->is_trigger = true;
         em->addComponentToEntity(entity_id, std::make_unique<PickupComponent>(true, false));
     };
     player_revive = [em = entityManager](int entity_id) {
         auto transform = em->getComponent<TransformComponent>(entity_id);
         auto player = em->getComponent<PlayerComponent>(entity_id);
-        auto collider = em->getComponent<RectangleColliderComponent>(entity_id);
         auto physics = em->getComponent<PhysicsComponent>(entity_id);
         auto health = em->getComponent<HealthComponent>(entity_id);
+        em->removeComponentFromEntity<PickupComponent>(entity_id);
         transform->y_direction = Direction::POSITIVE;
         player->disabled = false;
-        collider->is_trigger = false;
-        em->removeComponentFromEntity<PickupComponent>(entity_id);
         physics->kinematic = Kinematic::IS_NOT_KINEMATIC;
         health->health = health->max_health;
     };
@@ -132,7 +128,7 @@ int EntityFactory::createPistol(double x_pos, double y_pos, bool ammo) const {
     if (ammo) ammoOpt = 15;
 
     comps->push_back(std::make_unique<TransformComponent>(x_pos, y_pos, 31, 22, Direction::POSITIVE, Direction::POSITIVE));
-    comps->push_back(std::make_unique<RectangleColliderComponent>(1, 1, 1, true ));
+    comps->push_back(std::make_unique<RectangleColliderComponent>(1, 1, 1, true));
     comps->push_back(std::make_unique<PhysicsComponent>(50, false, 0, 0, true, Kinematic::IS_NOT_KINEMATIC, true, true, CollisionDetectionType::Discrete));
     comps->push_back(std::make_unique<TextureComponent>(std::move(weapon_r)));
     comps->push_back(std::make_unique<PickupComponent>());
@@ -188,7 +184,7 @@ int EntityFactory::createSniper(double x_pos, double y_pos, bool ammo) const {
     if (ammo) ammoOpt = 10;
 
     comps->push_back(std::make_unique<TransformComponent>(x_pos, y_pos, 85, 28, Direction::POSITIVE, Direction::POSITIVE));
-    comps->push_back(std::make_unique<RectangleColliderComponent>(1, 1, 1, true ));
+    comps->push_back(std::make_unique<RectangleColliderComponent>(1, 1, 1, true));
     comps->push_back(std::make_unique<PhysicsComponent>(80, false, 0, 0, true, Kinematic::IS_NOT_KINEMATIC, true, true, CollisionDetectionType::Discrete));
     comps->push_back(std::make_unique<TextureComponent>(std::move(weapon_r)));
     comps->push_back(std::make_unique<PickupComponent>());

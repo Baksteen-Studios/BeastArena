@@ -12,6 +12,7 @@ void DamageSystem::update(double) {
         auto collisions = collision_detector.detectCollision(entity_id);
         if (!collisions.empty()) {
             for (const Collision& c : collisions) {
+                if (c.opposite_id == damage_comp->damage_dealer_entity_id) continue;
                 this->collide(*damage_comp, c);
             }
             if (damage_comp->despawn)
