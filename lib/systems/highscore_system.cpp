@@ -8,6 +8,9 @@ HighscoreSystem::HighscoreSystem(std::shared_ptr<EntityManager> entity_manager,s
 
 void HighscoreSystem::update(double) {
     if(!initialized) {
+        for(auto& score : score_controller.readScores()) {
+            scores.push_back(std::make_pair(score.first, score.second));
+        }
         if(scores.size() == 0) {
             if(!empty) {
                 auto comps = entity_factory->createText("No highscores recorded yet!", { 255, 255, 255, 255}, 100, 800, 250, 27 * 30, 100, 1);
@@ -16,9 +19,6 @@ void HighscoreSystem::update(double) {
             }
         }
         else {
-            for(auto& score : score_controller.readScores()) {
-                scores.push_back(std::make_pair(score.first, score.second));
-            }
             auto score = scores.at(selector);
             createHighscores(score.first, score.second);
             selector++;
