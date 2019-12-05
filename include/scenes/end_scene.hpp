@@ -11,7 +11,7 @@
 
 class EndScene : public BeastScene<EndScene> {
 public:
-    EndScene(EntityFactory& entity_factory, BrickEngine& engine, Json json);
+    EndScene(EntityFactory& entity_factory, BrickEngine& engine);
     
     static std::string getTagStatic() {
         return "EndScene";
@@ -26,7 +26,10 @@ public:
     void start();
     void leave();
 private:
-    Json json;
+    static const int WIDTH = 1920;
+    static const int HEIGHT = 1080;
+    
+    std::vector<PlayerSpawn> player_spawns;
 };
 
 #endif // FILE_SCORE_SCENE_HPP

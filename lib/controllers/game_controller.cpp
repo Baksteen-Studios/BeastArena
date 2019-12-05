@@ -421,9 +421,7 @@ void GameController::loadEndGameLevel() {
         scores.insert_or_assign(player->name, score);
     }
     score_controller->writeScores(scores);
-    // Load the json
-    Json json { END_GAME_PATH, true };
-    scene_manager->createScene<EndScene>(*entityFactory, *engine, json);
+    scene_manager->createScene<EndScene>(*entityFactory, *engine);
 }
 
 void GameController::showHighscores() {

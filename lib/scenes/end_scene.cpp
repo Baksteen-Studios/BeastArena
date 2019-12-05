@@ -9,33 +9,43 @@
 #include "components/stats_component.hpp"
 #include "components/pickup_component.hpp"
 
-EndScene::EndScene(EntityFactory& entity_factory, BrickEngine& engine, Json json) : 
-    json(json),
-    BeastScene<EndScene>(entity_factory, engine, json.getInt("width"), json.getInt("height")) {};
+EndScene::EndScene(EntityFactory& entity_factory, BrickEngine& engine) : 
+    BeastScene<EndScene>(entity_factory, engine, WIDTH, HEIGHT) {};
 
 void EndScene::performPrepare() {
     entity_components = std::make_unique<std::vector<std::unique_ptr<std::vector<std::unique_ptr<Component>>>>>();
 
     // Background
-    auto comps = factory.createImage(json.getString("bg_path"), json.getInt("width") / 2, json.getInt("height") / 2, json.getInt("width"), json.getInt("height"), getRelativeModifier(), Layers::Background, 255);
-    entity_components->push_back(std::move(comps));
+    entity_components->push_back(factory.createImage("backgrounds/arena.jpg", WIDTH / 2, HEIGHT / 2, WIDTH, HEIGHT, getRelativeModifier(), Layers::Background, 255));
 
-    for (auto solid : json.getVector("solids")) {
-        auto comps = factory.createPlatform(solid.getInt("x"), solid.getInt("y"), solid.getInt("xScale"), solid.getInt("yScale"), getRelativeModifier(), solid.getString("texture_path"), solid.getInt("alpha"));
-        entity_components->push_back(std::move(comps));
-    }
+    // Borders
+    entity_components->push_back(factory.createPlatform(1159, 975, 200, 10, getRelativeModifier(), "colors/black.jpg", 255));
+    entity_components->push_back(factory.createPlatform(855, 840, 10, 120, getRelativeModifier(), "colors/black.jpg", 255));
+    entity_components->push_back(factory.createPlatform(955, 780, 209, 10, getRelativeModifier(), "colors/black.jpg", 255));
+    entity_components->push_back(factory.createPlatform(760, 900, 200, 10, getRelativeModifier(), "colors/black.jpg", 255));
+    entity_components->push_back(factory.createPlatform(660, 988, 10, 187, getRelativeModifier(), "colors/black.jpg", 255));
+    entity_components->push_back(factory.createPlatform(1054, 880, 10, 200, getRelativeModifier(), "colors/black.jpg", 255));
+    entity_components->push_back(factory.createPlatform(1254, 1030, 10, 101, getRelativeModifier(), "colors/black.jpg", 255));
 
-    auto& em = factory.getEntityManager();
-    
-    for (auto text : json.getVector("texts")){
-        entity_components->push_back(std::move(factory.createText(text.getString("text"), 
-        {(unsigned short int)text.getInt("r"), (unsigned short int)text.getInt("g"), (unsigned short int)text.getInt("b"), (unsigned short int)text.getInt("alpha")}, 
-        text.getInt("font_size"), text.getInt("x"), text.getInt("y"), text.getInt("x_scale"), text.getInt("y_scale"), getRelativeModifier())));
-    }
+    // Blue blocks
+    entity_components->push_back(factory.createPlatform(960, 930, 200, 300, getRelativeModifier(), "colors/blue.jpg", 255));
+    entity_components->push_back(factory.createPlatform(1159, 1020, 200, 100, getRelativeModifier(), "colors/blue.jpg", 255));
+    entity_components->push_back(factory.createPlatform(760, 1000, 200, 200, getRelativeModifier(), "colors/blue.jpg", 255));
+    entity_components->push_back(factory.createPlatform(1254, 1030, 10, 10, getRelativeModifier(), "colors/blue.jpg", 255));
+
+    // Letters
+    entity_components->push_back(factory.createText("1", {255, 255, 255, 255}, 25, 960, 960, 200, 400, getRelativeModifier()));
+    entity_components->push_back(factory.createText("2", {255, 255, 255, 255}, 25, 770, 1025, 100, 200, getRelativeModifier()));
+    entity_components->push_back(factory.createText("3", {255, 255, 255, 255}, 25, 1150, 1050, 50, 100, getRelativeModifier()));
+
+    // Prepare playerspawns;
+    player_spawns.push_back({ 950, 500});
+    player_spawns.push_back({ 750, 500});
+    player_spawns.push_back({ 1150, 500});
 
     // Spawn the trophy
     {
-        auto comps = factory.createImage("/items/trophy.png", this->screen_width / 1.8, 400, 50, 75, getRelativeModifier(), Layers::Middleground, 255);
+        auto comps = factory.createImage("/items/trophy.png", WIDTH / 1.8, 400, 50, 75, getRelativeModifier(), Layers::Middleground, 255);
         comps->push_back(std::make_unique<RectangleColliderComponent>(1, 1, 1, true));
         comps->push_back(std::make_unique<PhysicsComponent>(50, false, 0, 0, true, Kinematic::IS_NOT_KINEMATIC, true, true));
         comps->push_back(std::make_unique<PickupComponent>());
@@ -65,16 +75,17 @@ void EndScene::start() {
         return lhs.second > rhs.second;
     });
 
+
     int spawn = 0;
     int count = 1;  
     int y = 200;
     for(auto [entity_id, result] : results) {
         // Put player on the right position
-        auto player_spawn_json = json.getVector("player_spawns").at(spawn);
+        auto player_spawn = player_spawns.at(spawn);
         auto transformComponent = em.getComponent<TransformComponent>(entity_id);
         if(transformComponent) {
-            transformComponent->x_pos = player_spawn_json.getInt("x") / getRelativeModifier();
-            transformComponent->y_pos = player_spawn_json.getInt("y") / getRelativeModifier();
+            transformComponent->x_pos = player_spawn.x / getRelativeModifier();
+            transformComponent->y_pos = player_spawn.y / getRelativeModifier();
         }
         ++spawn;
         // Render the leaderboard
@@ -100,6 +111,9 @@ void EndScene::start() {
         ++count;
         y += 50;
     }
+    engine.getSoundManager().playMusic("music/endgame.mp3");
 }
 
-void EndScene::leave() {}
+void EndScene::leave() {
+    engine.getSoundManager().stopMusic();
+}

@@ -37,7 +37,6 @@ public:
     inline static const int SCREEN_HEIGHT = 900;
     inline static const int SCREEN_WIDTH = 1600;
 private:
-    inline static const std::string END_GAME_PATH = "assets/stdlevels/endgame.json";
     bool should_quit;
 
     void createGameStateManager();
