@@ -14,7 +14,7 @@ MovementSystem::MovementSystem(CollisionDetector2& cd,
     : BeastSystem(ef, entityManager), collision_detector(cd) {}
 
 void MovementSystem::update(double) {
-    auto input = BrickInput<PlayerInput>::getInstance();
+    auto& input = BrickInput<PlayerInput>::getInstance();
     auto entitiesWithPlayer = entityManager->getEntitiesByComponent<PlayerComponent>();
 
      for (auto& [entity_id, player]: entitiesWithPlayer) {
