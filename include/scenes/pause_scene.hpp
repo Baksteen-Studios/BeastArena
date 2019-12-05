@@ -1,18 +1,19 @@
 #ifndef FILE_PAUSE_SCENE_HPP
 #define FILE_PAUSE_SCENE_HPP
 
-#include <string>
+#include <memory>
+
 #include "scenes/menu.hpp"
 #include "entities/entity_factory.hpp"
 #include "enums/game_state.hpp"
 
 class PauseScene : public Menu<PauseScene> {
 public:
-    PauseScene(EntityFactory& factory, BrickEngine& engine) : Menu<PauseScene>(factory, engine, WIDTH, HEIGHT) {};
+    PauseScene(EntityFactory& factory, BrickEngine& engine);
     static std::string getTagStatic() {
         return "PauseScene";
     };
-    GameState getSystemState() {
+    GameState getSystemState() const{
         return GameState::Paused;
     };
     static SceneLayer getLayerStatic() {
@@ -24,7 +25,7 @@ public:
 protected:
     void performPrepare();
 private:
-    static const int WIDTH;
-    static const int HEIGHT;
+    static const int WIDTH = 1920;
+    static const int HEIGHT = 1080;
 };
 #endif // FILE_PAUSE_SCENE_HPP

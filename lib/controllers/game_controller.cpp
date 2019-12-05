@@ -35,6 +35,7 @@ using namespace std::chrono_literals;
 #include "systems/game_system.hpp"
 #include "systems/lobby_system.hpp"
 #include "systems/spawn_system.hpp"
+#include "systems/pause_system.hpp"
 
 #include "entities/layers.hpp"
 #include "player_input.hpp"
@@ -56,6 +57,7 @@ using namespace std::chrono_literals;
 #include "components/stats_component.hpp"
 #include "scenes/level_scene.hpp"
 #include "scenes/intermission_scene.hpp"
+#include "scenes/pause_scene.hpp"
 #include <algorithm>
 
 GameController::GameController() {
@@ -96,8 +98,6 @@ void GameController::createGameStateManager() {
     state_systems->at(GameState::MainMenu)->push_back(std::make_unique<GameSpeedSystem>(entityManager, *delta_time_modifier.get()));
     state_systems->at(GameState::MainMenu)->push_back(std::make_unique<ClickSystem>(entityManager));
     state_systems->at(GameState::MainMenu)->push_back(std::make_unique<RenderingSystem>(entityManager, *engine->getRenderer()));
-    state_systems->at(GameState::MainMenu)->push_back(std::make_unique<ClickSystem>(entityManager));
-    state_systems->at(GameState::MainMenu)->push_back(std::make_unique<RenderingSystem>(entityManager, *engine->getRenderer()));
 
     // Lobby
     state_systems->at(GameState::Lobby)->push_back(std::make_unique<LobbySystem>(entityFactory, entityManager));
@@ -114,6 +114,7 @@ void GameController::createGameStateManager() {
 
     // In game
     state_systems->at(GameState::InGame)->push_back(std::make_unique<GameSpeedSystem>(entityManager, *delta_time_modifier.get()));
+    state_systems->at(GameState::InGame)->push_back(std::make_unique<PauseSystem>(entityManager, *this));
     state_systems->at(GameState::InGame)->push_back(std::make_unique<GameSystem>(entityManager, *this));
     state_systems->at(GameState::InGame)->push_back(std::make_unique<ClickSystem>(entityManager));
     state_systems->at(GameState::InGame)->push_back(std::make_unique<MovementSystem>(collisionDetector, entityManager, entityFactory));
@@ -125,6 +126,11 @@ void GameController::createGameStateManager() {
     state_systems->at(GameState::InGame)->push_back(std::make_unique<DespawnSystem>(collisionDetector, entityManager, SCREEN_WIDTH, SCREEN_HEIGHT));
     state_systems->at(GameState::InGame)->push_back(std::make_unique<SpawnSystem>(entityManager, entityFactory));
     state_systems->at(GameState::InGame)->push_back(std::make_unique<RenderingSystem>(entityManager, *engine->getRenderer()));
+
+    // Paused
+    state_systems->at(GameState::Paused)->push_back(std::make_unique<PauseSystem>(entityManager, *this));
+    state_systems->at(GameState::Paused)->push_back(std::make_unique<ClickSystem>(entityManager));
+    state_systems->at(GameState::Paused)->push_back(std::make_unique<RenderingSystem>(entityManager, *engine->getRenderer()));
 
     std::unordered_map<GameState, bool> reset_on_set_state;
     reset_on_set_state.insert({ GameState::InGame, true });
@@ -234,6 +240,7 @@ void GameController::setupInput() {
     time_to_wait_mapping[PlayerInput::SPEED_DOWN] = 0.1;
     time_to_wait_mapping[PlayerInput::SPEED_UP] = 0.1;
     time_to_wait_mapping[PlayerInput::SPEED_RESET] = 0.1;
+    time_to_wait_mapping[PlayerInput::PAUSE] = 0.1;
 
     input.setInputMapping(inputMapping, time_to_wait_mapping, axis_mapping);
 }
@@ -397,4 +404,8 @@ void GameController::loadEndGameLevel() {
     for (auto& [entity_id, points] : results) {
         auto player = entityManager->getComponent<PlayerComponent>(entity_id);
     }
+}
+
+void GameController::pauseGame() {
+    scene_manager->createScene<PauseScene>(*entityFactory, *engine);
 }
