@@ -215,7 +215,6 @@ EntityFactory::Components EntityFactory::createPlatform(double x_pos, double y_p
     return std::move(comps);
 }
 
-//std::pair<int, int> EntityFactory::createButton(const Button button, const double relative_modifier) {
 std::vector<EntityFactory::Components> EntityFactory::createButton(std::string text, Color text_color, int font_size,
     std::string texture_path, int x, int y, int x_scale, int y_scale, 
     int alpha, double relative_modifier, std::function<void ()> on_click) {

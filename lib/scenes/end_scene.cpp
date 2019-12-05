@@ -50,18 +50,9 @@ void EndScene::start() {
     // entity_id and points
     std::vector<std::pair<int, int>> results;
   
-    int spawn = 0;
     for (auto& [ entity_id, player ] : entities_with_player) {
         auto stats = em.getComponent<StatsComponent>(entity_id);
         results.push_back(std::make_pair(entity_id, stats->levels_won));
-
-        auto player_spawn_json = json.getVector("player_spawns").at(spawn);
-        auto transformComponent = em.getComponent<TransformComponent>(entity_id);
-        if(transformComponent) {
-            transformComponent->x_pos = player_spawn_json.getInt("x") / getRelativeModifier();
-            transformComponent->y_pos = player_spawn_json.getInt("y") / getRelativeModifier();
-        }
-        ++spawn;
 
         // Revive the player
         auto health_component = em.getComponent<HealthComponent>(entity_id);
@@ -74,9 +65,18 @@ void EndScene::start() {
         return lhs.second > rhs.second;
     });
 
+    int spawn = 0;
     int count = 1;  
     int y = 200;
     for(auto [entity_id, result] : results) {
+        // Put player on the right position
+        auto player_spawn_json = json.getVector("player_spawns").at(spawn);
+        auto transformComponent = em.getComponent<TransformComponent>(entity_id);
+        if(transformComponent) {
+            transformComponent->x_pos = player_spawn_json.getInt("x") / getRelativeModifier();
+            transformComponent->y_pos = player_spawn_json.getInt("y") / getRelativeModifier();
+        }
+        ++spawn;
         // Render the leaderboard
         auto stats_component = em.getComponent<StatsComponent>(entity_id);
         auto player_component = em.getComponent<PlayerComponent>(entity_id);

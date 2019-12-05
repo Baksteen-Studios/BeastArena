@@ -1,11 +1,14 @@
+#include <filesystem>
+
 #include "controllers/score_controller.hpp"
-
 #include "brickengine/json/json.hpp"
-
 #include "brickengine/components/player_component.hpp"
 
 void ScoreController::writeScores(std::unordered_map<std::string, Score> scores) {
-    auto json = Json { HIGHSCORES_PATH, true };
+    Json json;
+    if(std::filesystem::exists(HIGHSCORES_PATH)) {
+        json = Json { HIGHSCORES_PATH, true };
+    }
     for (auto& [name, score] : scores) {
         // Retrieve statistics from the previous game.
         auto kills = score.kills;
@@ -15,11 +18,13 @@ void ScoreController::writeScores(std::unordered_map<std::string, Score> scores)
         auto accidents = score.accidents;
 
         Json object = json.getObject(name);
-        kills += object.getInt("kills");
-        deaths += object.getInt("deaths");
-        killed_critters += object.getInt("killed_critters");
-        levels_won += object.getInt("levels_won");
-        accidents += object.getInt("accidents");
+        if(std::filesystem::exists(HIGHSCORES_PATH)) {
+            kills += object.getInt("kills");
+            deaths += object.getInt("deaths");
+            killed_critters += object.getInt("killed_critters");
+            levels_won += object.getInt("levels_won");
+            accidents += object.getInt("accidents");
+        }
 
         // Add the statistics to the json.
         object.setInt("kills", kills);
@@ -38,17 +43,19 @@ void ScoreController::writeScores(std::unordered_map<std::string, Score> scores)
 }
 
 ScoreController::Scores ScoreController::readScores() {
-    auto json = Json { HIGHSCORES_PATH, true };
     Scores scores;
-    auto map = json.getUnorderedMap();
-    for(auto [key, object] : map) {
-        Score score;
-        score.accidents = object.getInt("accidents");
-        score.kills = object.getInt("kills");
-        score.deaths = object.getInt("deaths");
-        score.killed_critters = object.getInt("killed_critters");
-        score.levels_won = object.getInt("levels_won");
-        scores[key] = score;
+    if(std::filesystem::exists(HIGHSCORES_PATH)) {
+        auto json = Json { HIGHSCORES_PATH, true };
+        auto map = json.getUnorderedMap();
+        for(auto [key, object] : map) {
+            Score score;
+            score.accidents = object.getInt("accidents");
+            score.kills = object.getInt("kills");
+            score.deaths = object.getInt("deaths");
+            score.killed_critters = object.getInt("killed_critters");
+            score.levels_won = object.getInt("levels_won");
+            scores[key] = score;
+        }
     }
     return scores;
 }

@@ -11,7 +11,9 @@ public:
     Scores readScores();
     void writeScores(std::unordered_map<std::string, Score> scores);
 private:
-    inline static const std::string HIGHSCORES_PATH = "assets/highscores.json";
+    // This is not the assets/highscores.json path since it is not really an asset.
+    // The assets/highscores.json is just an example.
+    inline static const std::string HIGHSCORES_PATH = "highscores.json";
 };
 
 #endif // FILE_SCORE_CONTROLLER_HPP

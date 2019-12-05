@@ -19,6 +19,7 @@ private:
     std::vector<std::pair<std::string, Score>> scores;
     int selector = 0;
     bool initialized = false;;
+    bool empty = false;
 };
 
 #endif // FILE_HIGHSCORE_SYSTEM_HPP
