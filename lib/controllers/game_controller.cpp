@@ -78,6 +78,7 @@ GameController::GameController() {
     is_trigger_exceptions.insert({ "Weapon", std::set<std::string> { "Platform" } });
     is_trigger_exceptions.insert({ "Player", std::set<std::string> { "Platform" } });
     is_trigger_exceptions.insert({ "Bullet", std::set<std::string> { "Player" } });
+    is_trigger_exceptions.insert({ "DeadPlayer", std::set<std::string> { "Platform" } });
     collision_detector = std::make_unique<CollisionDetector2>(is_trigger_exceptions, *entityManager);
 
     createGameStateManager();

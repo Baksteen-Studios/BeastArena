@@ -11,11 +11,14 @@ void DamageSystem::update(double) {
     for (auto& [entity_id, damage_comp]: entities_with_damage_component) {
         auto collisions = collision_detector.detectCollision(entity_id);
         if (!collisions.empty()) {
+            bool should_despawn = false;
             for (const Collision& c : collisions) {
+                if (c.is_trigger) continue;
                 if (c.opposite_id == damage_comp->damage_dealer_entity_id) continue;
                 this->collide(*damage_comp, c);
+                should_despawn = true;
             }
-            if (damage_comp->despawn)
+            if (damage_comp->despawn && should_despawn)
                 entityManager->removeEntity(entity_id);
         }
     }

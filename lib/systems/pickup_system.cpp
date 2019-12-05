@@ -28,15 +28,12 @@ void PickupSystem::update(double){
             }
             else {
                 auto collisions = collision_detector.detectDiscreteCollision(entity_id);
-                auto is_trigger_collision = std::find_if(collisions.begin(), collisions.end(),
-                [](DiscreteCollision& collision) {
-                    return collision.is_trigger;
-                });
-                if (is_trigger_collision == collisions.end()) continue;
+                for (auto& collision : collisions) {
+                    if (!collision.is_trigger) continue;
+                    int pickup_entity_id = collision.opposite_id;
+                    auto pickup = entityManager->getComponent<PickupComponent>(pickup_entity_id);
+                    if (!pickup) continue;
 
-                int pickup_entity_id = is_trigger_collision->opposite_id;
-                auto pickup = entityManager->getComponent<PickupComponent>(pickup_entity_id);
-                if (pickup) {
                     auto pickup_transform = entityManager->getComponent<TransformComponent>(pickup_entity_id);
                     auto entity_transform = entityManager->getComponent<TransformComponent>(entity_id);
                     auto [ entity_position, entity_scale ] = entityManager->getAbsoluteTransform(entity_id);
@@ -53,6 +50,9 @@ void PickupSystem::update(double){
                     pickup_transform->x_scale /= entity_scale.x;
                     pickup_transform->y_scale /= entity_scale.y;
                     entityManager->setParent(pickup_entity_id, entity_id, true);
+
+                    // We can only pick up one single thing, so now that we have picked up something, break the loop
+                    break;
                 }
             }
         }
