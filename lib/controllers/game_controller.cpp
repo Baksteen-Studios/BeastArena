@@ -150,6 +150,7 @@ void GameController::createGameStateManager() {
     state_systems->at(GameState::EndGame)->push_back(std::make_unique<SpawnSystem>(entityManager, entityFactory));
     state_systems->at(GameState::EndGame)->push_back(std::make_unique<RenderingSystem>(entityManager, *engine->getRenderer()));
 
+    // Highscores
     state_systems->at(GameState::Highscore)->push_back(std::make_unique<ClickSystem>(entityManager));
     state_systems->at(GameState::Highscore)->push_back(std::make_unique<HighscoreSystem>(entityManager, entityFactory, *score_controller));
     state_systems->at(GameState::Highscore)->push_back(std::make_unique<RenderingSystem>(entityManager, *engine->getRenderer()));
@@ -427,5 +428,5 @@ void GameController::loadEndGameLevel() {
 
 void GameController::showHighscores() {
     scene_manager->destroyAllScenes();
-    scene_manager->createScene<HighscoreScene>(*entityFactory, *engine, *score_controller);
+    scene_manager->createScene<HighscoreScene>(*entityManager, *entityFactory, *engine, *score_controller, *this);
 }

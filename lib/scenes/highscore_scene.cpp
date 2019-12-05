@@ -2,52 +2,27 @@
 #include "brickengine/input.hpp"
 #include "player_input.hpp"
 
-HighscoreScene::HighscoreScene(EntityFactory& entity_factory, BrickEngine& engine, ScoreController& score_controller)
-    : score_controller(score_controller), BeastScene<HighscoreScene>(entity_factory, engine, GameController::SCREEN_WIDTH, GameController::SCREEN_HEIGHT) {}
+HighscoreScene::HighscoreScene(EntityManager& entity_manager, EntityFactory& entity_factory, BrickEngine& engine, ScoreController& score_controller, GameController& game_controller)
+    : entity_manager(entity_manager), score_controller(score_controller), game_controller(game_controller), 
+        BeastScene<HighscoreScene>(entity_factory, engine, GameController::SCREEN_WIDTH, GameController::SCREEN_HEIGHT) {}
 
 void HighscoreScene::performPrepare() {
     scores = score_controller.readScores();
+
+    entity_components = std::make_unique<std::vector<std::unique_ptr<std::vector<std::unique_ptr<Component>>>>>();
+    // Create the background
+    entity_components->push_back(factory.createImage("backgrounds/pixel-forest.png", this->width / 2, this->height / 2, this->width, this->height, getRelativeModifier(), Layers::Background, 255));
+    // Back button
+        auto on_click = [gm = &game_controller]() {
+            gm->loadMainMenu();
+        };
+        auto comps_list = factory.createButton("Back", { 255, 255, 255, 255 }, 72, "menu/button.png", 100, 100, 150, 100, 255, getRelativeModifier(), on_click);
+        for(auto& comps : comps_list) {
+            entity_components->push_back(std::move(comps));
+        }
 }
 
 void HighscoreScene::start() {
-    std::vector<EntityFactory::Components> entity_components;
-    // Load the first object
-    auto score = scores.begin();
-    auto name = score->first;
-    auto highscore = score->second;
-    {
-        auto comps = factory.createText(score->first, { 255, 255, 255, 255}, 25, 100, 100, name.size() * 15, 25, getRelativeModifier());
-        entity_components.push_back(std::move(comps));
-    }
-    {
-        auto text = "Kills: " + std::to_string(highscore.kills);
-        auto comps = factory.createText(text, { 255, 255, 255, 255}, 25, 100, 150, name.size() * 15, 25, getRelativeModifier());
-        entity_components.push_back(std::move(comps));
-    }
-    {
-        auto text = "Deaths: " + std::to_string(highscore.deaths);
-        auto comps = factory.createText(text, { 255, 255, 255, 255}, 25, 100, 200, name.size() * 15, 25, getRelativeModifier());
-        entity_components.push_back(std::move(comps));
-    }
-    {
-        auto text = "Accidents: " + std::to_string(highscore.accidents);
-        auto comps = factory.createText(text, { 255, 255, 255, 255}, 25, 100, 250, name.size() * 15, 25, getRelativeModifier());
-        entity_components.push_back(std::move(comps));
-    }
-    {
-        auto text = "Levels won: " + std::to_string(highscore.levels_won);
-        auto comps = factory.createText(text, { 255, 255, 255, 255}, 25, 100, 300, name.size() * 15, 25, getRelativeModifier());
-        entity_components.push_back(std::move(comps));
-    }
-    {
-        auto text = "Critters killed: " + std::to_string(highscore.killed_critters);
-        auto comps = factory.createText(text, { 255, 255, 255, 255}, 25, 100, 350, name.size() * 15, 25, getRelativeModifier());
-        entity_components.push_back(std::move(comps));
-    }
-    for (auto& comp : entity_components) {
-        factory.addToEntityManager(std::move(comp), std::nullopt, "highscore_player");
-    }
-
     auto& input = BrickInput<PlayerInput>::getInstance();
     input.setTimeToWait(1, PlayerInput::X_AXIS, 0.1);
 }
@@ -55,4 +30,6 @@ void HighscoreScene::start() {
 void HighscoreScene::leave() {
     auto& input = BrickInput<PlayerInput>::getInstance();
     input.removeTimeToWait(1, PlayerInput::X_AXIS);
+
+    entity_manager.removeEntitiesWithTag("HighscoreScene_player");
 }

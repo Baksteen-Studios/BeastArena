@@ -5,7 +5,7 @@
 
 class HighscoreScene : public BeastScene<HighscoreScene> {
 public:
-    HighscoreScene(EntityFactory& entity_factory, BrickEngine& engine, ScoreController& score_controller);
+    HighscoreScene(EntityManager& entity_manager, EntityFactory& entity_factory, BrickEngine& engine, ScoreController& score_controller, GameController& game_controller);
 
     static std::string getTagStatic() {
         return "HighscoreScene";
@@ -20,7 +20,9 @@ public:
     void start();
     void leave();
 private:
+    EntityManager& entity_manager;
     ScoreController& score_controller;
+    GameController& game_controller;
     ScoreController::Scores scores;
 };
 
