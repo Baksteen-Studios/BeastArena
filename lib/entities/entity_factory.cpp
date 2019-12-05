@@ -28,10 +28,8 @@ EntityFactory::EntityFactory(std::shared_ptr<EntityManager> em, RenderableFactor
     player_on_death = [em = entityManager](int entity_id) {
         auto transform = em->getComponent<TransformComponent>(entity_id);
         auto player = em->getComponent<PlayerComponent>(entity_id);
-        auto collider = em->getComponent<RectangleColliderComponent>(entity_id);
         transform->y_direction = Direction::NEGATIVE;
         player->disabled = true;
-        collider->is_trigger = true;
         em->removeTag(entity_id, "Player");
         em->setTag(entity_id, "DeadPlayer");
         em->addComponentToEntity(entity_id, std::make_unique<PickupComponent>(true, false));
@@ -41,9 +39,7 @@ EntityFactory::EntityFactory(std::shared_ptr<EntityManager> em, RenderableFactor
         auto player = em->getComponent<PlayerComponent>(entity_id);
         auto physics = em->getComponent<PhysicsComponent>(entity_id);
         auto health = em->getComponent<HealthComponent>(entity_id);
-        auto collider = em->getComponent<RectangleColliderComponent>(entity_id);
         transform->y_direction = Direction::POSITIVE;
-        collider->is_trigger = false;
         player->disabled = false;
         physics->kinematic = Kinematic::IS_NOT_KINEMATIC;
         health->health = health->max_health;
