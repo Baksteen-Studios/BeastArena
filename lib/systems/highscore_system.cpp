@@ -14,7 +14,7 @@ void HighscoreSystem::update(double) {
         if(scores.size() == 0) {
             if(!empty) {
                 auto comps = entity_factory->createText("No highscores recorded yet!", { 255, 255, 255, 255}, 100, 800, 250, 27 * 30, 100, 1);
-                entity_factory->addToEntityManager(std::move(comps));
+                entity_factory->addToEntityManager(std::move(comps), "HighscoreScene");
                 empty = true;
             }
         }
@@ -57,7 +57,7 @@ void HighscoreSystem::createHighscores(std::string name, Score score) {
     // Watch out! This method does not use the relative modifier as it is not possible to access this in a system
     // Because we do not have scaling, we won't bother with it for now but we have a Github Issue
 
-    std::vector<EntityFactory::Components> entity_components;
+    std::vector<EntityComponents> entity_components;
     // Load the first object
     {
         auto comps = entity_factory->createText(name, { 255, 255, 255, 255}, 100, 800, 250, name.size() * 30, 100, 1);
@@ -89,6 +89,6 @@ void HighscoreSystem::createHighscores(std::string name, Score score) {
         entity_components.push_back(std::move(comps));
     }
     for (auto& comp : entity_components) {
-        entity_factory->addToEntityManager(std::move(comp), std::nullopt, "HighscoreScene_player");
+        entity_factory->addToEntityManager(std::move(comp), "HighscoreScene_player");
     }
 }

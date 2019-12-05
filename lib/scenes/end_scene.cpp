@@ -13,7 +13,7 @@ EndScene::EndScene(EntityFactory& entity_factory, BrickEngine& engine) :
     BeastScene<EndScene>(entity_factory, engine, WIDTH, HEIGHT) {};
 
 void EndScene::performPrepare() {
-    entity_components = std::make_unique<std::vector<std::unique_ptr<std::vector<std::unique_ptr<Component>>>>>();
+    entity_components = std::make_unique<std::vector<EntityComponents>>();;
 
     // Background
     entity_components->push_back(factory.createImage("backgrounds/arena.jpg", WIDTH / 2, HEIGHT / 2, WIDTH, HEIGHT, getRelativeModifier(), Layers::Background, 255));
@@ -44,14 +44,7 @@ void EndScene::performPrepare() {
     player_spawns.push_back({ 1150, 500});
 
     // Spawn the trophy
-    {
-        auto comps = factory.createImage("/items/trophy.png", WIDTH / 1.8, 400, 50, 75, getRelativeModifier(), Layers::Middleground, 255);
-        comps->push_back(std::make_unique<RectangleColliderComponent>(1, 1, 1, true));
-        comps->push_back(std::make_unique<PhysicsComponent>(50, false, 0, 0, true, Kinematic::IS_NOT_KINEMATIC, true, true));
-        comps->push_back(std::make_unique<PickupComponent>());
-        comps->push_back(std::make_unique<DespawnComponent>(false, true));
-        entity_components->push_back(std::move(comps));
-    }
+    entity_components->push_back(factory.createTrophy(WIDTH / 1.8, 400, 50, 75, getRelativeModifier(), Layers::Middleground, 255));
 }
 
 void EndScene::start() {
@@ -103,7 +96,7 @@ void EndScene::start() {
         text = text + std::to_string(result);
 
         auto comps = factory.createText(text, { 255, 255, 255, 255 }, 50, this->screen_width / 2, y, 750, 50, 1);
-        factory.addToEntityManager(std::move(comps));
+        factory.addToEntityManager(std::move(comps), "EndScene");
 
         // Add the player's last position to his stats component.
         stats_component->last_game_result = count;

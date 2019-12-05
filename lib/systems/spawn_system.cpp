@@ -32,7 +32,7 @@ void SpawnSystem::update(double deltatime) {
             int random_gadget = r.getRandomInt(0, spawn->comp_fns.size() - 1);
             auto gadget_comps = spawn->comp_fns[random_gadget]();
 
-            int spawned_gadget_id = entityManager->createEntity(std::move(gadget_comps), std::make_pair(entity_id, false));
+            int spawned_gadget_id = entityManager->createEntity(std::move(gadget_comps.components), std::make_pair(entity_id, false));
             spawn->spawned_entity = spawned_gadget_id;
 
             auto transform = entityManager->getComponent<TransformComponent>(spawned_gadget_id);

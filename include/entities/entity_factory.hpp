@@ -10,6 +10,8 @@
 #include "brickengine/rendering/renderables/texture.hpp"
 #include "brickengine/rendering/renderable_factory.hpp"
 #include "brickengine/rendering/renderables/data/color.hpp"
+#include "brickengine/rendering/renderables/data/color.hpp"
+
 #include "entities/layers.hpp"
 #include "components/health_component.hpp"
 #include "components/spawn_component.hpp"
@@ -20,7 +22,6 @@
 
 class EntityFactory {
 public:
-    using Components = std::unique_ptr<std::vector<std::unique_ptr<Component>>>;
     EntityFactory(std::shared_ptr<EntityManager> em, RenderableFactory& rf);
     ~EntityFactory() = default;
 
@@ -31,21 +32,21 @@ public:
         return renderableFactory;
     };
 
-    Components createPlayer(int player_id, Character character, int x = -2000, int y = -2000) const;
-    Components createCritter(double x_pos, double y_pos) const;
-    Components createImage(std::string path, int x_pos, int y_pos, int x_scale, int y_scale, double relative_modifier, Layers layer, int alpha);
-    Components createPlatform(double x_pos, double y_pos, double x_scale, double y_scale, double relative_modifier, std::string path, int alpha);
-    std::vector<EntityFactory::Components> createButton(std::string text, Color text_color, int font_size,
+    EntityComponents createPlayer(int player_id, Character character, int x = -2000, int y = -2000) const;
+    EntityComponents createCritter(double x_pos, double y_pos) const;
+    EntityComponents createImage(std::string path, int x_pos, int y_pos, int x_scale, int y_scale, double relative_modifier, Layers layer, int alpha);
+    EntityComponents createPlatform(double x_pos, double y_pos, double x_scale, double y_scale, double relative_modifier, std::string path, int alpha);
+    EntityComponents createTrophy(int x, int y, int x_scale, int y_scale, double relative_modifier, Layers layer, int alpha);
+    std::vector<EntityComponents> createButton(std::string text, Color text_color, int font_size,
         std::string texture_path, int x, int y, int x_scale, int y_scale, 
         int alpha, double relative_modifier, std::function<void ()> on_click);
-    Components createText(std::string text, Color color, int font_size, int x, int y, int x_scale, int y_scale, double relative_modifier);
+    EntityComponents createText(std::string text, Color color, int font_size, int x, int y, int x_scale, int y_scale, double relative_modifier);
 
-    int addToEntityManager(std::unique_ptr<std::vector<std::unique_ptr<Component>>> component_list, 
-                    std::optional<std::pair<int,bool>> parent_opt = std::nullopt, std::optional<std::string> scene_tag = std::nullopt);
+    int addToEntityManager(EntityComponents entity_components, std::string scene_tag ,std::optional<std::pair<int,bool>> parent_opt = std::nullopt);
 
-    Components createSpawner(double x_pos, double y_pos, std::vector<GadgetType> available_spawns, int respawn_timer,
+    EntityComponents createSpawner(double x_pos, double y_pos, std::vector<GadgetType> available_spawns, int respawn_timer,
                       bool always_respawn)  const;
-    Components createCharacterSelector(int player_id, int x, int y, double relative_modifier);
+    EntityComponents createCharacterSelector(int player_id, int x, int y, double relative_modifier);
     void changeCharacterSelectorTexture(int entity_id, Character character, bool create);
 
     const std::vector<Character> getAvailableCharacters() const;

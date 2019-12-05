@@ -13,7 +13,7 @@ LevelScene::LevelScene(EntityFactory& factory, BrickEngine& engine, Json json)
     }
 
 void LevelScene::performPrepare() {
-    entity_components = std::make_unique<std::vector<std::unique_ptr<std::vector<std::unique_ptr<Component>>>>>();
+    entity_components = std::make_unique<std::vector<EntityComponents>>();;
 
     this->description = json.getString("description");
     this->version = json.getDouble("version");
@@ -94,14 +94,14 @@ void LevelScene::performPrepare() {
     }
 }
 void LevelScene::start() {
-    entity_components = std::make_unique<std::vector<std::unique_ptr<std::vector<std::unique_ptr<Component>>>>>();
+    entity_components = std::make_unique<std::vector<EntityComponents>>();
     
     auto& em = factory.getEntityManager();
     auto& r = Random::getInstance(); 
 
     // Create the background
     auto comps = factory.createImage(this->bg_path, this->width / 2, this->height / 2, this->width, this->height, getRelativeModifier(), Layers::Background, 255);
-    factory.addToEntityManager(std::move(comps));
+    factory.addToEntityManager(std::move(comps), "LevelScene");
 
     // Load the players on the spawn locations
     auto entities_with_player = em.getEntitiesByComponent<PlayerComponent>();
@@ -137,7 +137,7 @@ void LevelScene::start() {
             int xScale = platform.xScale;
             int yScale = platform.yScale;
             auto comps = factory.createPlatform(x, y, xScale, yScale, getRelativeModifier(), platform.texture_path, platform.alpha);
-            factory.addToEntityManager(std::move(comps));
+            factory.addToEntityManager(std::move(comps), "LevelScene");
         }
     }
     

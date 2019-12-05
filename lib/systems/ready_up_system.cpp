@@ -30,7 +30,7 @@ void ReadyUpSystem::update(double delta_time){
                 // Adding a new texture that shows the user has readied up in the endgame screen. Where the image is placed is hardcoded, When scaling is added to the game, 
                 // this code should be taken into consideration for changing when the 
                 auto comps = entity_factory->createImage("menu/check.png", (1600 * 0.75) + 20, 200 + ((stats_component->last_game_result - 1) * 50), 56, 44, 1, Layers::UI, 255);
-                entity_factory->addToEntityManager(std::move(comps));
+                entity_factory->addToEntityManager(std::move(comps), "EndScene");
             }
 
             if(ready_component->readied_up){

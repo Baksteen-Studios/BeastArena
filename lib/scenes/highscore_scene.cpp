@@ -9,7 +9,7 @@ HighscoreScene::HighscoreScene(EntityManager& entity_manager, EntityFactory& ent
 void HighscoreScene::performPrepare() {
     scores = score_controller.readScores();
 
-    entity_components = std::make_unique<std::vector<std::unique_ptr<std::vector<std::unique_ptr<Component>>>>>();
+    entity_components = std::make_unique<std::vector<EntityComponents>>();
     // Create the background
     entity_components->push_back(factory.createImage("backgrounds/pixel-forest.png", this->width / 2, this->height / 2, this->width, this->height, getRelativeModifier(), Layers::Background, 255));
     // Back button

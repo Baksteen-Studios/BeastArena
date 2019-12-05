@@ -69,12 +69,11 @@ void LobbySystem::update(double) {
                         selector->picked = true;
 
                         auto transform_component = em->getComponent<TransformComponent>(entity_id);
-                        int id = ef->addToEntityManager(ef->createPlayer(selector->player_id, selector->selected_character, transform_component->x_pos, transform_component->y_pos), std::nullopt, "Lobby");
+                        int id = ef->addToEntityManager(ef->createPlayer(selector->player_id, selector->selected_character, transform_component->x_pos, transform_component->y_pos), "Lobby");
                         selector->player_entity_id = id;
 
                         // When creating the checkmark, the relative modifier has already been applied so we use modifier 1 to prevent weird sizes and coordinates
-                        auto comps = ef->createImage("menu/check.png", transform_component->x_pos, transform_component->y_pos, 84, 66, 1, Layers::Middleground, 255);
-                        ef->addToEntityManager(std::move(comps));
+                        ef->addToEntityManager(ef->createImage("menu/check.png", transform_component->x_pos, transform_component->y_pos, 84, 66, 1, Layers::Middleground, 255), "Lobby");
 
                         input.removeTimeToWait(selector->player_id, PlayerInput::X_AXIS);
                     }

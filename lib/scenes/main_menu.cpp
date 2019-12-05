@@ -18,7 +18,7 @@ MainMenu::MainMenu(EntityFactory& factory, BrickEngine& engine, GameController& 
     : Menu(factory, engine, WIDTH, HEIGHT), game_controller(game_controller) { }
 
 void MainMenu::performPrepare() {
-    entity_components = std::make_unique<std::vector<std::unique_ptr<std::vector<std::unique_ptr<Component>>>>>();
+    entity_components = std::make_unique<std::vector<EntityComponents>>();
 
     // General information
     this->bg_path = "backgrounds/pixel-forest.png";
@@ -74,12 +74,12 @@ void MainMenu::start() {
 
     // Create the background
     auto comps = factory.createImage(this->bg_path, this->width / 2, this->height / 2, this->width, this->height, getRelativeModifier(), Layers::Background, 255);
-    factory.addToEntityManager(std::move(comps));
+    factory.addToEntityManager(std::move(comps), "MainMenu");
 
     // Load the images
     for(Image image : images) {
         auto comps = factory.createImage(image.texture_path, image.x, image.y, image.x_scale, image.y_scale, getRelativeModifier(), Layers::Middleground, image.alpha);
-        factory.addToEntityManager(std::move(comps));
+        factory.addToEntityManager(std::move(comps), "MainMenu");
     }
 
     engine.toggleCursor(true);
