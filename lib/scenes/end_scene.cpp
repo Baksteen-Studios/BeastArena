@@ -93,6 +93,10 @@ void EndScene::start() {
 
         auto comps = factory.createText(text, { 255, 255, 255, 255 }, 50, this->screen_width / 2, y, 750, 50, 1);
         factory.addToEntityManager(std::move(comps));
+
+        // Add the player's last position to his stats component.
+        stats_component->last_game_result = count;
+
         ++count;
         y += 50;
     }
