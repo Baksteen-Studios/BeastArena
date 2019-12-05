@@ -3,6 +3,7 @@
 
 #include "brickengine/components/component_impl.hpp"
 #include <functional>
+#include <optional>
 #include <memory>
 #include <vector>
 #include "brickengine/enum/direction.hpp"

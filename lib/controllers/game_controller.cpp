@@ -93,6 +93,7 @@ void GameController::createGameStateManager() {
     state_systems->insert({ GameState::MainMenu, std::make_unique<GameStateManager<GameState>::Systems>() });
     state_systems->insert({ GameState::Lobby, std::make_unique<GameStateManager<GameState>::Systems>() });
     state_systems->insert({ GameState::InGame, std::make_unique<std::vector<std::unique_ptr<System>>>() });
+    state_systems->insert({ GameState::Paused, std::make_unique<std::vector<std::unique_ptr<System>>>() });
 
     // Main Menu
     state_systems->at(GameState::MainMenu)->push_back(std::make_unique<GameSpeedSystem>(entityManager, *delta_time_modifier.get()));
@@ -407,5 +408,13 @@ void GameController::loadEndGameLevel() {
 }
 
 void GameController::pauseGame() {
-    scene_manager->createScene<PauseScene>(*entityFactory, *engine);
+    if(having_a_break){
+        scene_manager->destroyScene(PauseScene::getLayerStatic());
+        game_state_manager->setState(GameState::InGame);
+        having_a_break = false;
+    }else{
+        scene_manager->destroyScene(SceneLayer::Secondary);
+        scene_manager->createScene<PauseScene>(*entityFactory, *engine);
+        having_a_break = true;
+    }
 }
