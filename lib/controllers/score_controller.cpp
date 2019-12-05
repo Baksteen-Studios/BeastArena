@@ -18,7 +18,7 @@ void ScoreController::writeScores(std::unordered_map<std::string, Score> scores)
         auto accidents = score.accidents;
 
         Json object = json.getObject(name);
-        if(std::filesystem::exists(HIGHSCORES_PATH)) {
+        if(!object.empty()) {
             kills += object.getInt("kills");
             deaths += object.getInt("deaths");
             killed_critters += object.getInt("killed_critters");
