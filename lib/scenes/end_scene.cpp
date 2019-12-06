@@ -20,12 +20,12 @@ void EndScene::performPrepare() {
 
     // Borders
     entity_components->push_back(factory.createPlatform(1159, 975, 200, 10, getRelativeModifier(), "colors/black.jpg", 255));
-    entity_components->push_back(factory.createPlatform(855, 840, 10, 120, getRelativeModifier(), "colors/black.jpg", 255));
+    entity_components->push_back(factory.createPlatform(845, 834, 10, 120, getRelativeModifier(), "colors/black.jpg", 255));
     entity_components->push_back(factory.createPlatform(955, 780, 209, 10, getRelativeModifier(), "colors/black.jpg", 255));
-    entity_components->push_back(factory.createPlatform(760, 900, 200, 10, getRelativeModifier(), "colors/black.jpg", 255));
+    entity_components->push_back(factory.createPlatform(755, 900, 190, 10, getRelativeModifier(), "colors/black.jpg", 255));
     entity_components->push_back(factory.createPlatform(660, 988, 10, 187, getRelativeModifier(), "colors/black.jpg", 255));
     entity_components->push_back(factory.createPlatform(1054, 880, 10, 200, getRelativeModifier(), "colors/black.jpg", 255));
-    entity_components->push_back(factory.createPlatform(1254, 1030, 10, 101, getRelativeModifier(), "colors/black.jpg", 255));
+    entity_components->push_back(factory.createPlatform(1263, 1021, 10, 102, getRelativeModifier(), "colors/black.jpg", 255));
 
     // Walls
     entity_components->push_back(factory.createPlatform(WIDTH / 2, 1077, 1920, 10, getRelativeModifier(), "colors/black.jpg", 255));
@@ -33,10 +33,9 @@ void EndScene::performPrepare() {
     entity_components->push_back(factory.createPlatform(1925, 540, 10, 1080, getRelativeModifier(), "colors/black.jpg", 255));
 
     // Blue blocks
-    entity_components->push_back(factory.createPlatform(960, 930, 200, 300, getRelativeModifier(), "colors/blue.jpg", 255));
-    entity_components->push_back(factory.createPlatform(1159, 1020, 200, 100, getRelativeModifier(), "colors/blue.jpg", 255));
-    entity_components->push_back(factory.createPlatform(760, 1000, 200, 200, getRelativeModifier(), "colors/blue.jpg", 255));
-    entity_components->push_back(factory.createPlatform(1254, 1030, 10, 10, getRelativeModifier(), "colors/blue.jpg", 255));
+    entity_components->push_back(factory.createImage("colors/blue.jpg", 950, 930, 200, 300, getRelativeModifier(), Layers::Foreground, 255));
+    entity_components->push_back(factory.createImage("colors/blue.jpg", 760, 990, 200, 175, getRelativeModifier(), Layers::Foreground, 255));
+    entity_components->push_back(factory.createImage("colors/blue.jpg", 1155, 1025, 220, 100, getRelativeModifier(), Layers::Foreground, 255));
 
     // Letters
     entity_components->push_back(factory.createText("1", {255, 255, 255, 255}, 25, 960, 938, 200, 400, getRelativeModifier()));
@@ -47,9 +46,10 @@ void EndScene::performPrepare() {
     player_spawns.push_back({ 950, 500});
     player_spawns.push_back({ 750, 500});
     player_spawns.push_back({ 1150, 500});
+    player_spawns.push_back({ 1700, 500});
 
     // Spawn the trophy
-    entity_components->push_back(factory.createTrophy(WIDTH / 1.8, 400, 50, 75, getRelativeModifier(), Layers::Middleground, 255));
+    entity_components->push_back(factory.createTrophy(WIDTH / 2, 400, 50, 75, getRelativeModifier(), Layers::Middleground, 255));
 
 
     auto& em = factory.getEntityManager();
