@@ -15,6 +15,7 @@ private:
     std::function<void()> ready_function;
     bool everyone_is_ready = false;
     double timer = 0;
+    std::set<int> player_ready;
 };
 
 #endif // FILE_READY_UP_SYSTEM_HPP

@@ -37,6 +37,7 @@ public:
     EntityComponents createImage(std::string path, int x_pos, int y_pos, int x_scale, int y_scale, double relative_modifier, Layers layer, int alpha);
     EntityComponents createPlatform(double x_pos, double y_pos, double x_scale, double y_scale, double relative_modifier, std::string path, int alpha);
     EntityComponents createTrophy(int x, int y, int x_scale, int y_scale, double relative_modifier, Layers layer, int alpha);
+    EntityComponents createReadySign(int x, int y, int x_scale, int y_scale, double relative_modifier, Layers layer, int alpha);
     std::vector<EntityComponents> createButton(std::string text, Color text_color, int font_size,
         std::string texture_path, int x, int y, int x_scale, int y_scale, 
         int alpha, double relative_modifier, std::function<void ()> on_click);

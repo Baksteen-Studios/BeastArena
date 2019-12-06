@@ -302,6 +302,17 @@ int EntityFactory::addToEntityManager(EntityComponents entity_components,
     return entity_id;
 }
 
+EntityComponents EntityFactory::createReadySign(int x, int y, int x_scale, int y_scale, double relative_modifier, Layers layer, int alpha) {
+    auto comps = createImage("items/ready.png", x, y, x_scale, y_scale, relative_modifier, layer, alpha);
+    comps.components->push_back(std::make_unique<RectangleColliderComponent>(1, 1, 1, true));
+    comps.components->push_back(std::make_unique<PhysicsComponent>(50, false, 0, 0, true, Kinematic::IS_NOT_KINEMATIC, true, true));
+    comps.components->push_back(std::make_unique<PickupComponent>());
+    comps.components->push_back(std::make_unique<DespawnComponent>(false, true));
+    comps.tags.push_back("Ready");
+
+    return { std::move(comps) };
+}
+
 EntityComponents EntityFactory::createCharacterSelector(int player_id, int x, int y, double relative_modifier) {
     auto dst = std::unique_ptr<Rect>(new Rect{ 0, 0 , 0, 0});
     auto comps = std::make_unique<std::vector<std::unique_ptr<Component>>>();

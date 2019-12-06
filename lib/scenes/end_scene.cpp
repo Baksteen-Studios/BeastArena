@@ -27,6 +27,11 @@ void EndScene::performPrepare() {
     entity_components->push_back(factory.createPlatform(1054, 880, 10, 200, getRelativeModifier(), "colors/black.jpg", 255));
     entity_components->push_back(factory.createPlatform(1254, 1030, 10, 101, getRelativeModifier(), "colors/black.jpg", 255));
 
+    // Walls
+    entity_components->push_back(factory.createPlatform(WIDTH / 2, 1077, 1920, 10, getRelativeModifier(), "colors/black.jpg", 255));
+    entity_components->push_back(factory.createPlatform(-5, 540, 10, 1080, getRelativeModifier(), "colors/black.jpg", 255));
+    entity_components->push_back(factory.createPlatform(1925, 540, 10, 1080, getRelativeModifier(), "colors/black.jpg", 255));
+
     // Blue blocks
     entity_components->push_back(factory.createPlatform(960, 930, 200, 300, getRelativeModifier(), "colors/blue.jpg", 255));
     entity_components->push_back(factory.createPlatform(1159, 1020, 200, 100, getRelativeModifier(), "colors/blue.jpg", 255));
@@ -34,9 +39,9 @@ void EndScene::performPrepare() {
     entity_components->push_back(factory.createPlatform(1254, 1030, 10, 10, getRelativeModifier(), "colors/blue.jpg", 255));
 
     // Letters
-    entity_components->push_back(factory.createText("1", {255, 255, 255, 255}, 25, 960, 960, 200, 400, getRelativeModifier()));
-    entity_components->push_back(factory.createText("2", {255, 255, 255, 255}, 25, 770, 1025, 100, 200, getRelativeModifier()));
-    entity_components->push_back(factory.createText("3", {255, 255, 255, 255}, 25, 1150, 1050, 50, 100, getRelativeModifier()));
+    entity_components->push_back(factory.createText("1", {255, 255, 255, 255}, 25, 960, 938, 200, 400, getRelativeModifier()));
+    entity_components->push_back(factory.createText("2", {255, 255, 255, 255}, 25, 770, 998, 100, 200, getRelativeModifier()));
+    entity_components->push_back(factory.createText("3", {255, 255, 255, 255}, 25, 1150, 1028, 50, 100, getRelativeModifier()));
 
     // Prepare playerspawns;
     player_spawns.push_back({ 950, 500});
@@ -45,6 +50,18 @@ void EndScene::performPrepare() {
 
     // Spawn the trophy
     entity_components->push_back(factory.createTrophy(WIDTH / 1.8, 400, 50, 75, getRelativeModifier(), Layers::Middleground, 255));
+
+
+    auto& em = factory.getEntityManager();
+    auto entities_with_player = em.getEntitiesByComponent<PlayerComponent>();
+    // Spawn the signs (there are always 2)
+    entity_components->push_back(factory.createReadySign(200, 980, 100, 50, getRelativeModifier(), Layers::Foreground, 255));
+    entity_components->push_back(factory.createReadySign(300, 980, 100, 50, getRelativeModifier(), Layers::Foreground, 255));
+    if(entities_with_player.size() > 2) {
+        entity_components->push_back(factory.createReadySign(1720, 980, 100, 50, getRelativeModifier(), Layers::Foreground, 255));
+        if(entities_with_player.size() > 3)
+            entity_components->push_back(factory.createReadySign(1620, 980, 100, 50, getRelativeModifier(), Layers::Foreground, 255));
+    }
 }
 
 void EndScene::start() {
