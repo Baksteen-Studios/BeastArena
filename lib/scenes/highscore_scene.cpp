@@ -13,13 +13,20 @@ void HighscoreScene::performPrepare() {
     // Create the background
     entity_components->push_back(factory.createImage("backgrounds/pixel-forest.png", this->width / 2, this->height / 2, this->width, this->height, getRelativeModifier(), Layers::Background, 255));
     // Back button
-        auto on_click = [gm = &game_controller]() {
-            gm->loadMainMenu();
-        };
-        auto comps_list = factory.createButton("Back", { 255, 255, 255, 255 }, 72, "menu/button.png", 100, 100, 150, 100, 255, getRelativeModifier(), on_click);
-        for(auto& comps : comps_list) {
-            entity_components->push_back(std::move(comps));
-        }
+    auto on_click = [gm = &game_controller]() {
+        gm->loadMainMenu();
+    };
+    auto comps_list = factory.createButton("Back", { 255, 255, 255, 255 }, 72, "menu/button.png", 100, 100, 150, 100, 255, getRelativeModifier(), on_click);
+    for(auto& comps : comps_list) {
+        entity_components->push_back(std::move(comps));
+    }
+
+    // Text
+    entity_components->push_back(factory.createText("Use A and D to cycle between highscores", { 255, 255, 255, 255}, 50, this->width / 2, 100, 500, 50, getRelativeModifier()));
+
+    // Arrows
+    entity_components->push_back(factory.createImage("arrows/left-arrow.png", 120, 450, 40, 60, getRelativeModifier(), Layers::Middleground, 255));
+    entity_components->push_back(factory.createImage("arrows/right-arrow.png", 1480, 450, 40, 60, getRelativeModifier(), Layers::Middleground, 255));
 }
 
 void HighscoreScene::start() {
