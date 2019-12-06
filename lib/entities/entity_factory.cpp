@@ -157,14 +157,14 @@ EntityComponents EntityFactory::createPlayer(int player_id, Character character,
 }
 
 
-EntityComponents EntityFactory::createSpawner(double x_pos, double y_pos, std::vector<GadgetType> gadget_types,
+EntityComponents EntityFactory::createSpawner(double x_pos, double y_pos, double relative_modifier, std::vector<GadgetType> gadget_types,
                                  int respawn_timer, bool always_respawn) const {
     auto dst = std::unique_ptr<Rect>(new Rect{ 0, 0, 0, 0 });
     auto r = renderableFactory.createImage(GRAPHICS_PATH + "weapons/spawner-2.png",
                                            (int)Layers::Foreground, std::move(dst), 255);
     auto comps = std::make_unique<std::vector<std::unique_ptr<Component>>>();
  
-    comps->push_back(std::make_unique<TransformComponent>(x_pos, y_pos, 48, 9, Direction::POSITIVE, Direction::POSITIVE));
+    comps->push_back(std::make_unique<TransformComponent>(x_pos / relative_modifier, y_pos / relative_modifier, 48, 9, Direction::POSITIVE, Direction::POSITIVE));
     comps->push_back(std::make_unique<RectangleColliderComponent>(1, 1, 1, true, true));
     comps->push_back(std::make_unique<PhysicsComponent>(100, true, 0, 0, true, Kinematic::IS_NOT_KINEMATIC, true, false, CollisionDetectionType::Discrete));
     comps->push_back(std::make_unique<TextureComponent>(std::move(r)));

@@ -85,8 +85,9 @@ void LevelScene::performPrepare() {
 
     // Load the spawners and spawn weapons
     for(int i = 0; i < gadget_spawns.size(); i++) {
-        auto comps = factory.createSpawner(gadget_spawns[i].x / getRelativeModifier(),
-            gadget_spawns[i].y / getRelativeModifier(), 
+        auto comps = factory.createSpawner(gadget_spawns[i].x,
+            gadget_spawns[i].y,
+            getRelativeModifier(),
             gadget_spawns[i].available_spawns, 
             gadget_spawns[i].respawn_timer,
             gadget_spawns[i].always_respawn);

@@ -46,7 +46,7 @@ public:
     // STOP! This function is only meant to be used for systems and the start function within scenes. Use the entity_components list whenever possible.
     int addToEntityManager(EntityComponents entity_components, std::optional<std::pair<int,bool>> parent_opt = std::nullopt, std::optional<std::string> scene_tag = std::nullopt);
 
-    EntityComponents createSpawner(double x_pos, double y_pos, std::vector<GadgetType> available_spawns, int respawn_timer,
+    EntityComponents createSpawner(double x_pos, double y_pos, double relative_modifier, std::vector<GadgetType> available_spawns, int respawn_timer,
                       bool always_respawn)  const;
     EntityComponents createCharacterSelector(int player_id, int x, int y, double relative_modifier);
     void changeCharacterSelectorTexture(int entity_id, Character character, bool create);
