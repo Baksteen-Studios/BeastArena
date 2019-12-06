@@ -39,15 +39,16 @@ void ReadyUpSystem::update(double delta_time){
                     for(auto entity : leaderboard_entity_list)
                        leaderboard_entity = entity;
                     auto leaderboard_transform = entityManager->getComponent<TransformComponent>(leaderboard_entity);
-
-                    // Position gets set relative to the position using the transform component. When set as parent, the checkmark's size would be relative
-                    // to it's parent object. Therefore, the coordinates are set using the "parents'" tansform component.
-                    auto comps = entity_factory->createImage("menu/check.png", ((leaderboard_transform->x_pos + leaderboard_transform->x_scale / 2) + 40), 
-                                                                                leaderboard_transform->y_pos, 56, 44, 1, Layers::UI, 255);
+                    
+                    // Create the ready check texture
+                    auto comps = entity_factory->createImage("menu/check.png", 0, leaderboard_transform->y_pos, 56, 44, 1, Layers::UI, 255);
 
                     comps.tags.push_back("player" + std::to_string(player->player_id) + "ready");
-                    entity_factory->addToEntityManager(std::move(comps), "EndScene");
-
+                    int ready_up_sign_id = entity_factory->addToEntityManager(std::move(comps), "EndScene");
+                    entityManager->setParent(ready_up_sign_id, leaderboard_entity, false);
+                    auto ready_up_sign_transform = entityManager->getComponent<TransformComponent>(ready_up_sign_id);
+                    ready_up_sign_transform->x_pos = (leaderboard_transform->x_scale / 2) + 40;
+                    ready_up_sign_transform->y_pos = 0;
                     player_ready.insert(player->player_id);
                 }
             }

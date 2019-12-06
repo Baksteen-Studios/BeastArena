@@ -19,7 +19,7 @@ void SpawnSystem::update(double deltatime) {
             if (spawn->spawned_entity)
                 if (entityManager->entityExists(*spawn->spawned_entity)) continue;
         }
-        
+
         // If spawner has a child (gadget spawned) : continue
         if (entityManager->getChildren(entity_id).size() > 0) continue;
 
