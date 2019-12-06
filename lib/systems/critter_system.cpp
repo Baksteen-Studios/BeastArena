@@ -3,6 +3,7 @@
 #include "brickengine/components/player_component.hpp"
 #include "brickengine/components/colliders/rectangle_collider_component.hpp"
 #include "brickengine/std/random.hpp"
+#include "brickengine/std/floating_point_comparer.hpp"
 #include <tuple>
 
 CritterSystem::CritterSystem(CollisionDetector2& cd, std::shared_ptr<EntityManager> em, std::shared_ptr<EntityFactory> ef)
@@ -62,14 +63,9 @@ void CritterSystem::update(double deltatime){
                         vx = TERMINAL_VELOCITY / mass;
                     }
                     // If there is a entity in front of the critter start jumping
-                    auto left = collision_detector.detectContinuousCollision(entity_id, Axis::X, Direction::POSITIVE);
-                    if (left.space_left <= 0) {
-                        bool on_platform = collision_detector.detectContinuousCollision(entity_id, Axis::Y, Direction::POSITIVE).space_left == 0;
-
-                        if (on_platform) {
-                            vy = -1 * (JUMP_FORCE / mass);
-                        }                    
-                    }
+                    auto collision = collision_detector.detectContinuousCollision(entity_id, Axis::X, Direction::POSITIVE);
+                    if (FloatingPointComparer::is_equal_to_zero(collision.space_left))
+                        vy = -1 * (JUMP_FORCE / mass);
             // Moving left
             } else {
                     if (vx > 0) vx = 0;
@@ -78,15 +74,9 @@ void CritterSystem::update(double deltatime){
                         vx = TERMINAL_VELOCITY * -1 / mass;
                     }
                     // If there is a entity in front of the critter start jumping
-                    auto right = collision_detector.detectContinuousCollision(entity_id, Axis::X, Direction::NEGATIVE);
-                    if (right.space_left <= 0) {
-                        bool on_platform = collision_detector.detectContinuousCollision(entity_id, Axis::Y, Direction::POSITIVE).space_left == 0;
-
-                        if (on_platform) {
-                            vy = -1 * (JUMP_FORCE / mass);
-                        }                    
-                    }
-
+                    auto collision = collision_detector.detectContinuousCollision(entity_id, Axis::X, Direction::NEGATIVE);
+                    if (FloatingPointComparer::is_equal_to_zero(collision.space_left))
+                        vy = -1 * (JUMP_FORCE / mass);
             }
             physics->vx = vx + r.getRandomInt(1, 5);
             physics->vy = vy;
