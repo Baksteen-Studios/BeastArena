@@ -99,7 +99,7 @@ void LevelScene::start() {
 
     // Create the background
     auto comps = factory.createImage(this->bg_path, this->width / 2, this->height / 2, this->width, this->height, getRelativeModifier(), Layers::Background, 255);
-    factory.addToEntityManager(std::move(comps), "LevelScene");
+    factory.addToEntityManager(std::move(comps));
 
     // Load the players on the spawn locations
     auto entities_with_player = em.getEntitiesByComponent<PlayerComponent>();
@@ -135,7 +135,7 @@ void LevelScene::start() {
             int xScale = platform.xScale;
             int yScale = platform.yScale;
             auto comps = factory.createPlatform(x, y, xScale, yScale, getRelativeModifier(), platform.texture_path, platform.alpha);
-            factory.addToEntityManager(std::move(comps), "LevelScene");
+            factory.addToEntityManager(std::move(comps));
         }
     }
     
@@ -143,7 +143,7 @@ void LevelScene::start() {
     for(int i = 0; i < critter_spawns.size(); i++) {
         auto comps = factory.createCritter(critter_spawns[i].x / getRelativeModifier(),
             critter_spawns[i].y / getRelativeModifier());
-        factory.addToEntityManager(std::move(comps), "LevelScene");
+        factory.addToEntityManager(std::move(comps));
     }
 
     engine.toggleCursor(false);

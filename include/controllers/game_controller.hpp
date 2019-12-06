@@ -13,7 +13,7 @@
 #include "brickengine/game_state_manager.hpp"
 #include "entities/entity_factory.hpp"
 #include "enums/game_state.hpp"
-#include "controllers/score_controller.hpp"
+#include "jsons/score_json.hpp"
 
 class GameController {
 public:
@@ -48,7 +48,7 @@ private:
     std::shared_ptr<CollisionDetector> collisionDetector;
     std::unique_ptr<SceneManager<GameState>> scene_manager;
     std::unique_ptr<GameStateManager<GameState>> game_state_manager;
-    std::unique_ptr<ScoreController> score_controller;
+    std::unique_ptr<ScoreJson> score_json;
 
     std::unique_ptr<Renderable> fps_counter;
     double delta_time;

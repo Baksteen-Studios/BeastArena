@@ -292,9 +292,7 @@ EntityComponents EntityFactory::createTrophy(int x, int y, int x_scale, int y_sc
     return std::move(comps);
 }
 
-int EntityFactory::addToEntityManager(EntityComponents entity_components,
-                    std::string scene_tag,
-                    std::optional<std::pair<int,bool>> parent_opt) {
+int EntityFactory::addToEntityManager(EntityComponents entity_components, std::optional<std::pair<int,bool>> parent_opt, std::optional<std::string> scene_tag) {
     int entity_id = entityManager->createEntity(std::move(entity_components.components), parent_opt, scene_tag);
     for(auto& tag : entity_components.tags) {
         entityManager->setTag(entity_id, tag);

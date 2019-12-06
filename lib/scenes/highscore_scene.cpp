@@ -2,12 +2,12 @@
 #include "brickengine/input.hpp"
 #include "player_input.hpp"
 
-HighscoreScene::HighscoreScene(EntityManager& entity_manager, EntityFactory& entity_factory, BrickEngine& engine, ScoreController& score_controller, GameController& game_controller)
-    : entity_manager(entity_manager), score_controller(score_controller), game_controller(game_controller), 
+HighscoreScene::HighscoreScene(EntityManager& entity_manager, EntityFactory& entity_factory, BrickEngine& engine, ScoreJson& score_json, GameController& game_controller)
+    : entity_manager(entity_manager), score_json(score_json), game_controller(game_controller), 
         BeastScene<HighscoreScene>(entity_factory, engine, GameController::SCREEN_WIDTH, GameController::SCREEN_HEIGHT) {}
 
 void HighscoreScene::performPrepare() {
-    scores = score_controller.readScores();
+    scores = score_json.readScores();
 
     entity_components = std::make_unique<std::vector<EntityComponents>>();
     // Create the background

@@ -3,18 +3,18 @@
 #include "brickengine/input.hpp"
 #include "player_input.hpp"
 
-HighscoreSystem::HighscoreSystem(std::shared_ptr<EntityManager> entity_manager,std::shared_ptr<EntityFactory> entity_factory, ScoreController& score_controller)
-    : score_controller(score_controller), BeastSystem(entity_factory, entity_manager) {};
+HighscoreSystem::HighscoreSystem(std::shared_ptr<EntityManager> entity_manager,std::shared_ptr<EntityFactory> entity_factory, ScoreJson& score_json)
+    : score_json(score_json), BeastSystem(entity_factory, entity_manager) {};
 
 void HighscoreSystem::update(double) {
     if(!initialized) {
-        for(auto& score : score_controller.readScores()) {
+        for(auto& score : score_json.readScores()) {
             scores.push_back(std::make_pair(score.first, score.second));
         }
         if(scores.size() == 0) {
             if(!empty) {
                 auto comps = entity_factory->createText("No highscores recorded yet!", { 255, 255, 255, 255}, 100, 800, 250, 27 * 30, 100, 1);
-                entity_factory->addToEntityManager(std::move(comps), "HighscoreScene");
+                entity_factory->addToEntityManager(std::move(comps));
                 empty = true;
             }
         }
@@ -91,6 +91,7 @@ void HighscoreSystem::createHighscores(std::string name, Score score) {
         entity_components.push_back(std::move(comps));
     }
     for (auto& comp : entity_components) {
-        entity_factory->addToEntityManager(std::move(comp), "HighscoreScene_player");
+        comp.tags.push_back("HighscoreScene_player");
+        entity_factory->addToEntityManager(std::move(comp));
     }
 }

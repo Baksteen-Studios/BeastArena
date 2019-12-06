@@ -43,7 +43,8 @@ public:
         int alpha, double relative_modifier, std::function<void ()> on_click);
     EntityComponents createText(std::string text, Color color, int font_size, int x, int y, int x_scale, int y_scale, double relative_modifier);
 
-    int addToEntityManager(EntityComponents entity_components, std::string scene_tag ,std::optional<std::pair<int,bool>> parent_opt = std::nullopt);
+    // STOP! This function is only meant to be used for systems and the start function within scenes. Use the entity_components list whenever possible.
+    int addToEntityManager(EntityComponents entity_components, std::optional<std::pair<int,bool>> parent_opt = std::nullopt, std::optional<std::string> scene_tag = std::nullopt);
 
     EntityComponents createSpawner(double x_pos, double y_pos, std::vector<GadgetType> available_spawns, int respawn_timer,
                       bool always_respawn)  const;

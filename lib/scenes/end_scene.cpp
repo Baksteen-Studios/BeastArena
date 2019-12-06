@@ -114,7 +114,7 @@ void EndScene::start() {
 
         auto comps = factory.createText(text, { 255, 255, 255, 255 }, 50, this->screen_width / 2, y, 750, 50, 1);
         comps.tags.push_back(std::to_string(player_component->player_id) + "leaderboard");
-        factory.addToEntityManager(std::move(comps), "EndScene");
+        factory.addToEntityManager(std::move(comps));
 
         ++count;
         y += 50;

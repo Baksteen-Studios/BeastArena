@@ -74,12 +74,12 @@ void MainMenu::start() {
 
     // Create the background
     auto comps = factory.createImage(this->bg_path, this->width / 2, this->height / 2, this->width, this->height, getRelativeModifier(), Layers::Background, 255);
-    factory.addToEntityManager(std::move(comps), "MainMenu");
+    factory.addToEntityManager(std::move(comps));
 
     // Load the images
     for(Image image : images) {
         auto comps = factory.createImage(image.texture_path, image.x, image.y, image.x_scale, image.y_scale, getRelativeModifier(), Layers::Middleground, image.alpha);
-        factory.addToEntityManager(std::move(comps), "MainMenu");
+        factory.addToEntityManager(std::move(comps));
     }
 
     engine.toggleCursor(true);

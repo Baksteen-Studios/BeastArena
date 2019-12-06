@@ -1,10 +1,10 @@
 #include <filesystem>
 
-#include "controllers/score_controller.hpp"
+#include "jsons/score_json.hpp"
 #include "brickengine/json/json.hpp"
 #include "brickengine/components/player_component.hpp"
 
-void ScoreController::writeScores(std::unordered_map<std::string, Score> scores) {
+void ScoreJson::writeScores(std::unordered_map<std::string, Score> scores) {
     Json json;
     if(std::filesystem::exists(HIGHSCORES_PATH)) {
         json = Json { HIGHSCORES_PATH, true };
@@ -42,7 +42,7 @@ void ScoreController::writeScores(std::unordered_map<std::string, Score> scores)
     file.close();
 }
 
-ScoreController::Scores ScoreController::readScores() {
+ScoreJson::Scores ScoreJson::readScores() {
     Scores scores;
     if(std::filesystem::exists(HIGHSCORES_PATH)) {
         auto json = Json { HIGHSCORES_PATH, true };

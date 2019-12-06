@@ -2,10 +2,11 @@
 #define FILE_HIGHSCORE_SCENE_HPP
 
 #include "scenes/beast_scene.hpp"
+#include "jsons/score_json.hpp"
 
 class HighscoreScene : public BeastScene<HighscoreScene> {
 public:
-    HighscoreScene(EntityManager& entity_manager, EntityFactory& entity_factory, BrickEngine& engine, ScoreController& score_controller, GameController& game_controller);
+    HighscoreScene(EntityManager& entity_manager, EntityFactory& entity_factory, BrickEngine& engine, ScoreJson& score_json, GameController& game_controller);
 
     static std::string getTagStatic() {
         return "HighscoreScene";
@@ -21,9 +22,9 @@ public:
     void leave();
 private:
     EntityManager& entity_manager;
-    ScoreController& score_controller;
+    ScoreJson& score_json;
     GameController& game_controller;
-    ScoreController::Scores scores;
+    ScoreJson::Scores scores;
 };
 
 #endif // FILE_HIGHSCORE_SCENE_HPP

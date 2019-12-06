@@ -44,7 +44,7 @@ void ReadyUpSystem::update(double delta_time){
                     auto comps = entity_factory->createImage("menu/check.png", 0, leaderboard_transform->y_pos, 56, 44, 1, Layers::UI, 255);
 
                     comps.tags.push_back("player" + std::to_string(player->player_id) + "ready");
-                    int ready_up_sign_id = entity_factory->addToEntityManager(std::move(comps), "EndScene");
+                    int ready_up_sign_id = entity_factory->addToEntityManager(std::move(comps));
                     entityManager->setParent(ready_up_sign_id, leaderboard_entity, false);
                     auto ready_up_sign_transform = entityManager->getComponent<TransformComponent>(ready_up_sign_id);
                     ready_up_sign_transform->x_pos = (leaderboard_transform->x_scale / 2) + 40;

@@ -88,7 +88,7 @@ GameController::GameController() {
     collisionDetector = std::make_shared<CollisionDetector>(entityManager);
     createGameStateManager();
     scene_manager = std::make_unique<SceneManager<GameState>>(*entityManager, *game_state_manager);
-    score_controller = std::make_unique<ScoreController>();
+    score_json = std::make_unique<ScoreJson>();
     entityManager->setGetCurrentSceneTagFunction(scene_manager->createGetPrimaryTagFunction());
 
     setupInput();
@@ -150,7 +150,7 @@ void GameController::createGameStateManager() {
 
     // Highscores
     state_systems->at(GameState::Highscore)->push_back(std::make_unique<ClickSystem>(entityManager));
-    state_systems->at(GameState::Highscore)->push_back(std::make_unique<HighscoreSystem>(entityManager, entityFactory, *score_controller));
+    state_systems->at(GameState::Highscore)->push_back(std::make_unique<HighscoreSystem>(entityManager, entityFactory, *score_json));
     state_systems->at(GameState::Highscore)->push_back(std::make_unique<RenderingSystem>(entityManager, *engine->getRenderer()));
 
     std::unordered_map<GameState, bool> reset_on_set_state;
@@ -418,11 +418,11 @@ void GameController::loadEndGameLevel() {
         score.levels_won = stats->levels_won;
         scores.insert_or_assign(player->name, score);
     }
-    score_controller->writeScores(scores);
+    score_json->writeScores(scores);
     scene_manager->createScene<EndScene>(*entityFactory, *engine);
 }
 
 void GameController::showHighscores() {
     scene_manager->destroyAllScenes();
-    scene_manager->createScene<HighscoreScene>(*entityManager, *entityFactory, *engine, *score_controller, *this);
+    scene_manager->createScene<HighscoreScene>(*entityManager, *entityFactory, *engine, *score_json, *this);
 }
