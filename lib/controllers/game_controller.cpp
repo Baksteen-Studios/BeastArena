@@ -367,8 +367,8 @@ void GameController::loadLevels() {
     std::string levels_path = "assets/levels";
     std::vector<std::string> levels;
     std::vector<std::string> temp_levels;
-    //for (const auto & entry : std::filesystem::directory_iterator(levels_path))
-        levels.push_back("assets/levels/level2.json");
+    for (const auto & entry : std::filesystem::directory_iterator(levels_path))
+        levels.push_back(entry.path());
 
     // Fill queue randomly with levels
     temp_levels = levels;
