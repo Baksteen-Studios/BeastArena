@@ -135,6 +135,14 @@ void Lobby::performPrepare() {
 }
 
 void Lobby::start() {
+    // Remove remaining player components
+    auto& em = factory.getEntityManager();
+    auto player_entities = em.getEntitiesByComponent<PlayerComponent>();
+
+    for (auto& [ entity_id, player ] : player_entities ) {
+        em.removeEntity(entity_id);
+    }
+
     engine.toggleCursor(true);
 
     if(!engine.getSoundManager().isPlaying()) {
