@@ -25,23 +25,25 @@ void HighscoreSystem::update(double) {
             initialized = true;
         }
     }
-    auto& input = BrickInput<PlayerInput>::getInstance();
-    int x = input.checkInput(1, PlayerInput::X_AXIS);
-    if(x > 0) {
-        entityManager->removeEntitiesWithTag("HighscoreScene_player");
-        auto score = scores.at(selector);
-        createHighscores(score.first, score.second);
-        selector++;
-        if (selector > scores.size() - 1) {
-            selector = 0;
-        }
-    } else if(x < 0) {
-        entityManager->removeEntitiesWithTag("HighscoreScene_player");
-        auto score = scores.at(selector);
-        createHighscores(score.first, score.second);
-        selector--;
-        if (selector < 0) {
-            selector = scores.size() - 1;
+    if(initialized) {
+        auto& input = BrickInput<PlayerInput>::getInstance();
+        int x = input.checkInput(1, PlayerInput::X_AXIS);
+        if(x > 0) {
+            entityManager->removeEntitiesWithTag("HighscoreScene_player");
+            auto score = scores.at(selector);
+            createHighscores(score.first, score.second);
+            selector++;
+            if (selector > scores.size() - 1) {
+                selector = 0;
+            }
+        } else if(x < 0) {
+            entityManager->removeEntitiesWithTag("HighscoreScene_player");
+            auto score = scores.at(selector);
+            createHighscores(score.first, score.second);
+            selector--;
+            if (selector < 0) {
+                selector = scores.size() - 1;
+            }
         }
     }
 }
