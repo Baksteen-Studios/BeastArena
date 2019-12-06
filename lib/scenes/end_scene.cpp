@@ -21,10 +21,10 @@ void EndScene::performPrepare() {
     // Borders
     entity_components->push_back(factory.createPlatform(1159, 975, 200, 10, getRelativeModifier(), "colors/black.jpg", 255));
     entity_components->push_back(factory.createPlatform(845, 834, 10, 120, getRelativeModifier(), "colors/black.jpg", 255));
-    entity_components->push_back(factory.createPlatform(955, 780, 209, 10, getRelativeModifier(), "colors/black.jpg", 255));
+    entity_components->push_back(factory.createPlatform(953, 780, 206, 10, getRelativeModifier(), "colors/black.jpg", 255));
     entity_components->push_back(factory.createPlatform(755, 900, 190, 10, getRelativeModifier(), "colors/black.jpg", 255));
     entity_components->push_back(factory.createPlatform(660, 988, 10, 187, getRelativeModifier(), "colors/black.jpg", 255));
-    entity_components->push_back(factory.createPlatform(1054, 880, 10, 200, getRelativeModifier(), "colors/black.jpg", 255));
+    entity_components->push_back(factory.createPlatform(1055, 878, 10, 206, getRelativeModifier(), "colors/black.jpg", 255));
     entity_components->push_back(factory.createPlatform(1263, 1021, 10, 102, getRelativeModifier(), "colors/black.jpg", 255));
 
     // Walls
@@ -33,12 +33,12 @@ void EndScene::performPrepare() {
     entity_components->push_back(factory.createPlatform(1925, 540, 10, 1080, getRelativeModifier(), "colors/black.jpg", 255));
 
     // Blue blocks
-    entity_components->push_back(factory.createImage("colors/blue.jpg", 950, 930, 200, 300, getRelativeModifier(), Layers::Foreground, 255));
+    entity_components->push_back(factory.createImage("colors/blue.jpg", 950, 930, 202, 300, getRelativeModifier(), Layers::Foreground, 255));
     entity_components->push_back(factory.createImage("colors/blue.jpg", 760, 990, 200, 175, getRelativeModifier(), Layers::Foreground, 255));
     entity_components->push_back(factory.createImage("colors/blue.jpg", 1155, 1025, 220, 100, getRelativeModifier(), Layers::Foreground, 255));
 
     // Letters
-    entity_components->push_back(factory.createText("1", {255, 255, 255, 255}, 25, 960, 938, 200, 400, getRelativeModifier()));
+    entity_components->push_back(factory.createText("1", {255, 255, 255, 255}, 25, 965, 938, 200, 400, getRelativeModifier()));
     entity_components->push_back(factory.createText("2", {255, 255, 255, 255}, 25, 770, 998, 100, 200, getRelativeModifier()));
     entity_components->push_back(factory.createText("3", {255, 255, 255, 255}, 25, 1150, 1028, 50, 100, getRelativeModifier()));
 

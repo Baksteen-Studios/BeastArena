@@ -351,11 +351,12 @@ void GameController::loadLobby() {
 }
 
 void GameController::startGame() {
-    auto player_components = entityManager->getEntitiesByComponent<PlayerComponent>();
-    if(player_components.size() >= 2) {
-        loadLevels();
-        loadNextLevel();
-    }
+    loadEndGameLevel();
+    //auto player_components = entityManager->getEntitiesByComponent<PlayerComponent>();
+    //if(player_components.size() >= 2) {
+    //    loadLevels();
+    //    loadNextLevel();
+    //}
 }
 
 void GameController::exitGame() {
