@@ -32,11 +32,22 @@ void ReadyUpSystem::update(double delta_time){
                 if(!ready_component->readied_up) {
                     ready_component->readied_up = true;
                     auto stats_component = entityManager->getComponent<StatsComponent>(entity_id);
-                    // Adding a new texture that shows the user has readied up in the endgame screen. Where the image is placed is hardcoded, When scaling is added to the game, 
-                    // this code should be taken into consideration for changing when the 
-                    auto comps = entity_factory->createImage("menu/check.png", (1600 * 0.75) + 20, 200 + ((stats_component->last_game_result - 1) * 50), 56, 44, 1, Layers::UI, 255);
+                    // Adding a new texture that shows the user has readied up in the endgame screen.
+                    auto leaderboard_entity_list = entityManager->getEntitiesWithTag(std::to_string(player->player_id) + "leaderboard"); 
+                    int leaderboard_entity;
+                    // There is only one entity with this tag.
+                    for(auto entity : leaderboard_entity_list)
+                       leaderboard_entity = entity;
+                    auto leaderboard_transform = entityManager->getComponent<TransformComponent>(leaderboard_entity);
+
+                    // Position gets set relative to the position using the transform component. When set as parent, the checkmark's size would be relative
+                    // to it's parent object. Therefore, the coordinates are set using the "parents'" tansform component.
+                    auto comps = entity_factory->createImage("menu/check.png", ((leaderboard_transform->x_pos + leaderboard_transform->x_scale / 2) + 40), 
+                                                                                leaderboard_transform->y_pos, 56, 44, 1, Layers::UI, 255);
+
                     comps.tags.push_back("player" + std::to_string(player->player_id) + "ready");
                     entity_factory->addToEntityManager(std::move(comps), "EndScene");
+
                     player_ready.insert(player->player_id);
                 }
             }
