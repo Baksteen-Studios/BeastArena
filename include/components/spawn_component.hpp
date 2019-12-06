@@ -13,7 +13,7 @@
 
 class SpawnComponent : public ComponentImpl<SpawnComponent> {
 public:
-    using CreateCompsFn = std::function<EntityComponents ()>;
+    using CreateCompsFn = std::function<EntityComponents()>;
 
     SpawnComponent(int respawn_timer, std::vector<CreateCompsFn> gadget_fns, bool always_respawn);
     static std::string getNameStatic();
