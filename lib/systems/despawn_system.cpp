@@ -33,6 +33,14 @@ void DespawnSystem::update(double) {
                     if (player && transform->x_pos != -2000 && transform->y_pos != -2000) {
                         auto stats = entityManager->getComponent<StatsComponent>(entity_id);
                         ++stats->accidents;
+
+                        auto children = entityManager->getChildren(entity_id);
+                        for(auto id : children) {
+                            if(entityManager->hasTag(id, "Critter")) {
+                                // Outrageous!
+                                ++stats->killed_critters;
+                            }
+                        }
                     }
                     transform->x_pos = -2000;
                     transform->y_pos = -2000;

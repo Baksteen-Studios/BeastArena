@@ -13,7 +13,7 @@ LevelScene::LevelScene(EntityFactory& factory, BrickEngine& engine, Json json)
     }
 
 void LevelScene::performPrepare() {
-    entity_components = std::make_unique<std::vector<EntityComponents>>();;
+    entity_components = std::make_unique<std::vector<EntityComponents>>();
 
     this->description = json.getString("description");
     this->version = json.getDouble("version");
@@ -94,8 +94,6 @@ void LevelScene::performPrepare() {
     }
 }
 void LevelScene::start() {
-    entity_components = std::make_unique<std::vector<EntityComponents>>();
-    
     auto& em = factory.getEntityManager();
     auto& r = Random::getInstance(); 
 
