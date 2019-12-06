@@ -143,8 +143,9 @@ void LevelScene::start() {
     
     // Load the critters on the spawn locations
     for(int i = 0; i < critter_spawns.size(); i++) {
-        factory.createCritter(critter_spawns[i].x / getRelativeModifier(),
+        auto comps = factory.createCritter(critter_spawns[i].x / getRelativeModifier(),
             critter_spawns[i].y / getRelativeModifier());
+        factory.addToEntityManager(std::move(comps), "LevelScene");
     }
 
     engine.toggleCursor(false);
