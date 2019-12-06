@@ -292,7 +292,8 @@ EntityComponents EntityFactory::createTrophy(int x, int y, int x_scale, int y_sc
     comps.components->push_back(std::make_unique<PhysicsComponent>(50, false, 0, 0, true, Kinematic::IS_NOT_KINEMATIC, true, true, CollisionDetectionType::Discrete));
     comps.components->push_back(std::make_unique<PickupComponent>());
     comps.components->push_back(std::make_unique<DespawnComponent>(false, true));
-
+    comps.tags.push_back("Trophy");
+    
     return std::move(comps);
 }
 

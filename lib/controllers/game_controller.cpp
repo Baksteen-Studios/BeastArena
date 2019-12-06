@@ -94,6 +94,8 @@ GameController::GameController() {
     is_trigger_exceptions.insert({ "Bullet", std::set<std::string> { "Player" } });
     is_trigger_exceptions.insert({ "DeadPlayer", std::set<std::string> { "Platform" } });
     is_trigger_exceptions.insert({ "Spawner", std::set<std::string> { "Platform" } });
+    is_trigger_exceptions.insert({ "Ready", std::set<std::string> { "Platform" } });
+    is_trigger_exceptions.insert({ "Trophy", std::set<std::string> { "Platform" } });
     collision_detector = std::make_unique<CollisionDetector2>(is_trigger_exceptions, *entityManager);
 
     createGameStateManager();
@@ -158,6 +160,7 @@ void GameController::createGameStateManager() {
     state_systems->at(GameState::EndGame)->push_back(std::make_unique<DamageSystem>(*collision_detector, entityManager, entityFactory));
     state_systems->at(GameState::EndGame)->push_back(std::make_unique<DespawnSystem>(*collision_detector, entityManager, SCREEN_WIDTH, SCREEN_HEIGHT));
     state_systems->at(GameState::EndGame)->push_back(std::make_unique<SpawnSystem>(entityManager, entityFactory));
+    state_systems->at(GameState::EndGame)->push_back(std::make_unique<DisplacementSystem>(*collision_detector, entityManager));
     state_systems->at(GameState::EndGame)->push_back(std::make_unique<RenderingSystem>(entityManager, *engine->getRenderer()));
 
     // Highscores

@@ -10,4 +10,4 @@ public:
     bool readied_up = false;
 };
 
-#endif // FILE_STATS_COMPONENT_HPP
+#endif // FILE_READY_COMPONENT_HPP
