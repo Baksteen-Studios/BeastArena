@@ -156,7 +156,7 @@ void GameController::createGameStateManager() {
     state_systems->at(GameState::EndGame)->push_back(std::make_unique<PhysicsSystem>(*collision_detector, entityManager, *delta_time_modifier.get()));
     state_systems->at(GameState::EndGame)->push_back(std::make_unique<PickupSystem>(*collision_detector, entityManager, entityFactory));
     state_systems->at(GameState::EndGame)->push_back(std::make_unique<CritterSystem>(*collision_detector, entityManager, entityFactory));
-    state_systems->at(GameState::EndGame)->push_back(std::make_unique<ReadyUpSystem>(entityManager, entityFactory, [this]() { this->loadMainMenu(); }));
+    state_systems->at(GameState::EndGame)->push_back(std::make_unique<ReadyUpSystem>(entityManager, entityFactory, [this]() { this->loadLobby(); }));
     state_systems->at(GameState::EndGame)->push_back(std::make_unique<DamageSystem>(*collision_detector, entityManager, entityFactory));
     state_systems->at(GameState::EndGame)->push_back(std::make_unique<DespawnSystem>(*collision_detector, entityManager, SCREEN_WIDTH, SCREEN_HEIGHT));
     state_systems->at(GameState::EndGame)->push_back(std::make_unique<SpawnSystem>(entityManager, entityFactory));
