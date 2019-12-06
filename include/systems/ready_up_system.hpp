@@ -4,7 +4,6 @@
 #include <functional>
 
 #include "systems/beast_system.hpp"
-#include "brickengine/collision_detector.hpp"
 
 class ReadyUpSystem : public BeastSystem {
 public:
