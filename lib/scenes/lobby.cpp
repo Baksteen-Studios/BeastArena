@@ -177,7 +177,8 @@ void Lobby::leave() {
         auto random_index = random.getRandomInt(0, available_characters.size() - 1);
 
         auto character_selection_component = em.getComponent<CharacterSelectionComponent>(entity_id);
-        entity_components->push_back(factory.createPlayer(character_selection_component->player_id, available_characters.at(random_index), 500, 500));
+        auto comps = factory.createPlayer(character_selection_component->player_id, available_characters.at(random_index), 500, 500);
+        factory.addToEntityManager(std::move(comps));
 
         available_characters.erase(available_characters.begin() + random_index);
 
