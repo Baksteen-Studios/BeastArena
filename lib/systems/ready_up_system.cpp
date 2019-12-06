@@ -13,9 +13,9 @@ ReadyUpSystem::ReadyUpSystem(std::shared_ptr<EntityManager> em, std::shared_ptr<
 void ReadyUpSystem::update(double delta_time){
     auto entities_with_player = entityManager->getEntitiesByComponent<PlayerComponent>();
 
-    if(player_ready.size() == entities_with_player.size())
+    if(player_ready.size() == entities_with_player.size()) {
         everyone_is_ready = true;
-    else {
+    } else {
         everyone_is_ready = false;
         timer = 0;
     }
@@ -63,10 +63,8 @@ void ReadyUpSystem::update(double delta_time){
     }
     if(everyone_is_ready) {
         timer += delta_time;
-
-        if(timer > 1){
+        if(timer > 1)
             this->ready_function();
-        }
     }
 }
 

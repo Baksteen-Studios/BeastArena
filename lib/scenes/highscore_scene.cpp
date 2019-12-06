@@ -17,9 +17,8 @@ void HighscoreScene::performPrepare() {
         gm->loadMainMenu();
     };
     auto comps_list = factory.createButton("Back", { 255, 255, 255, 255 }, 72, "menu/button.png", 100, 100, 150, 100, 255, getRelativeModifier(), on_click);
-    for(auto& comps : comps_list) {
+    for(auto& comps : comps_list)
         entity_components->push_back(std::move(comps));
-    }
 
     // Text
     entity_components->push_back(factory.createText("Use A and D to cycle between highscores", { 255, 255, 255, 255}, 50, this->width / 2, 100, 500, 50, getRelativeModifier()));

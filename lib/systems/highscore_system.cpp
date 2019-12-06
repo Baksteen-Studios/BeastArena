@@ -8,9 +8,8 @@ HighscoreSystem::HighscoreSystem(std::shared_ptr<EntityManager> entity_manager,s
 
 void HighscoreSystem::update(double) {
     if(!initialized) {
-        for(auto& score : score_json.readScores()) {
+        for(auto& score : score_json.readScores())
             scores.push_back(std::make_pair(score.first, score.second));
-        }
         if(scores.size() == 0) {
             if(!empty) {
                 auto comps = entity_factory->createText("No highscores recorded yet!", { 255, 255, 255, 255}, 100, 800, 250, 27 * 30, 100, 1);
@@ -33,17 +32,15 @@ void HighscoreSystem::update(double) {
             auto score = scores.at(selector);
             createHighscores(score.first, score.second);
             selector++;
-            if (selector > scores.size() - 1) {
+            if (selector > scores.size() - 1)
                 selector = 0;
-            }
         } else if(x < 0) {
             entityManager->removeEntitiesWithTag("HighscoreScene_player");
             auto score = scores.at(selector);
             createHighscores(score.first, score.second);
             selector--;
-            if (selector < 0) {
+            if (selector < 0)
                 selector = scores.size() - 1;
-            }
         }
     }
 }
