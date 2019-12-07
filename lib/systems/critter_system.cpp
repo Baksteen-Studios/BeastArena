@@ -3,9 +3,10 @@
 #include "brickengine/components/player_component.hpp"
 #include "brickengine/components/colliders/rectangle_collider_component.hpp"
 #include "brickengine/std/random.hpp"
+#include "brickengine/std/floating_point_comparer.hpp"
 #include <tuple>
 
-CritterSystem::CritterSystem(std::shared_ptr<CollisionDetector> cd, std::shared_ptr<EntityManager> em, std::shared_ptr<EntityFactory> ef)
+CritterSystem::CritterSystem(CollisionDetector2& cd, std::shared_ptr<EntityManager> em, std::shared_ptr<EntityFactory> ef)
     : BeastSystem(ef, em), collision_detector(cd) {}
 
 void CritterSystem::update(double deltatime){
@@ -38,12 +39,12 @@ void CritterSystem::update(double deltatime){
             }
             // If critter is in front of a wall and is trying to go that direction use opposite direction
             if (wander->direction == Direction::NEGATIVE) {
-                auto right = collision_detector->spaceLeft(entity_id, Axis::X, Direction::NEGATIVE);
+                auto right = collision_detector.detectContinuousCollision(entity_id, Axis::X, Direction::NEGATIVE);
                 if (right.space_left * -1 <= 0) {
                     wander->direction = Direction::POSITIVE;
                 }
             } else {
-                auto left = collision_detector->spaceLeft(entity_id, Axis::X, Direction::POSITIVE);
+                auto left = collision_detector.detectContinuousCollision(entity_id, Axis::X, Direction::POSITIVE);
                 if(left.space_left <= 0){
                     wander->direction = Direction::NEGATIVE;
                 }
@@ -56,37 +57,28 @@ void CritterSystem::update(double deltatime){
 
             // Moving right
             if (wander->direction == Direction::POSITIVE) {
-                    if (vx < 0) vx = 0;
-                    vx += TERMINAL_VELOCITY * MOVEMENT_FORCE / mass;
-                    if (vx > TERMINAL_VELOCITY / mass) {
-                        vx = TERMINAL_VELOCITY / mass;
-                    }
-                    // If there is a entity in front of the critter start jumping
-                    auto left = collision_detector->spaceLeft(entity_id, Axis::X, Direction::POSITIVE);
-                    if (left.space_left <= 0) {
-                        bool on_platform = collision_detector->spaceLeft(entity_id, Axis::Y, Direction::POSITIVE).space_left == 0;
-
-                        if (on_platform) {
-                            vy = -1 * (JUMP_FORCE / mass);
-                        }                    
-                    }
+                if (vx < 0) vx = 0;
+                vx += TERMINAL_VELOCITY * MOVEMENT_FORCE / mass;
+                if (vx > TERMINAL_VELOCITY / mass) {
+                    vx = TERMINAL_VELOCITY / mass;
+                }
+                // If there is a entity in front of the critter and the critter is on the ground start jumping
+                auto x_collision = collision_detector.detectContinuousCollision(entity_id, Axis::X, Direction::POSITIVE);
+                auto y_collision = collision_detector.detectContinuousCollision(entity_id, Axis::Y, Direction::POSITIVE);
+                if (FloatingPointComparer::is_equal_to_zero(x_collision.space_left) && FloatingPointComparer::is_equal_to_zero(y_collision.space_left))
+                    vy = -1 * (JUMP_FORCE / mass);
             // Moving left
             } else {
-                    if (vx > 0) vx = 0;
-                    vx += -1 * TERMINAL_VELOCITY * MOVEMENT_FORCE / mass;
-                    if (vx < (TERMINAL_VELOCITY * -1) / mass) {
-                        vx = TERMINAL_VELOCITY * -1 / mass;
-                    }
-                    // If there is a entity in front of the critter start jumping
-                    auto right = collision_detector->spaceLeft(entity_id, Axis::X, Direction::NEGATIVE);
-                    if (right.space_left <= 0) {
-                        bool on_platform = collision_detector->spaceLeft(entity_id, Axis::Y, Direction::POSITIVE).space_left == 0;
-
-                        if (on_platform) {
-                            vy = -1 * (JUMP_FORCE / mass);
-                        }                    
-                    }
-
+                if (vx > 0) vx = 0;
+                vx += -1 * TERMINAL_VELOCITY * MOVEMENT_FORCE / mass;
+                if (vx < (TERMINAL_VELOCITY * -1) / mass) {
+                    vx = TERMINAL_VELOCITY * -1 / mass;
+                }
+                // If there is a entity in front of the critter and the critter is on the ground start jumping
+                auto x_collision = collision_detector.detectContinuousCollision(entity_id, Axis::X, Direction::NEGATIVE);
+                auto y_collision = collision_detector.detectContinuousCollision(entity_id, Axis::Y, Direction::POSITIVE);
+                if (FloatingPointComparer::is_equal_to_zero(x_collision.space_left) && FloatingPointComparer::is_equal_to_zero(y_collision.space_left))
+                    vy = -1 * (JUMP_FORCE / mass);
             }
             physics->vx = vx + r.getRandomInt(1, 5);
             physics->vy = vy;
