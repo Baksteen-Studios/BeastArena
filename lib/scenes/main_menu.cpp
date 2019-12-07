@@ -18,86 +18,54 @@ MainMenu::MainMenu(EntityFactory& factory, BrickEngine& engine, GameController& 
     : Menu(factory, engine, WIDTH, HEIGHT), game_controller(game_controller) { }
 
 void MainMenu::performPrepare() {
-    // General information
-    this->bg_path = "backgrounds/pixel-forest.png";
-    this->bg_music = "music/main.mp3";
+    entity_components = std::make_unique<std::vector<EntityComponents>>();
 
     // Buttons
-    Button start_game_button = Button();
-    start_game_button.texture_path = "menu/button.png";
-    start_game_button.alpha = 255;
-    start_game_button.x = 960;
-    start_game_button.y = 400;
-    start_game_button.x_scale = 400;
-    start_game_button.y_scale = 100;
-    start_game_button.text.text = "Play Game!";
-    start_game_button.text.font_size = 72;
-    start_game_button.text.color = { 255, 255, 255, 255 };
-    start_game_button.text.x = 960;
-    start_game_button.text.y = 395;
-    start_game_button.text.x_scale = 400;
-    start_game_button.text.y_scale = 100;
-    start_game_button.on_click = [gm = &game_controller]() {
-        gm->loadLobby();
-    };
-    this->buttons.push_back(start_game_button);
-
-    Button help_button = Button();
-    help_button.texture_path = "menu/button.png";
-    help_button.alpha = 255;
-    help_button.x = 960;
-    help_button.y = 520;
-    help_button.x_scale = 400;
-    help_button.y_scale = 100;
-    help_button.text.text = "Help";
-    help_button.text.font_size = 72;
-    help_button.text.color = { 255, 255, 255, 255 };
-    help_button.text.x = 960;
-    help_button.text.y = 515;
-    help_button.text.x_scale = 200;
-    help_button.text.y_scale = 100;
-    help_button.on_click = [gm = &game_controller]() {
-        gm->loadHelp();
-    };
-    this->buttons.push_back(help_button);
-
-    Button credits_button = Button();
-    credits_button.texture_path = "menu/button.png";
-    credits_button.alpha = 255;
-    credits_button.x = 960;
-    credits_button.y = 640;
-    credits_button.x_scale = 400;
-    credits_button.y_scale = 100;
-    credits_button.text.text = "Credits";
-    credits_button.text.font_size = 72;
-    credits_button.text.color = { 255, 255, 255, 255 };
-    credits_button.text.x = 960;
-    credits_button.text.y = 635;
-    credits_button.text.x_scale = 250;
-    credits_button.text.y_scale = 100;
-    credits_button.on_click = [gm = &game_controller]() {
-        gm->loadCredits();
-    };
-    this->buttons.push_back(credits_button);
-
-    Button exit_game_button = Button();
-    exit_game_button.texture_path = "menu/button.png";
-    exit_game_button.alpha = 255;
-    exit_game_button.x = 960;
-    exit_game_button.y = 760;
-    exit_game_button.x_scale = 400;
-    exit_game_button.y_scale = 100;
-    exit_game_button.text.text = "Exit game";
-    exit_game_button.text.font_size = 72;
-    exit_game_button.text.color = { 255, 255, 255, 255 };
-    exit_game_button.text.x = 960;
-    exit_game_button.text.y = 755;
-    exit_game_button.text.x_scale = 400;
-    exit_game_button.text.y_scale = 100;
-    exit_game_button.on_click = [gm = &game_controller]() {
-        gm->exitGame();
-    };
-    this->buttons.push_back(exit_game_button);
+    {
+        auto on_click = [gm = &game_controller]() {
+            gm->loadLobby();
+        };
+        auto comps_list = factory.createButton("Play Game!", { 255, 255, 255, 255}, 70, "menu/button.png", 960, 400, 400, 100, 255, getRelativeModifier(), on_click);
+        for(auto& comps : comps_list) {
+            entity_components->push_back(std::move(comps));
+        }
+    }
+    {
+        auto on_click = [gm = &game_controller]() {
+            gm->showHighscores();
+        };
+        auto comps_list = factory.createButton("Highscores", { 255, 255, 255, 255}, 70, "menu/button.png", 960, 520, 400, 100, 255, getRelativeModifier(), on_click);
+        for(auto& comps : comps_list) {
+            entity_components->push_back(std::move(comps));
+        }
+    }
+    {
+        auto on_click = [gm = &game_controller]() {
+            gm->loadHelp();
+        };
+        auto comps_list = factory.createButton("Help", { 255, 255, 255, 255}, 70, "menu/button.png", 960, 640, 400, 100, 255, getRelativeModifier(), on_click);
+        for(auto& comps : comps_list) {
+            entity_components->push_back(std::move(comps));
+        }
+    }
+    {
+        auto on_click = [gm = &game_controller]() {
+            gm->loadCredits();
+        };
+        auto comps_list = factory.createButton("Credits", { 255, 255, 255, 255}, 70, "menu/button.png", 960, 760, 400, 100, 255, getRelativeModifier(), on_click);
+        for(auto& comps : comps_list) {
+            entity_components->push_back(std::move(comps));
+        }
+    }
+    {
+        auto on_click = [gm = &game_controller]() {
+            gm->exitGame();
+        };
+        auto comps_list = factory.createButton("Exit game", { 255, 255, 255, 255}, 70, "menu/button.png", 960, 880, 400, 100, 255, getRelativeModifier(), on_click);
+        for(auto& comps : comps_list) {
+            entity_components->push_back(std::move(comps));
+        }
+    }
 
     // Images
     Image logo = Image();
@@ -111,31 +79,20 @@ void MainMenu::performPrepare() {
 }
 
 void MainMenu::start() {
-    // Remove remaining player components
-    auto& em = factory.getEntityManager();
-    auto player_entities = em.getEntitiesByComponent<PlayerComponent>();
-
-    for (auto& [ entity_id, player ] : player_entities ) {
-        em.removeEntity(entity_id);
-    }
-
     // Create the background
-    factory.createImage(this->bg_path, this->screen_width / 2, this->screen_height / 2, this->screen_width, this->screen_height, Layers::Background, 255);
-
-    // Load the buttons
-    for (Button button : this->buttons) {
-        auto ids = factory.createButton(button, getRelativeModifier());
-    }
+    auto comps = factory.createImage("backgrounds/pixel-forest.png", this->width / 2, this->height / 2, this->width, this->height, getRelativeModifier(), Layers::Background, 255);
+    factory.addToEntityManager(std::move(comps));
 
     // Load the images
     for(Image image : images) {
-        factory.createImage(image.texture_path, image.x / getRelativeModifier(), image.y / getRelativeModifier(), image.x_scale / getRelativeModifier(), image.y_scale / getRelativeModifier(), Layers::Middleground, image.alpha);
+        auto comps = factory.createImage(image.texture_path, image.x, image.y, image.x_scale, image.y_scale, getRelativeModifier(), Layers::Middleground, image.alpha);
+        factory.addToEntityManager(std::move(comps));
     }
 
     engine.toggleCursor(true);
 
     if(!engine.getSoundManager().isPlaying()) {
-        engine.getSoundManager().playMusic(this->bg_music);
+        engine.getSoundManager().playMusic("music/main.mp3");
     }
 }
 void MainMenu::leave() {}

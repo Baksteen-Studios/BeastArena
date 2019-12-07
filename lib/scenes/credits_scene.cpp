@@ -1,42 +1,52 @@
 #include "scenes/credits_scene.hpp"
 
-#include "scenes/data/menu/button.hpp"
+#include "entities/entity_factory.hpp"
+#include "scenes/data/menu/image.hpp"
 
-CreditsScene::CreditsScene(EntityFactory& factory, BrickEngine& engine, GameController& game_controller) : BeastScene(factory, engine, WIDTH, HEIGHT), game_controller(game_controller) { }
+CreditsScene::CreditsScene(EntityFactory& factory, BrickEngine& engine, GameController& game_controller) : Menu(factory, engine, WIDTH, HEIGHT), game_controller(game_controller) { }
+
+void CreditsScene::performPrepare() {
+    entity_components = std::make_unique<std::vector<EntityComponents>>();
+
+    // Images
+    Image logo = Image();
+    logo.texture_path = "menu/logo.png";
+    logo.alpha = 255;
+    logo.x = 960;
+    logo.y = 140;
+    logo.x_scale = 680;
+    logo.y_scale = 106;
+    this->images.push_back(logo);
+
+    // Buttons
+    {
+        auto on_click = [gm = &game_controller]() {
+            gm->loadMainMenu();
+        };
+        auto comps_list = factory.createButton("Back", { 255, 255, 255, 255}, 72, "menu/button.png", 100, 95, 150, 100, 255, getRelativeModifier(), on_click);
+        for(auto& comps : comps_list) {
+            entity_components->push_back(std::move(comps));
+        }
+    }
+
+    // Text
+    entity_components->push_back(factory.createText("Mark van der Meer - SCRUM Master", { 0, 0, 0, 255 }, 120, 960, 350, 800, 120, getRelativeModifier()));
+    entity_components->push_back(factory.createText("Bram-Boris Meerlo - Version control", { 0, 0, 0, 255 }, 120, 960, 500, 950, 120, getRelativeModifier()));
+    entity_components->push_back(factory.createText("Peter-Jan Gootzen - Software architect", { 0, 0, 0, 255 }, 120, 960, 650, 1000, 120, getRelativeModifier()));
+    entity_components->push_back(factory.createText("Jan Schollaert - Game designer", { 0, 0, 0, 255 }, 120, 960, 800, 800, 120, getRelativeModifier()));
+    entity_components->push_back(factory.createText("Luuk Santegoeds - Product owner", { 0, 0, 0, 255 }, 120, 960, 950, 820, 120, getRelativeModifier()));
+}
 
 void CreditsScene::start() {
-    // Background
-    factory.createImage("colors/white.png", this->screen_width / 2, this->screen_height / 2, this->screen_width, this->screen_height, Layers::Background, 255);
+    // Create the background
+    auto comps = factory.createImage("colors/white.png", this->width / 2, this->height / 2, this->width, this->height, getRelativeModifier(), Layers::Background, 255);
+    factory.addToEntityManager(std::move(comps));
 
-    // Back button
-    Button back_button = Button();
-    back_button.alpha = 255;
-    back_button.on_click = [gm = &game_controller]() {
-        gm->loadMainMenu();
-    };
-    back_button.text.color = { 255, 255, 255, 255 };
-    back_button.text.font_size = 72;
-    back_button.text.text = "Back";
-    back_button.text.x = 100;
-    back_button.text.x_scale = 150;
-    back_button.text.y = 95;
-    back_button.text.y_scale = 100;
-    back_button.texture_path = "menu/button.png";
-    back_button.x = 100;
-    back_button.x_scale = 150;
-    back_button.y = 100;
-    back_button.y_scale = 100;
-    factory.createButton(back_button, getRelativeModifier());
-
-    // BeastArena logo
-    factory.createImage("menu/logo.png", 960 / getRelativeModifier(), 140 / getRelativeModifier(), 680 / getRelativeModifier(), 106 / getRelativeModifier(), Layers::Foreground, 255);
-
-    // Names
-    factory.createText("Mark van der Meer - SCRUM Master", 960 / getRelativeModifier(), 350 / getRelativeModifier(), 800 / getRelativeModifier(), 120 / getRelativeModifier(), 120, { 0, 0, 0, 255 });
-    factory.createText("Bram-Boris Meerlo - Version control", 960 / getRelativeModifier(), 500 / getRelativeModifier(), 950 / getRelativeModifier(), 120 / getRelativeModifier(), 120, { 0, 0, 0, 255 });
-    factory.createText("Peter-Jan Gootzen - Software architect", 960 / getRelativeModifier(), 650 / getRelativeModifier(), 1000 / getRelativeModifier(), 120 / getRelativeModifier(), 120, { 0, 0, 0, 255 });
-    factory.createText("Jan Schollaert - Game designer", 960 / getRelativeModifier(), 800 / getRelativeModifier(), 800 / getRelativeModifier(), 120 / getRelativeModifier(), 120, { 0, 0, 0, 255 });
-    factory.createText("Luuk Santegoeds - Product owner", 960 / getRelativeModifier(), 950 / getRelativeModifier(), 820 / getRelativeModifier(), 120 / getRelativeModifier(), 120, { 0, 0, 0, 255 });
+    // Load the images
+    for(Image image : images) {
+        auto comps = factory.createImage(image.texture_path, image.x, image.y, image.x_scale, image.y_scale, getRelativeModifier(), Layers::Middleground, image.alpha);
+        factory.addToEntityManager(std::move(comps));
+    }
 
     engine.toggleCursor(true);
 
@@ -46,9 +56,5 @@ void CreditsScene::start() {
 }
 
 void CreditsScene::leave() {
-
-}
-
-void CreditsScene::performPrepare() {
 
 }

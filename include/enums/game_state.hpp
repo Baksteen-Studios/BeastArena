@@ -4,6 +4,7 @@
 enum class GameState {
     Unintialized,
     Menu,
+    Highscore,
     Lobby,
     InGame,
     EndGame,

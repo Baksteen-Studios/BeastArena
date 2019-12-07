@@ -2,8 +2,9 @@
 #define FILE_CREDITS_SCENE_HPP
 
 #include "scenes/beast_scene.hpp"
+#include "scenes/menu.hpp"
 
-class CreditsScene : public BeastScene<CreditsScene> {
+class CreditsScene : public Menu<CreditsScene> {
 public:
     CreditsScene(EntityFactory& factory, BrickEngine& engine, GameController& game_controller);
 

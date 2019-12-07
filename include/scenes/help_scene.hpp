@@ -2,8 +2,9 @@
 #define FILE_HELP_SCENE_HPP
 
 #include "scenes/beast_scene.hpp"
+#include "scenes/menu.hpp"
 
-class HelpScene : public BeastScene<HelpScene> {
+class HelpScene : public Menu<HelpScene> {
 public:
     HelpScene(EntityFactory& factory, BrickEngine& engine, GameController& game_controller);
 
