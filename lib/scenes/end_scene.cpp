@@ -72,9 +72,8 @@ void EndScene::start() {
     std::vector<std::pair<int, int>> results;
   
     for (auto& [ entity_id, player ] : entities_with_player) {
-        for (auto& child : em.getChildren(entity_id)) {
+        for (auto& child : em.getChildren(entity_id))
             em.moveOutOfParentsHouse(child);
-        }
 
         auto stats = em.getComponent<StatsComponent>(entity_id);
         results.push_back(std::make_pair(entity_id, stats->levels_won));

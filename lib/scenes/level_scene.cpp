@@ -107,9 +107,8 @@ void LevelScene::start() {
 
     int count = 0;
     for(auto& [entity_id, player]: entities_with_player) {
-        for (auto& child : em.getChildren(entity_id)) {
+        for (auto& child : em.getChildren(entity_id))
             em.moveOutOfParentsHouse(child);
-        }
 
         player->disabled = false;
         auto transform_component = em.getComponent<TransformComponent>(entity_id);
