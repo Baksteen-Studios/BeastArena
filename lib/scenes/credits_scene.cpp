@@ -30,16 +30,16 @@ void CreditsScene::performPrepare() {
     }
 
     // Text
-    entity_components->push_back(factory.createText("Mark van der Meer - SCRUM Master", { 0, 0, 0, 255 }, 120, 960, 350, 800, 120, getRelativeModifier()));
-    entity_components->push_back(factory.createText("Bram-Boris Meerlo - Version control", { 0, 0, 0, 255 }, 120, 960, 500, 950, 120, getRelativeModifier()));
-    entity_components->push_back(factory.createText("Peter-Jan Gootzen - Software architect", { 0, 0, 0, 255 }, 120, 960, 650, 1000, 120, getRelativeModifier()));
-    entity_components->push_back(factory.createText("Jan Schollaert - Game designer", { 0, 0, 0, 255 }, 120, 960, 800, 800, 120, getRelativeModifier()));
-    entity_components->push_back(factory.createText("Luuk Santegoeds - Product owner", { 0, 0, 0, 255 }, 120, 960, 950, 820, 120, getRelativeModifier()));
+    entity_components->push_back(factory.createText("Mark van der Meer - SCRUM Master", { 255, 255, 255, 255 }, 120, 960, 350, 800, 120, getRelativeModifier()));
+    entity_components->push_back(factory.createText("Bram-Boris Meerlo - Version control", { 255, 255, 255, 255 }, 120, 960, 500, 950, 120, getRelativeModifier()));
+    entity_components->push_back(factory.createText("Peter-Jan Gootzen - Software architect", { 255, 255, 255, 255 }, 120, 960, 650, 1000, 120, getRelativeModifier()));
+    entity_components->push_back(factory.createText("Jan Schollaert - Game designer", { 255, 255, 255, 255 }, 120, 960, 800, 800, 120, getRelativeModifier()));
+    entity_components->push_back(factory.createText("Luuk Santegoeds - Product owner", { 255, 255, 255, 255 }, 120, 960, 950, 820, 120, getRelativeModifier()));
 }
 
 void CreditsScene::start() {
     // Create the background
-    auto comps = factory.createImage("colors/white.png", this->width / 2, this->height / 2, this->width, this->height, getRelativeModifier(), Layers::Background, 255);
+    auto comps = factory.createImage("backgrounds/pixel-forest.png", this->width / 2, this->height / 2, this->width, this->height, getRelativeModifier(), Layers::Background, 255);
     factory.addToEntityManager(std::move(comps));
 
     // Load the images

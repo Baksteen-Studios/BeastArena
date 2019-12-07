@@ -39,23 +39,23 @@ void HelpScene::performPrepare() {
     }
 
     // Text
-    entity_components->push_back(factory.createText("Keyboard colors:", { 0, 0, 0, 255 }, 72, 200, 200, 300, 75, getRelativeModifier()));
-    entity_components->push_back(factory.createText("Black = player 1", { 0, 0, 0, 255 }, 72, 200, 300, 300, 75, getRelativeModifier()));
-    entity_components->push_back(factory.createText("Red = player 2", { 0, 0, 0, 255 }, 72, 200, 400, 300, 75, getRelativeModifier()));
-    entity_components->push_back(factory.createText("Blue = player 3", { 0, 0, 0, 255 }, 72, 200, 500, 300, 75, getRelativeModifier()));
-    entity_components->push_back(factory.createText("Green = player 4", { 0, 0, 0, 255 }, 72, 200, 600, 300, 75, getRelativeModifier()));
-    entity_components->push_back(factory.createText("G = Grab", { 0, 0, 0, 255 }, 72, 200, 720, 300, 75, getRelativeModifier()));
-    entity_components->push_back(factory.createText("S = Shoot", { 0, 0, 0, 255 }, 72, 200, 800, 300, 75, getRelativeModifier()));
-    entity_components->push_back(factory.createText("Controllers get assigned to", { 0, 0, 0, 255 }, 72, 800, 450, 700, 150, getRelativeModifier()));
-    entity_components->push_back(factory.createText("players in the same order", { 0, 0, 0, 255 }, 72, 800, 600, 700, 150, getRelativeModifier()));
-    entity_components->push_back(factory.createText("they are connected to the pc", { 0, 0, 0, 255 }, 72, 800, 750, 700, 150, getRelativeModifier()));
-    entity_components->push_back(factory.createText("How to play?", { 0, 0, 0, 255 }, 72, 200, 950, 300, 75, getRelativeModifier()));
-    entity_components->push_back(factory.createText("Try to be the last standing player by killing the other players", { 0, 0, 0, 255 }, 72, 850, 1020, 1600, 75, getRelativeModifier()));
+    entity_components->push_back(factory.createText("Keyboard colors:", { 255, 255, 255, 255 }, 72, 200, 200, 300, 75, getRelativeModifier()));
+    entity_components->push_back(factory.createText("Black = player 1", { 255, 255, 255, 255 }, 72, 200, 300, 300, 75, getRelativeModifier()));
+    entity_components->push_back(factory.createText("Red = player 2", { 255, 255, 255, 255 }, 72, 200, 400, 300, 75, getRelativeModifier()));
+    entity_components->push_back(factory.createText("Blue = player 3", { 255, 255, 255, 255 }, 72, 200, 500, 300, 75, getRelativeModifier()));
+    entity_components->push_back(factory.createText("Green = player 4", { 255, 255, 255, 255 }, 72, 200, 600, 300, 75, getRelativeModifier()));
+    entity_components->push_back(factory.createText("G = Grab", { 255, 255, 255, 255 }, 72, 200, 720, 300, 75, getRelativeModifier()));
+    entity_components->push_back(factory.createText("S = Shoot", { 255, 255, 255, 255 }, 72, 200, 800, 300, 75, getRelativeModifier()));
+    entity_components->push_back(factory.createText("Controllers get assigned to", { 255, 255, 255, 255 }, 72, 800, 450, 700, 150, getRelativeModifier()));
+    entity_components->push_back(factory.createText("players in the same order", { 255, 255, 255, 255 }, 72, 800, 600, 700, 150, getRelativeModifier()));
+    entity_components->push_back(factory.createText("they are connected to the pc", { 255, 255, 255, 255 }, 72, 800, 750, 700, 150, getRelativeModifier()));
+    entity_components->push_back(factory.createText("How to play?", { 255, 255, 255, 255 }, 72, 200, 950, 300, 75, getRelativeModifier()));
+    entity_components->push_back(factory.createText("Try to be the last standing player by killing the other players", { 255, 255, 255, 255 }, 72, 850, 1020, 1600, 75, getRelativeModifier()));
 }
 
 void HelpScene::start() {
     // Create the background
-    auto comps = factory.createImage("colors/white.png", this->width / 2, this->height / 2, this->width, this->height, getRelativeModifier(), Layers::Background, 255);
+    auto comps = factory.createImage("backgrounds/pixel-forest.png", this->width / 2, this->height / 2, this->width, this->height, getRelativeModifier(), Layers::Background, 255);
     factory.addToEntityManager(std::move(comps));
 
     // Load the images
