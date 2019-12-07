@@ -80,7 +80,7 @@ GameController::GameController() {
 #endif // PERFORMANCE_DEBUGGING
 
     // From layers.hpp
-    this->layers = { 0, 1, 2, 3, 4 };
+    this->layers = { 0, 1, 2, 3, 4, 5, 6 };
 
     this->delta_time_modifier = std::unique_ptr<double>(new double(1));
 
@@ -455,10 +455,16 @@ void GameController::pauseGame() {
         game_state_manager->setState(GameState::InGame);
         having_a_break = false;
     }else{
-        scene_manager->destroyScene(SceneLayer::Secondary);
-        scene_manager->createScene<PauseScene>(*entityFactory, *engine);
-        having_a_break = true;
+        // Checks whether an intermission to a new level is going on. When this is the case,
+        // the break won't be initiated and the player has to wait for the next level.
+        if(!scene_manager->isSceneActive<IntermissionScene>()){
+            scene_manager->destroyScene(PauseScene::getLayerStatic());
+            scene_manager->createScene<PauseScene>(*entityFactory, *engine, [this](){this->pauseGame();},
+                                                    [this](){this->loadMainMenu();});
+            having_a_break = true;
+        }
     }
+}
 
 void GameController::showHighscores() {
     scene_manager->destroyAllScenes();

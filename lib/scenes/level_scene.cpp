@@ -127,7 +127,6 @@ void LevelScene::start() {
 
         ++count;
     }
-
     // Load the platforms
     for(Solid platform : solids) {
         if(platform.shape == SolidShape::RECTANGLE && platform.effect == SolidEffect::NONE) {

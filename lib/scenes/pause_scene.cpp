@@ -3,24 +3,33 @@
 #include "entities/layers.hpp"
 #include "brickengine/components/renderables/texture_component.hpp"
 
-PauseScene::PauseScene(EntityFactory& factory, BrickEngine& engine) : Menu<PauseScene>(factory, engine, WIDTH, HEIGHT) {};
+PauseScene::PauseScene(EntityFactory& factory, BrickEngine& engine, std::function<void()> resume_function, std::function<void()> exit_function) 
+                        : Menu<PauseScene>(factory, engine, WIDTH, HEIGHT), resume_function(resume_function), exit_function(exit_function) {};
 
-void PauseScene::performPrepare(){entity_components = std::make_unique<std::vector<std::unique_ptr<std::vector<std::unique_ptr<Component>>>>>();
+void PauseScene::performPrepare(){
+    engine.toggleCursor(true);
+    entity_components = std::make_unique<std::vector<EntityComponents>>();
 
-    // Nothing has to changes here as no player or other entities have to be reset to another 'state' or position.
-    auto dst = std::unique_ptr<Rect>(new Rect{ 0, 0, 0, 0 });
-    auto r = factory.getRenderableFactory().createImage("./assets/graphics/colors/white.png", (int)Layers::UI, std::move(dst), 100);
+    // Creates the white overlay to show the game is paused.
+    entity_components->push_back(factory.createImage("/colors/white.png", (WIDTH * getRelativeModifier()) / 2, (HEIGHT * getRelativeModifier()) /2,
+                                                            WIDTH * getRelativeModifier(), HEIGHT * getRelativeModifier(), getRelativeModifier(), Layers::UIBackground, 100));
 
-    auto comps = std::make_unique<std::vector<std::unique_ptr<Component>>>();
-    comps->push_back(std::make_unique<TransformComponent>(1600 / 2, 900 / 2, 1600, 900, Direction::POSITIVE, Direction::POSITIVE));
-    comps->push_back(std::make_unique<TextureComponent>(std::move(r)));
+    // Creation of the resume and exit button.
+    auto entity_components_list_resume_button = factory.createButton("Resume", { 255, 255, 255, 255 }, 72, "menu/button.png", WIDTH / 2, 340, 400, 100, 255, getRelativeModifier(), resume_function);
+    for(auto& components : entity_components_list_resume_button){
+        entity_components->push_back(std::move(components));
+    }
+    
+    auto entity_components_list_exit_button = factory.createButton("Exit match", { 255, 255, 255, 255 }, 72, "menu/button.png", WIDTH / 2, 490, 400, 100, 255, getRelativeModifier(), exit_function);
+    for(auto& components : entity_components_list_exit_button){
+        entity_components->push_back(std::move(components));
+    }
 
-    entity_components->push_back(std::move(comps));
 }
 
 void PauseScene::start() {
 }
 
 void PauseScene::leave() {
-
+    engine.toggleCursor(false);
 }

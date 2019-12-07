@@ -248,7 +248,7 @@ std::vector<EntityComponents> EntityFactory::createButton(std::string text, Colo
     {
         // Make background
         auto dst = std::unique_ptr<Rect>(new Rect{ 0, 0 , 0, 0});
-        auto r = renderableFactory.createImage(GRAPHICS_PATH + texture_path, (int)Layers::Middleground, std::move(dst), alpha);
+        auto r = renderableFactory.createImage(GRAPHICS_PATH + texture_path, (int)Layers::UI, std::move(dst), alpha);
 
         auto comps = std::make_unique<std::vector<std::unique_ptr<Component>>>();
         comps->push_back(std::make_unique<TransformComponent>(x / relative_modifier, y / relative_modifier, x_scale / relative_modifier, y_scale / relative_modifier, Direction::POSITIVE, Direction::POSITIVE));
@@ -259,7 +259,7 @@ std::vector<EntityComponents> EntityFactory::createButton(std::string text, Colo
     }
     {
         auto dstText = std::unique_ptr<Rect>(new Rect{ 0, 0 , 0, 0});
-        auto rText = renderableFactory.createText(text, font_size, text_color, (int)Layers::Foreground, std::move(dstText));
+        auto rText = renderableFactory.createText(text, font_size, text_color, (int)Layers::UIForeground, std::move(dstText));
 
         auto comps = std::make_unique<std::vector<std::unique_ptr<Component>>>();
         // Relative to button

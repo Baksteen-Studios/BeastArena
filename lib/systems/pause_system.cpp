@@ -13,7 +13,6 @@ void PauseSystem::update(double){
     
     for(auto& [entity_id, player] : player_entities) {
         if(input.checkInput(player->player_id, PlayerInput::PAUSE)) {
-            std::cout << "You hit pause" << std::endl;
             game_controller.pauseGame();
 
             // Break so only 1 player can pause per tick
