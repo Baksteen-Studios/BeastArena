@@ -51,6 +51,15 @@ void MainMenu::performPrepare() {
             entity_components->push_back(std::move(comps));
         }
     }
+    {
+        auto on_click = [gm = &game_controller]() {
+            gm->loadDebugger();
+        };
+        auto comps_list = factory.createButton("Create a level.", { 255, 255, 255, 255}, 20, "menu/button.png", width - 325, height - 75, 600, 100, 255, getRelativeModifier(), on_click);
+        for(auto& comps : comps_list) {
+            entity_components->push_back(std::move(comps));
+        }
+    }
 
     // Images
     Image logo = Image();

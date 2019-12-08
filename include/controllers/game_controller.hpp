@@ -32,6 +32,7 @@ public:
     void loadEndGameLevel();
     void showHighscores();
     void intermission(int timer);
+    void loadDebugger();
 
     static constexpr int MAX_LEVELS = 2;
     inline static const int SCREEN_HEIGHT = 900;
