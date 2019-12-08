@@ -47,6 +47,7 @@ EntityFactory::EntityFactory(std::shared_ptr<EntityManager> em, RenderableFactor
         health->health = health->max_health;
         em->removeTag(entity_id, "DeadPlayer");
         em->setTag(entity_id, "Player");
+        em->removeComponentFromEntity<PickupComponent>(entity_id);
     };
     createPistolComponents = [rf = renderableFactory]() {
         auto weapon_dst = std::unique_ptr<Rect>(new Rect{ 0, 0, 0, 0 });
@@ -148,7 +149,6 @@ EntityComponents EntityFactory::createPlayer(int player_id, Character character,
     comps->push_back(std::make_unique<HoldComponent>(Position {40, -12}));
     comps->push_back(std::make_unique<StatsComponent>());
     comps->push_back(std::make_unique<ReadyComponent>());
-    comps->push_back(std::make_unique<PickupComponent>());
 
     std::vector<std::string> tags;
     tags.push_back("Player");
