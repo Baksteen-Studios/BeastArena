@@ -226,8 +226,9 @@ EntityComponents EntityFactory::createCritter(double x_pos, double y_pos) const 
 }
 
 EntityComponents EntityFactory::createImage(std::string path, int x_pos, int y_pos, int x_scale, int y_scale, double relative_modifier, Layers layer, int alpha) {
+    auto src = std::unique_ptr<Rect>(new Rect{ 0, 0, 1698, 4000 });
     auto dst = std::unique_ptr<Rect>(new Rect{ 0, 0, 0, 0 });
-    auto r = renderableFactory.createImage(GRAPHICS_PATH + path, (int)layer, std::move(dst), alpha);
+    auto r = renderableFactory.createImage(GRAPHICS_PATH + path, (int)layer, std::move(dst), std::move(src), alpha);
 
     auto comps = std::make_unique<std::vector<std::unique_ptr<Component>>>();
     comps->push_back(std::make_unique<TransformComponent>(x_pos / relative_modifier, y_pos / relative_modifier, x_scale / relative_modifier, y_scale / relative_modifier, Direction::POSITIVE, Direction::POSITIVE));
