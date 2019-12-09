@@ -1,7 +1,6 @@
 #ifndef FILE_CREDITS_SCENE_HPP
 #define FILE_CREDITS_SCENE_HPP
 
-#include "scenes/beast_scene.hpp"
 #include "scenes/menu.hpp"
 
 class CreditsScene : public Menu<CreditsScene> {

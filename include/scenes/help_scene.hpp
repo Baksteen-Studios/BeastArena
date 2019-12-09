@@ -1,7 +1,6 @@
 #ifndef FILE_HELP_SCENE_HPP
 #define FILE_HELP_SCENE_HPP
 
-#include "scenes/beast_scene.hpp"
 #include "scenes/menu.hpp"
 
 class HelpScene : public Menu<HelpScene> {

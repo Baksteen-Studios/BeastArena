@@ -21,7 +21,7 @@ void HelpScene::performPrepare() {
     Image controller = Image();
     controller.texture_path = "menu/controller.png";
     controller.alpha = 255;
-    controller.x = 1560;
+    controller.x = 320;
     controller.y = 600;
     controller.x_scale = 552;
     controller.y_scale = 386;
@@ -39,18 +39,19 @@ void HelpScene::performPrepare() {
     }
 
     // Text
-    entity_components->push_back(factory.createText("Keyboard colors:", { 255, 255, 255, 255 }, 72, 200, 200, 300, 75, getRelativeModifier()));
-    entity_components->push_back(factory.createText("Black = player 1", { 255, 255, 255, 255 }, 72, 200, 300, 300, 75, getRelativeModifier()));
-    entity_components->push_back(factory.createText("Red = player 2", { 255, 255, 255, 255 }, 72, 200, 400, 300, 75, getRelativeModifier()));
-    entity_components->push_back(factory.createText("Blue = player 3", { 255, 255, 255, 255 }, 72, 200, 500, 300, 75, getRelativeModifier()));
-    entity_components->push_back(factory.createText("Green = player 4", { 255, 255, 255, 255 }, 72, 200, 600, 300, 75, getRelativeModifier()));
-    entity_components->push_back(factory.createText("G = Grab", { 255, 255, 255, 255 }, 72, 200, 720, 300, 75, getRelativeModifier()));
-    entity_components->push_back(factory.createText("S = Shoot", { 255, 255, 255, 255 }, 72, 200, 800, 300, 75, getRelativeModifier()));
-    entity_components->push_back(factory.createText("Controllers get assigned to", { 255, 255, 255, 255 }, 72, 800, 450, 700, 150, getRelativeModifier()));
-    entity_components->push_back(factory.createText("players in the same order", { 255, 255, 255, 255 }, 72, 800, 600, 700, 150, getRelativeModifier()));
-    entity_components->push_back(factory.createText("they are connected to the pc", { 255, 255, 255, 255 }, 72, 800, 750, 700, 150, getRelativeModifier()));
-    entity_components->push_back(factory.createText("How to play?", { 255, 255, 255, 255 }, 72, 200, 950, 300, 75, getRelativeModifier()));
-    entity_components->push_back(factory.createText("Try to be the last standing player by killing the other players", { 255, 255, 255, 255 }, 72, 850, 1020, 1600, 75, getRelativeModifier()));
+    entity_components->push_back(factory.createText("Keyboard colors:", { 255, 255, 255, 255 }, 72, 350, 50, 275, 75, getRelativeModifier()));
+    entity_components->push_back(factory.createText("Black = player 1", { 255, 255, 255, 255 }, 72, 350, 110, 275, 75, getRelativeModifier()));
+    entity_components->push_back(factory.createText("Red = player 2", { 255, 255, 255, 255 }, 72, 350, 170, 275, 75, getRelativeModifier()));
+    entity_components->push_back(factory.createText("Blue = player 3", { 255, 255, 255, 255 }, 72, 350, 230, 275, 75, getRelativeModifier()));
+    entity_components->push_back(factory.createText("Green = player 4", { 255, 255, 255, 255 }, 72, 350, 290, 275, 75, getRelativeModifier()));
+    entity_components->push_back(factory.createText("G = Grab", { 255, 255, 255, 255 }, 72, 625, 50, 175, 75, getRelativeModifier()));
+    entity_components->push_back(factory.createText("S = Shoot", { 255, 255, 255, 255 }, 72, 625, 110, 175, 75, getRelativeModifier()));
+
+    entity_components->push_back(factory.createText("Controllers get assigned to players in the", { 255, 255, 255, 255 }, 72, 1250, 500, 1250, 75, getRelativeModifier()));
+    entity_components->push_back(factory.createText("same order they are connected to the pc", { 255, 255, 255, 255 }, 72, 1250, 560, 1250, 75, getRelativeModifier()));
+
+    entity_components->push_back(factory.createText("How to play?", { 255, 255, 255, 255 }, 72, 200, 900, 300, 75, getRelativeModifier()));
+    entity_components->push_back(factory.createText("Try to be the last standing player by killing the other players", { 255, 255, 255, 255 }, 72, 850, 980, 1600, 75, getRelativeModifier()));
 }
 
 void HelpScene::start() {
