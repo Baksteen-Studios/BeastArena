@@ -450,19 +450,13 @@ void GameController::loadEndGameLevel() {
 }
 
 void GameController::pauseGame() {
-    if(having_a_break){
+    if(scene_manager->isSceneActive<PauseScene>()){
         scene_manager->destroyScene(PauseScene::getLayerStatic());
         game_state_manager->setState(GameState::InGame);
-        having_a_break = false;
     }else{
-        // Checks whether an intermission to a new level is going on. When this is the case,
-        // the break won't be initiated and the player has to wait for the next level.
-        if(!scene_manager->isSceneActive<IntermissionScene>()){
-            scene_manager->destroyScene(PauseScene::getLayerStatic());
-            scene_manager->createScene<PauseScene>(*entityFactory, *engine, [this](){this->pauseGame();},
-                                                    [this](){this->loadMainMenu();});
-            having_a_break = true;
-        }
+        scene_manager->destroyScene(PauseScene::getLayerStatic());
+        scene_manager->createScene<PauseScene>(*entityFactory, *engine, [this](){this->pauseGame();},
+                                                [this](){this->loadMainMenu();});
     }
 }
 
