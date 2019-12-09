@@ -176,13 +176,13 @@ void GameController::createGameStateManager() {
     state_systems->at(GameState::Highscore)->push_back(std::make_unique<HighscoreSystem>(entityManager, entityFactory, *score_json));
     state_systems->at(GameState::Highscore)->push_back(std::make_unique<RenderingSystem>(entityManager, *engine->getRenderer()));
 
-    std::unordered_map<GameState, bool> reset_on_set_state;
-    reset_on_set_state.insert({ GameState::InGame, true });
-    reset_on_set_state.insert({ GameState::EndGame, true });
-    reset_on_set_state.insert({ GameState::Highscore, true });
-    reset_on_set_state.insert({ GameState::MainMenu, true });
-    reset_on_set_state.insert({ GameState::Lobby, true });
-    reset_on_set_state.insert({ GameState::Paused, false });
+    std::unordered_map<GameState, SceneResetState> reset_on_set_state;
+    reset_on_set_state.insert({ GameState::InGame, { true, true}});
+    reset_on_set_state.insert({ GameState::EndGame, { true, true}});
+    reset_on_set_state.insert({ GameState::Highscore, { true, true }});
+    reset_on_set_state.insert({ GameState::MainMenu, { true, true }});
+    reset_on_set_state.insert({ GameState::Lobby, { true, true }});
+    reset_on_set_state.insert({ GameState::Paused, { false,false }});
 
     GameState begin_state = GameState::Unintialized;
     game_state_manager = std::make_unique<GameStateManager<GameState>>(std::move(state_systems), reset_on_set_state, begin_state);
@@ -422,7 +422,7 @@ void GameController::loadNextLevel() {
 }
 
 void GameController::intermission(int timer) {
-    scene_manager->destroyScene(SceneLayer::Secondary);
+    scene_manager->destroyScene(IntermissionScene::getLayerStatic());
     scene_manager->createScene<IntermissionScene>(timer, *entityFactory);
 }
 
