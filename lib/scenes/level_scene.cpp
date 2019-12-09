@@ -1,6 +1,6 @@
 #include "scenes/level_scene.hpp"
 
-#include <sys/stat.h>
+#include <filesystem>
 
 #include "brickengine/json/json.hpp"
 #include "brickengine/components/transform_component.hpp"
@@ -98,22 +98,24 @@ void LevelScene::performPrepare() {
 
     // Create billboards
     for(Json billboard : json.getVector("billboards")) {
-        Billboard bb_obj = Billboard();
+        std::string content_path;
+        // The advertisement image does not exist
+        if (std::filesystem::exists(billboard.getString("content_path")))
+            content_path = json.getString("content_path");
+        else
+            content_path = "advertisement/pisswasser.png";
 
-        bb_obj.x = billboard.getInt("x");
-        bb_obj.y = billboard.getInt("y");
-        bb_obj.alpha = billboard.getInt("alpha");
+        // This is billboard frame specific
+        int x = billboard.getInt("x");
+        int y = billboard.getInt("y");
+        int billboard_x_scale = billboard.getInt("x_scale");
+        int billboard_y_scale = billboard.getInt("y_scale");
+        int content_x_scale = billboard_x_scale * 0.965;
+        int content_y_scale = billboard_y_scale * 0.658536585366;
+        int alpha = billboard.getInt("alpha");
 
-        bb_obj.x_scale = billboard.getInt("x_scale");
-        bb_obj.y_scale = billboard.getInt("y_scale");
-
-        bb_obj.content_path = billboard.getString("content_path");
-        struct stat buffer;   
-        if (stat (bb_obj.content_path.c_str(), &buffer) != 0)
-            // The advertisement image does not exist
-            bb_obj.content_path = "advertisement/pisswasser.png";
-
-        this->billboards.push_back(bb_obj);
+        entity_components->push_back(factory.createImage("advertisement/billboard.png", x, y, billboard_x_scale, billboard_y_scale, getRelativeModifier(), Layers::Lowground, alpha));
+        entity_components->push_back(factory.createImage(content_path, x, y, content_x_scale, content_y_scale, getRelativeModifier(), Layers::Lowground, alpha));
     }
 }
 void LevelScene::start() {
@@ -167,21 +169,6 @@ void LevelScene::start() {
         auto comps = factory.createCritter(critter_spawns[i].x / getRelativeModifier(),
             critter_spawns[i].y / getRelativeModifier());
         factory.addToEntityManager(std::move(comps));
-    }
-
-    // Load billboards
-    for(Billboard billboard : billboards) {
-        auto board_comps = factory.createImage("advertisement/billboard.png", billboard.x, billboard.y, billboard.x_scale, billboard.y_scale, getRelativeModifier(), Layers::Lowground, billboard.alpha);
-        factory.addToEntityManager(std::move(board_comps));
-
-        // This is billboard frame specific
-        int content_x = billboard.x;
-        int content_y = billboard.y;
-        int content_x_scale = billboard.x_scale * 0.965;
-        int content_y_scale = billboard.y_scale * 0.658536585366;
-
-        auto content_comps = factory.createImage(billboard.content_path, content_x, content_y, content_x_scale, content_y_scale, getRelativeModifier(), Layers::Lowground, billboard.alpha);
-        factory.addToEntityManager(std::move(content_comps));
     }
 
     engine.toggleCursor(false);
