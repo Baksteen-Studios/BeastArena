@@ -7,6 +7,7 @@
 #include "scenes/data/level/gadget_spawn.hpp"
 #include "scenes/data/level/solid.hpp"
 #include "scenes/data/level/critter_spawn.hpp"
+#include "scenes/data/level/billboard.hpp"
 
 class LevelScene : public BeastScene<LevelScene> {
 public:
@@ -45,6 +46,9 @@ private:
 
     // Solids (floors and walls)
     std::vector<Solid> solids;
+
+    // Billboards
+    std::vector<Billboard> billboards;
 };
 
 #endif // FILE_LEVEL_SCENE_HPP
