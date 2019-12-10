@@ -239,7 +239,7 @@ EntityComponents EntityFactory::createImage(std::string path, int x_pos, int y_p
 
 EntityComponents EntityFactory::createImage(std::string path, int x_pos, int y_pos, int x_scale, int y_scale, 
                                             double relative_modifier, Layers layer, int alpha, int sprite_width, 
-                                            int sprite_height, std::optional<double>update_time, std::optional<int>sprite_size) {
+                                            int sprite_height, double update_time, int sprite_size) {
     auto src = std::unique_ptr<Rect>(new Rect{ 0, 0, sprite_width, sprite_height });
     auto dst = std::unique_ptr<Rect>(new Rect{ 0, 0, 0, 0 });
     auto r = renderableFactory.createImage(GRAPHICS_PATH + path, (int)layer, std::move(dst), std::move(src), alpha);
@@ -247,9 +247,7 @@ EntityComponents EntityFactory::createImage(std::string path, int x_pos, int y_p
     auto comps = std::make_unique<std::vector<std::unique_ptr<Component>>>();
     comps->push_back(std::make_unique<TransformComponent>(x_pos / relative_modifier, y_pos / relative_modifier, x_scale / relative_modifier, y_scale / relative_modifier, Direction::POSITIVE, Direction::POSITIVE));
     comps->push_back(std::make_unique<TextureComponent>(std::move(r)));
-    if (update_time && sprite_size) {
-        comps->push_back(std::make_unique<AnimationComponent>(update_time.value(), sprite_size.value()));
-    }
+    comps->push_back(std::make_unique<AnimationComponent>(update_time, sprite_size));
 
     std::vector<std::string> tags;
 
