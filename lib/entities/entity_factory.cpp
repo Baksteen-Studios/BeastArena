@@ -52,9 +52,6 @@ EntityFactory::EntityFactory(std::shared_ptr<EntityManager> em, RenderableFactor
             // Hardcoded to 2 until we actually make a good animation system
             animation->sprite_size = 2;
         }
-        if (pickup) {
-            em->removeComponentFromEntity<PickupComponent>(entity_id);
-        }
         transform->y_direction = Direction::POSITIVE;
         player->disabled = false;
         physics->kinematic = Kinematic::IS_NOT_KINEMATIC;
