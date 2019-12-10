@@ -7,12 +7,10 @@
 
 class HUDSystem : public BeastSystem {
 public:
-    HUDSystem(std::shared_ptr<EntityManager> entity_manager, std::shared_ptr<EntityFactory> entity_factory, int screen_width, int screen_height);
+    HUDSystem(std::shared_ptr<EntityManager> entity_manager, std::shared_ptr<EntityFactory> entity_factory);
     void update(double deltatime);
     void reset();
 private:
-    int screen_width;
-    int screen_height;
     std::vector<int> dead_players;
 };
 

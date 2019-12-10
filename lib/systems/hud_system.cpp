@@ -7,8 +7,8 @@
 
 #include <algorithm>
 
-HUDSystem::HUDSystem(std::shared_ptr<EntityManager> em, std::shared_ptr<EntityFactory> ef, int screen_width, int screen_height)
-    : BeastSystem(ef, em), screen_width(screen_width), screen_height(screen_height) {}
+HUDSystem::HUDSystem(std::shared_ptr<EntityManager> em, std::shared_ptr<EntityFactory> ef)
+    : BeastSystem(ef, em) {}
 
 void HUDSystem::update(double) {
     // Check if player is dead
