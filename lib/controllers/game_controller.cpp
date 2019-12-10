@@ -473,7 +473,7 @@ void GameController::loadEndGameLevel() {
 void GameController::pauseGame() {
     if(scene_manager->isSceneActive<PauseScene>()){
         scene_manager->destroyScene(PauseScene::getLayerStatic());
-        game_state_manager->setState(GameState::InGame);
+        game_state_manager->setState(scene_manager->getLayerState(SceneLayer::Primary));
     }else{
         scene_manager->destroyScene(PauseScene::getLayerStatic());
         scene_manager->createScene<PauseScene>(*entityFactory, *engine, [this](){this->pauseGame();},
