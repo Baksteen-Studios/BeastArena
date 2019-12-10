@@ -118,7 +118,7 @@ void GameController::createGameStateManager(){
     reset_on_set_state.insert({ GameState::InGame, { true, true}});
     reset_on_set_state.insert({ GameState::EndGame, { true, true}});
     reset_on_set_state.insert({ GameState::Highscore, { true, true }});
-    reset_on_set_state.insert({ GameState::MainMenu, { true, true }});
+    reset_on_set_state.insert({ GameState::Menu, { true, true }});
     reset_on_set_state.insert({ GameState::Lobby, { true, true }});
     reset_on_set_state.insert({ GameState::Paused, { false,false }});
 
