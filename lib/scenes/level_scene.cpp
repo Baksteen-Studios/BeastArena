@@ -124,12 +124,20 @@ void LevelScene::performPrepare() {
     auto player_entities = factory.getEntityManager().getEntitiesByComponent<PlayerComponent>();
 
     int spacing = screen_width / (player_entities.size() + 1);
+    
+    std::vector<int> player_ids;
+    for (auto& [entity_id, player] : player_entities) {
+        player_ids.push_back(player->player_id);
+    }
+    sort(player_ids.begin(), player_ids.end());
 
-    int count = 0;
     for (auto& [entity_id, player] : player_entities) {
         auto hud_component = factory.getEntityManager().getComponent<HUDComponent>(entity_id);
 
-        int x_pos = spacing + (count * spacing);
+        std::vector<int>::iterator it = std::find(player_ids.begin(), player_ids.end(), player->player_id);
+        int index = std::distance(player_ids.begin(), it);
+
+        int x_pos = spacing + (index * spacing);
         int y_pos = screen_height * 0.07;
 
         hud_component->x = x_pos;
@@ -140,8 +148,6 @@ void LevelScene::performPrepare() {
         entity_components->push_back(factory.createImage("colors/white.png", hud_component->x, hud_component->y, hud_component->x_scale * frame_modifier, hud_component->y_scale * frame_modifier, 1, Layers::UIBackground, 100));
         entity_components->push_back(factory.createImage(hud_component->texture, hud_component->x, hud_component->y, hud_component->x_scale, hud_component->y_scale, 1, Layers::UI, 255));
         entity_components->push_back(factory.createImage("menu/frame2.png", hud_component->x, hud_component->y, hud_component->x_scale * frame_modifier, hud_component->y_scale * frame_modifier, 1, Layers::UI, 255));
-
-        ++count;
     }
 }
 void LevelScene::start() {
