@@ -275,9 +275,9 @@ std::vector<EntityComponents> EntityFactory::createButton(std::string text, Colo
     return std::move(component_list);
 }
 
-EntityComponents EntityFactory::createText(std::string text, Color color, int font_size, int x, int y, int x_scale, int y_scale, double relative_modifier) {
+EntityComponents EntityFactory::createText(std::string text, Color color, int font_size, int x, int y, int x_scale, int y_scale, double relative_modifier, Layers layer) {
     auto dst = std::unique_ptr<Rect>(new Rect{ 0, 0 , 0, 0});
-    auto r_text = renderableFactory.createText(text, font_size, color, (int)Layers::UI, std::move(dst));
+    auto r_text = renderableFactory.createText(text, font_size, color, (int)layer, std::move(dst));
     auto comps = std::make_unique<std::vector<std::unique_ptr<Component>>>();
     comps->push_back(std::make_unique<TransformComponent>(x / relative_modifier, y / relative_modifier, x_scale / relative_modifier, y_scale / relative_modifier, Direction::POSITIVE, Direction::POSITIVE));
     comps->push_back(std::make_unique<TextureComponent>(std::move(r_text)));
