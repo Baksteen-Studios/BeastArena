@@ -203,8 +203,9 @@ EntityComponents EntityFactory::createSpawner(double x_pos, double y_pos, double
 }
 
 EntityComponents EntityFactory::createCritter(double x_pos, double y_pos) const {
+    auto src = std::unique_ptr<Rect>(new Rect{ 0, 0, 14, 13 });
     auto dst = std::unique_ptr<Rect>(new Rect{ 0, 0, 0, 0 });
-    auto r = renderableFactory.createImage(GRAPHICS_PATH + "beasts/bunny/bunny-1.png", (int)Layers::Foreground, std::move(dst), 255);
+    auto r = renderableFactory.createImage(GRAPHICS_PATH + "beasts/bunny/bunny-idle.png", (int)Layers::Foreground, std::move(dst), std::move(src), 255);
     auto comps = std::make_unique<std::vector<std::unique_ptr<Component>>>();
 
     comps->push_back(std::make_unique<TransformComponent>(x_pos, y_pos, 20, 20, Direction::POSITIVE, Direction::POSITIVE));
@@ -214,6 +215,7 @@ EntityComponents EntityFactory::createCritter(double x_pos, double y_pos) const 
     comps->push_back(std::make_unique<WanderingComponent>());
     comps->push_back(std::make_unique<DespawnComponent>(false, true));
     comps->push_back(std::make_unique<PickupComponent>());
+    comps->push_back(std::make_unique<AnimationComponent>(0.2, 2));
     comps->push_back(std::make_unique<HealthComponent>(1, [em = entityManager](int entity_id) {
         em->removeEntity(entity_id);
     }));
