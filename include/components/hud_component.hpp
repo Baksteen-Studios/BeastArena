@@ -14,6 +14,10 @@ public:
     std::string texture;
     int x_scale;
     int y_scale;
+
+    // Set by the level_scene
+    int x;
+    int y;
 };
 
 #endif // FILE_HUD_COMPONENT_HPP

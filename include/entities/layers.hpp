@@ -10,10 +10,14 @@ enum class Layers {
     Middleground = 2,
     // Player and platforms
     Foreground = 3,
+    // UI backgrond
+    UIBackground = 4,
     // The actual UI
-    UI = 4,
+    UI = 5,
+    // UI foreground
+    UIForeground = 6,
     // FPS counter and debugging layer
-    Overlay = 5
+    Overlay = 7
 };
 
 #endif // FILE_LAYERS_HPP

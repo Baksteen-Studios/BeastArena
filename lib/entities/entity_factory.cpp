@@ -21,6 +21,7 @@
 #include "components/character_selection_component.hpp"
 #include "components/spawn_component.hpp"
 #include "components/hold_component.hpp"
+#include "components/hud_component.hpp"
 #include "brickengine/rendering/renderables/data/color.hpp"
 #include "brickengine/rendering/renderables/renderable.hpp"
 #include "brickengine/components/data/scale.hpp"
@@ -149,6 +150,7 @@ EntityComponents EntityFactory::createPlayer(int player_id, Character character,
     comps->push_back(std::make_unique<StatsComponent>());
     comps->push_back(std::make_unique<ReadyComponent>());
     comps->push_back(std::make_unique<PickupComponent>());
+    comps->push_back(std::make_unique<HUDComponent>(character_specs.mug_texture, character_specs.mug_x_scale, character_specs.mug_y_scale));
 
     std::vector<std::string> tags;
     tags.push_back("Player");
@@ -372,8 +374,8 @@ const CharacterSpecs EntityFactory::getCharacterSpecs(Character character) const
             specs.name = "Gorilla";
             specs.health = 100;
             specs.mug_texture = "mugshots/gorilla.png";
-            specs.mug_x_scale = 52;
-            specs.mug_y_scale = 44;
+            specs.mug_x_scale = 78;
+            specs.mug_y_scale = 66;
             break;
         case Character::PANDA:
             specs.path = "beasts/panda/panda-1.png";
@@ -383,8 +385,8 @@ const CharacterSpecs EntityFactory::getCharacterSpecs(Character character) const
             specs.name = "Panda";
             specs.health = 100;
             specs.mug_texture = "mugshots/panda.png";
-            specs.mug_x_scale = 64;
-            specs.mug_y_scale = 44;
+            specs.mug_x_scale = 96;
+            specs.mug_y_scale = 66;
             break;
         case Character::CHEETAH:
             specs.path = "beasts/cheetah/cheetah-1.png";
@@ -394,8 +396,8 @@ const CharacterSpecs EntityFactory::getCharacterSpecs(Character character) const
             specs.name = "Cheetah";
             specs.health = 100;
             specs.mug_texture = "mugshots/cheetah.png";
-            specs.mug_x_scale = 48;
-            specs.mug_y_scale = 40;
+            specs.mug_x_scale = 72;
+            specs.mug_y_scale = 60;
             break;
         case Character::ELEPHANT:
             specs.path = "beasts/elephant/elephant-1.png";
@@ -405,8 +407,8 @@ const CharacterSpecs EntityFactory::getCharacterSpecs(Character character) const
             specs.name = "Elephant";
             specs.health = 100;
             specs.mug_texture = "mugshots/elephant.png";
-            specs.mug_x_scale = 93;
-            specs.mug_y_scale = 45;
+            specs.mug_x_scale = 140;
+            specs.mug_y_scale = 68;
             break;
         case Character::RANDOM:
             specs.path = "menu/question-mark.png";

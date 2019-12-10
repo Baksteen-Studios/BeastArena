@@ -3,25 +3,32 @@
 #include "brickengine/components/player_component.hpp"
 #include "components/hud_component.hpp"
 #include "entities/layers.hpp"
+#include "components/health_component.hpp"
+
+#include <algorithm>
 
 HUDSystem::HUDSystem(std::shared_ptr<EntityManager> em, std::shared_ptr<EntityFactory> ef, int screen_width, int screen_height)
     : BeastSystem(ef, em), screen_width(screen_width), screen_height(screen_height) {}
 
 void HUDSystem::update(double) {
-    // auto player_entities = entityManager->getEntitiesByComponent<PlayerComponent>();
+    // Check if player is dead
+    // If dead & death unknown --> add cross
+    auto player_entities = entityManager->getEntitiesByComponent<PlayerComponent>();
 
-    // int spacing = screen_width / (player_entities.size() + 1);
+    for (auto& [entity_id, player] : player_entities) {
+        auto health_component = entityManager->getComponent<HealthComponent>(entity_id);
+        if(health_component->health <= 0) {
+            if(std::find(dead_players.begin(), dead_players.end(), player->player_id) == dead_players.end()) {
+                // New death
+                dead_players.push_back(player->player_id);
 
-    // int count = 0;
-    // for (auto& [entity_id, player] : player_entities) {
-    //     auto hud_component = entityManager->getComponent<HUDComponent>(entity_id);
+                auto hud_component = entityManager->getComponent<HUDComponent>(entity_id);
+                entity_factory->addToEntityManager(entity_factory->createImage("menu/cross.png", hud_component->x, hud_component->y, hud_component->x_scale, hud_component->y_scale, 1, Layers::UIForeground, 255));
+            }
+        }
+    }
+}
 
-    //     int x_pos = spacing + (count * spacing);
-    //     int y_pos = screen_height * 0.2;
-        
-    //     // This is infinite loopy
-    //     entity_factory->addToEntityManager(entity_factory->createImage(hud_component->texture, x_pos, y_pos, hud_component->x_scale, hud_component->y_scale, 1, Layers::UI, 255));
-
-    //     ++count;
-    // }
+void HUDSystem::reset() {
+    dead_players.clear();
 }

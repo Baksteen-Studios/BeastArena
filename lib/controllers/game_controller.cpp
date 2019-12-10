@@ -82,7 +82,7 @@ GameController::GameController() {
 #endif // PERFORMANCE_DEBUGGING
 
     // From layers.hpp
-    this->layers = { 0, 1, 2, 3, 4 };
+    this->layers = { 0, 1, 2, 3, 4, 5, 6 };
 
     this->delta_time_modifier = std::unique_ptr<double>(new double(1));
 
@@ -165,6 +165,7 @@ void GameController::createGameStateManager() {
     state_systems->at(GameState::EndGame)->push_back(std::make_unique<DamageSystem>(*collision_detector, entityManager, entityFactory));
     state_systems->at(GameState::EndGame)->push_back(std::make_unique<DespawnSystem>(*collision_detector, entityManager, SCREEN_WIDTH, SCREEN_HEIGHT));
     state_systems->at(GameState::EndGame)->push_back(std::make_unique<SpawnSystem>(entityManager, entityFactory));
+    state_systems->at(GameState::EndGame)->push_back(std::make_unique<HUDSystem>(entityManager, entityFactory, SCREEN_WIDTH, SCREEN_HEIGHT));
     state_systems->at(GameState::EndGame)->push_back(std::make_unique<DisplacementSystem>(*collision_detector, entityManager));
     state_systems->at(GameState::EndGame)->push_back(std::make_unique<RenderingSystem>(entityManager, *engine->getRenderer()));
 
