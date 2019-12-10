@@ -102,6 +102,7 @@ GameController::GameController() {
 
     createGameStateManager();
     scene_manager = std::make_unique<SceneManager<GameState>>(*entityManager, *game_state_manager);
+    setGameStateSystems();
     score_json = std::make_unique<ScoreJson>();
     entityManager->setGetCurrentSceneTagFunction(scene_manager->createGetPrimaryTagFunction());
 
@@ -109,8 +110,22 @@ GameController::GameController() {
     loadMainMenu();
 }
 
-void GameController::createGameStateManager() {
+void GameController::createGameStateManager(){
+    std::unordered_map<GameState, SceneResetState> reset_on_set_state;
+    reset_on_set_state.insert({ GameState::InGame, { true, true}});
+    reset_on_set_state.insert({ GameState::EndGame, { true, true}});
+    reset_on_set_state.insert({ GameState::Highscore, { true, true }});
+    reset_on_set_state.insert({ GameState::MainMenu, { true, true }});
+    reset_on_set_state.insert({ GameState::Lobby, { true, true }});
+    reset_on_set_state.insert({ GameState::Paused, { false,false }});
+
+    GameState begin_state = GameState::Unintialized;
+    game_state_manager = std::make_unique<GameStateManager<GameState>>(reset_on_set_state, begin_state);
+}
+
+void GameController::setGameStateSystems() {
     auto state_systems = std::make_unique<GameStateManager<GameState>::StateSystems>();
+
     state_systems->insert({ GameState::MainMenu, std::make_unique<GameStateManager<GameState>::Systems>() });
     state_systems->insert({ GameState::Lobby, std::make_unique<GameStateManager<GameState>::Systems>() });
     state_systems->insert({ GameState::InGame, std::make_unique<std::vector<std::unique_ptr<System>>>() });
@@ -139,7 +154,7 @@ void GameController::createGameStateManager() {
 
     // In game
     state_systems->at(GameState::InGame)->push_back(std::make_unique<GameSpeedSystem>(entityManager, *delta_time_modifier.get()));
-    state_systems->at(GameState::InGame)->push_back(std::make_unique<GameSystem>(entityManager, *this));
+    state_systems->at(GameState::InGame)->push_back(std::make_unique<GameSystem>(entityManager, *this, *scene_manager));
     state_systems->at(GameState::InGame)->push_back(std::make_unique<PauseSystem>(entityManager, *this));
     state_systems->at(GameState::InGame)->push_back(std::make_unique<ClickSystem>(entityManager));
     state_systems->at(GameState::InGame)->push_back(std::make_unique<MovementSystem>(*collision_detector, entityManager, entityFactory));
@@ -177,16 +192,7 @@ void GameController::createGameStateManager() {
     state_systems->at(GameState::Highscore)->push_back(std::make_unique<HighscoreSystem>(entityManager, entityFactory, *score_json));
     state_systems->at(GameState::Highscore)->push_back(std::make_unique<RenderingSystem>(entityManager, *engine->getRenderer()));
 
-    std::unordered_map<GameState, SceneResetState> reset_on_set_state;
-    reset_on_set_state.insert({ GameState::InGame, { true, true}});
-    reset_on_set_state.insert({ GameState::EndGame, { true, true}});
-    reset_on_set_state.insert({ GameState::Highscore, { true, true }});
-    reset_on_set_state.insert({ GameState::MainMenu, { true, true }});
-    reset_on_set_state.insert({ GameState::Lobby, { true, true }});
-    reset_on_set_state.insert({ GameState::Paused, { false,false }});
-
-    GameState begin_state = GameState::Unintialized;
-    game_state_manager = std::make_unique<GameStateManager<GameState>>(std::move(state_systems), reset_on_set_state, begin_state);
+    game_state_manager->setStateSystems(std::move(state_systems));
 }
 
 void GameController::setupInput() {

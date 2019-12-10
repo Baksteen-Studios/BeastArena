@@ -41,6 +41,7 @@ private:
     bool should_quit;
 
     void createGameStateManager();
+    void setGameStateSystems();
     void setupInput();
 
     std::unique_ptr<BrickEngine> engine;
