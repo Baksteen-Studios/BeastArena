@@ -10,7 +10,14 @@ enum PlayerInput {
     MOUSE_RIGHT,
     SPEED_UP,
     SPEED_DOWN,
-    SPEED_RESET
+    SPEED_RESET,
+
+    // Cheats
+    SKIP_LEVEL,
+    INFINITE_HEALTH,
+    RANDOM_WEAPON,
+    LASER_WEAPON,
+    KILL_EVERYONE_EXCEPT_YOURSELF
 };
 
- #endif // FILE_PLAYER_INPUT_HPP 
+ #endif // FILE_PLAYER_INPUT_HPP

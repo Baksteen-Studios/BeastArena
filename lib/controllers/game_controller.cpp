@@ -40,6 +40,7 @@ using namespace std::chrono_literals;
 #include "systems/highscore_system.hpp"
 #include "systems/lobby_system.hpp"
 #include "systems/spawn_system.hpp"
+#include "systems/cheat_system.hpp"
 
 #include "entities/layers.hpp"
 #include "player_input.hpp"
@@ -139,6 +140,7 @@ void GameController::createGameStateManager() {
 
     // In game
     state_systems->at(GameState::InGame)->push_back(std::make_unique<GameSpeedSystem>(entityManager, *delta_time_modifier.get()));
+    state_systems->at(GameState::InGame)->push_back(std::make_unique<CheatSystem>(entityManager, entityFactory, *this));
     state_systems->at(GameState::InGame)->push_back(std::make_unique<GameSystem>(entityManager, *this));
     state_systems->at(GameState::InGame)->push_back(std::make_unique<ClickSystem>(entityManager));
     state_systems->at(GameState::InGame)->push_back(std::make_unique<MovementSystem>(*collision_detector, entityManager, entityFactory));
@@ -269,12 +271,18 @@ void GameController::setupInput() {
     inputMapping[4][InputKeyCode::EController_x] = PlayerInput::SHOOT;
     inputMapping[4][InputKeyCode::EController_b] = PlayerInput::GRAB;
 
+    // Cheats
+    for (int i = 0; i < 4; i++) {
+        inputMapping[i][InputKeyCode::EKey_f1] = PlayerInput::SKIP_LEVEL;
+    }
+
     std::unordered_map<PlayerInput, double> time_to_wait_mapping;
     time_to_wait_mapping[PlayerInput::GRAB] = 0.1;
     time_to_wait_mapping[PlayerInput::MOUSE_LEFT] = 0.1;
     time_to_wait_mapping[PlayerInput::SPEED_DOWN] = 0.1;
     time_to_wait_mapping[PlayerInput::SPEED_UP] = 0.1;
     time_to_wait_mapping[PlayerInput::SPEED_RESET] = 0.1;
+    time_to_wait_mapping[PlayerInput::SKIP_LEVEL] = 0.1;
 
     input.setInputMapping(inputMapping, time_to_wait_mapping, axis_mapping);
 }
