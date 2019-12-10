@@ -47,9 +47,13 @@ EntityFactory::EntityFactory(std::shared_ptr<EntityManager> em, RenderableFactor
         auto physics = em->getComponent<PhysicsComponent>(entity_id);
         auto health = em->getComponent<HealthComponent>(entity_id);
         auto animation = em->getComponent<AnimationComponent>(entity_id);
+        auto pickup = em->getComponent<PickupComponent>(entity_id);
         if (animation) {
             // Hardcoded to 2 until we actually make a good animation system
             animation->sprite_size = 2;
+        }
+        if (pickup) {
+            em->removeComponentFromEntity<PickupComponent>(entity_id);
         }
         transform->y_direction = Direction::POSITIVE;
         player->disabled = false;
@@ -159,7 +163,6 @@ EntityComponents EntityFactory::createPlayer(int player_id, Character character,
     comps->push_back(std::make_unique<HoldComponent>(Position {40, -12}));
     comps->push_back(std::make_unique<StatsComponent>());
     comps->push_back(std::make_unique<ReadyComponent>());
-    comps->push_back(std::make_unique<PickupComponent>());
     comps->push_back(std::make_unique<AnimationComponent>(0.2, 2));
 
     std::vector<std::string> tags;
@@ -202,7 +205,6 @@ EntityComponents EntityFactory::createSpawner(double x_pos, double y_pos, double
     return { std::move(comps), tags };
 }
 
-
 EntityComponents EntityFactory::createCritter(double x_pos, double y_pos) const {
     auto dst = std::unique_ptr<Rect>(new Rect{ 0, 0, 0, 0 });
     auto r = renderableFactory.createImage(GRAPHICS_PATH + "beasts/bunny/bunny-1.png", (int)Layers::Foreground, std::move(dst), 255);
@@ -226,13 +228,28 @@ EntityComponents EntityFactory::createCritter(double x_pos, double y_pos) const 
 }
 
 EntityComponents EntityFactory::createImage(std::string path, int x_pos, int y_pos, int x_scale, int y_scale, double relative_modifier, Layers layer, int alpha) {
-    auto src = std::unique_ptr<Rect>(new Rect{ 0, 0, 1698, 4000 });
+    auto dst = std::unique_ptr<Rect>(new Rect{ 0, 0, 0, 0 });
+    auto r = renderableFactory.createImage(GRAPHICS_PATH + path, (int)layer, std::move(dst), alpha);
+
+    auto comps = std::make_unique<std::vector<std::unique_ptr<Component>>>();
+    comps->push_back(std::make_unique<TransformComponent>(x_pos / relative_modifier, y_pos / relative_modifier, x_scale / relative_modifier, y_scale / relative_modifier, Direction::POSITIVE, Direction::POSITIVE));
+    comps->push_back(std::make_unique<TextureComponent>(std::move(r)));
+
+    std::vector<std::string> tags;
+
+    return { std::move(comps), tags };
+}
+
+EntityComponents EntityFactory::createImage(std::string path, int x_pos, int y_pos, int x_scale, int y_scale, 
+                                            double relative_modifier, Layers layer, int alpha, int sprite_width, int sprite_height) {
+    auto src = std::unique_ptr<Rect>(new Rect{ 0, 0, sprite_width, sprite_height });
     auto dst = std::unique_ptr<Rect>(new Rect{ 0, 0, 0, 0 });
     auto r = renderableFactory.createImage(GRAPHICS_PATH + path, (int)layer, std::move(dst), std::move(src), alpha);
 
     auto comps = std::make_unique<std::vector<std::unique_ptr<Component>>>();
     comps->push_back(std::make_unique<TransformComponent>(x_pos / relative_modifier, y_pos / relative_modifier, x_scale / relative_modifier, y_scale / relative_modifier, Direction::POSITIVE, Direction::POSITIVE));
     comps->push_back(std::make_unique<TextureComponent>(std::move(r)));
+    comps->push_back(std::make_unique<AnimationComponent>(0.5, 2));
 
     std::vector<std::string> tags;
 

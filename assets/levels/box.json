@@ -4,7 +4,7 @@
     "description": "Square > circle",
     "width": 1920,
     "height": 1080,
-    "bg_path": "backgrounds/background-city.png",
+    "bg_path": "backgrounds/rainforest.png",
     "bg_music": "music/forest.mp3",
     "player_spawns": [
         {
@@ -45,7 +45,7 @@
             "respawn_timer": 5,
             "always_respawn": true,
             "x": 1000,
-            "y": 1000
+            "y": 950
         },
         {
             "type": "weapon",
@@ -53,7 +53,7 @@
             "respawn_timer": 5,
             "always_respawn": true,
             "x": 1100,
-            "y": 1000
+            "y": 950
         },
         {
             "type": "weapon",
@@ -61,7 +61,7 @@
             "respawn_timer": 5,
             "always_respawn": true,
             "x": 500,
-            "y": 1000
+            "y": 950
         }
     ],
     "solids": [

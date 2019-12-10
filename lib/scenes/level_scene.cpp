@@ -96,11 +96,10 @@ void LevelScene::performPrepare() {
 }
 void LevelScene::start() {
     auto& em = factory.getEntityManager();
-    auto& r = Random::getInstance(); 
+    auto& r = Random::getInstance();
 
     // Create the background
     auto comps = factory.createImage(this->bg_path, this->width / 2, this->height / 2, this->width, this->height, getRelativeModifier(), Layers::Background, 255);
-    factory.addToEntityManager(std::move(comps));
 
     // Load the players on the spawn locations
     auto entities_with_player = em.getEntitiesByComponent<PlayerComponent>();
