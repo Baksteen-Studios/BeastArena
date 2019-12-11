@@ -35,7 +35,7 @@ void CheatSystem::update(double deltatime) {
     // Infinite Health
     if(input.checkInput(player_id, PlayerInput::INFINITE_HEALTH)) {
         auto health_component = entityManager->getComponent<HealthComponent>(entity_id);
-        health_component->health = 99999999999999999;
+        health_component->health = std::numeric_limits<int>::infinity();
     }
 
     // Weapon drop

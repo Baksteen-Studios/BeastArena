@@ -143,7 +143,7 @@ EntityFactory::EntityFactory(std::shared_ptr<EntityManager> em, RenderableFactor
         comps->push_back(std::make_unique<PickupComponent>());
         comps->push_back(std::make_unique<DespawnComponent>(false, true));
         comps->push_back(std::make_unique<WeaponComponent>(
-            DamageComponent(100, false),
+            DamageComponent(100, true),
             TextureComponent(std::move(bullet_r)),
             PhysicsComponent(1, 0, 3000, 0, false, Kinematic::IS_NOT_KINEMATIC, false, false, CollisionDetectionType::Continuous),
             DespawnComponent(true, true),
