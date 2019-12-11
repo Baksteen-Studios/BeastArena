@@ -131,6 +131,12 @@ void Lobby::performPrepare() {
     entity_components->push_back(factory.createCharacterSelector(2, 730, 400, getRelativeModifier()));
     entity_components->push_back(factory.createCharacterSelector(3, 1190, 400, getRelativeModifier()));
     entity_components->push_back(factory.createCharacterSelector(4, 1650, 400, getRelativeModifier()));
+
+    // Load name selection components
+    entity_components->push_back(factory.createNameSelector(1, 270, 500, getRelativeModifier()));
+    entity_components->push_back(factory.createNameSelector(2, 730, 500, getRelativeModifier()));
+    entity_components->push_back(factory.createNameSelector(3, 1190, 500, getRelativeModifier()));
+    entity_components->push_back(factory.createNameSelector(4, 1650, 500, getRelativeModifier()));
 }
 
 void Lobby::start() {

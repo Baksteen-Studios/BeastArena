@@ -19,6 +19,7 @@
 #include "components/ready_component.hpp"
 #include "components/wandering_component.hpp"
 #include "components/character_selection_component.hpp"
+#include "components/name_selection_component.hpp"
 #include "components/spawn_component.hpp"
 #include "components/hold_component.hpp"
 #include "components/hud_component.hpp"
@@ -365,7 +366,7 @@ void EntityFactory::changeCharacterSelectorTexture(int entity_id, Character char
         entityManager->removeComponentFromEntity<TextureComponent>(entity_id);
     
     auto character_specs = getCharacterSpecs(character);
-    auto src = std::unique_ptr<Rect>(new Rect{ 0, 0 , character_specs.sprite_width, 32});
+    auto src = std::unique_ptr<Rect>(new Rect{ 0, 0 , character_specs.sprite_width, character_specs.sprite_height});
     auto dst = std::unique_ptr<Rect>(new Rect{ 0, 0 , 0, 0});
     auto r = renderableFactory.createImage(GRAPHICS_PATH + character_specs.path, (int)Layers::Middleground, std::move(dst), std::move(src), 255);
     entityManager->addComponentToEntity(entity_id, std::make_unique<TextureComponent>(std::move(r)));
@@ -373,6 +374,29 @@ void EntityFactory::changeCharacterSelectorTexture(int entity_id, Character char
 
     entityManager->getComponent<TransformComponent>(entity_id)->x_scale = character_specs.x_scale;
     entityManager->getComponent<TransformComponent>(entity_id)->y_scale = character_specs.y_scale;
+}
+
+EntityComponents EntityFactory::createNameSelector(int player_id, int x, int y, double relative_modifier) {
+    auto comps = std::make_unique<std::vector<std::unique_ptr<Component>>>();
+    comps->push_back(std::make_unique<NameSelectionComponent>(player_id));
+    comps->push_back(std::make_unique<TransformComponent>(x / relative_modifier, y / relative_modifier, 0, 0, Direction::POSITIVE, Direction::POSITIVE));
+    std::vector<std::string> tags;
+
+    return { std::move(comps), tags };
+}
+
+void EntityFactory::changeNameSelectorName(int entity_id, std::string name, bool create){
+    // When create is true, no name is being displayed yet
+    // When create is false, the old name needs to be deleted before a new one is added
+    if(!create)
+        entityManager->removeComponentFromEntity<TextureComponent>(entity_id);
+    
+    auto dst = std::unique_ptr<Rect>(new Rect{ 0, 0 , 0, 0});
+    auto r_text = renderableFactory.createText(FONT_PATH, name, 72, { 255, 255, 255, 255 },  (int)Layers::Middleground, std::move(dst));
+    entityManager->addComponentToEntity(entity_id, std::make_unique<TextureComponent>(std::move(r_text)));
+
+    entityManager->getComponent<TransformComponent>(entity_id)->x_scale = 300;
+    entityManager->getComponent<TransformComponent>(entity_id)->y_scale = 100;
 }
 
 const std::vector<Character> EntityFactory::getAvailableCharacters() const {
@@ -403,6 +427,7 @@ const CharacterSpecs EntityFactory::getCharacterSpecs(Character character) const
             specs.x_scale = 50;
             specs.y_scale = 100;
             specs.sprite_width = 16;
+            specs.sprite_height = 32;
             specs.mass = 100;
             specs.name = "Gorilla";
             specs.health = 100;
@@ -415,6 +440,7 @@ const CharacterSpecs EntityFactory::getCharacterSpecs(Character character) const
             specs.x_scale = 63;
             specs.y_scale = 100;
             specs.sprite_width = 20;
+            specs.sprite_height = 32;
             specs.mass = 95;
             specs.name = "Panda";
             specs.health = 100;
@@ -427,6 +453,7 @@ const CharacterSpecs EntityFactory::getCharacterSpecs(Character character) const
             specs.x_scale = 50;
             specs.y_scale = 100;
             specs.sprite_width = 17;
+            specs.sprite_height = 32;
             specs.mass = 90;
             specs.name = "Cheetah";
             specs.health = 100;
@@ -439,6 +466,7 @@ const CharacterSpecs EntityFactory::getCharacterSpecs(Character character) const
             specs.x_scale = 100;
             specs.y_scale = 100;
             specs.sprite_width = 32;
+            specs.sprite_height = 32;
             specs.mass = 105;
             specs.name = "Elephant";
             specs.health = 100;
@@ -451,6 +479,7 @@ const CharacterSpecs EntityFactory::getCharacterSpecs(Character character) const
             specs.x_scale = 50;
             specs.y_scale = 100;
             specs.sprite_width = 16;
+            specs.sprite_height = 32;
             specs.mass = 100;
             specs.name = "Question-mark";
             specs.health = 100;

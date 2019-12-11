@@ -55,6 +55,9 @@ public:
     EntityComponents createCharacterSelector(int player_id, int x, int y, double relative_modifier);
     void changeCharacterSelectorTexture(int entity_id, Character character, bool create);
 
+    EntityComponents createNameSelector(int player_id, int x, int y, double relative_modifier);
+    void changeNameSelectorName(int entity_id, std::string name, bool create);
+
     const std::vector<Character> getAvailableCharacters() const;
     const std::vector<std::pair<Character, bool>> getPickedCharacters() const;
 
