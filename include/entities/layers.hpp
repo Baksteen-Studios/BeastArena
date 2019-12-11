@@ -10,11 +10,11 @@ enum class Layers {
     Middleground = 2,
     // Player and platforms
     Foreground = 3,
-    // UI backgrond
+    // The base on which the UI is shown (e.g. the white UI background in the pause menu).
     UIBackground = 4,
-    // The actual UI
+    // The UI (e.g. buttons)
     UI = 5,
-    // UI foreground
+    // UI element that have to be in front of UI elements (e.g. text on a button).
     UIForeground = 6,
     // FPS counter and debugging layer
     Overlay = 7
