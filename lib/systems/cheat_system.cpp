@@ -12,10 +12,10 @@ CheatSystem::CheatSystem(std::shared_ptr<EntityManager> em, std::shared_ptr<Enti
 void CheatSystem::update(double deltatime) {
     auto& input = BrickInput<PlayerInput>::getInstance();
 
-    // Only the first player can cheat :)
     int player_id = 0;
     int entity_id = 0;
     bool init = false;
+    // Only the first player currently in-game can cheat. 
     for (auto& player : entityManager->getEntitiesByComponent<PlayerComponent>()) {
         if(player.second->player_id < player_id && init) {
             player_id = player.second->player_id;
