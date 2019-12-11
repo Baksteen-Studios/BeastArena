@@ -274,6 +274,10 @@ void GameController::setupInput() {
     // Cheats
     for (int i = 0; i < 4; i++) {
         inputMapping[i][InputKeyCode::EKey_f1] = PlayerInput::SKIP_LEVEL;
+        inputMapping[i][InputKeyCode::EKey_f2] = PlayerInput::KILL_EVERYONE_EXCEPT_YOURSELF;
+        inputMapping[i][InputKeyCode::EKey_f3] = PlayerInput::INFINITE_HEALTH;
+        inputMapping[i][InputKeyCode::EKey_f4] = PlayerInput::RANDOM_WEAPON;
+        inputMapping[i][InputKeyCode::EKey_f5] = PlayerInput::LASER_WEAPON;
     }
 
     std::unordered_map<PlayerInput, double> time_to_wait_mapping;
@@ -283,6 +287,10 @@ void GameController::setupInput() {
     time_to_wait_mapping[PlayerInput::SPEED_UP] = 0.1;
     time_to_wait_mapping[PlayerInput::SPEED_RESET] = 0.1;
     time_to_wait_mapping[PlayerInput::SKIP_LEVEL] = 0.1;
+    time_to_wait_mapping[PlayerInput::INFINITE_HEALTH] = 0.1;
+    time_to_wait_mapping[PlayerInput::RANDOM_WEAPON] = 0.1;
+    time_to_wait_mapping[PlayerInput::KILL_EVERYONE_EXCEPT_YOURSELF] = 0.1;
+    time_to_wait_mapping[PlayerInput::LASER_WEAPON] = 0.1;
 
     input.setInputMapping(inputMapping, time_to_wait_mapping, axis_mapping);
 }
