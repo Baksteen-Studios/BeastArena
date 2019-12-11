@@ -35,7 +35,7 @@ void CheatSystem::update(double deltatime) {
     // Infinite Health
     if(input.checkInput(player_id, PlayerInput::INFINITE_HEALTH)) {
         auto health_component = entityManager->getComponent<HealthComponent>(entity_id);
-        health_component->health = std::numeric_limits<int>::infinity();
+        health_component->health = std::numeric_limits<double>::infinity();
     }
 
     // Weapon drop
@@ -64,7 +64,7 @@ void CheatSystem::update(double deltatime) {
             if(player_id != player.second->player_id) {
                 // Die Die Die....
                 auto health_component = entityManager->getComponent<HealthComponent>(player.first);
-                health_component->health = 0;
+                health_component->on_death(player.first);
             }
         }
     }
