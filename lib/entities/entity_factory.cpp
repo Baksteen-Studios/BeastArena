@@ -136,7 +136,7 @@ EntityFactory::EntityFactory(std::shared_ptr<EntityManager> em, RenderableFactor
         auto bullet_r = rf.createImage(GRAPHICS_PATH + "bullets/banana-bullet-1.png", (int)Layers::Middleground, std::move(bullet_dst), 255);
         auto comps = std::make_unique<std::vector<std::unique_ptr<Component>>>();
 
-        comps->push_back(std::make_unique<TransformComponent>(-2000, -2000, 40, 30, Direction::POSITIVE, Direction::POSITIVE));
+        comps->push_back(std::make_unique<TransformComponent>(-2000, -2000, 70, 50, Direction::POSITIVE, Direction::POSITIVE));
         comps->push_back(std::make_unique<RectangleColliderComponent>(1, 1, 1, true, true));
         comps->push_back(std::make_unique<PhysicsComponent>(80, false, 0, 0, true, Kinematic::IS_NOT_KINEMATIC, true, true, CollisionDetectionType::Discrete));
         comps->push_back(std::make_unique<TextureComponent>(std::move(weapon_r)));
