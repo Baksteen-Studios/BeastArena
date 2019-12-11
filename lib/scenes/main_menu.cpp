@@ -98,6 +98,11 @@ void MainMenu::start() {
         factory.addToEntityManager(std::move(comps));
     }
 
+    auto player_entities = factory.getEntityManager().getEntitiesByComponent<PlayerComponent>();
+    for (auto& [entity_id, player] : player_entities) {
+        factory.getEntityManager().removeEntity(entity_id);
+    }
+
     engine.toggleCursor(true);
 
     if(!engine.getSoundManager().isPlaying()) {
