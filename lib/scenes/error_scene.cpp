@@ -17,12 +17,12 @@ void ErrorScene::performPrepare(){
     }
 
     // Add the error message to the scene.
-    entity_components->push_back(factory.createText("Error:", {255,179,179,255}, 100, width / 2, (height / 2) - 100, (width / 80) * std::string("Error: ").size(), 100, getRelativeModifier()));
-    entity_components->push_back(factory.createText(this->error_message, {255,179,179,0}, 100, width / 2, height / 2, (width / 100) * error_message.size(), 100, getRelativeModifier()));
+    entity_components->push_back(factory.createText("Error:", {255,179,179,255}, 100, width / 2, (height / 2) - 100, (width / 80) * std::string("Error: ").size(), 100, getRelativeModifier(), Layers::UI));
+    entity_components->push_back(factory.createText(this->error_message, {255,179,179,0}, 100, width / 2, height / 2, (width / 100) * error_message.size(), 100, getRelativeModifier(), Layers::UI));
 
     // Add the error message to the scene.
     std::string return_message = "Press F5 to reload or press the back button.";
-    entity_components->push_back(factory.createText(return_message, {255,255, 255,255}, 100, width / 2, height - 100, (width / 100) * return_message.size(), 70, getRelativeModifier()));
+    entity_components->push_back(factory.createText(return_message, {255,255, 255,255}, 100, width / 2, height - 100, (width / 100) * return_message.size(), 70, getRelativeModifier(), Layers::UI));
 }
 
 void ErrorScene::start() {
