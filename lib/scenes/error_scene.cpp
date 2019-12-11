@@ -8,7 +8,7 @@ void ErrorScene::performPrepare(){
     entity_components = std::make_unique<std::vector<EntityComponents>>();
 
     // Create the background.
-    entity_components->push_back(factory.createImage("colors/white.png", width / 2, height / 2, width, height, getRelativeModifier(), Layers::Background, 255));
+    entity_components->push_back(factory.createImage("colors/black.jpg", width / 2, height / 2, width, height, getRelativeModifier(), Layers::Background, 255));
 
     // Add the back button
     auto comps_list = factory.createButton("Back", { 255, 255, 255, 255 }, 72, "menu/button.png", 100, 100, 150, 100, 255, getRelativeModifier(), return_function);
@@ -17,12 +17,12 @@ void ErrorScene::performPrepare(){
     }
 
     // Add the error message to the scene.
-    entity_components->push_back(factory.createText("Error:", {255,179,179,0}, 30, width / 2, (height / 2) - 100, (width / 80) * std::string("Error: ").size(), 100, getRelativeModifier()));
+    entity_components->push_back(factory.createText("Error:", {255,179,179,255}, 30, width / 2, (height / 2) - 100, (width / 80) * std::string("Error: ").size(), 100, getRelativeModifier()));
     entity_components->push_back(factory.createText(this->error_message, {255,179,179,0}, 30, width / 2, height / 2, (width / 100) * error_message.size(), 100, getRelativeModifier()));
 
     // Add the error message to the scene.
     std::string return_message = "Press F5 to reload or press the back button.";
-    entity_components->push_back(factory.createText(return_message, {0,0,0,0}, 20, width / 2, height - 100, (width / 110) * return_message.size(), 70, getRelativeModifier()));
+    entity_components->push_back(factory.createText(return_message, {255,255, 255,255}, 20, width / 2, height - 100, (width / 110) * return_message.size(), 70, getRelativeModifier()));
 }
 
 void ErrorScene::start() {
