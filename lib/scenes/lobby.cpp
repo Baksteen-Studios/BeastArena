@@ -55,7 +55,7 @@ void Lobby::performPrepare() {
     entity_components->push_back(factory.createImage("menu/logo.png", 960, 86, 680, 106, getRelativeModifier(), Layers::Middleground, 255));
 
     // Help text
-    entity_components->push_back(factory.createText("Press GRAB to start, use movement to select and press GRAB again to confirm", { 0, 0, 0, 255 }, 960, 175, 1200, 50, 72, getRelativeModifier()));
+    entity_components->push_back(factory.createText("Press GRAB to start, use movement to select and press GRAB again to confirm", { 0, 0, 0, 255 }, 960, 175, 1200, 50, 72, getRelativeModifier(), Layers::UI));
 
     // Player 1 selector
     entity_components->push_back(factory.createImage("menu/frame.png", 270, 400, 380, 380, getRelativeModifier(), Layers::Middleground, 255));
@@ -122,10 +122,9 @@ void Lobby::performPrepare() {
     entity_components->push_back(factory.createCritter(700, 800));
     entity_components->push_back(factory.createCritter(800, 800));
 
-
     // Load weapon spawners
-    entity_components->push_back(factory.createSpawner(300, 1030, getRelativeModifier(), std::vector<GadgetType>{ GadgetType::Pistol, GadgetType::Rifle, GadgetType::Sniper }, 5, true));
-    entity_components->push_back(factory.createSpawner(1620, 1030, getRelativeModifier(), std::vector<GadgetType>{ GadgetType::Pistol, GadgetType::Rifle, GadgetType::Sniper }, 5, true));
+    entity_components->push_back(factory.createSpawner(300, 1000, getRelativeModifier(), std::vector<GadgetType>{ GadgetType::Pistol, GadgetType::Rifle, GadgetType::Sniper }, 5, true));
+    entity_components->push_back(factory.createSpawner(1620, 1000, getRelativeModifier(), std::vector<GadgetType>{ GadgetType::Pistol, GadgetType::Rifle, GadgetType::Sniper }, 5, true));
 
     // Load character selection components
     entity_components->push_back(factory.createCharacterSelector(1, 270, 400, getRelativeModifier()));
