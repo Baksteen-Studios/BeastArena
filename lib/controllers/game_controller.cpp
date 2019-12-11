@@ -218,7 +218,10 @@ void GameController::setupInput() {
     inputMapping[1][InputKeyCode::EKey_pagedown] = PlayerInput::SPEED_DOWN;
     inputMapping[1][InputKeyCode::EKey_pageup] = PlayerInput::SPEED_UP;
     inputMapping[1][InputKeyCode::EKey_home] = PlayerInput::SPEED_RESET;
-    inputMapping[1][InputKeyCode::EKey_escape] = PlayerInput::PAUSE;
+
+    // Assigning the escape key to all the players.
+    for(int i = 1; i <= 4; ++i)
+        inputMapping[i][InputKeyCode::EKey_escape] = PlayerInput::PAUSE;
 
     axis_mapping[InputKeyCode::EKey_w] = 1;
     axis_mapping[InputKeyCode::EKey_a] = -1;
