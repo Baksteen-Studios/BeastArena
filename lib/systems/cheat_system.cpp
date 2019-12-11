@@ -64,6 +64,7 @@ void CheatSystem::update(double deltatime) {
             if(player_id != player.second->player_id) {
                 // Die Die Die....
                 auto health_component = entityManager->getComponent<HealthComponent>(player.first);
+                health_component->health = 0;
                 health_component->on_death(player.first);
             }
         }
