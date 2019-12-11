@@ -38,6 +38,24 @@
             "y": 500
         }
     ],
+    "billboards": [
+        {
+            "x": 250,
+            "y": 200,
+            "alpha": 255,
+            "x_scale": 400,
+            "y_scale": 280,
+            "content_path": "advertisement/does-not-exist.png"
+        },
+        {
+            "x": 1670,
+            "y": 200,
+            "alpha": 255,
+            "x_scale": 400,
+            "y_scale": 280,
+            "content_path": "advertisement/does-not-exist.png"
+        }
+    ],
     "gadget_spawns": [
         {
             "type": "weapon",
@@ -45,7 +63,7 @@
             "respawn_timer": 5,
             "always_respawn": true,
             "x": 1000,
-            "y": 1000
+            "y": 950
         },
         {
             "type": "weapon",
@@ -53,7 +71,7 @@
             "respawn_timer": 5,
             "always_respawn": true,
             "x": 1100,
-            "y": 1000
+            "y": 950
         },
         {
             "type": "weapon",
@@ -61,7 +79,7 @@
             "respawn_timer": 5,
             "always_respawn": true,
             "x": 500,
-            "y": 1000
+            "y": 950
         }
     ],
     "solids": [

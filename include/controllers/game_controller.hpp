@@ -29,7 +29,10 @@ public:
     void loadLevels();
     void loadNextLevel();
     void loadMainMenu();
+    void loadHelp();
+    void loadCredits();
     void loadEndGameLevel();
+    void pauseGame();
     void showHighscores();
     void intermission(int timer);
 
@@ -40,6 +43,7 @@ private:
     bool should_quit;
 
     void createGameStateManager();
+    void setGameStateSystems();
     void setupInput();
 
     std::unique_ptr<BrickEngine> engine;

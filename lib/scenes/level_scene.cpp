@@ -1,11 +1,15 @@
 #include "scenes/level_scene.hpp"
 
+#include <filesystem>
+
 #include "brickengine/json/json.hpp"
 #include "brickengine/components/transform_component.hpp"
 #include "brickengine/components/player_component.hpp"
 #include "components/despawn_component.hpp"
 #include "scenes/exceptions/not_enough_player_spawns_exception.hpp"
 #include "brickengine/std/random.hpp"
+#include "brickengine/components/player_component.hpp"
+#include "components/hud_component.hpp"
 
 LevelScene::LevelScene(EntityFactory& factory, BrickEngine& engine, Json json)
     : json(json), BeastScene<LevelScene>(factory, engine, json.getInt("width"), json.getInt("height")) {
@@ -93,10 +97,62 @@ void LevelScene::performPrepare() {
             gadget_spawns[i].always_respawn);
         entity_components->push_back(std::move(comps));
     }
+
+    // Create billboards
+    for(Json billboard : json.getVector("billboards")) {
+        std::string content_path;
+        // The advertisement image does not exist
+        if (std::filesystem::exists(billboard.getString("content_path")))
+            content_path = json.getString("content_path");
+        else
+            content_path = "advertisement/pisswasser.png";
+
+        // This is billboard frame specific
+        int x = billboard.getInt("x");
+        int y = billboard.getInt("y");
+        int billboard_x_scale = billboard.getInt("x_scale");
+        int billboard_y_scale = billboard.getInt("y_scale");
+        int content_x_scale = billboard_x_scale * 0.965;
+        int content_y_scale = billboard_y_scale * 0.658536585366;
+        int alpha = billboard.getInt("alpha");
+
+        entity_components->push_back(factory.createImage("advertisement/billboard.png", x, y, billboard_x_scale, billboard_y_scale, getRelativeModifier(), Layers::Lowground, alpha));
+        entity_components->push_back(factory.createImage(content_path, x, y, content_x_scale, content_y_scale, getRelativeModifier(), Layers::Lowground, alpha));
+    }
+
+    // Create HUD Components
+    auto player_entities = factory.getEntityManager().getEntitiesByComponent<PlayerComponent>();
+
+    int spacing = screen_width / (player_entities.size() + 1);
+    
+    std::vector<int> player_ids;
+    for (auto& [entity_id, player] : player_entities) {
+        player_ids.push_back(player->player_id);
+    }
+    sort(player_ids.begin(), player_ids.end());
+
+    for (auto& [entity_id, player] : player_entities) {
+        auto hud_component = factory.getEntityManager().getComponent<HUDComponent>(entity_id);
+
+        std::vector<int>::iterator it = std::find(player_ids.begin(), player_ids.end(), player->player_id);
+        int index = std::distance(player_ids.begin(), it);
+
+        int x_pos = spacing + (index * spacing);
+        int y_pos = screen_height * 0.07;
+
+        hud_component->x = x_pos;
+        hud_component->y = y_pos;
+
+        double frame_modifier = 1.3;
+        
+        entity_components->push_back(factory.createImage("colors/white.png", hud_component->x, hud_component->y, hud_component->x_scale * frame_modifier, hud_component->y_scale * frame_modifier, 1, Layers::UIBackground, 100));
+        entity_components->push_back(factory.createImage(hud_component->texture, hud_component->x, hud_component->y, hud_component->x_scale, hud_component->y_scale, 1, Layers::UI, 255));
+        entity_components->push_back(factory.createImage("menu/frame2.png", hud_component->x, hud_component->y, hud_component->x_scale * frame_modifier, hud_component->y_scale * frame_modifier, 1, Layers::UI, 255));
+    }
 }
 void LevelScene::start() {
     auto& em = factory.getEntityManager();
-    auto& r = Random::getInstance(); 
+    auto& r = Random::getInstance();
 
     // Create the background
     auto comps = factory.createImage(this->bg_path, this->width / 2, this->height / 2, this->width, this->height, getRelativeModifier(), Layers::Background, 255);
@@ -111,20 +167,25 @@ void LevelScene::start() {
             em.moveOutOfParentsHouse(child);
 
         player->disabled = false;
-        auto transform_component = em.getComponent<TransformComponent>(entity_id);
 
+        auto transform_component = em.getComponent<TransformComponent>(entity_id);
+        auto despawn_component = em.getComponent<DespawnComponent>(entity_id);
         auto health_component = em.getComponent<HealthComponent>(entity_id);
+        auto physics_component = em.getComponent<PhysicsComponent>(entity_id);
+
         (*health_component->revive)(entity_id);
 
         transform_component->x_pos = player_spawns[count].x / getRelativeModifier();
         transform_component->y_pos = player_spawns[count].y / getRelativeModifier();
 
-        auto despawn_component = em.getComponent<DespawnComponent>(entity_id);
         despawn_component->despawn_on_out_of_screen = true;
+
+        physics_component->vx = 0;
+        physics_component->vy = 0;
+
 
         ++count;
     }
-
     // Load the platforms
     for(Solid platform : solids) {
         if(platform.shape == SolidShape::RECTANGLE && platform.effect == SolidEffect::NONE) {
@@ -153,6 +214,7 @@ void LevelScene::leave() {
     auto entities_with_player = em.getEntitiesByComponent<PlayerComponent>();
     for(auto& [entity_id, player]: entities_with_player) {
         auto transform_component = em.getComponent<TransformComponent>(entity_id);
+
         transform_component->x_pos = -2000;
         transform_component->y_pos = -2000;
         player->disabled = true;
