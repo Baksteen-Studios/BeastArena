@@ -46,7 +46,7 @@ void Lobby::performPrepare() {
         auto on_click = [gm = &game_controller]() {
             gm->startGame();
         };
-        auto comps_list = factory.createButton("Start Game!", { 255, 255, 255, 255 }, 72, "menu/button.png", 960, 700, 350, 150, 255, getRelativeModifier(), on_click);
+        auto comps_list = factory.createButton("Start Game!", { 255, 255, 255, 255 }, 72, "menu/button.png", 960, 700, 400, 150, 255, getRelativeModifier(), on_click);
         for(auto& comps : comps_list) {
             entity_components->push_back(std::move(comps));
         }
@@ -120,7 +120,7 @@ void Lobby::performPrepare() {
     entity_components->push_back(factory.createPlatform(1925, 540, 10, 1080, getRelativeModifier(), "colors/black.jpg", 0));
 
     // Behind button solid
-    entity_components->push_back(factory.createPlatform(960, 700, 350, 150, getRelativeModifier(), "colors/black.jpg", 0));
+    entity_components->push_back(factory.createPlatform(960, 700, 400, 150, getRelativeModifier(), "colors/black.jpg", 0));
 
     // Left left solid
     entity_components->push_back(factory.createPlatform(260, 900, 196, 40, getRelativeModifier(), "platforms/log.png", 255));
