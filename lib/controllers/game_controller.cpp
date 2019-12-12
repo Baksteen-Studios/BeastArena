@@ -328,6 +328,11 @@ void GameController::setupInput() {
         inputMapping[i][InputKeyCode::EKey_f3] = PlayerInput::INFINITE_HEALTH;
         inputMapping[i][InputKeyCode::EKey_f4] = PlayerInput::RANDOM_WEAPON;
         inputMapping[i][InputKeyCode::EKey_f5] = PlayerInput::LASER_WEAPON;
+
+        // Debugger
+        inputMapping[i][InputKeyCode::EKey_f5] = PlayerInput::REFRESH;
+
+        // Pause
         inputMapping[i][InputKeyCode::EKey_escape] = PlayerInput::PAUSE;
     }
 
