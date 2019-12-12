@@ -32,7 +32,7 @@ public:
         return renderableFactory;
     };
 
-    EntityComponents createPlayer(int player_id, Character character, int x = -2000, int y = -2000) const;
+    EntityComponents createPlayer(int player_id, Character character, std::string name, int x = -2000, int y = -2000) const;
     EntityComponents createCritter(double x_pos, double y_pos) const;
     EntityComponents createImage(std::string path, int x_pos, int y_pos, int x_scale, int y_scale, double relative_modifier, Layers layer, int alpha);
     // Animation
@@ -56,7 +56,7 @@ public:
     void changeCharacterSelectorTexture(int entity_id, Character character, bool create);
 
     EntityComponents createNameSelector(int player_id, int x, int y, double relative_modifier);
-    void changeNameSelectorName(int entity_id, std::string name, bool create);
+    void changeNameSelectorName(int entity_id, std::string name, bool create, bool final);
 
     const std::vector<Character> getAvailableCharacters() const;
     const std::vector<std::pair<Character, bool>> getPickedCharacters() const;

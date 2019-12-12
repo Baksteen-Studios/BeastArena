@@ -144,7 +144,7 @@ EntityFactory::EntityFactory(std::shared_ptr<EntityManager> em, RenderableFactor
     };
 }
 
-EntityComponents EntityFactory::createPlayer(int player_id, Character character, int x, int y) const {
+EntityComponents EntityFactory::createPlayer(int player_id, Character character, std::string name, int x, int y) const {
     auto character_specs = getCharacterSpecs(character);
 
     auto src = std::unique_ptr<Rect>(new Rect{ 0, 0, character_specs.sprite_width, 32 });
@@ -156,7 +156,7 @@ EntityComponents EntityFactory::createPlayer(int player_id, Character character,
     comps->push_back(std::make_unique<RectangleColliderComponent>(1, 1, 1, true, true));
     comps->push_back(std::make_unique<PhysicsComponent>(character_specs.mass, true, 0, 0, true, Kinematic::IS_NOT_KINEMATIC, true, false, CollisionDetectionType::Discrete));
     comps->push_back(std::make_unique<TextureComponent>(std::move(r)));
-    comps->push_back(std::make_unique<PlayerComponent>(player_id, character_specs.name));
+    comps->push_back(std::make_unique<PlayerComponent>(player_id, name));
     comps->push_back(std::make_unique<HealthComponent>(character_specs.health, player_on_death, player_revive, POINTS_ON_KILL_PLAYER));
     comps->push_back(std::make_unique<DespawnComponent>(false, false));
     comps->push_back(std::make_unique<HoldComponent>(Position {40, -12}));
@@ -385,18 +385,45 @@ EntityComponents EntityFactory::createNameSelector(int player_id, int x, int y, 
     return { std::move(comps), tags };
 }
 
-void EntityFactory::changeNameSelectorName(int entity_id, std::string name, bool create){
+void EntityFactory::changeNameSelectorName(int entity_id, std::string name, bool create, bool final){
     // When create is true, no name is being displayed yet
     // When create is false, the old name needs to be deleted before a new one is added
     if(!create)
         entityManager->removeComponentFromEntity<TextureComponent>(entity_id);
-    
+
     auto dst = std::unique_ptr<Rect>(new Rect{ 0, 0 , 0, 0});
-    auto r_text = renderableFactory.createText(FONT_PATH, name, 72, { 255, 255, 255, 255 },  (int)Layers::Middleground, std::move(dst));
+
+    if(name.size() > 20) {
+        // This is too long --> break it
+        name = name.substr(0, 17) + "...";
+    }
+
+    Color color;
+    if(final) {
+        color = { 10, 176, 0, 255 };
+    } else {
+        color = { 255, 255, 255, 255 };
+    }
+
+    auto r_text = renderableFactory.createText(FONT_PATH, name, 72, color,  (int)Layers::Middleground, std::move(dst));
     entityManager->addComponentToEntity(entity_id, std::make_unique<TextureComponent>(std::move(r_text)));
 
-    entityManager->getComponent<TransformComponent>(entity_id)->x_scale = 300;
-    entityManager->getComponent<TransformComponent>(entity_id)->y_scale = 100;
+    // We move out of the parents house, set the transform and move back in.
+    // So that the entityManager can calculate the relativity for us.
+    int parent = *entityManager->getParent(entity_id);
+    entityManager->moveOutOfParentsHouse(entity_id);
+
+    int x_scale;
+    if(name.size() <= 5) {
+        // Scale needs to be resized to prevent deforming
+        x_scale = name.size() * 30;
+    } else {
+        x_scale = 200;
+    }
+
+    entityManager->getComponent<TransformComponent>(entity_id)->x_scale = x_scale;
+    entityManager->getComponent<TransformComponent>(entity_id)->y_scale = 40;
+    entityManager->setParent(entity_id, parent, false);
 }
 
 const std::vector<Character> EntityFactory::getAvailableCharacters() const {
