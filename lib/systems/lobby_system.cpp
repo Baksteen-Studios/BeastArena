@@ -11,12 +11,7 @@
 #include "brickengine/components/player_component.hpp"
 #include "brickengine/json/json.hpp"
 
-LobbySystem::LobbySystem(std::shared_ptr<EntityFactory> ef, std::shared_ptr<EntityManager> em) : BeastSystem(ef, em), ef(ef), em(em) {
-    Json names = Json("assets/names.json", true);
-    for(std::string name : names.getStringVector("names")) {
-        picked_names.push_back(std::pair<std::string, bool>(name, false));
-    }
-};
+LobbySystem::LobbySystem(std::shared_ptr<EntityFactory> ef, std::shared_ptr<EntityManager> em) : BeastSystem(ef, em), ef(ef), em(em) { };
 
 void LobbySystem::update(double) {
     auto& input = BrickInput<PlayerInput>::getInstance();
@@ -268,4 +263,10 @@ void LobbySystem::update(double) {
 
 void LobbySystem::reset() {
     picked_characters = entity_factory->getPickedCharacters();
+
+    picked_names.clear();
+    Json names = Json("assets/names.json", true);
+    for(std::string name : names.getStringVector("names")) {
+        picked_names.push_back(std::pair<std::string, bool>(name, false));
+    }
 }
