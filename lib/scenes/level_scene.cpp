@@ -77,6 +77,18 @@ void LevelScene::performPrepare() {
         this->solids.push_back(solid);
     }
 
+    for(Json image : json.getVector("images")) {
+        auto texture_path = image.getString("texture_path");
+        int x_pos = image.getInt("x");
+        int y_pos = image.getInt("y");
+        int x_scale = image.getInt("xScale");
+        int y_scale = image.getInt("yScale");
+        int alpha = image.getInt("alpha");
+        Layers layer = static_cast<Layers>(image.getInt("layer"));
+
+        entity_components->push_back(factory.createImage(texture_path, x_pos, y_pos, x_scale, y_scale, getRelativeModifier(), layer, alpha));
+    }
+
     // Create critter spawns
     for(Json critter_spawn_json : json.getVector("critter_spawns")) {
         CritterSpawn critter_spawn = CritterSpawn();
@@ -199,6 +211,7 @@ void LevelScene::start() {
 
         ++count;
     }
+    
     // Load the platforms
     for(Solid platform : solids) {
         if(platform.shape == SolidShape::RECTANGLE && platform.effect == SolidEffect::NONE) {
