@@ -20,7 +20,6 @@ public:
     bool picked;
 
     int player_entity_id;
-    int name_selector_entity_id;
 };
 
 #endif // FILE_CHARACTER_SELECTION_COMPONENT_HPP

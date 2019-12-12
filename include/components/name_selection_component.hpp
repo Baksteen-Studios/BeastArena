@@ -16,7 +16,6 @@ public:
     std::string selected_name;
     bool is_picking;
     bool picked;
-    int text_entity_id;
 };
 
 #endif // FILE_NAME_SELECTION_COMPONENT_HPP
