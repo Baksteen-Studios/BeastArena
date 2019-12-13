@@ -507,6 +507,7 @@ void GameController::loadDebugger(){
         Json level_json { "./assets/debugger/level.json", true };
 
         scene_manager->createScene<DebugScene>(*entityFactory, *engine, level_json);
+        this->should_reset_delta_time = true;
     }
     catch(NoValidJsonOrPathException ej){
         scene_manager->createScene<ErrorScene>(*entityFactory, *engine, ej.what(), [this](){this->loadMainMenu();});
@@ -514,7 +515,6 @@ void GameController::loadDebugger(){
     catch(...){
         scene_manager->destroyAllScenes();
         scene_manager->createScene<ErrorScene>(*entityFactory, *engine, "Elements required for the level were not found in your JSON file or in the wrong format.", [this](){this->loadMainMenu();});
-        this->should_reset_delta_time = true;
     }
 }
 
