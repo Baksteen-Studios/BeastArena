@@ -514,6 +514,7 @@ void GameController::loadDebugger(){
     catch(...){
         scene_manager->destroyAllScenes();
         scene_manager->createScene<ErrorScene>(*entityFactory, *engine, "Elements required for the level were not found in your JSON file or in the wrong format.", [this](){this->loadMainMenu();});
+        this->should_reset_delta_time = true;
     }
 }
 

@@ -1,178 +1,99 @@
 {
     "version": 1.0,
-    "name": "Volcano",
-    "description": "Very hot",
-    "width": 1600,
-    "height": 900,
-    "bg_path": "levels/lava/volcano.jpg",
-    "bg_music": "music/lava_music",
+    "name": "Box level",
+    "description": "Square > circle",
+    "width": 1920,
+    "height": 1080,
+    "bg_path": "levels/final_destination/final_destination_background.jpg",
+    "bg_music": "music/final_destination_music.mp3",
     "player_spawns": [
         {
-            "x": 200,
-            "y": 50
+            "x": 500,
+            "y": 400
         },
         {
-            "x": 600,
-            "y": 50
+            "x": 800,
+            "y": 400
         },
         {
-            "x": 1000,
-            "y": 50
+            "x": 1100,
+            "y": 400
         },
         {
            "x": 1400,
-           "y": 50
+           "y": 400
         }
     ],
     "critter_spawns": [
     ],
     "billboards": [
+        {
+            "x": 250,
+            "y": 200,
+            "alpha": 255,
+            "x_scale": 400,
+            "y_scale": 280,
+            "content_path": "advertisement/pisswasser.png"
+        }
     ],
     "gadget_spawns": [
         {
             "type": "weapon",
-            "available_spawns": ["pistol"],
+            "available_spawns": ["pistol", "rifle", "sniper"],
             "respawn_timer": 5,
             "always_respawn": false,
-            "x": 400,
-            "y": 200
+            "x": 500,
+            "y": 400
         },
         {
             "type": "weapon",
-            "available_spawns": ["pistol"],
+            "available_spawns": ["pistol", "rifle", "sniper"],
             "respawn_timer": 5,
             "always_respawn": false,
             "x": 800,
-            "y": 200
+            "y": 400
         },
         {
             "type": "weapon",
-            "available_spawns": ["pistol"],
+            "available_spawns": ["pistol", "rifle", "sniper"],
             "respawn_timer": 5,
             "always_respawn": false,
-            "x": 1200,
-            "y": 200
+            "x": 1100,
+            "y": 400
+        },
+        {
+            "type": "weapon",
+            "available_spawns": ["pistol", "rifle", "sniper"],
+            "respawn_timer": 5,
+            "always_respawn": false,
+            "x": 1400,
+            "y": 400
         }
     ],
     "animations" : [
+
     ],
     "images": [
         {
-            "texture_path": "levels/lava/lava.png",
-            "x": 200,
-            "y": 850,
-            "xScale": 400,
-            "yScale": 100,
-            "alpha": 100,
-            "layer": 3
-        },
-        {
-            "texture_path": "levels/lava/lava.png",
-            "x": 600,
-            "y": 850,
-            "xScale": 400,
-            "yScale": 100,
-            "alpha": 100,
-            "layer": 3
-        },
-        {
-            "texture_path": "levels/lava/lava.png",
-            "x": 1000,
-            "y": 850,
-            "xScale": 400,
-            "yScale": 100,
-            "alpha": 100,
-            "layer": 3
-        },
-        {
-            "texture_path": "levels/lava/lava.png",
-            "x": 1400,
-            "y": 850,
-            "xScale": 400,
-            "yScale": 100,
-            "alpha": 100,
-            "layer": 3
-        },
-        {
-            "texture_path": "levels/lava/lava.png",
-            "x": 1800,
-            "y": 850,
-            "xScale": 400,
-            "yScale": 100,
-            "alpha": 100,
-            "layer": 3
+            "texture_path": "levels/final_destination/final_destination_top.png",
+            "x": 960,
+            "y": 550,
+            "xScale": 1800,
+            "yScale": 200,
+            "alpha": 255,
+            "layer": 2
         }
     ],
     "solids": [
         {
             "shape": "rectangle",
             "effect": "none",
-            "texture_path": "levels/lava/stone.png",
+            "texture_path": "levels/final_destination/final_destination_bot.png",
             "alpha": 255,
-            "x": 200,
-            "y": 480,
-            "xScale": 100,
-            "yScale": 30
-        },
-        {
-            "shape": "rectangle",
-            "effect": "none",
-            "texture_path": "levels/lava/stone.png",
-            "alpha": 255,
-            "x": 400,
-            "y": 680,
-            "xScale": 70,
-            "yScale": 30
-        },
-        {
-            "shape": "rectangle",
-            "effect": "none",
-            "texture_path": "levels/lava/stone.png",
-            "alpha": 255,
-            "x": 600,
-            "y": 480,
-            "xScale": 100,
-            "yScale": 30
-        },
-        {
-            "shape": "rectangle",
-            "effect": "none",
-            "texture_path": "levels/lava/stone.png",
-            "alpha": 255,
-            "x": 800,
-            "y": 680,
-            "xScale": 70,
-            "yScale": 30
-        },
-        {
-            "shape": "rectangle",
-            "effect": "none",
-            "texture_path": "levels/lava/stone.png",
-            "alpha": 255,
-            "x": 1000,
-            "y": 480,
-            "xScale": 100,
-            "yScale": 30
-        },
-        {
-            "shape": "rectangle",
-            "effect": "none",
-            "texture_path": "levels/lava/stone.png",
-            "alpha": 255,
-            "x": 1200,
-            "y": 680,
-            "xScale": 70,
-            "yScale": 30
-        },
-        {
-            "shape": "rectangle",
-            "effect": "none",
-            "texture_path": "levels/lava/stone.png",
-            "alpha": 255,
-            "x": 1400,
-            "y": 480,
-            "xScale": 100,
-            "yScale": 30
+            "x": 960,
+            "y": 850,
+            "xScale": 1800,
+            "yScale": 450
         }
     ]
 }
