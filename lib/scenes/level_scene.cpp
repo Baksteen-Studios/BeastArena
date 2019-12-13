@@ -1,7 +1,6 @@
 #include "scenes/level_scene.hpp"
 
 #include <filesystem>
-#include <algorithm>
 
 #include "brickengine/json/json.hpp"
 #include "brickengine/components/transform_component.hpp"
