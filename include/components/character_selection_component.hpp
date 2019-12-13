@@ -9,7 +9,7 @@
 
 class CharacterSelectionComponent : public ComponentImpl<CharacterSelectionComponent> {
 public:
-    CharacterSelectionComponent(int player_id);
+    CharacterSelectionComponent(int player_id, int left_arrow_entity_id, int right_arrow_entity_id);
     static std::string getNameStatic();
     
     // Data
@@ -20,6 +20,8 @@ public:
     bool picked;
 
     int player_entity_id;
+    int left_arrow_entity_id;
+    int right_arrow_entity_id;
 };
 
 #endif // FILE_CHARACTER_SELECTION_COMPONENT_HPP

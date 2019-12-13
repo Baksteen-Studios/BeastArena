@@ -64,52 +64,52 @@ void Lobby::performPrepare() {
     // Player 1 selector background
     entity_components->push_back(factory.createImage("colors/white.png", 270, 370, 380, 320, getRelativeModifier(), Layers::Lowground, 90));
     // Player 1 left arrow character selection
-    entity_components->push_back(factory.createImage("arrows/left-arrow.png", 125, 345, 40, 60, getRelativeModifier(), Layers::Middleground, 255));
+    int player_1_character_left_arrow = factory.addToEntityManager(factory.createImage("arrows/left-arrow.png", 125, 345, 40, 60, getRelativeModifier(), Layers::Middleground, 0));
     // Player 1 right arrow character selection
-    entity_components->push_back(factory.createImage("arrows/right-arrow.png", 415, 345, 40, 60, getRelativeModifier(), Layers::Middleground, 255));
+    int player_1_character_right_arrow = factory.addToEntityManager(factory.createImage("arrows/right-arrow.png", 415, 345, 40, 60, getRelativeModifier(), Layers::Middleground, 0));
     // Player 1 left arrow name selection
-    entity_components->push_back(factory.createImage("arrows/left-arrow.png", 125, 465, 40, 60, getRelativeModifier(), Layers::Middleground, 255));
+    int player_1_name_left_arrow = factory.addToEntityManager(factory.createImage("arrows/left-arrow.png", 125, 465, 40, 60, getRelativeModifier(), Layers::Middleground, 0));
     // Player 1 right arrow name selection
-    entity_components->push_back(factory.createImage("arrows/right-arrow.png", 415, 465, 40, 60, getRelativeModifier(), Layers::Middleground, 255));
+    int player_1_name_right_arrow = factory.addToEntityManager(factory.createImage("arrows/right-arrow.png", 415, 465, 40, 60, getRelativeModifier(), Layers::Middleground, 0));
 
     // Player 2 selector
     entity_components->push_back(factory.createImage("menu/frame.png", 730, 400, 380, 380, getRelativeModifier(), Layers::Middleground, 255));
     // Player 2 selector background
     entity_components->push_back(factory.createImage("colors/white.png", 730, 370, 380, 320, getRelativeModifier(), Layers::Lowground, 90));
     // Player 2 left arrow
-    entity_components->push_back(factory.createImage("arrows/left-arrow.png", 585, 345, 40, 60, getRelativeModifier(), Layers::Middleground, 255));
+    int player_2_character_left_arrow = factory.addToEntityManager(factory.createImage("arrows/left-arrow.png", 585, 345, 40, 60, getRelativeModifier(), Layers::Middleground, 0));
     // Player 2 right arrow
-    entity_components->push_back(factory.createImage("arrows/right-arrow.png", 875, 345, 40, 60, getRelativeModifier(), Layers::Middleground, 255));
+    int player_2_character_right_arrow = factory.addToEntityManager(factory.createImage("arrows/right-arrow.png", 875, 345, 40, 60, getRelativeModifier(), Layers::Middleground, 0));
     // Player 2 left arrow name selection
-    entity_components->push_back(factory.createImage("arrows/left-arrow.png", 585, 465, 40, 60, getRelativeModifier(), Layers::Middleground, 255));
+    int player_2_name_left_arrow = factory.addToEntityManager(factory.createImage("arrows/left-arrow.png", 585, 465, 40, 60, getRelativeModifier(), Layers::Middleground, 0));
     // Player 2 right arrow name selection
-    entity_components->push_back(factory.createImage("arrows/right-arrow.png", 875, 465, 40, 60, getRelativeModifier(), Layers::Middleground, 255));
+    int player_2_name_right_arrow = factory.addToEntityManager(factory.createImage("arrows/right-arrow.png", 875, 465, 40, 60, getRelativeModifier(), Layers::Middleground, 0));
 
     // Player 3 selector
     entity_components->push_back(factory.createImage("menu/frame.png", 1190, 400, 380, 380, getRelativeModifier(), Layers::Middleground, 255));
     // Player 3 selector background
     entity_components->push_back(factory.createImage("colors/white.png", 1190, 370, 380, 320, getRelativeModifier(), Layers::Lowground, 90));
     // Player 3 left arrow
-    entity_components->push_back(factory.createImage("arrows/left-arrow.png", 1045, 345, 40, 60, getRelativeModifier(), Layers::Middleground, 255));
+    int player_3_character_left_arrow = factory.addToEntityManager(factory.createImage("arrows/left-arrow.png", 1045, 345, 40, 60, getRelativeModifier(), Layers::Middleground, 0));
     // Player 3 right arrow
-    entity_components->push_back(factory.createImage("arrows/right-arrow.png", 1335, 345, 40, 60, getRelativeModifier(), Layers::Middleground, 255));
+    int player_3_character_right_arrow = factory.addToEntityManager(factory.createImage("arrows/right-arrow.png", 1335, 345, 40, 60, getRelativeModifier(), Layers::Middleground, 0));
     // Player 3 left arrow name selection
-    entity_components->push_back(factory.createImage("arrows/left-arrow.png", 1045, 465, 40, 60, getRelativeModifier(), Layers::Middleground, 255));
+    int player_3_name_left_arrow = factory.addToEntityManager(factory.createImage("arrows/left-arrow.png", 1045, 465, 40, 60, getRelativeModifier(), Layers::Middleground, 0));
     // Player 3 right arrow name selection
-    entity_components->push_back(factory.createImage("arrows/right-arrow.png", 1335, 465, 40, 60, getRelativeModifier(), Layers::Middleground, 255));
+    int player_3_name_right_arrow = factory.addToEntityManager(factory.createImage("arrows/right-arrow.png", 1335, 465, 40, 60, getRelativeModifier(), Layers::Middleground, 0));
 
     // Player 4 selector
     entity_components->push_back(factory.createImage("menu/frame.png", 1650, 400, 380, 380, getRelativeModifier(), Layers::Middleground, 255));
     // Player 4 selector background
     entity_components->push_back(factory.createImage("colors/white.png", 1650, 370, 380, 320, getRelativeModifier(), Layers::Lowground, 90));
     // Player 4 left arrow)
-    entity_components->push_back(factory.createImage("arrows/left-arrow.png", 1505, 345, 40, 60, getRelativeModifier(), Layers::Middleground, 255));
+    int player_4_character_left_arrow = factory.addToEntityManager(factory.createImage("arrows/left-arrow.png", 1505, 345, 40, 60, getRelativeModifier(), Layers::Middleground, 0));
     // Player 4 right arrow
-    entity_components->push_back(factory.createImage("arrows/right-arrow.png", 1795, 345, 40, 60, getRelativeModifier(), Layers::Middleground, 255));
+    int player_4_character_right_arrow = factory.addToEntityManager(factory.createImage("arrows/right-arrow.png", 1795, 345, 40, 60, getRelativeModifier(), Layers::Middleground, 0));
     // Player 4 left arrow name selection
-    entity_components->push_back(factory.createImage("arrows/left-arrow.png", 1505, 465, 40, 60, getRelativeModifier(), Layers::Middleground, 255));
+    int player_4_name_left_arrow = factory.addToEntityManager(factory.createImage("arrows/left-arrow.png", 1505, 465, 40, 60, getRelativeModifier(), Layers::Middleground, 0));
     // Player 4 right arrow name selection
-    entity_components->push_back(factory.createImage("arrows/right-arrow.png", 1795, 465, 40, 60, getRelativeModifier(), Layers::Middleground, 255));
+    int player_4_name_right_arrow = factory.addToEntityManager(factory.createImage("arrows/right-arrow.png", 1795, 465, 40, 60, getRelativeModifier(), Layers::Middleground, 0));
 
     // Bottom solid
     entity_components->push_back(factory.createPlatform(960, 1085, 1920, 10, getRelativeModifier(), "colors/black.jpg", 0));
@@ -145,22 +145,22 @@ void Lobby::performPrepare() {
     entity_components->push_back(factory.createSpawner(1620, 1000, getRelativeModifier(), std::vector<GadgetType>{ GadgetType::Pistol, GadgetType::Rifle, GadgetType::Sniper }, 5, true));
 
     // Load character selection components
-    int character_selector_1_id = factory.addToEntityManager(factory.createCharacterSelector(1, 270, 350, getRelativeModifier()));
-    int character_selector_2_id = factory.addToEntityManager(factory.createCharacterSelector(2, 730, 350, getRelativeModifier()));
-    int character_selector_3_id = factory.addToEntityManager(factory.createCharacterSelector(3, 1190, 350, getRelativeModifier()));
-    int character_selector_4_id = factory.addToEntityManager(factory.createCharacterSelector(4, 1650, 350, getRelativeModifier()));
+    int character_selector_1_id = factory.addToEntityManager(factory.createCharacterSelector(1, 270, 350, getRelativeModifier(), player_1_character_left_arrow, player_1_character_right_arrow));
+    int character_selector_2_id = factory.addToEntityManager(factory.createCharacterSelector(2, 730, 350, getRelativeModifier(), player_2_character_left_arrow, player_2_character_right_arrow));
+    int character_selector_3_id = factory.addToEntityManager(factory.createCharacterSelector(3, 1190, 350, getRelativeModifier(), player_3_character_left_arrow, player_3_character_right_arrow));
+    int character_selector_4_id = factory.addToEntityManager(factory.createCharacterSelector(4, 1650, 350, getRelativeModifier(), player_4_character_left_arrow, player_4_character_right_arrow));
 
     // Load name selection components
-    int name_selector_1_id = factory.addToEntityManager(factory.createNameSelector(1, 0, 115, getRelativeModifier()));
+    int name_selector_1_id = factory.addToEntityManager(factory.createNameSelector(1, 0, 115, getRelativeModifier(), player_1_name_left_arrow, player_1_name_right_arrow));
     factory.getEntityManager().setParent(name_selector_1_id, character_selector_1_id, true);
 
-    int name_selector_2_id = factory.addToEntityManager(factory.createNameSelector(2, 0, 115, getRelativeModifier()));
+    int name_selector_2_id = factory.addToEntityManager(factory.createNameSelector(2, 0, 115, getRelativeModifier(), player_2_name_left_arrow, player_2_name_right_arrow));
     factory.getEntityManager().setParent(name_selector_2_id, character_selector_2_id, true);
 
-    int name_selector_3_id = factory.addToEntityManager(factory.createNameSelector(3, 0, 115, getRelativeModifier()));
+    int name_selector_3_id = factory.addToEntityManager(factory.createNameSelector(3, 0, 115, getRelativeModifier(), player_3_name_left_arrow, player_3_name_right_arrow));
     factory.getEntityManager().setParent(name_selector_3_id, character_selector_3_id, true);
 
-    int name_selector_4_id = factory.addToEntityManager(factory.createNameSelector(4, 0, 115, getRelativeModifier()));
+    int name_selector_4_id = factory.addToEntityManager(factory.createNameSelector(4, 0, 115, getRelativeModifier(), player_4_name_left_arrow, player_4_name_right_arrow));
     factory.getEntityManager().setParent(name_selector_4_id, character_selector_4_id, true);
 }
 

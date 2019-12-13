@@ -386,9 +386,9 @@ EntityComponents EntityFactory::createLaser() {
     return { std::move(comps) };
 }
 
-EntityComponents EntityFactory::createCharacterSelector(int player_id, int x, int y, double relative_modifier) {
+EntityComponents EntityFactory::createCharacterSelector(int player_id, int x, int y, double relative_modifier, int left_arrow_id, int right_arrow_id) {
     auto comps = std::make_unique<std::vector<std::unique_ptr<Component>>>();
-    comps->push_back(std::make_unique<CharacterSelectionComponent>(player_id));
+    comps->push_back(std::make_unique<CharacterSelectionComponent>(player_id, left_arrow_id, right_arrow_id));
     comps->push_back(std::make_unique<TransformComponent>(x / relative_modifier, y / relative_modifier, 0, 0, Direction::POSITIVE, Direction::POSITIVE));
     std::vector<std::string> tags;
 
@@ -412,9 +412,9 @@ void EntityFactory::changeCharacterSelectorTexture(int entity_id, Character char
     entityManager->getComponent<TransformComponent>(entity_id)->y_scale = character_specs.y_scale;
 }
 
-EntityComponents EntityFactory::createNameSelector(int player_id, int x, int y, double relative_modifier) {
+EntityComponents EntityFactory::createNameSelector(int player_id, int x, int y, double relative_modifier, int left_arrow_id, int right_arrow_id) {
     auto comps = std::make_unique<std::vector<std::unique_ptr<Component>>>();
-    comps->push_back(std::make_unique<NameSelectionComponent>(player_id));
+    comps->push_back(std::make_unique<NameSelectionComponent>(player_id, left_arrow_id, right_arrow_id));
     comps->push_back(std::make_unique<TransformComponent>(x / relative_modifier, y / relative_modifier, 0, 0, Direction::POSITIVE, Direction::POSITIVE));
     std::vector<std::string> tags;
 

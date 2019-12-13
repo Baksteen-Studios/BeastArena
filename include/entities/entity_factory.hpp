@@ -54,10 +54,10 @@ public:
 
     EntityComponents createSpawner(double x_pos, double y_pos, double relative_modifier, std::vector<GadgetType> available_spawns, int respawn_timer,
                       bool always_respawn)  const;
-    EntityComponents createCharacterSelector(int player_id, int x, int y, double relative_modifier);
+    EntityComponents createCharacterSelector(int player_id, int x, int y, double relative_modifier, int left_arrow_id, int right_arrow_id);
     void changeCharacterSelectorTexture(int entity_id, Character character, bool create);
 
-    EntityComponents createNameSelector(int player_id, int x, int y, double relative_modifier);
+    EntityComponents createNameSelector(int player_id, int x, int y, double relative_modifier, int left_arrow_id, int right_arrow_id);
     void changeNameSelectorName(int entity_id, std::string name, bool create, bool final);
 
     const std::vector<Character> getAvailableCharacters() const;

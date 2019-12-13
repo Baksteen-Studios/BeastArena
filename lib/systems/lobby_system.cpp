@@ -32,6 +32,13 @@ void LobbySystem::update(double) {
                         if(!character.second) {
                             character_selector->selected_character = character.first;
                             ef->changeCharacterSelectorTexture(character_selector_entity_id, character.first, true);
+
+                            auto texture_component_left_arrow_character = em->getComponent<TextureComponent>(character_selector->left_arrow_entity_id);
+                            texture_component_left_arrow_character->getTexture()->alpha = 255;
+
+                            auto texture_component_right_arrow_character = em->getComponent<TextureComponent>(character_selector->right_arrow_entity_id);
+                            texture_component_right_arrow_character->getTexture()->alpha = 255;
+
                             break;
                         }
                     }
@@ -76,6 +83,12 @@ void LobbySystem::update(double) {
 
                             auto transform_component = em->getComponent<TransformComponent>(character_selector_entity_id);
 
+                            auto texture_component_left_arrow_character = em->getComponent<TextureComponent>(character_selector->left_arrow_entity_id);
+                            texture_component_left_arrow_character->getTexture()->alpha = 0;
+
+                            auto texture_component_right_arrow_character = em->getComponent<TextureComponent>(character_selector->right_arrow_entity_id);
+                            texture_component_right_arrow_character->getTexture()->alpha = 0;
+
                             // When creating the checkmark, the relative modifier has already been applied so we use modifier 1 to prevent weird sizes and coordinates
                             ef->addToEntityManager(ef->createImage("menu/check.png", transform_component->x_pos, transform_component->y_pos, 84, 66, 1, Layers::Foreground, 255));
 
@@ -85,6 +98,12 @@ void LobbySystem::update(double) {
                                     ef->changeNameSelectorName(name_selection.first, name.first, true, false);
                                     name_selection.second->selected_name = name.first;
                                     name_selection.second->is_picking = true;
+
+                                    auto texture_component_left_arrow_name = em->getComponent<TextureComponent>(name_selection.second->left_arrow_entity_id);
+                                    texture_component_left_arrow_name->getTexture()->alpha = 255;
+
+                                    auto texture_component_right_arrow_name = em->getComponent<TextureComponent>(name_selection.second->right_arrow_entity_id);
+                                    texture_component_right_arrow_name->getTexture()->alpha = 255;
                                     break;  
                                 }
                             }
@@ -119,6 +138,13 @@ void LobbySystem::update(double) {
                                         auto transform_component = em->getComponent<TransformComponent>(character_selector_entity_id);
                                         int id = ef->addToEntityManager(ef->createPlayer(character_selector->player_id, character_selector->selected_character, name.first, transform_component->x_pos, transform_component->y_pos));
                                         character_selector->player_entity_id = id;
+
+                                        auto texture_component_left_arrow_name = em->getComponent<TextureComponent>(name_selection.second->left_arrow_entity_id);
+                                        texture_component_left_arrow_name->getTexture()->alpha = 0;
+
+                                        auto texture_component_right_arrow_name = em->getComponent<TextureComponent>(name_selection.second->right_arrow_entity_id);
+                                        texture_component_right_arrow_name->getTexture()->alpha = 0;
+
                                         input.removeTimeToWait(character_selector->player_id, PlayerInput::X_AXIS);
                                         break;
                                     }

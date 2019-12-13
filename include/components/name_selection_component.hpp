@@ -7,7 +7,7 @@
 
 class NameSelectionComponent : public ComponentImpl<NameSelectionComponent> {
 public:
-    NameSelectionComponent(int player_id);
+    NameSelectionComponent(int player_id, int left_arrow_entity_id, int right_arrow_entity_id);
     static std::string getNameStatic();
     
     // Data
@@ -16,6 +16,9 @@ public:
     std::string selected_name;
     bool is_picking;
     bool picked;
+
+    int left_arrow_entity_id;
+    int right_arrow_entity_id;
 };
 
 #endif // FILE_NAME_SELECTION_COMPONENT_HPP
