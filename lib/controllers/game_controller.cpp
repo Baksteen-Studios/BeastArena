@@ -86,7 +86,7 @@ using namespace std::chrono_literals;
 GameController::GameController() {
     this->should_quit = false;
     this->should_reset_delta_time = false;
-    this->should_draw_fps_counter = true;
+    this->should_draw_fps_counter = false;
 
     this->delta_time = 1;
 #ifdef PERFORMANCE_DEBUGGING
@@ -343,6 +343,7 @@ void GameController::setupInput() {
 
     // Pause
     for(int i = 1; i <= 4; ++i) {
+        inputMapping[i][InputKeyCode::EController_select] = PlayerInput::QUICK_PLAY;
         inputMapping[i][InputKeyCode::EKey_escape] = PlayerInput::PAUSE;
     }
 

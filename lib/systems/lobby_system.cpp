@@ -288,7 +288,7 @@ void LobbySystem::update(double) {
     }
 
     // Start tha game
-    if(input.checkInput(1, PlayerInput::SKIP_LEVEL)) {
+    if(input.checkInput(1, PlayerInput::QUICK_PLAY)) {
         game_controller.startGame();
     }
 }
