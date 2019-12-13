@@ -3,6 +3,7 @@
 #include "brickengine/components/player_component.hpp"
 #include "components/health_component.hpp"
 #include "components/stats_component.hpp"
+#include "components/damage_component.hpp"
 
 #include "systems/despawn_system.hpp"
 
@@ -63,9 +64,11 @@ void DespawnSystem::update(double) {
         if (despawn_comp->despawn_on_collision) {
             auto collisions = collision_detector.detectCollision(entity_id);
             if (!collisions.empty()) {
+                auto damage = entityManager->getComponent<DamageComponent>(entity_id);
                 bool should_despawn = false;
                 for (auto& collision : collisions) {
                     if (!collision.is_trigger) {
+                        if (damage && damage->damage_dealer_entity_id == collision.opposite_id) continue;
                         should_despawn = true;
                         auto opposite_despawn = entityManager->getComponent<DespawnComponent>(collision.opposite_id);
                         if (opposite_despawn && opposite_despawn->despawn_on_collision)
