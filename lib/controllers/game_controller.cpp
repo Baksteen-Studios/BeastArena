@@ -20,13 +20,18 @@ using namespace std::chrono_literals;
 #include "brickengine/components/colliders/rectangle_collider_component.hpp"
 #include "brickengine/rendering/renderable_factory.hpp"
 #include "brickengine/input.hpp"
-#include "brickengine/systems/rendering_system.hpp"
-#include "brickengine/systems/physics_system.hpp"
-#include "brickengine/systems/displacement_system.hpp"
 #include "brickengine/std/random.hpp"
 #include "brickengine/input_keycode.hpp"
 #include "brickengine/json/json.hpp"
 #include "brickengine/scenes/enums/scene_layer.hpp"
+#include "brickengine/json/exceptions/no_valid_json_or_path_exception.hpp"
+#include "brickengine/json/exceptions/object_or_type_exception.hpp"
+
+// Systems
+#include "brickengine/systems/rendering_system.hpp"
+#include "brickengine/systems/physics_system.hpp"
+#include "brickengine/systems/displacement_system.hpp"
+#include "brickengine/systems/animation_system.hpp"
 
 #include "systems/pickup_system.hpp"
 #include "systems/click_system.hpp"
@@ -40,6 +45,7 @@ using namespace std::chrono_literals;
 #include "systems/highscore_system.hpp"
 #include "systems/lobby_system.hpp"
 #include "systems/spawn_system.hpp"
+#include "systems/debug_system.hpp"
 #include "systems/cheat_system.hpp"
 #include "systems/hud_system.hpp"
 #include "systems/pause_system.hpp"
@@ -71,11 +77,14 @@ using namespace std::chrono_literals;
 #include "scenes/pause_scene.hpp"
 #include "scenes/end_scene.hpp"
 #include "scenes/highscore_scene.hpp"
+#include "scenes/debug_scene.hpp"
+#include "scenes/error_scene.hpp"
 
 #include "data/score.hpp"
 
 GameController::GameController() {
     this->should_quit = false;
+    this->should_reset_delta_time = false;
 
     this->delta_time = 1;
 #ifdef PERFORMANCE_DEBUGGING
@@ -85,7 +94,7 @@ GameController::GameController() {
 #endif // PERFORMANCE_DEBUGGING
 
     // From layers.hpp
-    this->layers = { 0, 1, 2, 3, 4, 5, 6 };
+    this->layers = { 0, 1, 2, 3, 4, 5, 6, 7 };
 
     this->delta_time_modifier = std::unique_ptr<double>(new double(1));
 
@@ -123,6 +132,8 @@ void GameController::createGameStateManager(){
     reset_on_set_state.insert({ GameState::Menu, { true, true }});
     reset_on_set_state.insert({ GameState::Lobby, { true, true }});
     reset_on_set_state.insert({ GameState::Paused, { false,false }});
+    reset_on_set_state.insert({ GameState::LevelDebugger, { true, true }});
+    reset_on_set_state.insert({ GameState::Error, { false,false }});
 
     GameState begin_state = GameState::Unintialized;
     game_state_manager = std::make_unique<GameStateManager<GameState>>(reset_on_set_state, begin_state);
@@ -136,6 +147,8 @@ void GameController::setGameStateSystems() {
     state_systems->insert({ GameState::Paused, std::make_unique<std::vector<std::unique_ptr<System>>>() });
     state_systems->insert({ GameState::EndGame, std::make_unique<std::vector<std::unique_ptr<System>>>() });
     state_systems->insert({ GameState::Highscore, std::make_unique<std::vector<std::unique_ptr<System>>>() });
+    state_systems->insert({ GameState::LevelDebugger, std::make_unique<std::vector<std::unique_ptr<System>>>() });
+    state_systems->insert({ GameState::Error, std::make_unique<std::vector<std::unique_ptr<System>>>() });
 
     // Menu
     state_systems->at(GameState::Menu)->push_back(std::make_unique<ClickSystem>(entityManager));
@@ -155,6 +168,7 @@ void GameController::setGameStateSystems() {
     state_systems->at(GameState::Lobby)->push_back(std::make_unique<SpawnSystem>(entityManager, entityFactory));
     state_systems->at(GameState::Lobby)->push_back(std::make_unique<DisplacementSystem>(*collision_detector, entityManager));
     state_systems->at(GameState::Lobby)->push_back(std::make_unique<RenderingSystem>(entityManager, *engine->getRenderer()));
+    state_systems->at(GameState::Lobby)->push_back(std::make_unique<AnimationSystem>(entityManager));
 
     // In game
     state_systems->at(GameState::InGame)->push_back(std::make_unique<GameSpeedSystem>(entityManager, *delta_time_modifier.get()));
@@ -173,6 +187,7 @@ void GameController::setGameStateSystems() {
     state_systems->at(GameState::InGame)->push_back(std::make_unique<HUDSystem>(entityManager, entityFactory));
     state_systems->at(GameState::InGame)->push_back(std::make_unique<DisplacementSystem>(*collision_detector, entityManager));
     state_systems->at(GameState::InGame)->push_back(std::make_unique<RenderingSystem>(entityManager, *engine->getRenderer()));
+    state_systems->at(GameState::InGame)->push_back(std::make_unique<AnimationSystem>(entityManager));
 
     // Paused
     state_systems->at(GameState::Paused)->push_back(std::make_unique<PauseSystem>(entityManager, *this));
@@ -193,6 +208,27 @@ void GameController::setGameStateSystems() {
     state_systems->at(GameState::EndGame)->push_back(std::make_unique<SpawnSystem>(entityManager, entityFactory));
     state_systems->at(GameState::EndGame)->push_back(std::make_unique<DisplacementSystem>(*collision_detector, entityManager));
     state_systems->at(GameState::EndGame)->push_back(std::make_unique<RenderingSystem>(entityManager, *engine->getRenderer()));
+    state_systems->at(GameState::EndGame)->push_back(std::make_unique<AnimationSystem>(entityManager));
+
+    // LevelDebugger
+    state_systems->at(GameState::LevelDebugger)->push_back(std::make_unique<PauseSystem>(entityManager, *this));
+    state_systems->at(GameState::LevelDebugger)->push_back(std::make_unique<ClickSystem>(entityManager));
+    state_systems->at(GameState::LevelDebugger)->push_back(std::make_unique<DebugSystem>(entityManager, entityFactory, [this](){this->loadDebugger();}));
+    state_systems->at(GameState::LevelDebugger)->push_back(std::make_unique<MovementSystem>(*collision_detector, entityManager, entityFactory));
+    state_systems->at(GameState::LevelDebugger)->push_back(std::make_unique<PhysicsSystem>(*collision_detector, entityManager, *delta_time_modifier.get()));
+    state_systems->at(GameState::LevelDebugger)->push_back(std::make_unique<PickupSystem>(*collision_detector, entityManager, entityFactory));
+    state_systems->at(GameState::LevelDebugger)->push_back(std::make_unique<CritterSystem>(*collision_detector, entityManager, entityFactory));
+    state_systems->at(GameState::LevelDebugger)->push_back(std::make_unique<WeaponSystem>(*collision_detector, entityManager, entityFactory));
+    state_systems->at(GameState::LevelDebugger)->push_back(std::make_unique<DespawnSystem>(*collision_detector, entityManager, SCREEN_WIDTH, SCREEN_HEIGHT));
+    state_systems->at(GameState::LevelDebugger)->push_back(std::make_unique<SpawnSystem>(entityManager, entityFactory));
+    state_systems->at(GameState::LevelDebugger)->push_back(std::make_unique<DisplacementSystem>(*collision_detector, entityManager));
+    state_systems->at(GameState::LevelDebugger)->push_back(std::make_unique<RenderingSystem>(entityManager, *engine->getRenderer()));
+
+    // Error
+    state_systems->at(GameState::Error)->push_back(std::make_unique<PauseSystem>(entityManager, *this));
+    state_systems->at(GameState::Error)->push_back(std::make_unique<ClickSystem>(entityManager));
+    state_systems->at(GameState::Error)->push_back(std::make_unique<DebugSystem>(entityManager, entityFactory, [this](){this->loadDebugger();}));
+    state_systems->at(GameState::Error)->push_back(std::make_unique<RenderingSystem>(entityManager, *engine->getRenderer()));
 
     // Highscores
     state_systems->at(GameState::Highscore)->push_back(std::make_unique<ClickSystem>(entityManager));
@@ -299,6 +335,11 @@ void GameController::setupInput() {
         inputMapping[i][InputKeyCode::EKey_f3] = PlayerInput::INFINITE_HEALTH;
         inputMapping[i][InputKeyCode::EKey_f4] = PlayerInput::RANDOM_WEAPON;
         inputMapping[i][InputKeyCode::EKey_f5] = PlayerInput::LASER_WEAPON;
+
+        // Debugger
+        inputMapping[i][InputKeyCode::EKey_f5] = PlayerInput::REFRESH;
+
+        // Pause
         inputMapping[i][InputKeyCode::EKey_escape] = PlayerInput::PAUSE;
     }
 
@@ -362,7 +403,11 @@ void GameController::gameLoop() {
 
         auto end_time = std::chrono::high_resolution_clock::now();
         engine->delay(start_time, end_time);
-        delta_time = engine->getDeltatime();
+        if (should_reset_delta_time) {
+            delta_time = 0.00000001;
+            should_reset_delta_time = false;
+        } else
+            delta_time = engine->getDeltatime();
 
 #ifdef PERFORMANCE_DEBUGGING
         totalTime += delta_time;
@@ -447,11 +492,29 @@ void GameController::loadNextLevel() {
         // There are no levels left in the queue.
         loadEndGameLevel();
     }
+    this->should_reset_delta_time = true;
 }
 
 void GameController::intermission(int timer) {
     scene_manager->destroyScene(IntermissionScene::getLayerStatic());
     scene_manager->createScene<IntermissionScene>(timer, *entityFactory);
+}
+
+
+void GameController::loadDebugger(){
+    scene_manager->destroyAllScenes();
+    try{
+        Json level_json { "./assets/debugger/level.json", true };
+
+        scene_manager->createScene<DebugScene>(*entityFactory, *engine, level_json);
+    }
+    catch(NoValidJsonOrPathException ej){
+        scene_manager->createScene<ErrorScene>(*entityFactory, *engine, ej.what(), [this](){this->loadMainMenu();});
+    }
+    catch(...){
+        scene_manager->destroyAllScenes();
+        scene_manager->createScene<ErrorScene>(*entityFactory, *engine, "Elements required for the level were not found in your JSON file or in the wrong format.", [this](){this->loadMainMenu();});
+    }
 }
 
 void GameController::loadMainMenu() {
@@ -486,6 +549,7 @@ void GameController::loadEndGameLevel() {
     }
     score_json->writeScores(scores);
     scene_manager->createScene<EndScene>(*entityFactory, *engine);
+    this->should_reset_delta_time = true;
 }
 
 void GameController::pauseGame() {

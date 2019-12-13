@@ -120,6 +120,36 @@ void LevelScene::performPrepare() {
         entity_components->push_back(factory.createImage(content_path, x, y, content_x_scale, content_y_scale, getRelativeModifier(), Layers::Lowground, alpha));
     }
 
+    // Create animations
+    for(Json animations : json.getVector("animations")) {
+        std::string texture = animations.getString("texture");
+        int sprite_height = animations.getInt("sprite_height");
+        int sprite_width = animations.getInt("sprite_width");
+        double update_time = animations.getDouble("update_time");
+        int sprite_size = animations.getInt("sprite_size");
+        int x = animations.getInt("x");
+        int y = animations.getInt("y");
+        int x_scale = animations.getInt("x_scale");
+        int y_scale = animations.getInt("y_scale");
+
+        entity_components->push_back(factory.createImage(texture, x, y, x_scale, y_scale, getRelativeModifier(), Layers::Middleground, 255,
+                                                        sprite_width, sprite_height, update_time, sprite_size));
+    }
+
+    // Create images
+    for(Json image : json.getVector("images")) {
+        auto texture_path = image.getString("texture_path");
+        int x_pos = image.getInt("x");
+        int y_pos = image.getInt("y");
+        int x_scale = image.getInt("xScale");
+        int y_scale = image.getInt("yScale");
+        int alpha = image.getInt("alpha");
+        Layers layer = static_cast<Layers>(image.getInt("layer"));
+
+        entity_components->push_back(factory.createImage(texture_path, x_pos, y_pos, x_scale, y_scale, getRelativeModifier(), layer, alpha));
+    }
+
+
     // Create HUD Components
     auto player_entities = factory.getEntityManager().getEntitiesByComponent<PlayerComponent>();
 
@@ -162,27 +192,25 @@ void LevelScene::start() {
     auto entities_with_player = em.getEntitiesByComponent<PlayerComponent>();
 
     for(auto& [entity_id, player]: entities_with_player) {
-        for (auto& child : em.getChildren(entity_id)) {
+        for (auto& child : em.getChildren(entity_id))
             em.moveOutOfParentsHouse(child);
-        }
-    }
+        em.moveOutOfParentsHouse(entity_id);
 
+        auto despawn_component = em.getComponent<DespawnComponent>(entity_id);
+        auto health_component = em.getComponent<HealthComponent>(entity_id);
+
+        (*health_component->revive)(entity_id);
+        despawn_component->despawn_on_out_of_screen = true;
+    }
     int count = 0;
     for(auto& [entity_id, player]: entities_with_player) {
-        player->disabled = false;
         auto transform_component = em.getComponent<TransformComponent>(entity_id);
-
-        auto health_component = em.getComponent<HealthComponent>(entity_id);
-        (*health_component->revive)(entity_id);
 
         transform_component->x_pos = player_spawns[count].x / getRelativeModifier();
         transform_component->y_pos = player_spawns[count].y / getRelativeModifier();
-
-        auto despawn_component = em.getComponent<DespawnComponent>(entity_id);
-        despawn_component->despawn_on_out_of_screen = true;
-
         ++count;
     }
+    
     // Load the platforms
     for(Solid platform : solids) {
         if(platform.shape == SolidShape::RECTANGLE && platform.effect == SolidEffect::NONE) {
@@ -194,7 +222,7 @@ void LevelScene::start() {
             factory.addToEntityManager(std::move(comps));
         }
     }
-    
+
     // Load the critters on the spawn locations
     for(int i = 0; i < critter_spawns.size(); i++) {
         auto comps = factory.createCritter(critter_spawns[i].x / getRelativeModifier(),
@@ -211,11 +239,16 @@ void LevelScene::leave() {
     auto entities_with_player = em.getEntitiesByComponent<PlayerComponent>();
     for(auto& [entity_id, player]: entities_with_player) {
         auto transform_component = em.getComponent<TransformComponent>(entity_id);
+        auto despawn_component = em.getComponent<DespawnComponent>(entity_id);
+        auto physics_component = em.getComponent<PhysicsComponent>(entity_id);
+
         transform_component->x_pos = -2000;
         transform_component->y_pos = -2000;
         player->disabled = true;
-        auto despawn_component = em.getComponent<DespawnComponent>(entity_id);
         despawn_component->despawn_on_out_of_screen = false;
+        physics_component->vx = 0;
+        physics_component->vy = 0;
+        physics_component->kinematic = Kinematic::IS_KINEMATIC;
     }
     
     engine.getSoundManager().stopMusic();
