@@ -59,10 +59,19 @@
             "alpha": 255,
             "x": 0,
             "y": 540,
-            "xScale": 10,
-            "yScale": 1080
+            "x_scale": 10,
+            "y_scale": 1080
         }
     ],
     "images": [
+        {
+            "texture_path": "levels/final_destination/final_destination_top.png",
+            "x": 960,
+            "y": 550,
+            "x_scale": 1800,
+            "y_scale": 200,
+            "alpha": 255,
+            "layer": 2
+        }
     ]
 }
