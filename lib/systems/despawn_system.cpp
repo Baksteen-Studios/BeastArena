@@ -26,6 +26,11 @@ void DespawnSystem::update(double) {
             if (left > screen_width || top > screen_height ||
                right < 0 || bottom < 0) {
                 // Kill object. :O
+                if (entityManager->hasTag(entity_id, "Player")) {
+                    if (top < screen_height) {
+                        continue;
+                    }
+                }
                 auto health = entityManager->getComponent<HealthComponent>(entity_id);
                 if (health && health->health > 0) {
                     auto transform = entityManager->getComponent<TransformComponent>(entity_id);
