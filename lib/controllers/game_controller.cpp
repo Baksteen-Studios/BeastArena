@@ -435,6 +435,7 @@ int GameController::getScreenHeight() const {
 void GameController::loadLobby() {
     scene_manager->destroyAllScenes();
     scene_manager->createScene<Lobby>(*entityFactory, *engine, *this);
+    this->should_reset_delta_time = true;
 }
 
 void GameController::startGame() {
