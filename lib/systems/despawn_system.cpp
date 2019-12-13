@@ -14,6 +14,7 @@ void DespawnSystem::update(double) {
     auto entities_with_despawn = entityManager->getEntitiesByComponent<DespawnComponent>();
 
     for (auto& [entity_id, despawn_comp]: entities_with_despawn) {
+        if (!entityManager->entityExists(entity_id)) continue;
         if (despawn_comp->despawn_on_out_of_screen) {
             auto [position, scale] = entityManager->getAbsoluteTransform(entity_id);
 
@@ -55,8 +56,19 @@ void DespawnSystem::update(double) {
             }
         }
         if (despawn_comp->despawn_on_collision) {
-            if (!collision_detector.detectCollision(entity_id).empty()) {
-                entityManager->removeEntity(entity_id);
+            auto collisions = collision_detector.detectCollision(entity_id);
+            if (!collisions.empty()) {
+                bool should_despawn = false;
+                for (auto& collision : collisions) {
+                    if (!collision.is_trigger) {
+                        should_despawn = true;
+                        auto opposite_despawn = entityManager->getComponent<DespawnComponent>(collision.opposite_id);
+                        if (opposite_despawn && opposite_despawn->despawn_on_collision)
+                            entityManager->removeEntity(collision.opposite_id);
+                    }
+                }
+                if (should_despawn)
+                    entityManager->removeEntity(entity_id);
             }
         }
     }
