@@ -29,7 +29,6 @@ void CheatSystem::update(double deltatime) {
 
     // Next scene
     if(input.checkInput(player_id, PlayerInput::SKIP_LEVEL)) {
-        std::cout << "test" << std::endl;
         game_controller.loadNextLevel();
     }
 
