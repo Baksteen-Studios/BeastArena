@@ -86,6 +86,7 @@ using namespace std::chrono_literals;
 GameController::GameController() {
     this->should_quit = false;
     this->should_reset_delta_time = false;
+    this->should_draw_fps_counter = true;
 
     this->delta_time = 1;
 #ifdef PERFORMANCE_DEBUGGING
@@ -327,37 +328,28 @@ void GameController::setupInput() {
     inputMapping[4][InputKeyCode::EController_x] = PlayerInput::SHOOT;
     inputMapping[4][InputKeyCode::EController_b] = PlayerInput::GRAB;
     inputMapping[4][InputKeyCode::EController_start] = PlayerInput::PAUSE;
+    
+    // Cheats
+    inputMapping[20][InputKeyCode::EKey_f1] = PlayerInput::SKIP_LEVEL;
+    inputMapping[20][InputKeyCode::EKey_f2] = PlayerInput::KILL_EVERYONE_EXCEPT_YOURSELF;
+    inputMapping[20][InputKeyCode::EKey_f3] = PlayerInput::INFINITE_HEALTH;
+    inputMapping[20][InputKeyCode::EKey_f4] = PlayerInput::RANDOM_WEAPON;
+    inputMapping[20][InputKeyCode::EKey_f5] = PlayerInput::LASER_WEAPON;
 
-    for (int i = 1; i <= 4; ++i) {
-        // Cheats
-        // Keyboard
-        inputMapping[i][InputKeyCode::EKey_f1] = PlayerInput::SKIP_LEVEL;
-        inputMapping[i][InputKeyCode::EKey_f2] = PlayerInput::KILL_EVERYONE_EXCEPT_YOURSELF;
-        inputMapping[i][InputKeyCode::EKey_f3] = PlayerInput::INFINITE_HEALTH;
-        inputMapping[i][InputKeyCode::EKey_f4] = PlayerInput::RANDOM_WEAPON;
-        inputMapping[i][InputKeyCode::EKey_f5] = PlayerInput::LASER_WEAPON;
+    // Debugger
+    inputMapping[20][InputKeyCode::EKey_f6] = PlayerInput::REFRESH;
 
-        // Controller
-        inputMapping[i][InputKeyCode::EController_select] = PlayerInput::SKIP_LEVEL;
-        inputMapping[i][InputKeyCode::EController_dpad_up] = PlayerInput::INFINITE_HEALTH;
-        inputMapping[i][InputKeyCode::EController_dpad_left] = PlayerInput::KILL_EVERYONE_EXCEPT_YOURSELF;
-        inputMapping[i][InputKeyCode::EController_dpad_right] = PlayerInput::RANDOM_WEAPON;
-        inputMapping[i][InputKeyCode::EController_dpad_down] = PlayerInput::LASER_WEAPON;
+    inputMapping[20][InputKeyCode::EKey_f7] = PlayerInput::TOGGLE_FPS_COUNTER;
 
-        // Debugger
-        inputMapping[i][InputKeyCode::EKey_f6] = PlayerInput::REFRESH;
-
-        // Pause
+    // Pause
+    for(int i = 1; i <= 4; ++i) {
         inputMapping[i][InputKeyCode::EKey_escape] = PlayerInput::PAUSE;
     }
 
     // Gamespeed modifier
-    inputMapping[1][InputKeyCode::EKey_pageup] = PlayerInput::SPEED_UP;
-    inputMapping[1][InputKeyCode::EKey_pagedown] = PlayerInput::SPEED_DOWN;
-    inputMapping[1][InputKeyCode::EKey_home] = PlayerInput::SPEED_RESET;
-
-    inputMapping[1][InputKeyCode::EController_shoulder_left] = PlayerInput::SPEED_UP;
-    inputMapping[1][InputKeyCode::EController_shoulder_right] = PlayerInput::SPEED_DOWN;
+    inputMapping[20][InputKeyCode::EKey_pageup] = PlayerInput::SPEED_UP;
+    inputMapping[20][InputKeyCode::EKey_pagedown] = PlayerInput::SPEED_DOWN;
+    inputMapping[20][InputKeyCode::EKey_home] = PlayerInput::SPEED_RESET;
 
     std::unordered_map<PlayerInput, double> time_to_wait_mapping;
     time_to_wait_mapping[PlayerInput::GRAB] = 0.1;
@@ -370,6 +362,7 @@ void GameController::setupInput() {
     time_to_wait_mapping[PlayerInput::RANDOM_WEAPON] = 0.1;
     time_to_wait_mapping[PlayerInput::KILL_EVERYONE_EXCEPT_YOURSELF] = 0.1;
     time_to_wait_mapping[PlayerInput::LASER_WEAPON] = 0.1;
+    time_to_wait_mapping[PlayerInput::TOGGLE_FPS_COUNTER] = 0.1;
     time_to_wait_mapping[PlayerInput::PAUSE] = 0.1;
 
     input.setInputMapping(inputMapping, time_to_wait_mapping, axis_mapping);
@@ -394,8 +387,14 @@ void GameController::gameLoop() {
         for (auto& system : game_state_manager->getSystems()) {
             system->update(delta_time);
         }
+        
+        auto& input = BrickInput<PlayerInput>::getInstance();
+        if(input.checkInput(20, PlayerInput::TOGGLE_FPS_COUNTER)) 
+            should_draw_fps_counter = !should_draw_fps_counter;
 
-        engine->drawFpsCounter();
+        if(should_draw_fps_counter)
+            engine->drawFpsCounter();
+
         engine->getRenderer()->drawScreen();
 
 #ifdef PERFORMANCE_DEBUGGING
