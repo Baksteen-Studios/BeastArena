@@ -256,10 +256,7 @@ void GameController::setupInput() {
     inputMapping[1][InputKeyCode::EKey_e] = PlayerInput::SHOOT;
     inputMapping[1][InputKeyCode::EKey_mouse_left] = PlayerInput::MOUSE_LEFT;
     inputMapping[1][InputKeyCode::EKey_mouse_right] = PlayerInput::MOUSE_RIGHT;
-    inputMapping[1][InputKeyCode::EKey_pagedown] = PlayerInput::SPEED_DOWN;
-    inputMapping[1][InputKeyCode::EKey_pageup] = PlayerInput::SPEED_UP;
-    inputMapping[1][InputKeyCode::EKey_home] = PlayerInput::SPEED_RESET;
-
+ 
     axis_mapping[InputKeyCode::EKey_w] = 1;
     axis_mapping[InputKeyCode::EKey_a] = -1;
     axis_mapping[InputKeyCode::EKey_s] = -1;
@@ -329,20 +326,36 @@ void GameController::setupInput() {
     inputMapping[4][InputKeyCode::EController_b] = PlayerInput::GRAB;
     inputMapping[4][InputKeyCode::EController_start] = PlayerInput::PAUSE;
 
-    // Cheats
     for (int i = 1; i <= 4; ++i) {
+        // Cheats
+        // Keyboard
         inputMapping[i][InputKeyCode::EKey_f1] = PlayerInput::SKIP_LEVEL;
         inputMapping[i][InputKeyCode::EKey_f2] = PlayerInput::KILL_EVERYONE_EXCEPT_YOURSELF;
         inputMapping[i][InputKeyCode::EKey_f3] = PlayerInput::INFINITE_HEALTH;
         inputMapping[i][InputKeyCode::EKey_f4] = PlayerInput::RANDOM_WEAPON;
         inputMapping[i][InputKeyCode::EKey_f5] = PlayerInput::LASER_WEAPON;
 
+        // Controller
+        inputMapping[i][InputKeyCode::EController_select] = PlayerInput::SKIP_LEVEL;
+        inputMapping[i][InputKeyCode::EController_dpad_up] = PlayerInput::INFINITE_HEALTH;
+        inputMapping[i][InputKeyCode::EController_dpad_left] = PlayerInput::KILL_EVERYONE_EXCEPT_YOURSELF;
+        inputMapping[i][InputKeyCode::EController_dpad_right] = PlayerInput::RANDOM_WEAPON;
+        inputMapping[i][InputKeyCode::EController_dpad_down] = PlayerInput::LASER_WEAPON;
+
         // Debugger
-        inputMapping[i][InputKeyCode::EKey_f5] = PlayerInput::REFRESH;
+        inputMapping[i][InputKeyCode::EKey_f6] = PlayerInput::REFRESH;
 
         // Pause
         inputMapping[i][InputKeyCode::EKey_escape] = PlayerInput::PAUSE;
     }
+
+    // Gamespeed modifier
+    inputMapping[1][InputKeyCode::EKey_pageup] = PlayerInput::SPEED_UP;
+    inputMapping[1][InputKeyCode::EKey_pagedown] = PlayerInput::SPEED_DOWN;
+    inputMapping[1][InputKeyCode::EKey_home] = PlayerInput::SPEED_RESET;
+
+    inputMapping[1][InputKeyCode::EController_shoulder_left] = PlayerInput::SPEED_UP;
+    inputMapping[1][InputKeyCode::EController_shoulder_right] = PlayerInput::SPEED_DOWN;
 
     std::unordered_map<PlayerInput, double> time_to_wait_mapping;
     time_to_wait_mapping[PlayerInput::GRAB] = 0.1;
