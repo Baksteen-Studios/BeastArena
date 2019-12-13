@@ -288,9 +288,9 @@ void LobbySystem::update(double) {
     }
 
     // Start tha game
-    if(input.checkInput(1, PlayerInput::QUICK_PLAY)) {
-        game_controller.startGame();
-    }
+    for(int i = 1; i <= 4; ++i)
+        if(input.checkInput(1, PlayerInput::QUICK_PLAY))
+            game_controller.startGame();
 }
 
 void LobbySystem::reset() {
