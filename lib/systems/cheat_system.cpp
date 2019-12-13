@@ -70,3 +70,9 @@ void CheatSystem::update(double deltatime) {
         }
     }
 }
+
+void CheatSystem::reset() {
+    // Remove intermission if present
+    if (game_controller.getSceneManager().isSceneActive<IntermissionScene>())
+        game_controller.getSceneManager().destroyScene(IntermissionScene::getLayerStatic());
+}
