@@ -49,6 +49,7 @@ using namespace std::chrono_literals;
 #include "systems/cheat_system.hpp"
 #include "systems/hud_system.hpp"
 #include "systems/pause_system.hpp"
+#include "systems/ui_system.hpp"
 
 #include "entities/layers.hpp"
 #include "player_input.hpp"
@@ -152,11 +153,12 @@ void GameController::setGameStateSystems() {
 
     // Menu
     state_systems->at(GameState::Menu)->push_back(std::make_unique<ClickSystem>(entityManager));
+    state_systems->at(GameState::Menu)->push_back(std::make_unique<UISystem>(entityManager, entityFactory, *this));
     state_systems->at(GameState::Menu)->push_back(std::make_unique<RenderingSystem>(entityManager, *engine->getRenderer()));
 
     // Lobby
     state_systems->at(GameState::Lobby)->push_back(std::make_unique<GameSpeedSystem>(entityManager, *delta_time_modifier.get()));
-    state_systems->at(GameState::Lobby)->push_back(std::make_unique<LobbySystem>(entityFactory, entityManager));
+    state_systems->at(GameState::Lobby)->push_back(std::make_unique<LobbySystem>(entityFactory, entityManager, *this));
     state_systems->at(GameState::Lobby)->push_back(std::make_unique<ClickSystem>(entityManager));
     state_systems->at(GameState::Lobby)->push_back(std::make_unique<MovementSystem>(*collision_detector, entityManager, entityFactory));
     state_systems->at(GameState::Lobby)->push_back(std::make_unique<PhysicsSystem>(*collision_detector, entityManager, *delta_time_modifier.get()));
