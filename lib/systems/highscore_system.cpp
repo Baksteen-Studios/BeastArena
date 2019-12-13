@@ -20,7 +20,6 @@ void HighscoreSystem::update(double) {
         else {
             auto score = scores.at(selector);
             createHighscores(score.first, score.second);
-            selector++;
             initialized = true;
         }
     }
