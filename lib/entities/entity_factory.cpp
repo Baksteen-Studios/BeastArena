@@ -33,11 +33,13 @@ EntityFactory::EntityFactory(std::shared_ptr<EntityManager> em, RenderableFactor
         auto transform = em->getComponent<TransformComponent>(entity_id);
         auto player = em->getComponent<PlayerComponent>(entity_id);
         auto animation = em->getComponent<AnimationComponent>(entity_id);
+        auto physics = em->getComponent<PhysicsComponent>(entity_id);
         if (animation) {
             animation->sprite_size = 1;
         }
         transform->y_direction = Direction::NEGATIVE;
         player->disabled = true;
+        physics->vx = 0;
         em->removeTag(entity_id, "Player");
         em->setTag(entity_id, "DeadPlayer");
         em->addComponentToEntity(entity_id, std::make_unique<PickupComponent>(true, false));
