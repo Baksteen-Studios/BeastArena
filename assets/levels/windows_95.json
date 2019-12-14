@@ -115,8 +115,8 @@
             "alpha": 255,
             "x": 1509,
             "y": 890,
-            "xScale": 342,
-            "yScale": 259
+            "x_scale": 342,
+            "y_scale": 259
         },
         {
             "shape": "rectangle",
@@ -125,8 +125,8 @@
             "alpha": 255,
             "x": 1265,
             "y": 950,
-            "xScale": 155,
-            "yScale": 104
+            "x_scale": 155,
+            "y_scale": 104
         },
         {
             "shape": "rectangle",
@@ -135,8 +135,8 @@
             "alpha": 255,
             "x": 1300,
             "y": 520,
-            "xScale": 127,
-            "yScale": 110
+            "x_scale": 127,
+            "y_scale": 110
         },
         {
             "shape": "rectangle",
@@ -145,8 +145,8 @@
             "alpha": 255,
             "x": 1050,
             "y": 300,
-            "xScale": 79,
-            "yScale": 105
+            "x_scale": 79,
+            "y_scale": 105
         },
         {
             "shape": "rectangle",
@@ -155,8 +155,8 @@
             "alpha": 255,
             "x": 900,
             "y": 480,
-            "xScale": 86,
-            "yScale": 110
+            "x_scale": 86,
+            "y_scale": 110
         },
         {
             "shape": "rectangle",
@@ -165,8 +165,8 @@
             "alpha": 255,
             "x": 1500,
             "y": 300,
-            "xScale": 88,
-            "yScale": 106
+            "x_scale": 88,
+            "y_scale": 106
         },
         {
             "shape": "rectangle",
@@ -175,8 +175,8 @@
             "alpha": 255,
             "x": 400,
             "y": 250,
-            "xScale": 138,
-            "yScale": 110
+            "x_scale": 138,
+            "y_scale": 110
         },
         {
             "shape": "rectangle",
@@ -185,8 +185,8 @@
             "alpha": 255,
             "x": 769,
             "y": 739,
-            "xScale": 310,
-            "yScale": 63
+            "x_scale": 310,
+            "y_scale": 63
         },
         {
             "shape": "rectangle",
@@ -195,8 +195,8 @@
             "alpha": 255,
             "x": 430,
             "y": 755,
-            "xScale": 369,
-            "yScale": 528
+            "x_scale": 369,
+            "y_scale": 528
         },
         {
             "shape": "rectangle",
@@ -205,8 +205,8 @@
             "alpha": 255,
             "x": 960,
             "y": 1050,
-            "xScale": 1440,
-            "yScale": 63
+            "x_scale": 1440,
+            "y_scale": 63
         },
         {
             "shape": "rectangle",
@@ -215,8 +215,8 @@
             "alpha": 0,
             "x": 80,
             "y": 540,
-            "xScale": 320,
-            "yScale": 1920
+            "x_scale": 320,
+            "y_scale": 1920
         },
         {
             "shape": "rectangle",
@@ -225,8 +225,8 @@
             "alpha": 0,
             "x": 1840,
             "y": 540,
-            "xScale": 320,
-            "yScale": 1920
+            "x_scale": 320,
+            "y_scale": 1920
         }
     ],
     "images": [
