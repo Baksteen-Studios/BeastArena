@@ -90,6 +90,15 @@
 
     ],
     "images": [
+        {
+            "texture_path": "levels/level2/background.png",
+            "x": 960,
+            "y": 540,
+            "x_scale": 1920,
+            "y_scale": 1080,
+            "alpha": 255,
+            "layer": 2
+        }
         
     ],
     "solids": [
