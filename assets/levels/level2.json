@@ -9,23 +9,23 @@
     "player_spawns": [
         {
             "x": 100,
-            "y": 500,
+            "y": 700,
             "direction": 0
         },
         {
             "x": 1820,
-            "y": 500,
-            "direction": 0
+            "y": 700,
+            "direction": 1
         },
         {
             "x": 100,
-            "y": 800,
+            "y": 900,
             "direction": 0
         },
         {
            "x": 1820,
-           "y": 800,
-           "direction": 0
+           "y": 900,
+           "direction": 1
         }
     ],
     "gadget_spawns": [
@@ -34,70 +34,102 @@
             "available_spawns": ["pistol", "rifle", "sniper"],
             "respawn_timer": 5,
             "always_respawn": true,
-            "x": 1000,
-            "y": 200
+            "x": 1260,
+            "y": 600
         },
         {
             "type": "weapon",
-            "available_spawns": ["rifle", "sniper"],
+            "available_spawns": ["pistol", "rifle", "sniper"],
             "respawn_timer": 5,
             "always_respawn": false,
-            "x": 1200,
-            "y": 200
+            "x": 1255,
+            "y": 1000
         },
         {
             "type": "weapon",
-            "available_spawns": ["sniper"],
+            "available_spawns": ["pistol", "rifle", "sniper"],
             "respawn_timer": 5,
             "always_respawn": false,
-            "x": 500,
-            "y": 200
+            "x": 655,
+            "y": 1000
+        },
+        {
+            "type": "weapon",
+            "available_spawns": ["pistol", "rifle", "sniper"],
+            "respawn_timer": 5,
+            "always_respawn": true,
+            "x": 650,
+            "y": 600
         }
     ],
     "critter_spawns": [
         {
             "x": 25,
-            "y": 850
+            "y": 900
         },
         {
             "x": 1220,
-            "y": 740
+            "y": 900
         },
         {
-            "x": 600,
-            "y": 740
+            "x": 700,
+            "y": 900
+        },
+        {
+            "x": 1900,
+            "y": 900
         }
     ],
     "billboards": [
         {
-            "x": 250,
+            "x": 170,
             "y": 200,
             "alpha": 255,
-            "x_scale": 400,
-            "y_scale": 280,
+            "x_scale": 200,
+            "y_scale": 140,
             "content_path": "advertisement/pisswasser.png"
         },
         {
-            "x": 1670,
+            "x": 1750,
             "y": 200,
             "alpha": 255,
-            "x_scale": 400,
-            "y_scale": 280,
+            "x_scale": 200,
+            "y_scale": 140,
             "content_path": "advertisement/pisswasser.png"
         }
     ],
     "animations": [
-
+        {
+            "texture": "animations/bob.png",
+            "sprite_width": 200,
+            "sprite_height": 275,
+            "update_time": 0.2,
+            "sprite_size": 12,
+            "x": 1370,
+            "y": 760,
+            "x_scale": 100,
+            "y_scale": 137,
+            "layer": 2
+        }
     ],
     "images": [
         {
             "texture_path": "levels/level2/background.png",
             "x": 960,
-            "y": 540,
+            "y": 542,
             "x_scale": 1920,
             "y_scale": 1080,
+            "alpha": 150,
+            "layer": 4
+        },
+        {
+            "texture_path": "levels/level2/bobbush.png",
+            "x": 1370,
+            "y": 830,
+            "x_scale": 160,
+            "y_scale": 160,
             "alpha": 255,
-            "layer": 2
+            "layer": 3
         }
         
     ],
