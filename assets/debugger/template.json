@@ -53,6 +53,7 @@
     ],
     "solids": [
         {
+            "_comment": "First player spawn platform",
             "shape": "rectangle",
             "effect": "none",
             "texture_path": "levels/lava/stone.png",
