@@ -12,7 +12,7 @@
             "y": 200
         },
         {
-            "x": 1650,
+            "x": 1600,
             "y": 200
         },
         {
@@ -136,9 +136,9 @@
             "effect": "none",
             "texture_path": "colors/black.jpg",
             "alpha": 0,
-            "x": 30,
+            "x": 18,
             "y": 850,
-            "x_scale": 10,
+            "x_scale": 30,
             "y_scale": 650
         },
         {
@@ -146,15 +146,15 @@
             "effect": "none",
             "texture_path": "colors/black.jpg",
             "alpha": 0,
-            "x": 480,
+            "x": 670,
             "y": 850,
-            "x_scale": 10,
+            "x_scale": 385,
             "y_scale": 678
         },
         {
             "shape": "rectangle",
             "effect": "none",
-            "texture_path": "colors/dark-blue.png",
+            "texture_path": "colors/black.jpg",
             "alpha": 255,
             "x": 250,
             "y": 600,
@@ -166,9 +166,9 @@
             "effect": "none",
             "texture_path": "colors/black.jpg",
             "alpha": 0,
-            "x": 525,
+            "x": 448,
             "y": 515,
-            "x_scale": 220,
+            "x_scale": 55,
             "y_scale": 10
         },
         {
@@ -176,119 +176,59 @@
             "effect": "none",
             "texture_path": "colors/black.jpg",
             "alpha": 0,
-            "x": 605,
-            "y": 465,
-            "x_scale": 10,
-            "y_scale": 120
+            "x": 745,
+            "y": 405,
+            "x_scale": 230,
+            "y_scale": 205
         },
         {
             "shape": "rectangle",
             "effect": "none",
             "texture_path": "colors/black.jpg",
             "alpha": 0,
-            "x": 545,
-            "y": 400,
-            "x_scale": 130,
-            "y_scale": 10
+            "x": 615,
+            "y": 420,
+            "x_scale": 28,
+            "y_scale": 180
         },
         {
             "shape": "rectangle",
             "effect": "none",
             "texture_path": "colors/black.jpg",
             "alpha": 0,
-            "x": 485,
-            "y": 370,
-            "x_scale": 10,
-            "y_scale": 65
+            "x": 540,
+            "y": 373,
+            "x_scale": 115,
+            "y_scale": 84
         },
         {
             "shape": "rectangle",
             "effect": "none",
             "texture_path": "colors/black.jpg",
             "alpha": 0,
-            "x": 560,
-            "y": 335,
-            "x_scale": 160,
-            "y_scale": 10
-        },
-        {
-            "shape": "rectangle",
-            "effect": "none",
-            "texture_path": "colors/black.jpg",
-            "alpha": 0,
-            "x": 635,
-            "y": 220,
-            "x_scale": 10,
-            "y_scale": 200
-        },
-        {
-            "shape": "rectangle",
-            "effect": "none",
-            "texture_path": "colors/black.jpg",
-            "alpha": 0,
-            "x": 688,
-            "y": 126,
+            "x": 690,
+            "y": 210,
             "x_scale": 110,
-            "y_scale": 10
-        },
-        {
-            "shape": "rectangle",
-            "effect": "none",
-            "texture_path": "colors/black.jpg",
-            "alpha": 100,
-            "x": 740,
-            "y": 220,
-            "x_scale": 10,
-            "y_scale": 200
+            "y_scale": 180
         },
         {
             "shape": "rectangle",
             "effect": "none",
             "texture_path": "colors/black.jpg",
             "alpha": 0,
-            "x": 800,
-            "y": 305,
-            "x_scale": 140,
-            "y_scale": 10
+            "x": 1065,
+            "y": 165,
+            "x_scale": 440,
+            "y_scale": 88
         },
         {
             "shape": "rectangle",
             "effect": "none",
             "texture_path": "colors/black.jpg",
             "alpha": 0,
-            "x": 865,
-            "y": 750,
-            "x_scale": 10,
-            "y_scale": 900
-        },
-        {
-            "shape": "rectangle",
-            "effect": "none",
-            "texture_path": "colors/black.jpg",
-            "alpha": 100,
-            "x": 870,
-            "y": 154,
-            "x_scale": 10,
-            "y_scale": 62
-        },
-        {
-            "shape": "rectangle",
-            "effect": "none",
-            "texture_path": "colors/black.jpg",
-            "alpha": 0,
-            "x": 1050,
-            "y": 180,
-            "x_scale": 362,
-            "y_scale": 10
-        },
-        {
-            "shape": "rectangle",
-            "effect": "none",
-            "texture_path": "colors/black.jpg",
-            "alpha": 0,
-            "x": 1235,
-            "y": 265,
-            "x_scale": 10,
+            "x": 1260,
+            "y": 270,
+            "x_scale": 60,
             "y_scale": 120
         },
         {
@@ -296,50 +236,30 @@
             "effect": "none",
             "texture_path": "colors/black.jpg",
             "alpha": 0,
-            "x": 1340,
-            "y": 325,
-            "x_scale": 210,
-            "y_scale": 10
+            "x": 1410,
+            "y": 285,
+            "x_scale": 234,
+            "y_scale": 85
         },
         {
             "shape": "rectangle",
             "effect": "none",
             "texture_path": "colors/black.jpg",
             "alpha": 0,
-            "x": 1078,
-            "y": 126,
-            "x_scale": 428,
-            "y_scale": 10
+            "x": 1550,
+            "y": 760,
+            "x_scale": 200,
+            "y_scale": 670
         },
         {
             "shape": "rectangle",
             "effect": "none",
             "texture_path": "colors/black.jpg",
             "alpha": 0,
-            "x": 1285,
-            "y": 184,
-            "x_scale": 10,
-            "y_scale": 120
-        },
-        {
-            "shape": "rectangle",
-            "effect": "none",
-            "texture_path": "colors/black.jpg",
-            "alpha": 0,
-            "x": 1405,
-            "y": 245,
-            "x_scale": 250,
-            "y_scale": 10
-        },
-        {
-            "shape": "rectangle",
-            "effect": "none",
-            "texture_path": "colors/black.jpg",
-            "alpha": 0,
-            "x": 1450,
-            "y": 750,
-            "x_scale": 10,
-            "y_scale": 900
+            "x": 1486,
+            "y": 375,
+            "x_scale": 80,
+            "y_scale": 90
         },
         {
             "shape": "rectangle",
@@ -386,49 +306,19 @@
             "effect": "none",
             "texture_path": "colors/black.jpg",
             "alpha": 0,
-            "x": 1525,
-            "y": 340,
-            "x_scale": 10,
-            "y_scale": 190
-        },
-        {
-            "shape": "rectangle",
-            "effect": "none",
-            "texture_path": "colors/black.jpg",
-            "alpha": 0,
-            "x": 1660,
-            "y": 425,
-            "x_scale": 280,
-            "y_scale": 10
-        },
-        {
-            "shape": "rectangle",
-            "effect": "none",
-            "texture_path": "colors/black.jpg",
-            "alpha": 0,
-            "x": 1795,
+            "x": 1720,
             "y": 495,
-            "x_scale": 10,
-            "y_scale": 145
+            "x_scale": 140,
+            "y_scale": 140
         },
         {
             "shape": "rectangle",
             "effect": "none",
             "texture_path": "colors/black.jpg",
             "alpha": 0,
-            "x": 1645,
-            "y": 850,
-            "x_scale": 10,
-            "y_scale": 650
-        },
-        {
-            "shape": "rectangle",
-            "effect": "none",
-            "texture_path": "colors/black.jpg",
-            "alpha": 0,
-            "x": 1910,
+            "x": 1905,
             "y": 522,
-            "x_scale": 50,
+            "x_scale": 24,
             "y_scale": 75
         },
         {
@@ -436,9 +326,9 @@
             "effect": "none",
             "texture_path": "colors/black.jpg",
             "alpha": 0,
-            "x": 1715,
+            "x": 1770,
             "y": 225,
-            "x_scale": 10,
+            "x_scale": 120,
             "y_scale": 150
         },
         {
@@ -446,36 +336,16 @@
             "effect": "none",
             "texture_path": "colors/black.jpg",
             "alpha": 0,
-            "x": 1835,
-            "y": -50,
-            "x_scale": 10,
-            "y_scale": 500
+            "x": 1875,
+            "y": 100,
+            "x_scale": 80,
+            "y_scale": 400
         },
         {
             "shape": "rectangle",
             "effect": "none",
             "texture_path": "colors/black.jpg",
-            "alpha": 0,
-            "x": 1775,
-            "y": 154,
-            "x_scale": 130,
-            "y_scale": 10
-        },
-        {
-            "shape": "rectangle",
-            "effect": "none",
-            "texture_path": "colors/black.jpg",
-            "alpha": 0,
-            "x": 1820,
-            "y": 298,
-            "x_scale": 200,
-            "y_scale": 10
-        },
-        {
-            "shape": "rectangle",
-            "effect": "none",
-            "texture_path": "colors/black.jpg",
-            "alpha": 0,
+            "alpha": 255,
             "x": 1920,
             "y": 540,
             "x_scale": 0,
