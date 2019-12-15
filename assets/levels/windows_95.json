@@ -104,7 +104,8 @@
             "x": 1050,
             "y": 500,
             "x_scale": 1920,
-            "y_scale": 1080
+            "y_scale": 1080,
+            "layer": 3
         }
     ], 
     "solids": [
