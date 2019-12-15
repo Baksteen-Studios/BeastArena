@@ -8,7 +8,7 @@
     "bg_music": "music/deep_roots.mp3",
     "player_spawns": [
         {
-            "x": 250,
+            "x": 50,
             "y": 200,
             "direction": 0
         },
@@ -154,16 +154,6 @@
             "y": 850,
             "x_scale": 385,
             "y_scale": 678
-        },
-        {
-            "shape": "rectangle",
-            "effect": "none",
-            "texture_path": "colors/black.jpg",
-            "alpha": 255,
-            "x": 250,
-            "y": 600,
-            "x_scale": 150,
-            "y_scale": 10
         },
         {
             "shape": "rectangle",
@@ -341,15 +331,15 @@
             "texture_path": "colors/black.jpg",
             "alpha": 0,
             "x": 1875,
-            "y": 100,
+            "y": -200,
             "x_scale": 80,
-            "y_scale": 400
+            "y_scale": 1000
         },
         {
             "shape": "rectangle",
             "effect": "none",
             "texture_path": "colors/black.jpg",
-            "alpha": 255,
+            "alpha": 0,
             "x": 1920,
             "y": 540,
             "x_scale": 0,
