@@ -1,0 +1,483 @@
+{
+    "version": 1.0,
+    "name": "Cave",
+    "description": "Basically an underground hole",
+    "width": 1920,
+    "height": 1080,
+    "bg_path": "levels/cave/cavesofgallet.png",
+    "bg_music": "music/deep_roots.mp3",
+    "player_spawns": [
+        {
+            "x": 250,
+            "y": 200
+        },
+        {
+            "x": 1650,
+            "y": 200
+        },
+        {
+            "x": 1000,
+            "y": 500
+        },
+        {
+           "x": 1400,
+           "y": 200
+        }
+    ],
+    "critter_spawns": [
+        {
+            "x": 600,
+            "y": 100
+        },
+        {
+            "x": 1100,
+            "y": 50
+        },
+        {
+            "x": 1000,
+            "y": 200
+        }
+    ],
+    "billboards": [
+        {
+            "x": 670,
+            "y": 760,
+            "alpha": 255,
+            "x_scale": 330,
+            "y_scale": 330,
+            "content_path": "advertisement/pisswasser.png"
+        }
+    ],
+    "gadget_spawns": [
+        {
+            "type": "weapon",
+            "available_spawns": ["pistol", "rifle"],
+            "respawn_timer": 5,
+            "always_respawn": false,
+            "x": 550,
+            "y": 500
+        },
+        {
+            "type": "weapon",
+            "available_spawns": ["pistol", "sniper"],
+            "respawn_timer": 5,
+            "always_respawn": false,
+            "x": 1000,
+            "y": 50
+        },
+        {
+            "type": "weapon",
+            "available_spawns": ["pistol"],
+            "respawn_timer": 5,
+            "always_respawn": false,
+            "x": 1750,
+            "y": 100
+        },
+        {
+            "type": "weapon",
+            "available_spawns": ["pistol", "rifle"],
+            "respawn_timer": 5,
+            "always_respawn": false,
+            "x": 1330,
+            "y": 800
+        }
+    ],
+    "animations" : [
+        {
+            "texture": "animations/bubbles.png",
+            "sprite_width": 20,
+            "sprite_height": 20,
+            "update_time": 0.2,
+            "sprite_size": 22,
+            "x": 105,
+            "y": 660,
+            "x_scale": 60,
+            "y_scale": 60
+        },
+        {
+            "texture": "animations/bubbles.png",
+            "sprite_width": 20,
+            "sprite_height": 20,
+            "update_time": 0.2,
+            "sprite_size": 22,
+            "x": 360,
+            "y": 660,
+            "x_scale": 60,
+            "y_scale": 60
+        }
+    ],
+    "images": [
+    ],
+    "solids": [
+        {
+            "shape": "rectangle",
+            "effect": "none",
+            "texture_path": "colors/black.jpg",
+            "alpha": 0,
+            "x": 0,
+            "y": 540,
+            "x_scale": 0,
+            "y_scale": 1080
+        },
+        {
+            "shape": "rectangle",
+            "effect": "none",
+            "texture_path": "colors/black.jpg",
+            "alpha": 0,
+            "x": 30,
+            "y": 515,
+            "x_scale": 60,
+            "y_scale": 10
+        },
+        {
+            "shape": "rectangle",
+            "effect": "none",
+            "texture_path": "colors/black.jpg",
+            "alpha": 0,
+            "x": 30,
+            "y": 850,
+            "x_scale": 10,
+            "y_scale": 650
+        },
+        {
+            "shape": "rectangle",
+            "effect": "none",
+            "texture_path": "colors/black.jpg",
+            "alpha": 0,
+            "x": 480,
+            "y": 850,
+            "x_scale": 10,
+            "y_scale": 678
+        },
+        {
+            "shape": "rectangle",
+            "effect": "none",
+            "texture_path": "colors/dark-blue.png",
+            "alpha": 255,
+            "x": 250,
+            "y": 600,
+            "x_scale": 150,
+            "y_scale": 10
+        },
+        {
+            "shape": "rectangle",
+            "effect": "none",
+            "texture_path": "colors/black.jpg",
+            "alpha": 0,
+            "x": 525,
+            "y": 515,
+            "x_scale": 220,
+            "y_scale": 10
+        },
+        {
+            "shape": "rectangle",
+            "effect": "none",
+            "texture_path": "colors/black.jpg",
+            "alpha": 0,
+            "x": 605,
+            "y": 465,
+            "x_scale": 10,
+            "y_scale": 120
+        },
+        {
+            "shape": "rectangle",
+            "effect": "none",
+            "texture_path": "colors/black.jpg",
+            "alpha": 0,
+            "x": 545,
+            "y": 400,
+            "x_scale": 130,
+            "y_scale": 10
+        },
+        {
+            "shape": "rectangle",
+            "effect": "none",
+            "texture_path": "colors/black.jpg",
+            "alpha": 0,
+            "x": 485,
+            "y": 370,
+            "x_scale": 10,
+            "y_scale": 65
+        },
+        {
+            "shape": "rectangle",
+            "effect": "none",
+            "texture_path": "colors/black.jpg",
+            "alpha": 0,
+            "x": 560,
+            "y": 335,
+            "x_scale": 160,
+            "y_scale": 10
+        },
+        {
+            "shape": "rectangle",
+            "effect": "none",
+            "texture_path": "colors/black.jpg",
+            "alpha": 0,
+            "x": 635,
+            "y": 220,
+            "x_scale": 10,
+            "y_scale": 200
+        },
+        {
+            "shape": "rectangle",
+            "effect": "none",
+            "texture_path": "colors/black.jpg",
+            "alpha": 0,
+            "x": 688,
+            "y": 126,
+            "x_scale": 110,
+            "y_scale": 10
+        },
+        {
+            "shape": "rectangle",
+            "effect": "none",
+            "texture_path": "colors/black.jpg",
+            "alpha": 100,
+            "x": 740,
+            "y": 220,
+            "x_scale": 10,
+            "y_scale": 200
+        },
+        {
+            "shape": "rectangle",
+            "effect": "none",
+            "texture_path": "colors/black.jpg",
+            "alpha": 0,
+            "x": 800,
+            "y": 305,
+            "x_scale": 140,
+            "y_scale": 10
+        },
+        {
+            "shape": "rectangle",
+            "effect": "none",
+            "texture_path": "colors/black.jpg",
+            "alpha": 0,
+            "x": 865,
+            "y": 750,
+            "x_scale": 10,
+            "y_scale": 900
+        },
+        {
+            "shape": "rectangle",
+            "effect": "none",
+            "texture_path": "colors/black.jpg",
+            "alpha": 100,
+            "x": 870,
+            "y": 168,
+            "x_scale": 10,
+            "y_scale": 74
+        },
+        {
+            "shape": "rectangle",
+            "effect": "none",
+            "texture_path": "colors/black.jpg",
+            "alpha": 0,
+            "x": 1050,
+            "y": 200,
+            "x_scale": 362,
+            "y_scale": 10
+        },
+        {
+            "shape": "rectangle",
+            "effect": "none",
+            "texture_path": "colors/black.jpg",
+            "alpha": 0,
+            "x": 1235,
+            "y": 265,
+            "x_scale": 10,
+            "y_scale": 120
+        },
+        {
+            "shape": "rectangle",
+            "effect": "none",
+            "texture_path": "colors/black.jpg",
+            "alpha": 0,
+            "x": 1340,
+            "y": 325,
+            "x_scale": 210,
+            "y_scale": 10
+        },
+        {
+            "shape": "rectangle",
+            "effect": "none",
+            "texture_path": "colors/black.jpg",
+            "alpha": 0,
+            "x": 1078,
+            "y": 126,
+            "x_scale": 428,
+            "y_scale": 10
+        },
+        {
+            "shape": "rectangle",
+            "effect": "none",
+            "texture_path": "colors/black.jpg",
+            "alpha": 0,
+            "x": 1285,
+            "y": 184,
+            "x_scale": 10,
+            "y_scale": 120
+        },
+        {
+            "shape": "rectangle",
+            "effect": "none",
+            "texture_path": "colors/black.jpg",
+            "alpha": 0,
+            "x": 1405,
+            "y": 245,
+            "x_scale": 250,
+            "y_scale": 10
+        },
+        {
+            "shape": "rectangle",
+            "effect": "none",
+            "texture_path": "colors/black.jpg",
+            "alpha": 0,
+            "x": 1450,
+            "y": 750,
+            "x_scale": 10,
+            "y_scale": 900
+        },
+        {
+            "shape": "rectangle",
+            "effect": "none",
+            "texture_path": "colors/black.jpg",
+            "alpha": 0,
+            "x": 985,
+            "y": 395,
+            "x_scale": 230,
+            "y_scale": 10
+        },
+        {
+            "shape": "rectangle",
+            "effect": "none",
+            "texture_path": "colors/black.jpg",
+            "alpha": 0,
+            "x": 1330,
+            "y": 525,
+            "x_scale": 230,
+            "y_scale": 10
+        },
+        {
+            "shape": "rectangle",
+            "effect": "none",
+            "texture_path": "colors/black.jpg",
+            "alpha": 0,
+            "x": 985,
+            "y": 660,
+            "x_scale": 230,
+            "y_scale": 10
+        },
+        {
+            "shape": "rectangle",
+            "effect": "none",
+            "texture_path": "colors/black.jpg",
+            "alpha": 0,
+            "x": 1330,
+            "y": 838,
+            "x_scale": 230,
+            "y_scale": 10
+        },
+        {
+            "shape": "rectangle",
+            "effect": "none",
+            "texture_path": "colors/black.jpg",
+            "alpha": 0,
+            "x": 1525,
+            "y": 340,
+            "x_scale": 10,
+            "y_scale": 190
+        },
+        {
+            "shape": "rectangle",
+            "effect": "none",
+            "texture_path": "colors/black.jpg",
+            "alpha": 0,
+            "x": 1660,
+            "y": 425,
+            "x_scale": 280,
+            "y_scale": 10
+        },
+        {
+            "shape": "rectangle",
+            "effect": "none",
+            "texture_path": "colors/black.jpg",
+            "alpha": 0,
+            "x": 1795,
+            "y": 495,
+            "x_scale": 10,
+            "y_scale": 145
+        },
+        {
+            "shape": "rectangle",
+            "effect": "none",
+            "texture_path": "colors/black.jpg",
+            "alpha": 0,
+            "x": 1645,
+            "y": 850,
+            "x_scale": 10,
+            "y_scale": 650
+        },
+        {
+            "shape": "rectangle",
+            "effect": "none",
+            "texture_path": "colors/black.jpg",
+            "alpha": 0,
+            "x": 1910,
+            "y": 522,
+            "x_scale": 50,
+            "y_scale": 75
+        },
+        {
+            "shape": "rectangle",
+            "effect": "none",
+            "texture_path": "colors/black.jpg",
+            "alpha": 0,
+            "x": 1715,
+            "y": 225,
+            "x_scale": 10,
+            "y_scale": 150
+        },
+        {
+            "shape": "rectangle",
+            "effect": "none",
+            "texture_path": "colors/black.jpg",
+            "alpha": 0,
+            "x": 1835,
+            "y": -50,
+            "x_scale": 10,
+            "y_scale": 500
+        },
+        {
+            "shape": "rectangle",
+            "effect": "none",
+            "texture_path": "colors/black.jpg",
+            "alpha": 0,
+            "x": 1775,
+            "y": 154,
+            "x_scale": 130,
+            "y_scale": 10
+        },
+        {
+            "shape": "rectangle",
+            "effect": "none",
+            "texture_path": "colors/black.jpg",
+            "alpha": 0,
+            "x": 1820,
+            "y": 298,
+            "x_scale": 200,
+            "y_scale": 10
+        },
+        {
+            "shape": "rectangle",
+            "effect": "none",
+            "texture_path": "colors/black.jpg",
+            "alpha": 0,
+            "x": 1920,
+            "y": 540,
+            "x_scale": 0,
+            "y_scale": 1080
+        }
+    ]
+}
