@@ -34,6 +34,7 @@ void DebugScene::performPrepare() {
 
         player_spawn.x = player_spawn_json.getInt("x");
         player_spawn.y = player_spawn_json.getInt("y");
+        player_spawn.direction = static_cast<Direction>(player_spawn_json.getInt("direction"));
         
         factory.addToEntityManager(factory.createPlayer(player_count, Character(player_count - 1), "Debug player " + std::to_string(player_count), -2000, -2000));
         ++player_count;
@@ -189,33 +190,24 @@ void DebugScene::start() {
     auto comps = factory.createImage(this->bg_path, this->width / 2, this->height / 2, this->width, this->height, getRelativeModifier(), Layers::Background, 255);
     factory.addToEntityManager(std::move(comps));
 
-    // Load the players on the spawn locations
+    /// Load the players on the spawn locations
     auto entities_with_player = em.getEntitiesByComponent<PlayerComponent>();
     std::vector<int> available_players {};
 
     for(auto& [entity_id, player]: entities_with_player) {
-        available_players.push_back(entity_id);
-        for (auto& child : em.getChildren(entity_id)) {
+        for (auto& child : em.getChildren(entity_id))
             em.moveOutOfParentsHouse(child);
-        }
-    }
+        em.moveOutOfParentsHouse(entity_id);
 
-    int count = 0;
-    for(auto& [entity_id, player]: entities_with_player) {
-        player->disabled = false;
-        auto transform_component = em.getComponent<TransformComponent>(entity_id);
-
-        auto health_component = em.getComponent<HealthComponent>(entity_id);
-        (*health_component->revive)(entity_id);
-
-        transform_component->x_pos = player_spawns[count].x / getRelativeModifier();
-        transform_component->y_pos = player_spawns[count].y / getRelativeModifier();
+        available_players.push_back(entity_id);
 
         auto despawn_component = em.getComponent<DespawnComponent>(entity_id);
-        despawn_component->despawn_on_out_of_screen = true;
+        auto health_component = em.getComponent<HealthComponent>(entity_id);
 
-        ++count;
+        (*health_component->revive)(entity_id);
+        despawn_component->despawn_on_out_of_screen = true;
     }
+
     for(int i = 0; i < entities_with_player.size(); i++) {
         int chosen_player = r.getRandomInt(0, available_players.size() - 1);
 
@@ -225,6 +217,7 @@ void DebugScene::start() {
 
         transform_component->x_pos = player_spawns.at(i).x / getRelativeModifier();
         transform_component->y_pos = player_spawns.at(i).y / getRelativeModifier();
+        transform_component->x_direction = player_spawns.at(i).direction;
     }
 
     // Load the platforms

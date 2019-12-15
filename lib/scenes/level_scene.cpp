@@ -35,6 +35,7 @@ void LevelScene::performPrepare() {
 
         player_spawn.x = player_spawn_json.getInt("x");
         player_spawn.y = player_spawn_json.getInt("y");
+        player_spawn.direction = static_cast<Direction>(player_spawn_json.getInt("direction"));
 
         this->player_spawns.push_back(player_spawn);
     }
@@ -214,6 +215,7 @@ void LevelScene::start() {
 
         transform_component->x_pos = player_spawns.at(i).x / getRelativeModifier();
         transform_component->y_pos = player_spawns.at(i).y / getRelativeModifier();
+        transform_component->x_direction = player_spawns.at(i).direction;
     }
     
     // Load the platforms

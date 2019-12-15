@@ -9,19 +9,23 @@
     "player_spawns": [
         {
             "x": 250,
-            "y": 430
+            "y": 430,
+            "direction": 0
         },
         {
             "x": 1730,
-            "y": 200
+            "y": 200,
+            "direction": 1
         },
         {
             "x": 830,
-            "y": 520
+            "y": 520,
+            "direction": 0
         },
         {
            "x": 1175,
-           "y": 200
+           "y": 200,
+           "direction": 1
         }
     ],
     "critter_spawns": [
