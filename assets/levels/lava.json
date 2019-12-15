@@ -291,7 +291,7 @@
         },
         {
             "texture_path": "levels/lava/fire.png",
-            "x": 900,
+            "x": 800,
             "y": 180,
             "x_scale": 48,
             "y_scale": 66,
