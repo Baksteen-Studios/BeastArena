@@ -43,6 +43,22 @@
         }
     ],
     "billboards": [
+        {
+            "x": 800,
+            "y": 950,
+            "alpha": 255,
+            "x_scale": 250,
+            "y_scale": 250,
+            "content_path": "advertisement/pisswasser.png"
+        },
+        {
+            "x": 1175,
+            "y": 660,
+            "alpha": 255,
+            "x_scale": 200,
+            "y_scale": 200,
+            "content_path": "advertisement/free_candy.png"
+        }
     ],
     "gadget_spawns": [
         {
@@ -79,6 +95,54 @@
         }
     ],
     "animations" : [
+        {
+            "texture": "animations/smoke.png",
+            "sprite_width": 32,
+            "sprite_height": 32,
+            "update_time": 0.2,
+            "sprite_size": 6,
+            "x": 190,
+            "y": 490,
+            "x_scale": 60,
+            "y_scale": 60,
+            "layer": 3
+        },
+        {
+            "texture": "animations/smoke.png",
+            "sprite_width": 32,
+            "sprite_height": 32,
+            "update_time": 0.2,
+            "sprite_size": 6,
+            "x": 225,
+            "y": 490,
+            "x_scale": 60,
+            "y_scale": 60,
+            "layer": 3
+        },
+        {
+            "texture": "animations/smoke.png",
+            "sprite_width": 32,
+            "sprite_height": 32,
+            "update_time": 0.2,
+            "sprite_size": 6,
+            "x": 260,
+            "y": 490,
+            "x_scale": 60,
+            "y_scale": 60,
+            "layer": 3
+        },
+        {
+            "texture": "animations/smoke.png",
+            "sprite_width": 32,
+            "sprite_height": 32,
+            "update_time": 0.2,
+            "sprite_size": 6,
+            "x": 300,
+            "y": 490,
+            "x_scale": 60,
+            "y_scale": 60,
+            "layer": 3
+        }
     ],
     "images": [
     ],
