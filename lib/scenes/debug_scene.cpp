@@ -133,8 +133,9 @@ void DebugScene::performPrepare() {
         int y = animations.getInt("y");
         int x_scale = animations.getInt("x_scale");
         int y_scale = animations.getInt("y_scale");
+        Layers layer = static_cast<Layers>(animations.getInt("layer"));
 
-        entity_components->push_back(factory.createImage(texture, x, y, x_scale, y_scale, getRelativeModifier(), Layers::Middleground, 255,
+        entity_components->push_back(factory.createImage(texture, x, y, x_scale, y_scale, getRelativeModifier(), layer, 255,
                                                         sprite_width, sprite_height, update_time, sprite_size));
     }
     // Create images

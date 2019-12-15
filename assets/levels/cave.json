@@ -92,7 +92,8 @@
             "x": 105,
             "y": 660,
             "x_scale": 60,
-            "y_scale": 60
+            "y_scale": 60,
+            "layer": 3
         },
         {
             "texture": "animations/bubbles.png",
@@ -103,7 +104,8 @@
             "x": 360,
             "y": 660,
             "x_scale": 60,
-            "y_scale": 60
+            "y_scale": 60,
+            "layer": 3
         }
     ],
     "images": [
