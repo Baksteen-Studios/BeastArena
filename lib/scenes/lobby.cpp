@@ -227,10 +227,12 @@ void Lobby::leave() {
 
     auto player_entities = em.getEntitiesByComponent<PlayerComponent>();
     auto& input = BrickInput<PlayerInput>::getInstance();
-    for (auto& [ entity_id, player ] : player_entities ) {
-        // Reset the ttw
-        input.removeTimeToWait(player->player_id, PlayerInput::X_AXIS);
+    // Reset the ttw
+    for (int i = 1; i <= 4; ++i)
+        input.removeTimeToWait(i, PlayerInput::X_AXIS);
 
+
+    for (auto& [ entity_id, player ] : player_entities ) {
         // removes the lobby tag from the player so that it will not be in an scene
         em.removeTag(entity_id, this->getTag());
 
