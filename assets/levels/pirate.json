@@ -9,19 +9,23 @@
     "player_spawns": [
         {
             "x": 200,
-            "y": 900
+            "y": 900,
+            "direction": 1
         },
         {
             "x": 560,
-            "y": 250
+            "y": 250,
+            "direction": 1
         },
         {
             "x": 1000,
-            "y": 350
+            "y": 350,
+            "direction": 1
         },
         {
            "x": 1550,
-           "y": 600
+           "y": 600,
+           "direction": 1
         }
     ],
     "critter_spawns": [
@@ -97,6 +101,102 @@
             "y": 100,
             "x_scale": 100,
             "y_scale": 100,
+            "layer": 3
+        },
+        {
+            "texture": "animations/waves.png",
+            "sprite_width": 32,
+            "sprite_height": 40,
+            "update_time": 0.02,
+            "sprite_size": 16,
+            "x": 665,
+            "y": 970,
+            "x_scale": 100,
+            "y_scale": 25,
+            "layer": 3
+        },
+        {
+            "texture": "animations/waves.png",
+            "sprite_width": 32,
+            "sprite_height": 40,
+            "update_time": 0.02,
+            "sprite_size": 16,
+            "x": 665,
+            "y": 975,
+            "x_scale": 100,
+            "y_scale": 25,
+            "layer": 3
+        },
+        {
+            "texture": "animations/waves.png",
+            "sprite_width": 32,
+            "sprite_height": 40,
+            "update_time": 0.02,
+            "sprite_size": 16,
+            "x": 700,
+            "y": 970,
+            "x_scale": 100,
+            "y_scale": 25,
+            "layer": 3
+        },
+        {
+            "texture": "animations/waves.png",
+            "sprite_width": 32,
+            "sprite_height": 40,
+            "update_time": 0.02,
+            "sprite_size": 16,
+            "x": 700,
+            "y": 975,
+            "x_scale": 100,
+            "y_scale": 25,
+            "layer": 3
+        },
+        {
+            "texture": "animations/waves.png",
+            "sprite_width": 32,
+            "sprite_height": 40,
+            "update_time": 0.02,
+            "sprite_size": 16,
+            "x": 750,
+            "y": 970,
+            "x_scale": 100,
+            "y_scale": 25,
+            "layer": 3
+        },
+        {
+            "texture": "animations/waves.png",
+            "sprite_width": 32,
+            "sprite_height": 40,
+            "update_time": 0.02,
+            "sprite_size": 16,
+            "x": 750,
+            "y": 975,
+            "x_scale": 100,
+            "y_scale": 25,
+            "layer": 3
+        },
+        {
+            "texture": "animations/waves.png",
+            "sprite_width": 32,
+            "sprite_height": 40,
+            "update_time": 0.02,
+            "sprite_size": 16,
+            "x": 1720,
+            "y": 970,
+            "x_scale": 100,
+            "y_scale": 25,
+            "layer": 3
+        },
+        {
+            "texture": "animations/waves.png",
+            "sprite_width": 32,
+            "sprite_height": 40,
+            "update_time": 0.02,
+            "sprite_size": 16,
+            "x": 1720,
+            "y": 975,
+            "x_scale": 100,
+            "y_scale": 25,
             "layer": 3
         },
         {
