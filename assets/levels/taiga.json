@@ -25,6 +25,10 @@
         }
     ],
     "critter_spawns": [
+        {
+            "x": 200,
+            "y": 200
+        }
     ],
     "billboards": [
     ],
