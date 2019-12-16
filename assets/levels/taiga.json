@@ -32,6 +32,14 @@
         {
             "type": "weapon",
             "available_spawns": ["sniper"],
+            "respawn_timer": 7,
+            "always_respawn": true,
+            "x": 233,
+            "y": 230
+        },
+        {
+            "type": "weapon",
+            "available_spawns": ["sniper"],
             "respawn_timer": 5,
             "always_respawn": false,
             "x": 1760,
@@ -75,6 +83,16 @@
     "images": [
     ],
     "solids": [
+        {
+            "shape": "rectangle",
+            "effect": "none",
+            "texture_path": "colors/white.png",
+            "alpha": 0,
+            "x": 233,
+            "y": 650,
+            "x_scale": 290,
+            "y_scale": 800
+        },
         {
             "shape": "rectangle",
             "effect": "none",
