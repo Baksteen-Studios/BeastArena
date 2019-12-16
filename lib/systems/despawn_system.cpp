@@ -36,8 +36,8 @@ void DespawnSystem::update(double) {
 
                 auto wander = entityManager->getComponent<WanderingComponent>(entity_id);
                 if (wander && wander->killer) {
-                    int killed_id = *wander->killer;
-                    auto stats = entityManager->getComponent<StatsComponent>(entity_id);
+                    int killer_id = *wander->killer;
+                    auto stats = entityManager->getComponent<StatsComponent>(killer_id);
                     if (stats)
                         ++stats->killed_critters;
                 }
