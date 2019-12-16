@@ -17,6 +17,7 @@ public:
     double wait_duration = 10;
     Direction direction;
     bool can_move = false;
+    std::optional<int> killer = std::nullopt;
 };
 
 #endif // FILE_WANDERING_COMPONENT_HPP
