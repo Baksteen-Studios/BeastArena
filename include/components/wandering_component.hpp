@@ -3,6 +3,7 @@
 
 #include "brickengine/components/component_impl.hpp"
 #include <functional>
+#include <optional>
 #include "brickengine/enum/direction.hpp"
 
 class WanderingComponent : public ComponentImpl<WanderingComponent> {
