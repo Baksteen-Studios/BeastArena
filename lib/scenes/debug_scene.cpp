@@ -34,7 +34,7 @@ void DebugScene::performPrepare() {
 
         player_spawn.x = player_spawn_json.getInt("x");
         player_spawn.y = player_spawn_json.getInt("y");
-        player_spawn.direction = static_cast<Direction>(player_spawn_json.getInt("direction"));
+        player_spawn.direction = DirectionConverter::convertInt(player_spawn_json.getInt("direction"));
         
         factory.addToEntityManager(factory.createPlayer(player_count, Character(player_count - 1), "Debug player " + std::to_string(player_count), -2000, -2000));
         ++player_count;
@@ -134,7 +134,7 @@ void DebugScene::performPrepare() {
         int y = animations.getInt("y");
         int x_scale = animations.getInt("x_scale");
         int y_scale = animations.getInt("y_scale");
-        Layers layer = static_cast<Layers>(animations.getInt("layer"));
+        Layers layer = LayersConverter::convertInt(animations.getInt("layer"));
 
         entity_components->push_back(factory.createImage(texture, x, y, x_scale, y_scale, getRelativeModifier(), layer, 255,
                                                         sprite_width, sprite_height, update_time, sprite_size));
@@ -147,7 +147,7 @@ void DebugScene::performPrepare() {
         int x_scale = image.getInt("x_scale");
         int y_scale = image.getInt("y_scale");
         int alpha = image.getInt("alpha");
-        Layers layer = static_cast<Layers>(image.getInt("layer"));
+        Layers layer = LayersConverter::convertInt(image.getInt("layer"));
 
         entity_components->push_back(factory.createImage(texture_path, x_pos, y_pos, x_scale, y_scale, getRelativeModifier(), layer, alpha));
     }
